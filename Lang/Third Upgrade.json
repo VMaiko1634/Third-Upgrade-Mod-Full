@@ -1,0 +1,101 @@
+{
+
+ 	"Third_Upgrade_Mod": {
+
+		"Creature_Specialist": 				"{~r}Creature Specialist{~}\n\nIncreases the Attack, Defense and Speed skills of any @Crea1@, @Crea2@ or @Crea3@ for each level attained after @level@th level.\n\nWhen in combat @Hero@ further improves @sex@ creatures with:\nAtt/Def: {+@attack@}\nDamage: {+@damage@}\nHealth: {+@health@%}",
+
+		"his": 								"his",
+
+		"her": 								"her",
+
+		"antichrist":						"{The @antichrist@ is furious!}",
+		"antichrists":						"{@antichrist@ are furious!}",
+
+		"assassin":							"Bloodlust encourages the @cutthroat@",
+
+		"ghoul":							"@flesheater@ eat the remains of their enemies and restore themselves!"
+
+		},
+			
+	"AC_Artifacts": {
+		
+		"ACM_Set_Table_Name": 				"ACM Artifact Set Table",			
+		
+		"Set_Name_0": 						"The Adventurer's Fidelity",
+		
+		"Set_Name_1": 						"Veil of Light",
+		
+		"Set_Name_2": 						"Dragon's Fire",
+
+		"Set_Name_3": 						"Elemental Unity",
+
+		"Set_Name_4": 						"Vision of the Eagle",
+
+		"Set_Name_5": 						"Angelic Alliance",
+
+		"Set_Name_6": 						"The Champion's Honor",
+
+		"Set_Name_7": 						"Vestments of Authority",
+
+		"Set_Name_8": 						"Priest of the Light",
+
+		"Set_Name_9": 						"The Wizard's Knowledge",
+
+		"Set_Name_10": 						"Pegasus Harness",
+
+		"Set_Name_11": 						"Darzog's Armor",
+
+		"Set_Name_12": 						"Basilisk Venom Teeth",
+
+		"Set_Name_13": 						"Mage Class",
+
+		"Set_Name_14": 						"Adventurer Class",
+
+		"Set_Name_15": 						"Warrior Class",
+
+		"Set_Name_16": 						"Battle Mages War Dress",
+
+		"Set_Name_17": 						"Archdevils Suite",
+
+		"Set_Name_18": 						"Ancient Spyglass",
+		
+		"TUM_Set_Table_Name": 				"TUM Artifact Set Table",			
+
+		"TUM_Set_Name_0": 					"Orb of Chaos",
+
+		"TUM_Set_Name_1": 					"Apocalypse's Blade",
+
+		"TUM_Set_Name_2": 					"Compendium of Magic",
+
+		"TUM_Set_Name_3": 					"Helm of the Hydra Queen",
+
+		"TUM_Set_Name_4": 					"Ironfist of the Dark Paladin",
+
+		"TUM_Set_Name_5": 					"Hell Baron's Gloves",
+
+		"TUM_Set_Name_6": 					"Diplomat's Cloak",
+
+		"TUM_Set_Name_7": 					"Golden Goose",
+
+		"TUM_Set_Name_8": 					"Pendant of Reflection"			
+
+  	},
+
+	"wog_options": {        
+        "page0": {
+            "name": "TUM, Game Enhancements \nand Hard-Coded Options",
+
+            "group1": { 
+                "name": "Third Upgrade Mod Options",
+				"hint": "Additional Options for Third Upgrades Mod.",
+				"popup": "THIRD UPGRADE MOD OPTIONS \n\nHere you can add or disable additional options from Third Upgrades Mod.",
+            },
+        }
+    },
+    
+    "wog": {
+        "52": {
+            "objName": "Town Gate",
+        }
+    }
+}
