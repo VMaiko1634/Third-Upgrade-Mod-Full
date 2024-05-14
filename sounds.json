@@ -1,0 +1,373 @@
+{
+    "author": "Str1g0",
+    "Cathedral" : {
+        "name": "TEMPLARLOOP.wav",
+        "type": 17,
+        "subtype": 110
+    },
+    "Coral Reef" : {
+        "name": "LOOPMERM.wav",
+        "type": 17,
+        "subtype": 119
+    },
+    "Ziggurat" : {
+        "name": "CouaLOOP.wav",
+        "type": 17,
+        "subtype": 116
+    },
+    "Dragon Factory" : {
+        "name": "DrGoLOOP.wav",
+        "type": 17,
+        "subtype": 112
+     },
+    "Treehouse" : {
+        "name": "LOOPDRYA.wav",
+        "type": 17,
+        "subtype": 111
+     },
+    "Swamp Hut" : {
+        "name": "LOOPWTCH.wav",
+        "type": 17,
+        "subtype": 117
+	  },
+    "Wolf Cave" : {
+        "name": "LOOPWERE.wav",
+        "type": 17,
+        "subtype": 114
+	  },
+    "Drowned Hall" : {
+        "name": "TritLOOP.wav",
+        "type": 17,
+        "subtype": 118
+	  },
+    "Lust Chambers" : {
+        "name": "SuccLOOP.wav",
+        "type": 17,
+        "subtype": 113
+	  },
+    "Primeval Maw" : {
+        "name": "LOOPILLI.wav",
+        "type": 17,
+        "subtype": 115
+	  },
+    "Bone Pillar" : {
+        "name": "BONEPILLARLOOP.wav",
+        "type": 63,
+        "subtype": 86
+	  },
+    "City of the Dead" : {
+        "name": "peatbogloop.wav",
+        "type": 63,
+        "subtype": 87
+	  },
+    "Sacred Temple" : {
+        "name": "SCRIPTORIUMLOOP.wav",
+        "type": 63,
+        "subtype": 88
+	  },
+    "Seminarium" : {
+        "name": "SEMINARIUMLOOP.wav",
+        "type": 63,
+        "subtype": 89
+	  },		
+    "Sorceress Castle" : {
+        "name": "SORCERESSLOOP.wav",
+        "type": 63,
+        "subtype": 91
+	  },
+    "Outpost of Soul" : {
+        "name": "DEMILICHLOOP.wav",
+        "type": 63,
+        "subtype": 92
+	  },
+    "Outpost of Soul 2" : {
+        "name": "DEMILICHLOOP.wav",
+        "type": 63,
+        "subtype": 93
+	  },
+    "Outpost of Soul 3" : {
+        "name": "DEMILICHLOOP.wav",
+        "type": 63,
+        "subtype": 94
+	  },
+    "Outpost of Soul 4" : {
+        "name": "DEMILICHLOOP.wav",
+        "type": 63,
+        "subtype": 95
+	  },	  
+    "Churchyard" : {
+        "name": "LOOPCMTR.wav",
+        "type": 63,
+        "subtype": 75
+	  },
+    "Ivory Tower" : {
+        "name": "IVORTWLO.wav",
+        "type": 63,
+        "subtype": 76
+	  },
+    "Experimental Shop" : {
+        "name": "LOOPEXSH.wav",
+        "type": 63,
+        "subtype": 77
+	  },
+    "Wolf Raider Picket" : {
+        "name": "LOOPPICK.wav",
+        "type": 63,
+        "subtype": 78
+	  },
+    "Ruins" : {
+        "name": "LOOPRUIN.wav",
+        "type": 63,
+        "subtype": 79
+	  },
+    "Red Tower" : {
+        "name": "REDTWRLO.wav",
+        "type": 63,
+        "subtype": 80
+	  },
+    "Spit" : {
+        "name": "LOOPBASI.wav",
+        "type": 63,
+        "subtype": 81
+	  },
+    "Beholders' Sanctuary" : {
+        "name": "LOOPBEHD.wav",
+        "type": 63,
+        "subtype": 82
+	  },
+    "Mansion" : {
+        "name": "LOOPMANS.wav",
+        "type": 63,
+        "subtype": 85
+	  },
+    "Rock Covered Position" : {
+        "name": "LOOPARRW.wav",
+        "type": 17,
+        "subtype": 89
+	  },
+    "Snow Covered Position" : {
+        "name": "LOOPARRW.wav",
+        "type": 17,
+        "subtype": 90
+	  },
+    "Vast Cavern" : {
+        "name": "LOOPGRCH.wav",
+        "type": 17,
+        "subtype": 91
+	  },
+    "Dreamhorse-shoe" : {
+        "name": "LOOPSHOE.wav",
+        "type": 17,
+        "subtype": 92
+	  },
+    "Natural Calamity" : {
+        "name": "LOOPCALA.wav",
+        "type": 17,
+        "subtype": 93
+	  },
+    "Lost Fiary" : {
+        "name": "LOOPWZEL.wav",
+        "type": 17,
+        "subtype": 94
+	  },
+    "Snowman" : {
+        "name": "LOOPSNWMN.wav",
+        "type": 17,
+        "subtype": 95
+	  },
+    "Sylvan Homestead" : {
+        "name": "LOOPSLVN.wav",
+        "type": 17,
+        "subtype": 96
+	  },
+    "Enchanted Tower" : {
+        "name": "LOOPETWR.wav",
+        "type": 17,
+        "subtype": 97
+	  },
+    "Hell Rift" : {
+        "name": "LOOPHLLRFT.wav",
+        "type": 17,
+        "subtype": 99
+	  },
+    "Dragon Graveyard" : {
+        "name": "LOOPDRACO.wav",
+        "type": 17,
+        "subtype": 100
+	  },
+    "Hunting Lodge" : {
+        "name": "LOOPFRST.wav",
+        "type": 16,
+        "subtype": 11
+	  },
+    "Snow-covered Grotto" : {
+        "name": "LOOPSNOW.wav",
+        "type": 16,
+        "subtype": 12
+	  },
+    "Transylvanian Tavern" : {
+        "name": "LOOPVAMP.wav",
+        "type": 16,
+        "subtype": 17
+	  },
+    "Home of the Bat" : {
+        "name": "LOOPVAMP.wav",
+        "type": 16,
+        "subtype": 18
+	  },
+    "Lost Bottle" : {
+        "name": "LOOPBTTL.wav",
+        "type": 16,
+        "subtype": 19
+	  },
+    "Battle Academy" : {
+        "name": "LOOPBATTLACA.wav",
+        "type": 63,
+        "subtype": 32
+	  },
+    "Junk Merchant" : {
+        "name": "LOOPJUNK.wav",
+        "type": 63,
+        "subtype": 8
+	  },
+    "Adventure Cave" : {
+        "name": "LOOPADVCAVE.wav",
+        "type": 63,
+        "subtype": 57
+	  },
+    "Palace of Dreams" : {
+        "name": "LOOPPALADREM.wav",
+        "type": 63,
+        "subtype": 33
+	  },
+    "Emerald Tower" : {
+        "name": "LOOPEMETOW.wav",
+        "type": 63,
+        "subtype": 65
+	  },
+    "Market of Time" : {
+        "name": "LOOPTIMEMARK.wav",
+        "type": 63,
+        "subtype": 51
+	  },
+    "Artificer" : {
+        "name": "LOOPARTIF.wav",
+        "type": 63,
+        "subtype": 52
+	  },
+    "Death Chamber" : {
+        "name": "LOOPDECHAM.wav",
+        "type": 63,
+        "subtype": 15
+	  },
+    "School of Wizardry" : {
+        "name": "LOOPWIZARD.wav",
+        "type": 63,
+        "subtype": 62
+	  },
+    "Arcane Tower" : {
+        "name": "LOOPARKTOW.wav",
+        "type": 63,
+        "subtype": 9
+	  },
+    "Summoning Stones" : {
+        "name": "LOOPMON2.wav",
+        "type": 63,
+        "subtype": 21
+	  },
+    "Forgotten Shrine" : {
+        "name": "LOOPSHRIN.wav",
+        "type": 63,
+        "subtype": 22
+	  },
+    "Altar of Transformation" : {
+        "name": "LOOPSTAR.wav",
+        "type": 63,
+        "subtype": 20
+	  },
+    "Warehouse of Wood" : {
+        "name": "WRHSWOOD.wav",
+        "type": 63,
+        "subtype": 98
+	  },
+    "Warehouse of Mercury" : {
+        "name": "WRHSMERC.wav",
+        "type": 63,
+        "subtype": 99
+	  },
+    "Warehouse of Ore" : {
+        "name": "WRHSOREM.wav",
+        "type": 63,
+        "subtype": 100
+	  },
+    "Warehouse of Sulfur" : {
+        "name": "WRHSSULF.wav",
+        "type": 63,
+        "subtype": 101
+	  },
+    "Warehouse of Crystal" : {
+        "name": "WRHSCRST.wav",
+        "type": 63,
+        "subtype": 102
+	  },
+    "Warehouse of Gem" : {
+        "name": "WRHSGEMS.wav",
+        "type": 63,
+        "subtype": 103
+	  },
+    "Warehouse of Gold" : {
+        "name": "WRHSGOLD.wav",
+        "type": 63,
+        "subtype": 104
+	  },
+    "Black Tower" : {
+        "name": "BLCKTWRL.wav",
+        "type": 20,
+        "subtype": 4
+	  },
+    "Colisseum of the magic" : {
+        "name": "IVORTWLO.wav",
+        "type": 4,
+        "subtype": 1	
+	  },
+    "Mire" : {
+        "name": "hutHensLeg.wav",
+        "type": 17,
+        "subtype": 133
+	  },
+    "Butt Excavation" : {
+        "name": "butteExcavation.wav",
+        "type": 17,
+        "subtype": 135
+	  },
+    "Black Elder" : {
+        "name": "blackAlder.wav",
+        "type": 17,
+        "subtype": 136
+	  },
+    "Quaggy Relic" : {
+        "name": "quaggyRelic.wav",
+        "type": 17,
+        "subtype": 137
+	  },
+    "Squalid Nide" : {
+        "name": "squalidNide.wav",
+        "type": 17,
+        "subtype": 138
+	  },
+    "Rusty Habitation" : {
+        "name": "rustyHabitation.wav",
+        "type": 17,
+        "subtype": 139
+	  },
+    "Turquoise Passage" : {
+        "name": "turquoisePassage.wav",
+        "type": 17,
+        "subtype": 140
+	  },
+    "Sparky Meadow" : {
+        "name": "LOOPMON2.wav",
+        "type": 17,
+        "subtype": 142		
+	}	
+}
