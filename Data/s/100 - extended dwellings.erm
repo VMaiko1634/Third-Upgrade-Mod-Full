@@ -1,0 +1,449 @@
+ZVSE
+; Extended Dwellings Mod
+; Author: Berserker
+; Version: 1.0.0
+;
+; The mod allows to set up to 4 slots for each town dwelling.
+; Each slot can be either and alternative creature or additional creature.
+;
+; Alternative creature uses native dwelling population, though custom quantity ratio can be set.
+; For instance, 1 golem can be bought at the cost of 12 gremlins population. Such slots
+; are called alternatives, because you cannot buy max creatures from several alt slots.
+;
+; Additional slots are not connected to native dwellings population. Their population can be set manually
+; via ERM or be increased automatically every week, like it's done for native dwellings.
+;
+; Use the following documented functions:
+; "dex_DwellingPopulation" to set/mofidy additional slots population amount
+; "dex_SetDwellingSlotByTownType" to configure slot for all towns of given type.
+; "dex_GetDwellingSlotByTownType" to get slot configuration for particular all towns of given type.
+; "dex_SetDwellingSlotByTownId" to configure slot for particular town (has priority over dex_SetDwellingSlotByTownType).
+; "dex_GetDwellingSlotByTownId" to get slot configuration for particular town (has priority over dex_GetDwellingSlotByTownType).
+;
+; For old mods, depending on battery.dll plugin, an extra "dex_CA_D" function was added with almost same syntax as CA:D.
+; Better use newer API for much easier setup, including real alternative slots and auto-growing population for additional slots.
+
+
+; BEGIN TESTING
+!?FU(OnOpenTownScreen);
+
+!!if&y1<>y1:; impossible condition
+  !!CA0/x1:T?y2;
+  !!FU(dex_SetDwellingSlotByTownType):Py2/0/0/0/135/25;
+  !!FU(dex_SetDwellingSlotByTownType):Py2/0/0/1/2/50;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/0/2/4/150;
+  !!FU(dex_SetDwellingSlotByTownType):Py2/0/0/3/100/-1020;
+  !!FU(dex_SetDwellingSlotByTownType):Py2/0/1/3/100/-1020;
+  !!FU(dex_CA_D):Px1/1/3/120/123;
+!!en;
+; END TESTING
+
+
+!?FU(dex_CA_D);
+; x1 - town ID
+; x2 - dwelling level (0..6)
+; x3 - slot ID (0..3)
+; x4 - get/set monster type
+; x5 - get/set/add population amount
+!!FU:S4/?y4 S5/?y5; y4-y5 - call syntax for arguments 4..5
+
+!!if&y4=0:; get monster type
+  !!FU(dex_GetDwellingSlotByTownId):Px1/x2/1/x3/?x4;
+!!el:; set monster type
+  !!FU(dex_SetDwellingSlotByTownId):Px1/x2/0/x3/x4/-1;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/x2/1/x3/x4/-1;
+!!en;
+
+!!if&y5=0:; get population amount
+  !!FU(dex_DwellingPopulation):Px1/x2/x3/?x5;
+!!el&y5=1:; set population amount
+  !!FU(dex_DwellingPopulation):Px1/x2/x3/x5;
+!!el&y5=2:; add population amount
+  !!FU(dex_DwellingPopulation):Px1/x2/x3/dx5;
+!!en;
+
+
+!?FU(dex_DwellingPopulation);
+; Get/set number of available monsters for particular town and dwelling. This value will be used
+; only for creatures, configured via SetTownsDwellingSlot-like functions.
+; x1 - town ID (same as CA:U)
+; x2 - dwelling level (0..6)
+; x3 - slot ID (0..3)
+; x4 - get/set population amount
+!!VRy1:Sx2 *4;          y1 - dwelling level * 4
+!!VRy2:Sx1 *28 +y1 +x3; y2 is index in population array
+!!FU:S4/?s;
+
+!!if&s=0:;
+  !!SN:Mi^dex.dwellingsPopulation^/y2/?x4;
+!!el&s=1:;
+  !!SN:Mi^dex.dwellingsPopulation^/y2/x4;
+!!el&s=2:;
+  !!SN:Mi^dex.dwellingsPopulation^/y2/dx4;
+!!en;
+
+
+!?FU(dex_SetDwellingSlotByTownType)
+; Configures monster slot for all towns of specific type
+; x1 - town type (0 for castle, 1 for rampart, etc)
+; x2 - dwelling level (0..6)
+; x3 - upgraded or not (1 or 0)
+; x4 - slot ID (0..3)
+; x5 - alternative monster type, -1 to make slot empty
+; x6 - Optional. Growth rate in percents (100 = original, 50 = twice lower, 200 = twice higher,
+;      -1 for manual growth, (1000 + weekly growth) * -1 for auto-growth). In case of auto-growth
+;      Citadel, Castle and Grail buildings will increase growth additionaly by 50%/100%/150%.
+;      Default: 100.
+;
+; Example: FU(SetTownsDwellingSlot):P1/0/1/2/13; set Rampart 3-d alternative for upgraded centaures to Archangels.
+!!VRy1:Sx3 *7 +x2;              y1 - dwelling ID
+!!VRy2:Sx5 +2;                  increase monster type by 2, because 0 means unitialized SN:W variable
+!!SN:W^dex.T%X1D%Y1S%X4^/y2;    save monster type
+!!FU:A?k;                       count function arguments
+!!VRx6|k<6/x6=0:S100;           apply default value to x6
+!!SN:W^dex.TG%X1D%Y1S%X4^/x6;   save growth rate
+!!UN&x4>=0/x4<=1:Tx1/x2/x3/x5;  change native town dwelling settings
+
+!?FU(dex_GetDwellingSlotByTownType);
+; Returns dwelling monster type and growth rate by town type.
+; x1 - town type (0 for castle, 1 for rampart, etc)
+; x2 - dwelling level (0..6)
+; x3 - upgraded or not (1 or 0)
+; x4 - slot ID (0..3)
+; ?x5 - monster type or -1
+; ?x6 - growth rate in percents (100 = original, 50 = twice lower, 200 = twice higher).
+;       -1 for manual growth. <=-1000 for auto-growth
+!!VRy1:Sx3 *7 +x2;              y1 - dwelling ID
+!!SN:W^dex.T%X1D%Y1S%X4^/?x5;   get monster type
+!!SN:W^dex.TG%X1D%Y1S%X4^/?x6;  get growth rate
+
+!!if&x5>0:;
+  ; decode monster type, that was previously saved with +2 modifier
+  !!VRx5:-2;
+!!el:;
+  ; fallback to native towns settings
+  !!VRx5:S-1;
+  !!UN&x4<2:Tx1/x2/x3/?x5;
+!!en;
+
+!!VRx6&x6=0:S100; fallback to default growth rate
+
+
+!?FU(dex_SetDwellingSlotByTownId);
+; Configures monster slot for town with specific ID.
+; x1 - town ID (same as CA:U)
+; x2 - dwelling level (0..6)
+; x3 - upgraded or not (1 or 0)
+; x4 - slot ID (0..3)
+; x5 - alternative monster type, -1 to make slot empty
+; x6 - Optional. Growth rate in percents (100 = original, 50 = twice lower, 200 = twice higher,
+;      -1 for manual growth, (1000 + weekly growth) * -1 for auto-growth). In case of auto-growth
+;      Citadel, Castle and Grail buildings will increase growth additionaly by 50%/100%/150%.
+;      Default: 100.
+;
+; Example: FU(dex_SetDwellingSlotByTownId):P4/0/1/2/13; set 5-th town on map alternative for upgraded 1-st level creatures to Archangels.
+!!VRy1:Sx3 *7 +x2;              y1 - dwelling ID
+!!VRy2:Sx5 +2;                  increase monster type by 2, because 0 means unitialized SN:W variable
+!!FU:A?k;                       count function arguments
+!!VRx6|k<6/x6=0:S100;           apply default value to x6
+!!SN:W^dex.PT%X1D%Y1S%X4^/y2;   save monster type
+!!SN:W^dex.PTG%X1D%Y1S%X4^/x6;  save growth rate
+
+
+!?FU(dex_GetDwellingSlotByTownId);
+; Returns monster type/custom growth rate for dwelling slot of a town with specific ID
+; x1 - town ID (same as CA:U)
+; x2 - dwelling level (0..6)
+; x3 - upgraded or not (1 or 0)
+; x4 - slot ID (0..3)
+; ?x5 - monster type or -1
+; ?x6 - growth rate in percents (100 = original, 50 = twice lower, 200 = twice higher).
+;       -1 for manual growth. <=-1000 for auto-growth
+;
+; Example: FU(dex_GetDwellingSlotByTownId):P[town ID]/[dwelling level]/[upgraded or not]/[slot]/?[mon type]/?[growth settings];
+!!VRy1:Sx3 *7 +x2;              y1 - dwelling ID
+!!SN:W^dex.PT%X1D%Y1S%X4^/?x5;  get monster type
+!!SN:W^dex.PTG%X1D%Y1S%X4^/?x6; get growth rate
+!!CA0/x1:T?y10;                 y10 - town type
+
+!!if&x5=0:;
+  !!SN:W^dex.T%Y10D%Y1S%X4^/?x5;  get monster type
+  !!SN:W^dex.TG%Y10D%Y1S%X4^/?x6; get growth rate
+!!en;
+
+!!if&x5>0:;
+  ; decode monster type, that was previously saved with +2 modifier
+  !!VRx5:-2;
+!!el:;
+  !!VRx5:S-1;
+!!en;
+
+!!VRx6&x6=0:S100; fallback to default growth rate
+
+
+!?FU(OnAfterErmInstructions);
+; Allocate NUM_TOWNS (100) * DWELLINGS_PER_TOWN (7) * SLOTS_PER_DWELLING (4) integer items, that will hold dwellings population
+!!SN:M-1/2800/0/1 W^dex.dwellingsPopulation^/v1;
+
+!!SN:W^dex.day_timer.prev_day^/0; init var for dex_OnEveryDayOnce event
+
+
+!?FU(OnEveryDay); universal daily timer
+!!VRt:Sc;
+!!SN:W^dex.day_timer.prev_day^/?p W^dex.day_timer.prev_day^/t;
+!!FU(dex_OnEveryDayOnce)&t<>p:P;
+
+
+!?FU(dex_OnEveryDayOnce); increase extended dwellings population
+!!VRn:Sc;
+!!VRy1:Sn %7; y1 = 1 for monday
+!!FU|y1<>1/n=1:E; exit, if not monday or is the very first day
+
+!!SN:W^dex.dwellingsPopulation^/?m; m is population array ID
+
+; loop through all map towns
+!!re i/0/2000:;
+  ; check if town exists or break
+  !!UN:P904/1 P905/0;
+  !!CA0/i:O?o;
+  !!UN:P904/0 P905/?t;
+  !!br&t=1:E;
+
+  ; don't handle neutral towns
+  !!co&o<0:;
+
+  !!CA0/i:T?y20; y20 - town type
+
+  ; determine population growth bonus, based on buildings
+  !!VRy2:S100; y2 - growth multiplier
+  !!CA0/i:B3/8; check citadel
+  !!VRy2&1:S150;
+  !!CA0/i:B3/9;
+  !!VRy2&1:S200; check castle
+  !!CA0/i:B3/26;
+  !!VRy2&1:*3:2; check grail
+
+  !!VRy3:Si *28; y3 is current town population data pointer
+
+  ; loop through all dwelling levels
+  !!re j/0/6:;      j - dwelling level (0..6)
+    !!VRy6:Sj +37;  y6 - dwelling building ID
+    !!VRy7:Sy6 -30; y7 - dwelling ID (0..13)
+    !!CA0/i:B3/y6;
+    !!VRy7&-1:-7;
+
+    !!VRy4:Sj *4 +y3; y4 is dwelling population data pointer
+
+    ; loop through all dwelling slots
+    !!re s/0/3:; s - slot index
+      !!SN:W^dex.PTG%ViD%Y7S%Vs^/?y8; y8 - slot growth setting
+      !!SN&y8=0:W^dex.TG%Y20D%Y7S%Vs^/?y8;
+
+      !!if&y8<-1000:; auto-growth setting found
+        !!VRy8:+1000 *-1 *y2 :100;
+        !!VRy5:Sy4 +s; y5 - index of current slot population in data array
+        !!SN:Mm/y5/dy8; increase slot population
+      !!en;
+    !!en:; re
+  !!en:; re
+!!en:; re
+
+
+!?FU(OnOpenRecruitDlg)&x3<>0; recruit dialog opened, it will be shown
+; x2 - flags/optionss
+!!RD:I?y1/?y2/?y3;      y1 - dlg ID, y2 - town ID, y3 - dwelling ID (0..13)
+!!FU|y2=-1/y3=-1:E;     town ID and dwelling ID must be set, we handle only normal dialog
+!!FU|y2<0/y2>48:E;                      [needed for 8th unit in Kingdom Overview]
+
+!!RD:C0/?y20/?t/?y21;   y20 - type of creatures in slot 0, y21 - source of creatures in slot 0
+!!CA0/y2:T?y4;          y4 - town type
+!!VRy5:Sy2 *14 +y3;     y5 - monsters source ID
+!!FU|y20=-1/y21<>y5:E;  exit if dialog is modified/not native one
+
+!!VRy8:S0; y8 - whether custom growth rates are used in dialog or not
+
+!!VRy30:Sy3; y30 - dwelling level
+!!VRy31:S0;  y31 - dwelling upgraded or not
+
+!!if&y3>=7:;
+  !!VRy30:-7;
+  !!VRy31:S1;
+!!en;
+
+; configure slots in cycle
+!!re y6/0/3:; y6 - slot index
+  !!SN:W^dex.PT%Y2D%Y3S%Y6^/?y7;
+
+  !!if&y7>0:; found setting by town ID + dwelling
+    !!SN:W^dex.PTG%Y2D%Y3S%Y6^/?y9; y9 - creature growth rate
+    !!VRy7:-2;                      y7 - alt creature for i-th slot or -2
+    !!RD:Cy6/y7/?t/y5;              configure slot
+    !!VRe1:Sy9:100;
+    !!RD:M^dex.rate%Y6^/e1;         remember growth rate for slot (0..x]
+    !!VRy8&y9<>100:S1;              use custom growth rates in dialog
+  !!el:;
+    !!SN:W^dex.T%Y4D%Y3S%Y6^/?y7;
+
+    !!if&y7>0:; found setting by town type + dwelling
+      !!SN:W^dex.TG%Y4D%Y3S%Y6^/?y9; y9 - creature growth rate
+      !!VRy7:-2;                     y7 - alt creature for i-th slot or -2
+      !!RD:Cy6/y7/?t/y5;             configure slot
+      !!VRe1:Sy9:100;
+      !!RD:M^dex.rate%Y6^/e1;        remember growth rate for slot (0..x]
+      !!VRy8&y9<>100:S1;             use custom growth rates in dialog
+    !!en:;
+  !!en:; el
+!!en:; re
+
+; count all non-empty slots and get upgraded unit for each slot
+!!VRy60:S0; y60 - number of non-empty slots
+; y61-y64 - upgraded mon types for slots
+
+!!re y6/0/3:;
+  !!RD:Cy6/?i;
+  !!VRt:S61 +y6;
+
+  !!if&i<>-1:;
+    !!SN:E7662803/1/i; GetUpgradedMon(MonType) => int. CDECL
+
+    !!if&v1=-1:;
+      !!VRyt:Si;
+    !!el:;
+      !!VRyt:Sv1;
+    !!en;
+
+    !!VRy60:+1;
+  !!el:;
+    !!VRyt:S-1;
+  !!en;
+!!en:; re
+
+; count, how many unique creatures are in slots
+!!VRy65:S0; y65 - num unique creatures
+
+!!re y6/0/3:;
+  !!VRk:S61 +y6;
+  !!co&yk=-1:; no type means non unique
+  !!VRi:Sy6 +1;
+
+  !!re i/i/3:;
+    !!VRg:S61 +i;
+
+    !!if&yk=yg:; non unique
+      !!VRyg:S-1; don't count non-unique slot in next iterations
+      !!co 2:;
+    !!en;
+  !!en:;
+
+  !!VRy65:+1; unique one
+!!en:; re
+
+; Remove Close-on-buy flag if 2+ slots are present with unique creatures
+!!VRx2&y65>=2:&-2;
+
+; custom non-100% growth rates are used
+!!if&y8=1:;
+  !!if&y3<7:;
+    !!CA0/y2:M1/y30/?y50/d; y50 - original number of monsters in dwelling
+  !!el:;
+    !!VRy3:-7;
+    !!CA0/y2:M1/y30/d/?y50; y50 - original number of monsters in dwelling
+  !!en;
+
+  ; replace slots sources with custom ones
+  !!VRe9:S1:1000; e9 - rounding epsilon
+
+  !!re y6/0/3:;
+    !!VRy40:S10000 +y6; y40 - custom source ID for i-th slot
+    !!RD:Cy6/?t/?n/?s;
+
+    ; handle only canonical source ID slots
+    !!if&t<>-1/s=y5:;
+      !!RD:M^dex.rate%Y6^/?e1;
+
+      !!if&e1>0:; alt creatures initial count
+        !!VRe1:*y50 + e9;
+        !!VRi:Se1;
+      !!el&e1<0:; standalone creatures initial count
+        !!VRy10:Sy3 %7 *4;                       y10 - dwelling level * 4
+        !!VRy11:Sy2 *28 +y10 +y6;                y11 - index in population array
+        !!SN:Mi^dex.dwellingsPopulation^/y11/?i; get population amount
+        !!VRi&i<0:S0;
+      !!el:; native creatures count
+        !!VRe1:S1;
+        !!RD:M^dex.rate%Y6^/e1;
+        !!VRi:Sy50;
+      !!en;
+
+      !!RD:Cy6/t/i/y40;
+    !!en; if
+  !!en:; re
+
+  !!RD:M^dex.quantity^/y50;
+
+  ; init dwelling population in percents
+  !!VRe1:S1;
+  !!RD:M^dex.left^/e1; remember remaining dwelling population as 100% (1.0)
+
+  ; mark dialog as custom
+  !!RD:M^dex.applied^/1;
+!!en:;
+
+
+!?FU(OnRecruitDlgAction);
+; x1 - num recruited monsters
+!!RD:M^dex.applied^/?y1;
+!!FU&y1<>1:E;            Exit, if not dex altered dialog
+!!RD:I?t/?t/?t/?y2 M^dex.rate%Y2^/?e11; y2 - slot, e11 - growth rate
+
+; it's our alternative
+!!if&e11>0:;
+  !!RD:M^dex.left^/?e2 M^dex.quantity^/?y50; e2 - percentage of monsters left, y50 - original mons count
+  !!VRe3:Sx1 :e11 :y50;
+  !!VRe2:-e3; reduce population left
+  !!RD:M^dex.left^/e2;
+
+  ; recalculate number of monsters in each slot, except current one
+  !!VRe9:S1:1000; e9 - rounding epsilon
+
+  !!re y6/0/3:;
+    !!if&y6<>y2:;
+      !!RD:M^dex.rate%Y6^/?e11;
+
+      !!if&e11>0:;
+        !!VRe3:Sy50 *e11 *e2 +e9;
+        !!VRi:Se3;
+        !!RD:Cy6/?t/i;
+      !!en;
+    !!en; if
+  !!en:; re
+!!en; if
+
+!?FU(OnCloseRecruitDlg);
+!!RD:M^dex.applied^/?y1;
+!!FU&y1<>1:E;     Exit, if not dex altered dialog
+!!RD:M^dex.left^/?e2 M^dex.quantity^/?y50; e2 - percentage of monsters left, y50 - original mons count
+!!RD:I?l/?t/?y2;  y2 - dwelling ID
+!!VRe9:S1:1000;   e9 - rounding epsilon
+
+; update dwelling population
+!!VRe2:*y50 +e9;
+!!VRi:Se2;
+
+!!if&y2<7:;
+  !!CA0/t:M1/y2/i/?l;
+!!el:;
+  !!VRy2:-7;
+  !!CA0/t:M1/y2/?l/i;
+!!en;
+
+; update extended dwelling population
+!!re i/0/3:;
+  !!RD:M^dex.rate%Vi^/?e20 Ci/?j/?k Ci/?j/?o/?j/0;
+
+  !!if&e20<0/o>0:; if negative growth rate is set for slot, it's our slot with standalone population
+    !!VRy10:Sy2 %7 *4;                      y10 - dwelling level * 4
+    !!VRy11:St *28 +y10 +i;                 y11 - index in population array
+    !!SN:Mi^dex.dwellingsPopulation^/y11/k; set new population amount
+  !!en;
+!!en:;

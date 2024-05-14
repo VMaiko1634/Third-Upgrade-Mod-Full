@@ -1,0 +1,115 @@
+ZVSE2
+; ERM Author:   Archer30
+; Plugin:       Majaczek
+; Engine:       ERM 2.0+
+; Requires:     ERA 3.3+, Era Erm Framework, Third Upgrade Mod
+
+; Skeleton Transformer object on the map and related fix for it.
+
+
+// Object Replacement
+!?FU(tum_OnIterateAllMapObjects);
+!#VA(x:x) (y:x) (z:x);
+!#VA(objType:x);
+!#VA(objSubtype:x);
+!#VA(isYellowSquare:x); boolean.
+!#VA(isPassable:x);     boolean.
+; check: is entry to the object
+!!FU&(isYellowSquare)<>(TRUE):E;
+; init var replacement
+!!VR(replace:y):S(FALSE);
+; check objects
+!!VR(replace)&(objType)=(OBJ_DEN_OF_THIEVES):S(TRUE);
+; exit if not searchable types
+!!FU&(replace)<>(TRUE):E;
+; generate 30% chance
+!!VR(random:y):R0/1/100;
+!!FU&(random)<=70:E;
+; set a new object type
+!!VR(objType):S(OBJ_NEW_WOG_OBJECTS);
+!!VR(objSubtype):S118;
+; delete current and create a new object
+!!UN:O(x)/(y)/(z)/1/0; 
+!!UN:I(x)/(y)/(z)/(objType)/(objSubtype)/0;
+
+// Hint and right-click msg
+!?FU(OnAfterErmInstructions);
+!!UN:N2/1/(TOWN_NECROPOLIS)/22;
+!!SN:H^object^/(OBJ_NEW_WOG_OBJECTS)/118/z1;
+
+// Visiting for human players
+!?OB(OBJ_NEW_WOG_OBJECTS)/118&1000;
+; Open Skeleton Transformer dialogue for human visitor
+!!HE(CURRENT_HERO):N?(hero:y) O?(owner:y);
+!!SN:L^new_advmap_objects.era^/?(value:y) A(value)/^AdvSkelet_transformer^/?(value2:y) E(value2)/1/(hero);
+
+; Set Pyramid as visited to stop AI from non-stop visiting
+!!PM998:P(owner)/(TRUE);
+!!PM998:V(FALSE);
+
+// Visiting for AI players
+!?OB(OBJ_NEW_WOG_OBJECTS)/118&-1000;
+!!OB998:S;                  [disable pyramid feature]
+
+!!HE(CURRENT_HERO):O?(owner:y);
+
+; Set Pyramid as visited to stop AI from non-stop visiting
+!!PM998:P(owner)/(TRUE);
+!!PM998:V(FALSE);
+
+!!FU(skeltran_TransformLivingMons):P;
+
+!?FU(skeltran_TransformLivingMons)&i^Typhon_Third_Upgrade_Mod_Active^;
+!!HE(CURRENT_HERO):N?(hero:y) B2/?(class:y);
+
+; Exit the fucntion for non-necro heroes
+!!FU&(class)<>(HERO_CLASS_DEATH_KNIGHT)/(class)<>(HERO_CLASS_NECROMANCER):E;
+
+!!MA:F(MON_SKELETON)/?(skelFv:y);
+; Transform monsters to skeletons if matching special types
+!!re i/(ARMY_SLOT_FIRST)/(ARMY_SLOT_LAST);
+  !!HE(hero):C0/i/?(mon:y)/?(qty:y)/?(expLv:y)/12;  [mode 12 - stack exp level for the whole stack]
+  
+  !!co&(mon)<=(NO_MON);
+
+  ; Convert level 1 monsters to Skeletons
+  !!MA:L(mon)/?(lv:y);
+
+  !!if&(lv)=0;
+    !!MA:X(mon)/?(flag:y);
+    !!VR(flag):&(MON_FLAG_UNDEAD);
+    !!HE(hero)&(flag)=0:C0/i/(MON_SKELETON)/(qty)/(expLv)/12;
+
+    !!co;
+  !!en;
+
+  ; ERA conversions
+  !!HE(hero)|(mon)=(MON_GREEN_DRAGON)/(mon)=(MON_GOLD_DRAGON):C0/i/(MON_BONE_DRAGON)/(qty)/(expLv)/12;
+  !!HE(hero)|(mon)=(MON_RED_DRAGON)/(mon)=(MON_BLACK_DRAGON):C0/i/(MON_BONE_DRAGON)/(qty)/(expLv)/12;
+  !!HE(hero)|(mon)=(MON_HYDRA)/(mon)=(MON_CHAOS_HYDRA):C0/i/(MON_BONE_DRAGON)/(qty)/(expLv)/12;
+
+  ; Sharp shoopter Skeleton
+  !!HE(hero)|(mon)=(MON_SHARPSHOOTER)/(mon)=(MON_ARCTIC_SHARPSHOOTER)/(mon)=(MON_LAVA_SHARPSHOOTER)/(mon)=(MON_SHARPSHOOTER_ELF):C0/i/(MON_SHARPSHOOTER_SKELETON)/(qty)/(expLv)/12;
+!!en;
+
+// Reset Skeleton Transformer each week for AI players
+!?FU(OnEveryDay)&i^timerOnce^/i^timerDay^>1/i^timerWeekDay^=1;
+!!VR(x:y):S-1;
+
+!!re i;                                 [loop though all towns]
+  !!UN:U(OBJ_NEW_WOG_OBJECTS)/118/-1/(x)/(y:y)/(z:y);
+  !!br&(x)<0;
+
+  !!re (player:y)/(PLAYER_FIRST)/(PLAYER_LAST);
+    !!PM(x)/(y)/(z):P(player)/(FALSE);
+  !!en;
+
+  !!PM(x)/(y)/(z):V(TRUE);
+!!en;
+
+****************************************************************************************************
+// Visisting for AI players - in a town with Skeleton Transformer built
+!?OB(OBJ_TOWN)/(TOWN_NECROPOLIS)&-1000;
+; Check if skeleton transformer is built, store the result in 1
+!!CA998:B3/22;
+!!FU(skeltran_TransformLivingMons)&1:P;

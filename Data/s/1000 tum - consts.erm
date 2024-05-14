@@ -1,0 +1,305 @@
+ZVSE2
+; Author:   Archer30
+; Engine:   ERM 2.0+
+; Requires: ERA 3.0+
+
+; Constants for Third Upgrade Mod.
+
+
+; ===============  MONSTERS  ===============
+!#DC(MON_RUBY_CRYSTAL_DRAGON)      = 133;
+!#DC(MON_DIRE_WEREWOLF)            = 194;
+
+!#DC(MON_FIRST_TUM)                = 197;
+
+; Castle
+!#DC(MON_ROYAL_HALBERDIER)         = 197;
+!#DC(MON_CROSSBOWMAN)              = 198;
+!#DC(MON_CESAR_GRIFFIN)            = 199;
+!#DC(MON_INQUISITOR)               = 291;
+!#DC(MON_HIGH_PRIEST)              = 320;
+!#DC(MON_HOLY_CHAMPION)            = 201;
+!#DC(MON_SERAPH)                   = 202;
+
+; Rampart
+!#DC(MON_CENTAUR_GENERAL)          = 293;
+!#DC(MON_BERSERKER_DWARF)          = 203;
+!#DC(MON_SHARPSHOOTER_ELF)         = 256;
+!#DC(MON_GOLDEN_PEGASUS)           = 204;
+!#DC(MON_ELDER_DENDROID)           = 205;
+!#DC(MON_LEGENDARY_UNICORN)        = 206;
+!#DC(MON_PURE_DIAMOND_DRAGON)      = 207;
+
+; Tower
+!#DC(MON_GRANDMASTER_GREMLIN)      = 255;
+!#DC(MON_MARBLE_GARGOYLE)          = 208;
+!#DC(MON_STEEL_GOLEM)              = 209;
+!#DC(MON_SUPREME_ARCH_MAGE)        = 257;
+!#DC(MON_ARCANE_GENIE)             = 210;
+!#DC(MON_NAGA_EMPRESS)             = 211;
+!#DC(MON_GUARDIAN_OF_ZEUS)         = 212;
+
+; Inferno
+!#DC(MON_VERMIN)                   = 213;
+!#DC(MON_WINGED_MAGOG)             = 214;
+!#DC(MON_ASTRAL_CERBERI)           = 215;
+!#DC(MON_SHARP_HORNED_DEMON)       = 216;
+!#DC(MON_PIT_MASTER)               = 217;
+!#DC(MON_EFREETI_RAJAH)            = 218;
+!#DC(MON_ANTICHRIST)               = 219;
+
+; Necropolis
+!#DC(MON_SKELETON_KNIGHT)          = 220;
+!#DC(MON_GHOUL)                    = 329;
+!#DC(MON_SPECTRE)                  = 261;
+!#DC(MON_NOSFERATU)                = 221;
+!#DC(MON_LICH_KING)                = 222;
+!#DC(MON_DEATH_NIGHT)              = 223;
+!#DC(MON_RED_BONES_DRAGON)         = 224;
+
+; Dungeon
+!#DC(MON_PHOSPHORESCENT_TROGLODYTE) = 225;
+!#DC(MON_HARPY_SANGUINARY)         = 227;
+!#DC(MON_MONSTROUS_EYE)            = 226;
+!#DC(MON_MEDUSA_EMPRESS)           = 228;
+!#DC(MON_BLACK_MINOTAUR)           = 229;
+!#DC(MON_CHIMERA)                  = 230;
+!#DC(MON_CHASM_DRAGON)             = 231;
+
+; Stronghold
+!#DC(MON_HOBGOBLIN_OVERLORD)       = 232;
+!#DC(MON_WOLF_RIDER_KILLER)        = 233;
+!#DC(MON_ORC_LEADER)               = 234;
+!#DC(MON_ELDER_OGRE)               = 235;
+!#DC(MON_LIGHTNINGBIRD)            = 236;
+!#DC(MON_CYCLOPS_EMPEROR)          = 237;
+!#DC(MON_SPECTRAL_BEHEMOTH)        = 238;
+
+; Fortress
+!#DC(MON_GNOLL_SHAMAN)             = 321;
+!#DC(MON_ELITE_LIZARD)             = 240;
+!#DC(MON_CHAOTIC_DRAGON_FLY)       = 241;
+!#DC(MON_LAVA_BASILISK)            = 242;
+!#DC(MON_ACID_WYVERN)              = 243;
+!#DC(MON_CATOBLEPAS)               = 244;
+!#DC(MON_NIGHTMARE_HYDRA)          = 245;
+
+; Conflux
+!#DC(MON_FAERIE)                   = 246;
+!#DC(MON_HURRICANE_ELEMENTAL)      = 247;
+!#DC(MON_LIFE_ELEMENTAL)           = 248;
+!#DC(MON_PLASMA_ELEMENTAL)         = 249;
+!#DC(MON_MINERAL_ELEMENTAL)        = 250;
+!#DC(MON_VOID_ELEMENTAL)           = 251;
+!#DC(MON_DIVINE_PHOENIX)           = 252;
+
+; 8th units
+!#DC(MON_EIGHTH_FIRST)             = 269;
+!#DC(MON_LIGHT_TEMPLAR)            = 269;
+!#DC(MON_DRYAD)                    = 270;
+!#DC(MON_DRAKE_GOLEM)              = 271;
+!#DC(MON_SUCCUBUS)                 = 272;
+!#DC(MON_WEREWOLF_TOW)             = 273;
+!#DC(MON_WEREWOLF_TUM)             = 273;
+!#DC(MON_ILLITHID)                 = 274;
+!#DC(MON_COATL)                    = 275;
+!#DC(MON_TROLL_HAG)                = 276;
+!#DC(MON_TRITON)                   = 277;
+!#DC(MON_LIGHT_PALADIN)            = 278;
+!#DC(MON_OAK_DRYAD)                = 279;
+!#DC(MON_DRAGON_GOLEM)             = 280;
+!#DC(MON_LILIM)                    = 281;
+!#DC(MON_ALHOON)                   = 282;
+!#DC(MON_QUETZALCOATL)             = 283;
+!#DC(MON_TROLL_WITCH)              = 284;
+!#DC(MON_ABYSSAL_TRITON)           = 285;
+!#DC(MON_EIGHTH_LAST)              = 285;
+
+; Neutrals
+!#DC(MON_TIAMAT)                   = 253;
+!#DC(MON_NECROSS_DRAGON)           = 254;
+!#DC(MON_PRIMAL_FAERIE_DRAGON)     = 258;
+!#DC(MON_SPELLWEAVER)              = 259;
+!#DC(MON_ASSASSIN)                 = 260;
+
+!#DC(MON_FANGARM)                  = 263;
+!#DC(MON_TOPAZ_CRYSTAL_DRAGON)     = 265;
+!#DC(MON_AMETHYST_CRYSTAL_DRAGON)  = 266;
+!#DC(MON_EMERALD_CRYSTAL_DRAGON)   = 267;
+!#DC(MON_SAPPHIRE_CRYSTAL_DRAGON)  = 268;
+
+!#DC(MON_FIRE_PALADIN)             = 289;
+!#DC(MON_ICE_KNIGHT)               = 290;
+
+!#DC(MON_THUNDER_WARRIOR)          = 292;
+
+!#DC(MON_VERMILLION_BIRD)          = 294;
+!#DC(MON_SKELETON_ARCHER)          = 295;
+!#DC(MON_RED_SKELETON)             = 296;
+!#DC(MON_MANA_SKELETON)            = 297;
+!#DC(MON_GOLD_SKELETON)            = 298;
+!#DC(MON_SHARPSHOOTER_SKELETON)    = 299;
+!#DC(MON_CONSCRIPT)                = 300;
+!#DC(MON_SQUIRE)                   = 301;
+!#DC(MON_WILL_O_WISP)              = 317;
+
+!#DC(MON_SHADOW_DRAGON)            = 325;
+
+!#DC(MON_DARK_TEMPLAR)             = 331;
+!#DC(MON_DARK_PALADIN)             = 332;
+!#DC(MON_FALLEN_ANGEL)             = 333;
+!#DC(MON_ANGEL_OF_DEATH)           = 334;
+
+!#DC(MON_SULFIDE_DRAGON)           = 339;
+!#DC(MON_SWORDMASTER)              = 340;
+!#DC(MON_GREEN_DRAGONLING)         = 341;
+!#DC(MON_RED_DRAGONLING)           = 342;
+!#DC(MON_FAERIE_DRAGONLING)        = 343;
+!#DC(MON_RUST_DRAGONLING)          = 344;
+!#DC(MON_AZURE_DRAGONLING)         = 345;
+!#DC(MON_FIRE_DRAGON)              = 347;
+!#DC(MON_ICE_DRAGON)               = 348;
+; =============  END MONSTERS  =============
+
+
+; ==============  ARTIFACTS  ===============
+!#DC(ART_HAMMER_OF_DOOM)           = 171;
+!#DC(ART_ECLIPSE_SHIELD)           = 172;
+!#DC(ART_HELMET_OF_FALLEN_PALADIN) = 173;
+!#DC(ART_DRAGONRIDERS_ARMOR)       = 174;
+
+!#DC(ART_TRIDENT_OF_DOMINION)      = 175;
+!#DC(ART_SHIELD_OF_NAVAL_GLORY)    = 176;
+!#DC(ART_CROWN_OF_THE_FIVE_SEAS)   = 177;
+!#DC(ART_ROYAL_ARMOR_OF_NIX)       = 178;
+
+!#DC(ART_GOLDEN_GOOSE)             = 179;
+!#DC(ART_DIPLOMATS_CLOAK)          = 180;
+!#DC(ART_PENDANT_OF_REFLECTION)    = 181;
+!#DC(ART_IRONFIST_OF_THE_OGRE)     = 182;
+!#DC(ART_PENDANT_OF_DOWNFALL)      = 183;
+!#DC(ART_SHAMANS_PUPPET)           = 184;
+!#DC(ART_DEMONS_HORSESHOE)         = 185;
+!#DC(ART_HIDEOUS_MASK)             = 186;
+!#DC(ART_RUNES_OF_IMMINENCY)       = 187;
+!#DC(ART_RING_OF_SUPPRESSION)      = 188;
+!#DC(ART_MANA_CRYSTAL)             = 189;
+!#DC(ART_FLASK_OF_MANA)            = 190;
+!#DC(ART_VIAL_OF_MANA)             = 191;
+!#DC(ART_SOOTHSAYERS_BOOTS)        = 192;
+!#DC(ART_WIZARDS_RING)             = 193;
+!#DC(ART_ROBE_OF_THE_MAGI)         = 194;
+!#DC(ART_MAGUS_STAFF)              = 195;
+!#DC(ART_FENCERS_FIST_SHIELD)      = 196;
+!#DC(ART_RING_OF_ELEMENTS)         = 197;
+!#DC(ART_OBSERVERS_EYE)            = 198;
+!#DC(ART_ASTRAL_SHIELD)            = 199;
+!#DC(ART_ICE_SHIELD)               = 200;
+!#DC(ART_RING_OF_NEGATIVITY)       = 201;
+!#DC(ART_CROSSBOW)                 = 202;
+!#DC(ART_STRONG_ARMOR)             = 203;
+!#DC(ART_IONIZED_ARMOR)            = 204;
+!#DC(ART_GREEN_ARMOR)              = 205;
+!#DC(ART_CHILLED_ARMOR)            = 206;
+!#DC(ART_STREAMLINE_ARMOR)         = 207;
+!#DC(ART_RING_OF_PRECISION)        = 208;
+!#DC(ART_RING_OF_THE_THOUSAND_STORMS) = 209;
+!#DC(ART_SHIELD_OF_THE_DARK_PALADIN)  = 210;
+!#DC(ART_ARROW_QUIVER)             = 211;
+!#DC(ART_PENDANT_OF_HASTINESS)     = 212;
+!#DC(ART_FOGGY_SHIELD)             = 213;
+!#DC(ART_ENCHANTED_GLOVES)         = 214;
+!#DC(ART_GLOVES_OF_ARCANE_FIRE)    = 215;
+!#DC(ART_STONE_SHIELD)             = 216;
+!#DC(ART_SACRIFICIAL_DAGGER)       = 217;
+!#DC(ART_GELUS_BOW)                = 218;
+!#DC(ART_COMPENDIUM_OF_MAGIC)      = 219;
+!#DC(ART_LIGHTNING_ROD)            = 220;
+!#DC(ART_DWARVEN_HELMET)           = 221;
+!#DC(ART_DWARVEN_MINE)             = 222;
+!#DC(ART_RITUAL_DAGGER)            = 223;
+!#DC(ART_SACRED_WAR_HAMMER)        = 224;
+!#DC(ART_TIARA_OF_KNOWLEDGE)       = 225;
+!#DC(ART_SHIELD_OF_THE_ANCIENTS)   = 226;
+!#DC(ART_MINOR_PHYLACTERY)         = 227;
+!#DC(ART_MAJOR_PHYLACTERY)         = 228;
+!#DC(ART_SUPREME_PHYLACTERY)       = 229;
+!#DC(ART_RELIC_PHYLACTERY)         = 230;
+!#DC(ART_BLACK_LUSTER_SWORD)       = 231;
+!#DC(ART_APOCALYPSE_BLADE)         = 232;
+!#DC(ART_SCEPTER_OF_MAGIC)         = 233;
+!#DC(ART_AXE_OF_MIGHT)             = 234;
+!#DC(ART_SUN_EMPEROR_CHAINMAIL)    = 235;
+!#DC(ART_SHIELD_OF_THE_VERMILLION_BIRD) = 236;
+!#DC(ART_CROWN_OF_THE_FIRE_KING)   = 237;
+!#DC(ART_ORB_OF_CHAOS)             = 238;
+!#DC(ART_PENDANT_OF_MAGIC)         = 239;
+!#DC(ART_REGENERATIVE_NECKLACE_OF_MANA) = 240;
+!#DC(ART_BUCKET_HELMET)            = 241;
+!#DC(ART_FIELD_MARTIALS_RING)      = 242;
+!#DC(ART_HORSESHOE)                = 243;
+!#DC(ART_CRYSTAL_GLYPH)            = 244;
+!#DC(ART_GENERALS_ORDER)           = 245;
+!#DC(ART_RING_OF_FORTUNE)          = 246;
+!#DC(ART_MITHRIL_CUIRASS)          = 247;
+!#DC(ART_MITHRIL_HELMET)           = 248;
+!#DC(ART_MISFORTUNE_RING)          = 249;
+!#DC(ART_DRAGONS_HEAD)             = 250;
+!#DC(ART_PANIC_RING)               = 251;
+!#DC(ART_PENDANT_OF_DESPAIR)       = 252;
+!#DC(ART_RING_OF_THE_SNAKE_EYESIGHT)  = 253;
+!#DC(ART_SHIELD_OF_THE_LIGHT_PALADIN) = 254;
+!#DC(ART_AXE_OF_THE_PIEDMONT_KING) = 255;
+!#DC(ART_RING_OF_ANTI_MAGIC)       = 256;
+!#DC(ART_EARRINGS_OF_JUST_MAN)     = 257;
+!#DC(ART_HELL_BARONS_GLOVES)       = 258;
+!#DC(ART_HELM_OF_THE_HYDRA_QUEEN)  = 259;
+!#DC(ART_WAYFARERS_BOOTS)          = 260;
+!#DC(ART_EXCHANGE_CLOAK)           = 261;
+!#DC(ART_AMULET_OF_THE_RETURN_OF_SAMSARA) = 262;
+!#DC(ART_IMPLOSION_AMPLIFYING_BRACELET) = 263;
+!#DC(ART_ATMA_SWORD)               = 264;
+!#DC(ART_ATMA_ROBE)                = 265;
+!#DC(ART_HORN_OF_THE_ABYSS)        = 266;
+!#DC(ART_CAPE_OF_SILENCE)          = 267;
+!#DC(ART_RING_OF_OBLIVION)         = 268;
+!#DC(ART_CHARM_OF_ECLIPSE)         = 269;
+!#DC(ART_SEAL_OF_SUNSET)           = 270;
+!#DC(ART_PLATE_OF_DYING_LIGHT)     = 271;
+!#DC(ART_ENDLESS_MUG_OF_HAPPINESS_BEER) = 272;
+!#DC(ART_EYE_OF_THE_GREEN_DRAGON)  = 273;
+!#DC(ART_EYE_OF_THE_RED_DRAGON)    = 274;
+!#DC(ART_EYE_OF_THE_FAERIE_DRAGON) = 275;
+!#DC(ART_EYE_OF_THE_RUST_DRAGON)   = 276;
+!#DC(ART_EYE_OF_THE_AZURE_DRAGON)  = 277;
+!#DC(ART_PRISMATIC_EYE_OF_THE_GOD_DRAGON) = 278;
+
+*#DC(ART_GARB_OF_THE_FOREST_LORD)  = 279;
+*#DC(ART_VESTMENTS_OF_AUTHORITY)   = 180; [wog name from Enhanced Artifact II]
+; ============  END ARTIFACTS  =============
+
+
+; ===========  OBJECT SUBTYPES  ============
+!#DC(OBJ_SUB_CATHEDRAL)            = 110;
+!#DC(OBJ_SUB_TREEHOUSE)            = 111;
+!#DC(OBJ_SUB_DRAGON_FACTORY)       = 112;
+!#DC(OBJ_SUB_LUST_CHAMBERS)        = 113;
+!#DC(OBJ_SUB_WOLF_CAVE)            = 114;
+!#DC(OBJ_SUB_PRIMEVEL_MAW)         = 115;
+!#DC(OBJ_SUB_ZIGGURAT)             = 116;
+!#DC(OBJ_SUB_SWAMP_HUT)            = 117;
+!#DC(OBJ_SUB_DROWNED_HALL)         = 118;
+; =========  END OBJECT SUBTYPES  ==========
+
+
+; =============  WOG OPTIONS  ==============
+!#DC(WOG_OPT_4TH_UPGRADES)         = 300; 
+!#DC(WOG_OPT_8TH_MONSTERS)         = 301;
+!#DC(WOG_OPT_DWELLING_BANKS)       = 302;
+; ===========  END WOG OPTIONS  ============
+
+
+; ==========  EIGHTH CREATURES  ============
+!#DC(EIGHTH_BTN_DEFAULT_X_COORD)   = 183;
+!#DC(EIGHTH_BTN_DEFAULT_Y_COORD)   = 542;
+; ========  END EIGHTH CREATURES  ==========

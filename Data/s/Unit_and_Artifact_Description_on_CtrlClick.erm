@@ -1,0 +1,53 @@
+ZVSE2
+
+; Author:   Maciej Czerniawski (Yuji Sakai)
+; Engine:   ERM 2.0+
+
+
+!?FU(OnAdvMapTileHint);
+  !#VA(x:x) (y:x) (z:x);             Object entrance coordinates
+  !#VA(objType:x) (objSubtype:x);    Type and subtype of object. For active hero it's object under hero.
+  !#VA(tileX:x) (tileY:x) (tileZ:x); Real tile coordinates.
+
+  !!if&(objType)=(OBJ_ARTIFACT):;
+    !!SN:H^art^/(objSubtype)/0/?(artName:z);
+    !!MM:M(artName);
+  !!en:;
+
+!?FU(ShowTileInfo_new);
+  !!CM:I?(clicked:y); !!FU&(clicked)<>37:E;
+  !!CM:P?(mmX:y)/?(mmY:y)/?(mmZ:y);
+  !!OB(mmX)/(mmY)/(mmZ):T?(objType:y);
+  !!if&(objType)=(OBJ_MONSTER);
+    *!IF:L^creature^;
+    !!OB(mmX)/(mmY)/(mmZ):U?(monType:y);
+    !!UN:C6919480/4/?(gameMGR:y);
+    !!VR(buffer:y):S512 *4 +9597416;
+    !!UN:C(buffer)/0/4/(monType);    
+    !!UN:C(buffer)/28/4/1;
+    !!re i/1/6;
+      !!VR(blank:y):S4 *i;
+      !!UN:C(buffer)/(blank)/4/-1;
+      !!VR(blank):+28;
+      !!UN:C(buffer)/(blank)/4/0;
+    !!en;
+    !!CM:R0;
+    !!SN:E5007632/2/(gameMGR)/(buffer)/0/0/0/250/150/0/x1;
+    
+  !!en;
+
+  !!if&(objType)=(OBJ_ARTIFACT);
+    !!OB(mmX)/(mmY)/(mmZ):U?(artType:y);
+    !!SN:H^art^/(artType)/1/?(artDesc:z);
+    !!VR(dlgType:y):S1;
+    !!VR(dlgType)&x1<>0:S4;
+    !!IF:Q1/8/(artType)/(dlgType)^%(artDesc)^;
+  !!en;
+
+
+!?FU(OnAdventureMapRightMouseClick)&i^key_ctrl^=(TRUE);
+!!FU(ShowTileInfo_new):P1;
+
+
+!?FU(OnAdventureMapLeftMouseClick)&i^key_ctrl^=(TRUE);
+!!FU(ShowTileInfo_new):P0;

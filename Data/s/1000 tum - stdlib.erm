@@ -1,0 +1,697 @@
+ZVSE2
+; Author:   Archer30
+; Engine:   ERM 2.0+
+; Requires: ERA 3.0+, Era Erm Framework
+
+; Standard library for Third Upgrade Mod
+
+
+***************************
+**** Check Environment ****
+***************************
+
+!?FU(tum_CheckEnvironment);
+!!UN:V?(wogVer:y)/?(ermVer:y)/?(hasHumanPlayer:y)/?(isNetworkGame:y)/?(networkType:y);
+
+; Show msg if the ERA version is outdated
+!!if&(ermVer)<3903;
+  !!SN:H^art^/(ART_PENDANT_OF_DEATH)/0/?(artName:z) H^art^/(ART_PENDANT_OF_DEATH)/0/^^;
+  !!IF:Q1/(PIC_TYPE_ART)/(ART_PENDANT_OF_DEATH)/(PIC_TYPE_ART)/(ART_PENDANT_OF_DEATH)/(MSG_TYPE_CHOOSE_PIC)/^%T(Third_Upgrade_Mod.outOfDate)^;
+  !!SN:H^art^/(ART_PENDANT_OF_DEATH)/0/(artName);
+
+  !!UN:R6/(INT_MAX);
+!!en;
+
+; Check if there are two human players in different teams
+!!if&(isNetworkGame);
+  !!FU(NewIntArray):P?(humanTeams:y);
+
+  ; Loop through all the players and see how many human teams in total
+  !!re i/(PLAYER_FIRST)/(PLAYER_LAST);
+    !!OW:Ii/?(isAi:y)/?(hasLost:y);
+
+    !!if&(isAi)<>(TRUE)/(hasLost)<>(TRUE);
+      !!OW:Ti/?(team:y);
+      !!FU(Array_Push):P(humanTeams)/(team);
+    !!en;
+  !!en;
+
+  !!FU(Array_SortedUnique):P(humanTeams);
+  !!SN:M(humanTeams)/?(size:y);
+
+  ; Show msg if there are at least two teams of human players
+  !!if&(size)>1;
+    !!SN:H^art^/(ART_BOOTS_OF_POLARITY)/0/?(artName:z) H^art^/(ART_BOOTS_OF_POLARITY)/0/^^;
+    !!IF:Q1/(PIC_TYPE_ART)/(ART_BOOTS_OF_POLARITY)/(PIC_TYPE_ART)/(ART_BOOTS_OF_POLARITY)/(PIC_TYPE_ART)/(ART_BOOTS_OF_POLARITY)/(MSG_TYPE_MES)/^%T(Third_Upgrade_Mod.brokenMpSupport)^;
+    !!SN:H^art^/(ART_BOOTS_OF_POLARITY)/0/(artName);
+  !!en;
+!!en;
+
+!#FU(tum_CheckEnvironment):P;
+
+****************************************************
+**** Set Up Global Variables (Erm Instructions) ****
+****************************************************
+; Note: This function must be placed here in order to be executed by erm instruction commands
+!?FU(tum_CheckRandMap);
+!#VA(result:x);
+
+!!VR(result):S(FALSE);
+!!UN:C6919480/4/?(value:y);
+!!VR(add:y):S(value) +128980;
+!!UN:C(add)/1/?(value2:y);               [(value2)=114 -> random map]
+!!VR(result)&(value2)=114:S(TRUE);
+
+!?FU(tum_SetUpGlobalVars);
+!!VRi^Typhon_Third_Upgrade_Mod_Active^:S(TRUE); [Global var for TUM Enabled]
+!!FU(tum_CheckRandMap):P?i^tum_isRandMap^;
+!!UN:P195/?i^tum_replaceObj_on^;
+
+!#FU(tum_SetUpGlobalVars):P;
+
+!?FU(OnAfterLoadGame);
+!!FU(tum_CheckPlugins):P;
+
+; Set up global variable for whether Emerald is enabled. Note: Using On Start Or Load is not allowed as it is too late!
+!?FU(tum_CheckPlugins);
+!!SN:L^emerald3_3.era^/?(emer3:y);
+!!SN:L^emerald3_3.dll^/?(emer3Var:y);
+!!SN:L^emerald_v202a.era^/?(emer2:y);
+!!SN:L^emerald_v202a.dll^/?(emer2Var:y);
+
+!!if|(emer3)<>0/(emer3Var)<>0/(emer2)<>0/(emer2Var);
+  !!VRi^tum_emerald_on^:S(TRUE);
+!!en;
+
+!!SN:L^wogcn.dll^/?(wogcn:y);
+!!VRi^tum_wogcn_on^&(wogcn)<>0:S(TRUE);
+
+!#FU(tum_CheckPlugins):P;
+
+*********************************************
+**** Set Up WoG Options and mod settings ****
+*********************************************
+
+!#UN:P37/0;                             [DISABLE Rebalanced Creatures]
+!#UN:P50/0;                             [DISABLE Enhanced Monsters]
+!#UN:P67/0;                             [DISABLE Neutral Town]
+!#UN:P125/0;                            [DISABLE Upg level 7 become level 8]
+!#UN:P173/0;                            [DISABLE Extended Upgrades]
+!#UN:P174/0;                            [DISABLE Universal Upgrades]
+!#UN:P188/0;                            [Disable Rampart Farie Dragon]
+!#UN:P281/0;                            [DISABLE buckler of Beelzebub]
+!#UN:P740/0;                            [DISABLE Enhanced Creature Specialists]
+!#UN:P820/0;                            [DISABLE Adittional Uprades]
+
+*#UN&i^tum_isRandMap^:P143/0;           [DISABLE New Artifacts in random maps (as WoG artifacts now generate on the map natually)]
+!#UN&i^tum_emerald_on^:P792/0;          [DISABLE Not a Place for People (as it makes the game even more laggy with emerald)]
+
+!?FU(OnAfterErmInstructions);
+!!VRi^wog_39_monsterSpecialtiesEnabled^:S(FALSE); [DISABLE monster specialties from Hero Spec Booost]
+!!VRi^wog_71_newCombiArtEnabled^:S(FALSE); [DISABLE new combination artifacts from Enhanced Artifact II]
+!!VRi^wog_195_objReplaceMult^:S66;    [Reduce the WoG replacements to 66% of the original percentage]
+!!VRi^wog_195_howlingHollow_on^:S(FALSE);   [Disable the generation of Howling Hollow - must be executed sooner than 78 wog - wogify]
+
+**************************
+**** Create TUM Hooks ****
+**************************
+
+!?FU(OnStartOrLoad);
+!!SN:L^erm_hooker.era^/?(hooker:y);
+!!FU&(hooker)=0:E;
+
+!!SN:A(hooker)/^SetHook^/?(hookingFuncAddress:y);
+!!FU(tum_CreateERMHook):P(hookingFuncAddress);
+
+!?FU(tum_CreateERMHook);
+!#VA(address:x);
+
+!!SN:E(address)/1/4292703/(tum_OnSetActiveHero);
+!!SN:E(address)/1/4462998/(tum_HOOK_AfterAttackMainFunc); [Trigger after melee attack, before retaliation]
+!!SN:E(address)/1/4455129/(tum_HOOK_AfterAttackMainFunc); [Trigger after shooting]
+!!SN:E(address)/1/4288964/(tum_OnMonsterClickDiplo); [Trigger on checking neutral monsters' aggresion (RMB)]
+!!SN:E(address)/1/4879500/(tum_OnMonsterAttackDiplo); [Trigger on checking neutral monsters' aggresion (Attacking)]
+!!SN:E(address)/1/4638788/(tum_OnDlg_HeroPreview_SpellPowerWrite); [Trigger on setting hero's power on the battlefield]
+!!SN:E(address)/1/4607930/(tum_OnBeforeArtifactAutoSpells); [Trigger before the native artifact auto spell casting (must be "before" in order to be compatible with emerald 3)]
+*!SN:E(address)/1/5085308/(tum_OnArtifactGiveSpell); [Trigger when artifact with spell given is about to be equipped (not compatible with emerald 3)]
+!!SN:E(address)/1/5128574/(tum_OnCalcNecromancyPower); [Trigger on calculating Necromancy power]
+!!SN:E(address)/1/4445639/(tum_HOOK_AfterStackInitParams); [Trigger after initialising the stats of a stack on the battlefield]
+!!SN:E(address)/1/4920480/(tum_OnCalcMovementPointsCost); [Trigger on calculating the cost of movement points]
+!!SN:E(address)/1/4627361/(tum_OnNecromancyAddCreatures); [Trigger on adding Necromancy creatures]
+
+
+!?FU(tum_HOOK_AfterAttackMainFunc);      [by igrik]
+!!SN:X?(hook:y);
+!!UN:C(hook)/0/(UNC_INT)/?(stackStrucktDefender:y);   
+!!UN:C(hook)/4/(UNC_INT)/?(stackStrucktAttacker:y);  
+!!BG:A?(typeAttack:y);
+!!VR(stackAttackerID:y):S(NO_STACK); 
+!!VR(stackDefenderID:y):S(NO_STACK); 
+
+!!if&(stackStrucktAttacker)<>(FALSE); 
+  !!UN:C(stackStrucktAttacker)/244/(UNC_INT)/?(attakerSide:y); 
+  !!UN:C(stackStrucktAttacker)/248/(UNC_INT)/?(attakerStackIdInSide:y);
+  !!VR(stackAttackerID):S(attakerSide) *(BATTLE_STACKS_PER_SIDE) +(attakerStackIdInSide); 
+!!en;
+
+!!if&(stackStrucktDefender)<>(FALSE);
+  !!UN:C(stackStrucktDefender)/244/(UNC_INT)/?(defenderSide:y);
+  !!UN:C(stackStrucktDefender)/248/(UNC_INT)/?(defenderStackIdInSide:y);
+  !!VR(stackDefenderID):S(defenderSide) *(BATTLE_STACKS_PER_SIDE) +(defenderStackIdInSide);
+!!en;
+
+!!FU(tum_OnAfterMelee)&(typeAttack)=(BATTLE_ACTION_WALK_AND_ATTACK):P(stackAttackerID)/(stackDefenderID);
+!!FU(tum_OnAfterShoot)&(typeAttack)=(BATTLE_ACTION_SHOOT):P(stackAttackerID)/(stackDefenderID);
+!!FU(tum_OnAfterAttack)|(typeAttack)=(BATTLE_ACTION_WALK_AND_ATTACK)/(typeAttack)=(BATTLE_ACTION_SHOOT):P(stackAttackerID)/(stackDefenderID);
+
+!?FU(tum_HOOK_AfterStackInitParams);
+!#VA(address:x);
+
+!!UN:C(address)/(STRUCT_HOOK_CONTEXT_EBX)/4/?(stackStruct:y) C(stackStruct)/244/4/?(side:y) C(stackStruct)/248/4/?(stackPerSide:y);
+!!VR(stack:y):S(side) *(BATTLE_STACKS_PER_SIDE) +(stackPerSide);
+!!FU(tum_BattleStack_InitParams):P(stack);
+
+********************************************
+**** Set Up Global Variables and Arrays ****
+********************************************
+
+; Set up town screen variable (to prevent triggering several events)
+!?FU(OnOpenTownScreen);
+!!VRi^tum_onTownScreen^:S(TRUE);
+
+!?FU(OnCloseTownScreen);
+!!VRi^tum_onTownScreen^:S(FALSE);
+
+; Set up varible for whether key A is pressed
+!?FU(OnKeyPressed)&i^key^=(KEY_A);
+!!VRi^key_a^:S(TRUE);
+
+!?FU(OnKeyReleased)&i^key^=(KEY_A);
+!!VRi^key_a^:S(FALSE);
+
+; Generate Emerald AI report
+!?FU(OnAfterErmInstructions);
+!!SN:L^emerald3_3.era^/?(emerald:y);
+
+!!if&(emerald)<>0;
+  !!SN:A(emerald)/^art_AI_report^/?(aiReport:y);
+  !!SN&(aiReport)<>0:E(aiReport)/1;
+!!en;
+
+; Set up special ability counter
+; Reset special ability counter to 0 in the fisrt round
+; Reduce special ability counter by 1 every other round
+!?FU(OnBattleRound);
+!!if&i^battle_round^=0;
+  !!re i/(BATTLE_STACK_FIRST)/(BATTLE_STACK_LAST);
+    !!VRi^tum_abilityCounter_%i^:S0;
+  !!en;
+!!el&i^battle_round^>0;
+  !!re i/(BATTLE_STACK_FIRST)/(BATTLE_STACK_LAST);
+    ; Skip for Elemental Blast owner
+    !!BMi:T?(type:y);
+    !!FU(tum_CheckIfMonHasElementalBlast):P(type:y)/?(hasElemBlast:y);
+    !!co&(hasElemBlast);
+
+    !!VRi^tum_abilityCounter_%i^:-1 F0/(INT_MAX);
+  !!en;
+!!en;
+
+; Set up target stack
+!?FU(OnBeforeBattleAction);
+!!BG:E?i^tum_targetStack^;
+
+; Set up the array of combination artifacts
+; Currently not used - might be needed soon
+!?FU(OnAfterErmInstructions);
+!!FU(GetMaxArtifactId):P?(lastArt:y);
+!!FU(NewIntArray):P?i^tum_combinationArtifactList^/(M_STORED);
+
+!!re i/(ART_CENTAUR_AXE)/(lastArt);
+  !!UN:Ai/5/?(combiArtIndex:y);
+
+  !!if&(combiArtIndex:y)>(NO_ART);
+    !!UN:A(combiArtIndex)/?(combiArtId:y)/?(setPiece1:y)/?(setPiece2:y);
+    !!FU(Array_Push):Pi^tum_combinationArtifactList^/(combiArtId);
+  !!en;
+!!en;
+
+!!FU(Array_SortedUnique):Pi^tum_combinationArtifactList^;
+
+!?FU(tum_CreateArtArray);
+!#VA(artId:x) (arts:x) (comboArtId:x);
+
+!!VR(comboArtId):S(NO_ART);
+!!UN:A(artId)/5/?(ourComboId:y);  [Check if artifact is a part of compound artifact]
+!!if&(ourComboId)<>(NO_ART);
+  !!UN:A(ourComboId)/?(comboArtId:x)/d/d;  [Get the id of compound artifact]
+  !!FU(NewIntArray):P?(arts:x);  [Define array for art ids]
+  !!SN:F^ExtendArrayLifetime^/(arts);
+  !!FU(GetMaxArtifactId):P?(maxArtifactId:y);
+  !!re i/7/(maxArtifactId:y);  [Loop all arts]
+    !!UN:Ai/5/?(combId:y); 
+    !!if&(combId)=(ourComboId);  [Find art that matches by id with art is being clicked]
+      !!FU(Array_Push):P(arts)/i;  [Push it into array]
+    !!en;
+  !!en;
+!!en;
+
+
+*****************************
+**** Replace map objects ****
+*****************************
+
+!?FU(OnAfterErmInstructions)&i^tum_replaceObj_on^;
+; deleting the sound in the delete object function
+; because it causes a crash
+!!UN:C4893167/2/?(patch:y);
+!!UN:C4893167/2/24555;
+; get size of the map
+!!UN:X?(mapSize:y)/?(hasUnderground:y); 
+; pass once through all cells of the map
+!!re l/0/(hasUnderground)/1;  coord z
+  !!re k/0/(mapSize)/1/-1;    coord y
+    !!re i/0/(mapSize)/1/-1;  coord x
+      !!OBi/k/l:T?(objType:y) U?(objSubtype:y);
+      !!TRi/k/l:E?(isYellowSquare:y) P?(isPassable:y); 
+      !!VR(isYellowSquare):X1;  reverse param isYellowSquare
+      !!FU(tum_OnIterateAllMapObjects):Pi/k/l/(objType)/(objSubtype)/(isYellowSquare)/(isPassable);
+    !!en;
+  !!en;
+!!en;
+; restoring the source code of the sound
+; in the delete objects function
+!!UN:C4893167/2/(patch);
+
+**********************************************************
+**** Restore the original values of terrain penalties ****
+**********************************************************
+; The following lines must be executed ealier than option 739 - pathfinding.erm - OnGameLeave to be overriden.
+; Wayfarer's Boots Part 2
+*?FU(OnGameLeave)&i^tum_emerald_on^;
+*!FU(tum_SetTerrainPenaltyValues):P(FALSE);
+
+********************************************************
+**** Fix Perry's CB template breaking Tactic status ****
+********************************************************
+; Fix tactics being turned off in TUM CB battles
+; This script must be executed earlier than any of Perry's CB scripts and also other scripts that play with HE:R4 (Adventure Cave, etc)
+!?FU(OnSetupBattlefield);
+!!HEi^battle_hero_0^:R4/?i^tum_cb_tacticStatus^;
+
+!?FU(OnAfterBattleUniversal);
+!!HEi^battle_hero_0^:R4/i^tum_cb_tacticStatus^;
+
+*******************************************************
+**** Function to get the latest creature ID of TUM ****
+*******************************************************
+; For Amethyst 2 by Majaczek only
+!?FU(GetMaxMonsterId);
+!#VA(result:x);
+
+!!SN:L^amethyst2_4.dll^/?(amet:y);
+
+!!if&(amet)<>0;
+  !!UN:C5509220/(UNC_INT)/?(result);
+  !!VR(result):-1;
+!!en;
+
+*******************************************************
+**** Function to get the latest artifact ID of TUM ****
+*******************************************************
+; For Emerald 2 and Emerald 3
+!?FU(GetMaxArtifactId);
+!#VA(result:x);
+
+!!if&i^tum_emerald_on^;
+  !!re i/(ART_LAST_WOG)/999;
+    ; get the first character of the name of the artifact
+    !!SN:H^art^/i/0/?z1;
+    !!UN:C9597928/1/?(firstChar:y);
+
+    ; end the loop if the first character is #
+    !!br&(firstChar)=35;
+  !!en;
+
+  !!VR(result):Si -1;
+!!en;
+
+****************************************************
+**** Function to check if WoG Sctipts is loaded ****
+****************************************************
+
+!?FU(tum_CheckWoGScripts);
+!#VA(result:x);
+
+!!VR(result):S(FALSE);
+!!UN:J8/1/^wog scripts.pac^;            [check and export result to 1]
+!!VR(result)&1:S(TRUE);
+
+*******************************************************************
+**** Function to gernerate a random Heroes 3 / WoG artifact ID ****
+*******************************************************************
+; Used when emerald is disabled in Outpost of Souls
+!?FU(tum_GetRandH3WoGArt);
+!#VA(artLevel:x) (art:x);
+
+!!UN:J6/(artLevel)/?(art);
+
+*********************************************************
+**** Function to play a custom animation by Hawaiing ****
+*********************************************************
+
+!?FU(tum_PlayCustomAnimation);          [by Hawaiing]
+!#VA(animPtr:x);                        [Filename of the animation]
+!#VA(pos:x);                            [Position of the animation]
+!#VA(delay:x);                          [Optional. Delay (ms)]
+!#VA(flags:x);                          [Optional. Flags. 0-4.]
+!#VA(isTransparent:x);                  [Optional. Transparent (boolean)]
+!#VA(flagAlterationOn:x);               [Optional. Allow changes to flags (boolean)]
+
+; Set up values
+!!VR(bmvIndex:y):S82;                   [Poof]
+!!VRz1:Sz(animPtr);
+
+!!FU:A?(numArgs:y);
+
+!!if&(numArgs)<6;
+  !!VR(flagAlterationOn):S0;
+  !!VR(isTransparent):S(FALSE);
+  !!VR(flags):S0;
+!!en;
+
+!!VR(delay)|(delay)<0/(numArgs)<3:S100;
+
+!!VR(pos)|(pos)<0/(pos)>187:S93;        [Play the animation in the middle of the battlefield if posisiton is invalid]
+!!VR(flags):F0/4;
+!!VR(isTransparent):F(FALSE)/(TRUE);
+
+!!UN:C6919200/4/?(value:y);             [战场内存]
+!!VR(defAdd:y):S(value) +78568;         [动画DEF]
+!!VR(indexAdd:y):S(value) +78572;       [动画索引]
+!!UN:C4454270/4/?(basicAdd:y);          [BM:V调用动画时用到的基址]
+!!UN:C(defAdd)/4/0 C(indexAdd)/4/-1;    [清除内存多余数据]
+!!VR(origDefPtr:y):S(bmvIndex) *12 +(basicAdd); [魔法动画名字的指针地址]
+!!VR(origFlagsPtr:y):S(origDefPtr) +8;  [魔法动画播放标志的内存(这里可由x5和x6组成)]
+!!VR(zPtr:y):S512 +9597416;             [z1变量对应的内存地址(ERA下)]
+!!VR(newFlags:y):S(isTransparent) *256 +(flags); [自定义播放标志(否则采用x1动画的原有标志)]
+!!UN:C(origDefPtr)/4/?(origNamePtr:y);  [原动画名指针]
+!!UN:C(origFlagsPtr)/4/?(origFlags:y);  [原有播放标志]
+!!UN:C(origDefPtr)/4/(zPtr);            [新指针]
+!!UN&(flagAlterationOn)<>(FALSE):C(origFlagsPtr)/4/(newFlags); [自定义播放标志]
+!!SN:E4810128/2/(value)/(bmvIndex)/(pos)/(delay)/0; [调用内部函数播放战场动画]
+!!UN:C(origDefPtr)/4/(origNamePtr);     [还原]
+!!UN&(flagAlterationOn)<>(FALSE):C(origFlagsPtr)/4/(origFlags); [还原]
+!!UN:C(defAdd)/4/0 C(indexAdd)/4/-1;    [清除内存多余数据]
+
+*************************************************************
+**** Function to remove a dead body from the battlefield ****
+*************************************************************
+
+!?FU(tum_RemoveDeadBody);               [by Hawaiing]
+!#VA(stack:x);                          [stack id of the dead body]
+!#VA(isCompletelyDestroyed:x);          [whether remove the stack completely]
+
+!!FU|x1<0/x1>41/x2<0/x2>1:E;
+!!BMx1:T?y1 N?y2 I?y3 F?i;
+!!VRy5:Si &1;
+!!VRy6:Si &8388608;
+!!VRy7:Si &4194304;
+!!VRy8:Si &268435456;
+!!FU|y1<0/y1=149/y2>0/y6>0/y8>0:E;      [Exit if special creature]
+
+!!UN:C6919200/4/?y13;                   [Read the memory]
+!!VRy14:Sx1 *1352 +21708 +y13;
+!!SN:E4481984/2/y14;
+!!BMx1:P?y15;
+!!VRy16:Sv1;                            [Get the position of another hex]
+
+!!BU:Ey15/?y17;
+!!FU&y17>-1:E;
+
+!!if&y5=1;                              [Deal with double wide creaature]
+  !!BU:Ey16/?y18;
+  !!FU&y18>-1:E;
+!!en;
+
+!!BMx1&x2=1/y7=0:Fd4194304;
+!!BMx1&y8=0:Fd268435456;
+
+!!VRy9:Sy3 *21 +x1;
+!!VRy10:Sy15 *112 +y13 +452;
+!!SN:E5928496/1/y10/y3/y9;
+
+!!if&y5=1;
+  !!VRy11:Sy16 *112 +y13 +452;
+  !!SN:E5928496/1/y11/y3/y9;
+!!en;
+
+**************************************************************
+**** Function to check if a hero equip a set of artifacts ****
+**************************************************************
+; Check if a hero has equipped a set of artifacts or the combined artifact
+!?FU(tum_CheckIfHeroEquipArtifactCombo);
+!#VA(result:x);                         [Result of whether the hero equipped either the whole set of artifacts (artPiecesList) or the combined artifact (combiArt)]
+!#VA(hero:x);                           [Hero for checking]
+!#VA(artPiecesList:x);                  [Array of the set of artifact pieces]
+!#VA(combiArt:x);                       [Optional. A single artifact ID, usually is the combination artifact ID of the artifact list]
+
+; Exit if not enough arguments
+!!VR(result):S(FALSE);
+!!FU:A?(numArgs:y);
+!!FU&(numArgs)<=2:E;
+
+; Check if the hero has the combination artifact if the parametre is presented
+!!if&(numArgs)>=4;
+  !!HE(hero):A2/(combiArt)/?(has:y)/?(equipped:y);
+
+  !!if&(equipped)>0;
+    !!VR(result):S(TRUE);
+    !!FU:E;
+  !!en;
+!!en;
+
+; Check if the hero has all the artifacts from the list
+!!SN:M(artPiecesList)/?(size:y);
+
+!!re i/0/(size)/1/-2;
+  !!SN:M(artPiecesList)/i/?(art:y);
+  !!HE(hero):A2/(art)/?(has)/?(equipped);
+
+  !!br&(equipped)=0;
+!!en;
+
+!!VR(result)&i=(size):S(TRUE);
+
+************************************************************
+**** Function to check if a monster is a normal monster ****
+************************************************************
+
+!?FU(tum_CheckIfMonsterIsValid);
+!#VA(mon:x) (result:x);
+
+!!VR(result):S(TRUE);
+!!VR(result)&(mon)<=(NO_MON):S(FALSE);
+!!VR(result)|(mon)=(MON_NOT_USED_1)/(mon)=(MON_NOT_USED_2)/(mon)=(MON_NOT_USED_3)/(mon)=(MON_NOT_USED_4):S(FALSE);
+!!VR(result)&(mon)>=(MON_CATAPULT)/(mon)<=(MON_ARROW_TOWERS):S(FALSE);
+!!VR(result)&(mon)>=(MON_EMISSARY_OF_WAR)/(mon)<=(MON_EMISSARY_OF_LORE):S(FALSE);
+!!VR(result)&(mon)>=(MON_COMMANDER_FIRST_A)/(mon)<=(MON_COMMANDER_LAST_D):S(FALSE);
+
+*******************************************************************************
+**** Function to convert a string to integers with ignorance of separators ****
+*******************************************************************************
+
+!?FU(tum_ConvertStrToInts);             [by daemon_n]
+!#VA(strPtr:x);                         [Original string.]
+!#VA(numbersarrayId:x);                 [returns local array id via ?(intVar:y)]
+!#VA(amountOfNumbers:x);                [returns local array id size ]
+
+!!VRs^tum_originalString^:S^%z(strPtr)^;
+!!SN:Ks^tum_originalString^/?(strLength:y);
+
+!!VR(amountOfNumberArrays:y):S1;
+!!FU(NewIntArray):P?i^current_%(amountOfNumberArrays)_array_ID^;
+!!VR(breakPoint:y):S(NULL);
+!!VR(isNeedBreakPoint:y):S(FALSE);
+
+!!re i/0/(strLength)/1/-1;
+  !!SN:Ks^tum_originalString^/i/?(checkSymbol:z);
+  !!VR(isNeedBreakPoint):S(TRUE);
+
+  !!re (commonInt:y)/0/9;
+
+    !!if&(checkSymbol)=^%(commonInt)^;
+      *!IF&(commonInt)=0:L^%(checkSymbol)^;
+      !!FU(Array_Push):Pi^current_%(amountOfNumberArrays)_array_ID^/(commonInt);
+      !!VR(isNeedBreakPoint):S(FALSE);
+      !!br;
+    !!en;
+  !!en;
+
+  !!if&(isNeedBreakPoint);
+    !!SN:Mi^current_%(amountOfNumberArrays)_array_ID^/?(arrayLength:y);
+    !!co&(arrayLength)=(NULL);
+
+    !!VR(amountOfNumberArrays):+1;
+    !!FU(NewIntArray):P?i^current_%(amountOfNumberArrays)_array_ID^;
+  !!en;
+!!en;
+
+!!VRs^tum_originalString^:S^^;
+!!SN:Mi^current_%(amountOfNumberArrays)_array_ID^/?(arrayLength:y);
+!!VR(amountOfNumberArrays)&(arrayLength)=(NULL):-1;
+
+!!if&(amountOfNumberArrays);  
+  !!FU(NewIntArray):P?(numbersarrayId:x);
+
+  !!re i/1/(amountOfNumberArrays);
+
+    !!VR(elemSumm:y):S(NULL);
+    !!SN:Mi^current_%i_array_ID^/?(arrayLength:y);
+
+    !!re j/0/(arrayLength)/1/-1;
+
+    !!SN:Mi^current_%i_array_ID^/j/?(elemValue:y);
+    !!VR(multipler:y):S(arrayLength) -j -1;
+
+      !!if&(multipler);
+
+        !!re k/1/(multipler);
+          !!VR(elemValue):*10;
+        !!en;
+      !!en;
+
+      !!VR(elemSumm):+(elemValue);
+    !!en;
+
+    !!FU(Array_Push)&(arrayLength):P(numbersarrayId)/(elemSumm);
+    !!VRi^current_%i_array_ID^:S(NULL);
+  !!en;
+
+  !!VR(amountOfNumbers):S(amountOfNumberArrays);
+  !!SN:F^ExtendArrayLifetime^/(numbersarrayId);
+!!el;
+  !!IF:M^There is no number in the text you just entered!^;
+!!en;
+
+****************************************************************************
+**** Funciton to check if the tageted stack can receive the given spell ****
+****************************************************************************
+
+!?FU(tum_Battle_CanStackReceiveSpell);  [by daemon_n]
+!#VA(stackId:x) (spellID:x) (castingSide:x) (result:x);
+
+!!BM(stackId):Z?(stack:y); I?(side:y);
+!!UN:C(COMBAT_MANAGER)/(UNC_INT)/?(cmbMgr:y);
+!!SN:E5914512/(CALLCONV_THISCALL)/(cmbMgr)/(spellID)/(castingSide)/(stack)/1/1; [can stack apply buff/debuff]
+!!VR(result):Sv1;
+
+*******************************************************************
+**** Function to generate valid target list on the battlefield ****
+*******************************************************************
+
+!?FU(tum_GenerateValidStackList);
+!#VA(side:x);
+!#VA(validStackList:x);
+!#VA(numStacks:x);
+
+!!FU(NewIntArray):P?(validStackList);
+
+!!VR(firstStack:y):S(BATTLE_DEFENDER_STACK_FIRST) *(side);
+!!VR(lastStack:y):S(firstStack) +(BATTLE_STACKS_PER_SIDE) -1;
+
+!!re i/(firstStack)/(lastStack);
+  !!BMi:T?(type:y) N?(num:y);
+
+  !!FU(Array_Push)&(type)>(NO_MON)/(type)<>(MON_ARROW_TOWERS)/(num)>0:P(validStackList)/i;
+!!en;
+
+!!SN:F^ExtendArrayLifetime^/(validStackList);
+!!SN:M(validStackList)/?(numStacks);
+
+*******************************************************************
+**** Function for getting a adjacent hex number of a given hex ****
+*******************************************************************
+; Check igrik's picture for details: http://wforum.heroes35.net/showthread.php?tid=5717&pid=118391#pid118391
+!?FU(tum_GetAdjacentHex);
+!#VA(hex:x);                            [Given hex ID]
+!#VA(index:x);                          [index of the adjacenet hex. 0 to 5 in clockwise order]
+!#VA(adjacentHex:x);                    [OUT. The adjacent hex number. If the hex is not valid, the output would be -1]
+
+!!VR(adjacentHex):S-1;
+
+; Check if the given hex is valid. The output would be -1 if the given hex is not valid
+!!FU|(hex)<=(BATTLE_HEX_FIRST)/(hex)>=(BATTLE_HEX_LAST):E;
+!!FU|(index)<0/(index)>5:E;
+
+!#VA(inValidHexes[20]:y):C16/17/33/34/50/51/67/68/84/85/101/102/118/119/135/136/152/153/169/170;
+
+!!re i/0/19;
+  !!FU&(hex)=(inValidHexes[i]):E;
+!!en;
+
+; Get the hex number of the given hex in clockwise order
+; Check if the hex is in a odd number row or even
+!!VR(isEvenRow:y):S(hex) :(BATTLE_HEXES_PER_ROW) %2 X(TRUE);
+!!VR(firstAdjacentHex:y):S(hex) -(BATTLE_HEXES_PER_ROW) +(isEvenRow);
+
+!!if&(index)=0;
+  !!VR(adjacentHex):S(firstAdjacentHex);
+!!el&(index)=1;
+  !!VR(adjacentHex):S(hex) +1;
+!!el&(index)=2;
+  !!VR(adjacentHex):S(firstAdjacentHex) +34;
+!!el&(index)=3;
+  !!VR(adjacentHex):S(firstAdjacentHex) +33;
+!!el&(index)=4;
+  !!VR(adjacentHex):S(hex) -1;
+!!el&(index)=5;
+  !!VR(adjacentHex):S(firstAdjacentHex) -1;
+!!en;
+
+; Set to -1 if the calculated adjacent hex is invalid
+!!if|(adjacentHex)<=(BATTLE_HEX_FIRST)/(adjacentHex)>=(BATTLE_HEX_LAST);
+  !!VR(adjacentHex):S-1;
+!!el;
+  !!re i/0/19;
+    !!VR(adjacentHex)&(adjacentHex)=(inValidHexes[i]):S-1;
+  !!en;
+!!en;
+
+******************************************************
+**** Function for casting monster damaging spells ****
+******************************************************
+
+!?FU(tum_CastMonsterDamagingSpell);
+!#VA(stack:x);                          [Stack ID to cast the spell]
+!#VA(spell:x);                          [Spell for casting]
+!#VA(pos:x);                            [Position to cast the spell]
+!#VA(powerCoef:x);                      [Power coefficient. Spell damage = stack size * power coefficient]
+
+; Check if both the caster and the target is valid, exit if negative
+!!BM(stack):N?(num:y);
+!!FU&(num)<=0:E;
+!!BU:E(pos)/?(targetStack:y);
+!!FU&(targetStack)=(NO_STACK):E;
+
+; Store the original data of the spell and change
+!!SS(spell):E(SKILL_NOT_LEARNED)/?(origEffect:y) E(SKILL_NOT_LEARNED)/0;
+!!SS(spell):P?(origPower:y) P(powerCoef);
+
+; Cast the spell
+!!BM(stack):C(spell)/(pos)/(SKILL_NOT_LEARNED)/(num)/(FALSE); [The 5th parameter must be FALSE in order to get advanced Frost Position to work]
+
+; Restore the data of the spell
+!!SS(spell):E(SKILL_NOT_LEARNED)/(origEffect) P(origPower);
+
+*************************************************
+**** Function to remove a spell from a stack ****
+*************************************************
+
+!?FU(tum_RemoveSpellFromStack);
+!#VA(stack:x);
+!#VA(spell:x);
+
+!!UN:C6919200/4/?y10;
+!!VRy1:S(stack) *1352 +21708 +y10;
+!!SN:E4473392/2/y1/(spell);

@@ -1,0 +1,2965 @@
+ZVSE2
+****************************************************************************************************
+Third Upgrade Mod for ERA 3
+A Mod by VMaiko
+created 2020
+
+Scripts by Perry, Archer30 and Berseker 
+visit www.heroescommunity.com for updates and news
+****************************************************************************************************
+
+****************************************************************
+************************ Upgrading Part ************************
+****************************************************************
+// Script by Archer30
+// Manage Creature upgrades
+
+!?FU(OnDetermineMonInfoDlgUpgrade);
+!#VA(monType:x) (upgType:x) (town:x) (hero:x);
+
+!!if&(hero)>(NO_HERO);
+  ; Set upgrading to the specialty creature from the third upgrade of lower creatures, if they are included in the specialty definition
+  !!HE(hero):X?(type:y)/?(specMonType1:y)/?(param:y)/?(param)/?(param)/?(specMonType2:y)/?(specUpgType:y);
+
+  ; Check only when the hero has creature upgrade specialty
+  !!if&(type)=6;
+    !!FU&(upgType)=(specUpgType):E;
+
+    // Check for the upgrade of the specialty monster
+    ; Check if the current creature belongs to the first specialty definition
+    !!re i;
+      !!FU(GetUpgradedMonster):P(specMonType1)/?(upgMonType1:y);
+
+      !!if&(upgMonType1)=(monType);
+        !!VR(upgType):S(specUpgType);
+        !!br;
+      !!el&(upgMonType1)=(NO_MON);
+        !!br;
+      !!el;
+        !!VR(specMonType1):S(upgMonType1);
+      !!en;
+    !!en;
+
+    !!FU&(upgType)=(specUpgType):E;
+
+    ; Check if the current creature belongs to the second specialty definition
+    !!re i;
+      !!FU(GetUpgradedMonster):P(specMonType2)/?(upgMonType2:y);
+
+      !!if&(upgMonType2)=(monType);
+        !!VR(upgType):S(specUpgType);
+        !!br;
+      !!el&(upgMonType2)=(NO_MON);
+        !!br;
+      !!el;
+        !!VR(specMonType2):S(upgMonType2);
+      !!en;
+    !!en;
+  !!en;
+
+  ; Check if the any artifact givs additional upgrades (TUM Reborn only)
+  !!if&i^tum_reborn_on^;
+    !!FU(tum_ManageArtifactUpgrades):P(monType)/(hero)/?(newUpgType:y);
+
+    !!if&(upgType)<>(newUpgType)/(newUpgType)<>(NO_MON);
+      !!VR(upgType):S(newUpgType);
+      !!FU:E;
+    !!en;
+  !!en;
+!!en;
+
+; Check for third upgrades in town - only when there is no creature upgrade specialty or artifact upgrade
+!!FU(tum_GetUpgMonInTown)&i^tum_upgGuild_%(town)^:P(monType)/(town)/?(upgType);
+
+!?FU(tum_GetUpgMonInTown);
+!#VA(monType:x) (town:x) (upgType:x);
+
+; Initialization
+!!VR(upgType):S(NO_MON);
+!!CA0/(town):T?(townType:y);
+; Get monster's level and get upgrade chain of the level
+!!MA:L(monType)/?(level:y);
+!!FU(tum_GetTownMon):P(townType)/(level)/?(basicMon:y)/?(upgMon:y)/?(thirdUpgMon:y);
+
+; Exit if upgraded dwelling is not built - might not be compatible with extended ugrades (is disabled anyway)
+!!VR(upgDwelling:y):S37 +(level);
+!!CA0/(town):B3/(upgDwelling);
+!!FU&-1:E;
+
+; Set up monster's upgrades
+!!if&(monType)=(basicMon);
+  !!VR(upgType):S(upgMon);
+!!el&(monType)=(upgMon);
+  !!VR(upgType)&i^tum_upgGuild_%(town)^:S(thirdUpgMon);
+!!en;
+
+; If the monster is a 3rd upgrade, get 4th upgrades if 4th upgrade option is enabled/monster is levle 7/upgraded level 7 dwelling, upgrade guild is built
+!!UN:P(WOG_OPT_4TH_UPGRADES)/?(fourthUpgOn:y);
+
+!!if&(fourthUpgOn)/(monType)=(thirdUpgMon)/(level)=6/i^tum_upgGuild_%(town)^;
+  !!FU(GetUpgradedMonster):P(monType)/?(upgType);
+!!en;
+
+!?FU(tum_GetTownMon);
+!#VA(townType:x) (level:x) (basicMon:x) (upgMon:x) (thirdUpgMon:x);
+
+; get non-upgrades
+!!UN:T(townType)/(level)/0/?(basicMon);      [won't be compatible with Neutral Towns]
+
+; Get upgraded monsters
+!!VR(upgMon):S(basicMon) +1;
+; Fix elementals
+!!VR(upgMon)&(basicMon)=(MON_AIR_ELEMENTAL):S(MON_STORM_ELEMENTAL);
+!!VR(upgMon)&(basicMon)=(MON_WATER_ELEMENTAL):S(MON_ICE_ELEMENTAL);
+!!VR(upgMon)&(basicMon)=(MON_FIRE_ELEMENTAL):S(MON_ENERGY_ELEMENTAL);
+!!VR(upgMon)&(basicMon)=(MON_EARTH_ELEMENTAL):S(MON_MAGMA_ELEMENTAL);
+
+; Get third upgrades
+!!FU(GetUpgradedMonster):P(upgMon)/?(thirdUpgMon);
+
+// Adapt fast upgrades with holding A + mouse click
+// Note: Clicking on the spot of the garrison hero/visiting hero has not been coded yet
+!?FU(OnTownMouseClick)&i^mouse_action^=(MOUSE_LMB_PRESSED)/i^key_a^/999;
+; Exit if the third building is not built
+!!CA(CURRENT_TOWN):U?(townId:y);
+!!FU&i^tum_upgGuild_%(townId)^<>(TRUE):E;
+
+!!CM:I?(item:y);
+!!CA(CURRENT_TOWN):H1/?(visitHero:y);
+
+!!VR(startItem:y):S0;
+!!VR(endItem:y):S0;
+
+!!if&(item)>=115/(item)<=121;
+  !!VR(startItem):S(item);
+  !!VR(endItem):S(item);
+!!el&(item)=123;
+  !!VR(startItem):S115;
+  !!VR(endItem):S121;
+; If clicking on a visiting hero's slot
+!!el&(visitHero)>(NO_HERO);
+  !!if&(item)>=140/(item)<=146;
+    !!VR(startItem):S(item);
+    !!VR(endItem):S(item);
+  !!el&(item)=125;
+    !!VR(startItem):S140;
+    !!VR(endItem):S146;
+  !!en;
+!!en;
+
+; Exit if not clicking on a valid slot
+!!FU&(startItem)=0:E;
+
+!!CM:R0;
+
+!!re i/(startItem:y)/(endItem:y);
+  !!FU(tum_UpgradeWithAClicking):Pi/(townId)/(visitHero);
+!!en;
+
+!?FU(tum_UpgradeWithAClicking);
+!#VA(item:x) (townId:x) (visitHero:x) ;
+
+; Manage different actions depending on whether clicking on the garrison or a slot from the visiting hero
+!!if&(item)>=115/(item)<=121;
+  !!VR(slot:y):S(item) -115;
+
+  ; Use differernt receivers depending on whether the hero in the garrison is available
+  !!CA0/(townId):H0/?(garrisonHero:y);
+
+  !!if&(garrisonHero)=(NO_HERO);
+    !!CA0/(townId):M2/(slot)/?(type:y)/?(num:y);
+    !!CA0/(townId):P?(x:y)/?(y:y)/?(z:y);
+    !!EX(x)/(y)/(z)/(slot)/2:E?(exp:y);
+  !!el;
+    !!HE(garrisonHero):C0/(slot)/?(type)/?(num)/?(exp:y)/0;
+  !!en;
+!!el&(item)>=140/(item)<=146;
+  !!VR(slot):S(item) -140;
+  !!HE(visitHero):C0/(slot)/?(type)/?(num)/?(exp)/0;
+!!en;
+
+; Check for upgrade if it was clicked on a monster
+!!if&(type)>(NO_MON)/(num)>0;
+  !!FU(tum_GetUpgMonInTown):P(type)/(townId)/?(upg:y);
+
+  ; Check the cost of upgrade if the monster has one
+  !!if&(upg)>(NO_MON);
+    !#VA(leftRes[7]:y);
+
+    !!re i/(RES_FIRST)/(RES_LAST_SOD);
+      !!MA:C(type)/i/?(typeRes:y);
+      !!MA:C(upg)/i/?(upgRes:y);
+      !!VR(cost:y):S(upgRes) -(typeRes) *(num) F0/(INT_MAX);
+
+      !!OW:Ri^timerOwner^/i/?(ownedRes:y);
+      !!VR(leftRes[i]):S(ownedRes) -(cost);
+
+      ; Exit the function if can't afford
+      !!FU&(leftRes[i])<0:E;
+    !!en;
+
+    ; Set new resource
+    !!re i/(RES_FIRST)/(RES_LAST_SOD);
+      !!OW:Ri^timerOwner^/i/(leftRes[i]);
+    !!en;
+
+    ; Upgrade the creature with exp changes
+    !!EA(type):U?(upgMultiplier:y);
+    !!VR(newExp:y):S(exp) *(upgMultiplier) :1000;
+
+    !!if&(item)>=115/(item)<=121;
+      !!if&(garrisonHero)=(NO_HERO);
+        !!CA0/(townId):M2/(slot)/(upg)/(num);
+        !!EX(x)/(y)/(z)/(slot)/2:E(newExp);
+      !!el;
+        !!HE(garrisonHero):C0/(slot)/(upg)/(num)/(newExp)/0;
+      !!en;  
+    !!el&(item)>=140/(item)<=146;
+      !!HE(visitHero):C0/(slot)/(upg)/(num)/(newExp)/0;
+    !!en;    
+
+    !!SN:D;
+    !!UN:R2;
+  !!en;
+!!en;
+
+************************* set new upgrades ***********************************
+!?FU(tum_SetUpNewUpgrades);
+!!MA:U01/197;                           [Halberdiers to Templar] *Castle*]
+!!MA:U03/198;
+!!MA:U05/199;
+!!MA:U07/291;
+!!MA:U09/320;                           [Zealots to High Priest] *Castle*]
+!!MA:U011/201;
+!!MA:U13/150;                           [Archangels to Supreme Archangels] *Castle Level 8*]
+!!MA:U269/278;
+!!MA:U15/293;
+!!MA:U17/203;
+!!MA:U19/256;                           [Grand Elves to Sharpshooter] *Rampart*]
+!!MA:U21/204;                           [Silver Pegasi to Elves Sacred] *Rampart*]
+!!MA:U23/205;
+!!MA:U25/206;
+!!MA:U27/151;                           [Gold Dragons to Diamond Dragons] *Rampart Level 8*]
+!!MA:U270/279;
+!!MA:U29/255;                           [Master Gremlins to Santa Gremlins] *Tower*]
+!!MA:U31/208;
+!!MA:U33/209;                           [Iron Golems to Steel Golem] *Tower*]
+!!MA:U35/257;
+!!MA:U37/210;
+!!MA:U39/211;
+!!MA:U41/152;                           [Titans to Lords of Thunder] *Tower Level 8*]
+!!MA:U271/280;
+!!MA:U43/213;
+!!MA:U45/214;
+!!MA:U47/215;
+!!MA:U49/216;
+!!MA:U51/217;
+!!MA:U53/218;                           [Efreet Sultans to Efreet Rajah] *Inferno*]
+!!MA:U55/153;                           [Arch Devils to Hell Baron] *Inferno Level 8*]
+!!MA:U272/281;
+!!MA:U57/220;
+!!MA:U59/329;                           [Zombies to Mummies] *Necropolis*]
+!!MA:U61/261;                           [Wraiths to Ghosts] *Necropolis*]
+!!MA:U63/221;
+!!MA:U65/222;
+!!MA:U67/223;
+!!MA:U69/154;                           [Ghost Dragons to Blood Dragons] *Necropolis Level 8*]
+!!MA:U273/194;
+!!MA:U71/225;
+!!MA:U73/227;
+!!MA:U75/226;
+!!MA:U77/228;                           [Medusa Queens to Medusa Empress] *Dungeon*]
+!!MA:U79/229;                           [Minotaur Kings to Black Minotaur] *Dungeon*]
+!!MA:U81/230;
+!!MA:U83/155;                           [Black Dragons to Darkness Dragons] *Dungeon Level 8*]
+!!MA:U274/282;
+!!MA:U85/231;                           [Hobgoblins to Hobgoblins Overlord] *Stronghold*]
+!!MA:U85/232;
+!!MA:U87/233;
+!!MA:U89/234;
+!!MA:U91/235;                           [Ogre Magi to Elder Ogre] *Stronghold*]
+!!MA:U93/236;
+!!MA:U95/237;
+!!MA:U97/156;                           [Ancient Behemoths to Ghost Behemoths] *Stronghold Level 8*]
+!!MA:U275/283;
+!!MA:U99/321;                           [Upg. Gnolls to Centagnoll] *Fortress*]
+!!MA:U101/240;
+!!MA:U103/244;
+!!MA:U105/241;
+!!MA:U107/242;                          [Greater Basilisks to Lava Basilisks] *Fortress*]
+!!MA:U109/243;
+!!MA:U111/157;                          [Chaos Hydras to Hell Hydras] *Fortress Level 8*]
+!!MA:U276/284;
+!!MA:U119/246;
+!!MA:U121/251;
+!!MA:U123/248;
+!!MA:U125/250;                          [Magma Elementals to Mineral Elementals] *Conflux*]
+!!MA:U127/247;
+!!MA:U129/249;                          [Energy Elementals to Flux Elementals] *Conflux*]
+!!MA:U131/158;                          [Phoenixes to Sacred Phoenixes] *Conflux Level 8*]
+!!MA:U277/285;
+
+ [The following can only be upgraded at Hill Forts]
+; fourth upgrades
+!!UN:P(WOG_OPT_4TH_UPGRADES)/?(fourthUpgOn:y);
+
+!!if|i^tum_reborn_on^<>(TRUE)/(fourthUpgOn);
+  !!MA:U(MON_SUPREME_ARCHANGEL)/(MON_SERAPH);
+  !!MA:U(MON_DIAMOND_DRAGON)/(MON_PURE_DIAMOND_DRAGON);
+  !!MA:U(MON_LORD_OF_THUNDER)/(MON_GUARDIAN_OF_ZEUS);
+  !!MA:U(MON_HELL_BARON)/(MON_ANTICHRIST);
+  !!MA:U(MON_BLOOD_DRAGON)/(MON_RED_BONES_DRAGON);
+  !!MA:U(MON_DARKNESS_DRAGON)/(MON_CHASM_DRAGON);
+  !!MA:U(MON_GHOST_BEHEMOTH)/(MON_SPECTRAL_BEHEMOTH);
+  !!MA:U(MON_HELL_HYDRA)/(MON_NIGHTMARE_HYDRA);
+  !!MA:U(MON_SACRED_PHOENIX)/(MON_DIVINE_PHOENIX);
+!!en;
+
+!!MA:U(MON_GOLD_GOLEM)/(MON_DIAMOND_GOLEM);
+
+; Crystal Dragons
+!!MA:U(MON_TOPAZ_CRYSTAL_DRAGON)/(MON_AMETHYST_CRYSTAL_DRAGON);
+!!MA:U(MON_AMETHYST_CRYSTAL_DRAGON)/(MON_CRYSTAL_DRAGON);
+!!MA:U(MON_CRYSTAL_DRAGON)/(MON_EMERALD_CRYSTAL_DRAGON);
+!!MA:U(MON_EMERALD_CRYSTAL_DRAGON)/(MON_SAPPHIRE_CRYSTAL_DRAGON);
+
+!!MA:U(MON_FAERIE_DRAGON)/(MON_PRIMAL_FAERIE_DRAGON);
+!!MA:U(MON_ENCHANTER)/(MON_SPELLWEAVER);
+!!MA:U(MON_PEASANT)/(MON_CONSCRIPT);
+!!MA:U(MON_ROGUE)/(MON_ASSASSIN);
+!!MA:U(MON_GORYNYCH)/(MON_TIAMAT);
+!!MA:U(MON_HELL_STEED)/(MON_NIGHTMARE);
+!!MA:U(MON_DRACOLICH)/(MON_NECROSS_DRAGON);
+
+; New neutrals
+!!MA:U301/302;
+!!MA:U304/305;
+!!MA:U307/308;
+!!MA:U309/310;
+!!MA:U313/314;
+!!MA:U322/323;
+!!MA:U331/332;
+!!MA:U333/334;
+!!MA:U335/336;
+!!MA:U337/338;
+!!MA:U135/339;
+!!MA:U138/348;
+
+
+!#FU(tum_SetUpNewUpgrades):P;
+
+*****************************************************************************
+************** the special structure in a town used for upgrading ***********
+*****************************************************************************
+; Set up monsters in the town
+; Script by Archer30
+!?FU(OnPreTownScreen);
+!#VA(townId:x);
+
+!!FU(tum_SetUpTownMons):P(townId);
+!!SN:D;
+
+!?FU(OnAfterBuildTownBuilding)&i^tum_onTownScreen^;
+!#VA(townId:x) (buildingId:x);
+
+!!FU(tum_SetUpTownMons)&(buildingId)=7:P(townId);
+!!FU(tum_SetUpTownMons)&(buildingId)>=37/(buildingId)<=43:P(townId);
+!!SN:D;
+
+!?FU(tum_SetUpTownMons);
+!#VA(townId:x);
+
+!!CA0/(townId):B3/7 T?(townType:y);
+!!VRi^tum_upgGuild_%(townId)^&-1:S(FALSE);
+
+; Set to third upgrade monsters if third upgrade building is built - depedning on whether the upgraded dwelling is built
+!!if&i^tum_upgGuild_%(townId)^;
+  !!re i/(MON_MIN_LEVEL)/(MON_MAX_LEVEL);
+    !!VR(building:y):Si +37;
+    !!CA0/(townId):B3/(building);
+
+    !!FU(tum_GetTownMon):P(townType)/i/?(mon:y)/?(upgMon:y)/?(thirdUpgMon:y);
+
+    !!if&1/i^tum_upgGuild_%(townId)^;
+      ; if both the upgraded dwelling and upgrade guild is built, get the third upgrade creature
+      !!UN:T(townType)/i/1/(thirdUpgMon);
+
+      ; if level 7, also 4th upgrade option is enabled, get the fourth upgrade creature
+      !!if&i=6;
+        !!UN:P(WOG_OPT_4TH_UPGRADES)/?(fourthUpgOn:y);
+
+        !!if&(fourthUpgOn);
+          !!FU(GetUpgradedMonster):P(thirdUpgMon)/?(fourthUpgMon:y);
+          !!UN&(fourthUpgMon)<>(NO_MON):T(townType)/i/1/(fourthUpgMon);
+        !!en;
+      !!en;
+    !!el;
+      ; if either upgraded dwelling or third upgrade building is not built, reset to original upgraded creature
+      !!UN:T(townType)/i/1/(upgMon);
+    !!en;
+  !!en;
+; Restore to the original town monsters if third upgrade building is not built
+!!el;
+  !!FU(tum_ResetTownMons):P(townId);
+!!en;
+
+; Manage town dwellings
+!!if&i^tum_upgGuild_%(townId)^;
+  !!FU(newup_ExtendTownDwellings):P(townId)/(townType);
+!!el;
+  !!FU(tum_ResetTownDwellings):P(townId)/(townType);
+!!en;
+
+// Restore UN:T values to their original
+!?FU(OnCloseTownScreen);
+!#VA(townId:x);
+
+!!FU(tum_ResetTownMons):P(townId);
+
+!?FU(tum_ResetTownMons);
+!#VA(townId:x);
+
+!!re i/(TOWN_FIRST)/(TOWN_LAST_WOG);
+  !!if&i<(TOWN_FORTRESS);
+    !!re j/0/6;
+      !!VR(townOffset:y):Si *14 +1;
+      !!VR(mon:y):Sj *2 +(townOffset);
+      !!UN:Ti/j/1/(mon);
+    !!en;
+  !!el&i=(TOWN_FORTRESS);
+    !!UN:Ti/0/1/(MON_GNOLL_MARAUDER);
+    !!UN:Ti/1/1/(MON_LIZARD_WARRIOR);
+    !!UN:Ti/2/1/(MON_DRAGON_FLY);
+    !!UN:Ti/3/1/(MON_GREATER_BASILISK);
+    !!UN:Ti/4/1/(MON_MIGHTY_GORGON);
+    !!UN:Ti/5/1/(MON_WYVERN_MONARCH);
+    !!UN:Ti/6/1/(MON_CHAOS_HYDRA);
+  !!el&i=(TOWN_CONFLUX);
+    !!UN:Ti/0/1/(MON_SPRITE);
+    !!UN:Ti/1/1/(MON_STORM_ELEMENTAL);
+    !!UN:Ti/2/1/(MON_ICE_ELEMENTAL);
+    !!UN:Ti/3/1/(MON_ENERGY_ELEMENTAL);
+    !!UN:Ti/4/1/(MON_MAGMA_ELEMENTAL);
+    !!UN:Ti/5/1/(MON_MAGIC_ELEMENTAL);
+    !!UN:Ti/6/1/(MON_PHOENIX);
+  !!en;
+!!en;
+
+*****************************************************************************
+; Destruct the special building if there is no fort
+; Script by Archer30
+!?FU(tum_ResetTownDwellings);
+!#VA(townId:x) (townType:x);
+
+!!if&(townType)=(TOWN_CASTLE);          [Castle]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_PIKEMAN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_HALBERDIER)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_ARCHER)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_MARKSMAN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_GRIFFIN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_ROYAL_GRIFFIN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_SWORDSMAN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_CRUSADER)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_MONK)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_ZEALOT)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_CAVALIER)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_CHAMPION)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_ARCHANGEL)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_ANGEL)/100;
+!!el&(townType)=(TOWN_RAMPART);         [Rampart]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_CENTAUR)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_CENTAUR_CAPTAIN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_DWARF)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_BATTLE_DWARF)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_WOOD_ELF)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_GRAND_ELF)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_PEGASUS)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_SILVER_PEGASUS)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_DENDROID_GUARD)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_DENDROID_SOLDIER)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_UNICORN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_WAR_UNICORN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_GREEN_DRAGON)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_GOLD_DRAGON)/100;
+!!el&(townType)=(TOWN_TOWER);           [Tower]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_GREMLIN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_MASTER_GREMLIN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_STONE_GARGOYLE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_OBSIDIAN_GARGOYLE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_STONE_GOLEM)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_IRON_GOLEM)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_MAGE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_ARCH_MAGE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_GENIE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_MASTER_GENIE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_NAGA)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_NAGA_QUEEN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_GIANT)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_TITAN)/100;
+!!el&(townType)=(TOWN_INFERNO);         [Inferno]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_IMP)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_FAMILIAR)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_GOG)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_MAGOG)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_HELL_HOUND)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_CERBERUS)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_DEMON)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_HORNED_DEMON)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_PIT_FIEND)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_PIT_LORD)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_EFREETI)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_EFREET_SULTAN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_DEVIL)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_ARCH_DEVIL)/100;
+!!el&(townType)=(TOWN_NECROPOLIS);      [Necropolis]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_SKELETON)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_SKELETON_WARRIOR)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_WALKING_DEAD)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_ZOMBIE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_WIGHT)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_WRAITH)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_VAMPIRE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_VAMPIRE_LORD)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_LICH)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_POWER_LICH)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_BLACK_KNIGHT)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_DREAD_KNIGHT)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_BONE_DRAGON)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_GHOST_DRAGON)/100;
+!!el&(townType)=(TOWN_DUNGEON);         [Dungeon]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_TROGLODYTE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_INFERNAL_TROGLODYTE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_HARPY)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_HARPY_HAG)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_BEHOLDER)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_EVIL_EYE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_MEDUSA)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_MEDUSA_QUEEN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_MINOTAUR)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_MINOTAUR_KING)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_MANTICORE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_SCORPICORE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_RED_DRAGON)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_BLACK_DRAGON)/100;
+!!el&(townType)=(TOWN_STRONGHOLD);      [Stronghold]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_GOBLIN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_HOBGOBLIN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_WOLF_RIDER)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_WOLF_RAIDER)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_ORC)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_ORC_CHIEFTAIN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_OGRE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_OGRE_MAGE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_ROC)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_THUNDERBIRD)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_CYCLOPS)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_CYCLOPS_KING)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_BEHEMOTH)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_ANCIENT_BEHEMOTH)/100;
+!!el&(townType)=(TOWN_FORTRESS);        [Fortress]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_GNOLL)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_GNOLL_MARAUDER)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_LIZARDMAN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_LIZARD_WARRIOR)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_SERPENT_FLY)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_DRAGON_FLY)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_BASILISK)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_GREATER_BASILISK)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_GORGON)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_MIGHTY_GORGON)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_WYVERN)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_WYVERN_MONARCH)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_HYDRA)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_CHAOS_HYDRA)/100;
+!!el&(townType)=(TOWN_CONFLUX);         [Conflux]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_PIXIE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_SPRITE)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_AIR_ELEMENTAL)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_STORM_ELEMENTAL)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_WATER_ELEMENTAL)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_ICE_ELEMENTAL)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_FIRE_ELEMENTAL)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_ENERGY_ELEMENTAL)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_EARTH_ELEMENTAL)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_MAGMA_ELEMENTAL)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_PSYCHIC_ELEMENTAL)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_MAGIC_ELEMENTAL)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_FIREBIRD)/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_PHOENIX)/100;
+!!en;
+
+!!re i/(MON_MIN_LEVEL)/(MON_MAX_LEVEL);
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/i/1/2/(NO_MON)/100;
+!!en;
+
+!!UN:P(WOG_OPT_4TH_UPGRADES)/?(fourthUpgOn:y);
+!!FU(dex_SetDwellingSlotByTownId)&(fourthUpgOn):P(townId)/6/1/3/(NO_MON)/100;
+
+*****************************************************************************
+!?FU(gem_OnOpenButtonDlg);          [Function from GEM Mod that is called when clicking the new buttons]
+!!CA(CURRENT_TOWN):T?(townType:y);  [Get Town type]
+
+!!VRz20&y1=0:Sz199863;              [The Heavenly Tower]
+!!VRz21&y1=0:Sz199861;              [The Heavenly Tower]
+
+!!VRz20&y1=1:Sz199866;              [Order of The Sun]
+!!VRz21&y1=1:Sz199864;              [Order of The Sun]
+
+!!VRz20&y1=2:Sz199869;              [Cloud Castle]
+!!VRz21&y1=2:Sz199867;              [Cloud Castle]
+
+!!VRz20&y1=3:Sz199872;              [Kreegans' Gate]
+!!VRz21&y1=3:Sz199870;              [Kreegans' Gate]
+
+!!VRz20&y1=4:Sz199875;              [Hall of The Pit]
+!!VRz21&y1=4:Sz199873;              [Hall of The Pit]
+
+!!VRz20&y1=5:Sz199881;              [Underworld Entrance]
+!!VRz21&y1=5:Sz199879;              [Underworld Entrance]
+
+!!VRz20&y1=6:Sz199884;              [Barbarian Citadel]
+!!VRz21&y1=6:Sz199882;              [Barbarian Citadel]
+
+!!VRz20&y1=7:Sz199887;              [Temple of The Snake]
+!!VRz21&y1=7:Sz199885;              [Temple of The Snake]
+
+!!VRz20&y1=8:Sz199860;              [Escaton's Crystal]
+!!VRz21&y1=8:Sz199858;              [Escaton's Crystal]
+
+!!FU(gem_AddTownButton):P^zart141.def^/64/32/^%Z20^/^%Z21^/^%Z21^/(TUM_Build_New_Building)/0/0/0;
+
+; Build special buildings
+!?FU(OnTownMouseClick)&999/i^mouse_action^=(MOUSE_RMB_PRESSED); [trigger on clicking in town screen)]
+
+!!CA(CURRENT_TOWN):U?y30;               [get town id]
+!!CA(CURRENT_TOWN):T?y2;                [get town type)]
+
+!!CA(CURRENT_TOWN):O?y-2;               [owner of the town: y-2)]
+!!FU&y-2<>i^timerOwner^:E;
+
+!!CM:I?y1;                              [Get what type of click)]
+!!FU&y1<10:E;                           [abort if not town hall type)]
+!!FU&y1>13:E;                           [abort if not town hall type)]
+!!FU(TUM_Build_New_Building):P; 
+
+!?FU(TUM_Build_New_Building);           [trigger on clicking in town screen)]
+!!VRv4:S0;
+!!VRv5:S0;
+!!VRv6:S0;
+!!CA(CURRENT_TOWN):B3/9;                [ckeck if there's a castle)]
+!!VRv4&1:S1;                            [set a helping var)]
+
+!!CA(CURRENT_TOWN):B3/8;                [check for citadel)]
+!!VRv5&1:S1;
+
+!!CA(CURRENT_TOWN):B3/7;                [check for fort)]
+!!VRv6&1:S1;
+
+!!CM&v4=0/v5=0/v6=0:R1;                 [if no fort, citadel or castle reenable standard text)]
+
+!!UN:P(WOG_OPT_DISABLE_TOWN_DEMOLISHING)/?y2; [check if town demolition is enabled]
+
+!!if&y2=1;
+  !!CM:R0;                              [if it is not enabled - disable any standard text]
+!!el;
+  !!CA(CURRENT_TOWN):B3/0;              [Cancel standard action if Level 1 Mage Guild is built - town hall can't be demolished in this case]
+
+  !!CM&1:R0;
+!!en;
+
+************ get current resources *************
+!!OW:Ri^timerOwner^/6/?v9541;                   [1 - gold]
+!!OW:Ri^timerOwner^/0/?v9542;                   [2 - wood]
+!!OW:Ri^timerOwner^/2/?v9543;                   [3 - ore]
+!!OW:Ri^timerOwner^/1/?v9544;                   [4 - mercury]
+!!OW:Ri^timerOwner^/3/?v9545;                   [5 - sulfur]
+!!OW:Ri^timerOwner^/4/?v9546;                   [6 - crystal]
+!!OW:Ri^timerOwner^/5/?v9547;                   [7 - gems]
+!!OW:Ri^timerOwner^/7/?v9548;                   [8 - mithril]
+
+************ set texts ********************
+!!VRz946:Sz199850;                      [already build]
+!!VRz947:Sz199851;                      [can build]
+!!VRz948:Sz199852;                      [not enough resources]
+!!VRz949:Sz199853;                      [need to have a castle]
+!!VRz945:S^^;
+!!VRz950:S^^;
+!!CA(CURRENT_TOWN):T?y2;                [check town type]
+
+************************ CONFLUX *****************************
+
+!!if&y2=8;
+  !!VRz945:Sz199858;                 [text before building]
+  !!VRz950:Sz199859;                 [text after building]
+  !!VRz953:Sz199860;                 [the name of the graphic]
+  !!VRz952:S^../data/p/conflux.bmp^; [path to builging graphics]
+  !!VRv9551:S20000;                  [price in gold]
+  !!VRv9552:S30;                     [price in crystals]
+  !!VRv9553:S15;                     [price in gems]
+  !!VRv9554:Sv9546;                  [second resource amount]
+  !!VRv9555:Sv9547;                  [third resource amount]
+  !!VRv9556:S4;                      [second resource is crystal]
+  !!VRv9557:S5;                      [third resource is gems]
+!!en;
+
+************************* CASTLE *****************************
+
+!!if&y2=0;
+  !!VRz945:Sz199861;                 [text before building]
+  !!VRz950:Sz199862;                 [text after building]
+  !!VRz953:Sz199863;                 [the name of the graphic]
+  !!VRz952:S^../data/p/castle.bmp^;  [path to builging graphics]
+  !!VRv9551:S22000;                  [price in gold]
+  !!VRv9552:S30;                     [price in gems]
+  !!VRv9553:S30;                     [price in ore]
+  !!VRv9554:Sv9547;                  [second resource amount]
+  !!VRv9555:Sv9543;                  [third resource amount]
+  !!VRv9556:S5;                      [second resource is gems]
+  !!VRv9557:S2;                      [third resource is ore]
+!!en;
+
+************************ RAMPART ****************************
+
+!!if&y2=1;
+  !!VRz945:Sz199864;                 [text before building]
+  !!VRz950:Sz199865;                 [text after building]
+  !!VRz953:Sz199866;                 [the name of the graphic]
+  !!VRz952:S^../data/p/rampart.bmp^; [path to builging graphics]
+  !!VRv9551:S20000;                  [price in gold]
+  !!VRv9552:S25;                     [price in crystals]
+  !!VRv9553:S40;                     [price in wood]
+  !!VRv9554:Sv9546;                  [second resource amount]
+  !!VRv9555:Sv9542;                  [third resource amount]
+  !!VRv9556:S4;                      [second resource is crystal]
+  !!VRv9557:S0;                      [third resource is wood]
+!!en;
+
+************************ TOWER *****************************
+
+!!if&y2=2;
+  !!VRz945:Sz199867;                 [text before building]
+  !!VRz950:Sz199868;                 [text after building]
+  !!VRz953:Sz199869;                 [the name of the graphic]
+  !!VRz952:S^../data/p/tower.bmp^;   [path to builging graphics]
+  !!VRv9551:S25000;                  [price in gold]
+  !!VRv9552:S30;                     [price in gems]
+  !!VRv9553:S15;                     [price in mercury]
+  !!VRv9554:Sv9547;                  [second resource amount]
+  !!VRv9555:Sv9544;                  [third resource amount]
+  !!VRv9556:S5;                      [second resource is gems]
+  !!VRv9557:S1;                      [third resource is mercury]
+!!en;
+
+************************ INFERNO *****************************
+
+!!if&y2=3;
+  !!VRz945:Sz199870;                 [text before building]
+  !!VRz950:Sz199871;                 [text after building]
+  !!VRz953:Sz199872;                 [the name of the graphic]
+  !!VRz952:S^../data/p/inferno.bmp^; [path to builging graphics]
+  !!VRv9551:S19000;                  [price in gold]
+  !!VRv9552:S30;                     [price in mercury]
+  !!VRv9553:S15;                     [price in sulfur]
+  !!VRv9554:Sv9544;                  [second resource amount]
+  !!VRv9555:Sv9545;                  [third resource amount]
+  !!VRv9556:S1;                      [second resource is mercury]
+  !!VRv9557:S3;                      [third resource is sulfur]
+!!en;
+
+************************ NECROPOLIS *****************************
+
+!!if&y2=4;
+  !!VRz945:Sz199873;                 [text before building]
+  !!VRz950:Sz199874;                 [text after building]
+  !!VRz953:Sz199875;                 [the name of the graphic]
+  !!VRz952:S^../data/p/necropol.bmp^;[path to builging graphics]
+  !!VRv9551:S21000;                  [price in gold]
+  !!VRv9552:S25;                     [price in mercury]
+  !!VRv9553:S35;                     [price in wood]
+  !!VRv9554:Sv9544;                  [second resource amount]
+  !!VRv9555:Sv9542;                  [third resource amount]
+  !!VRv9556:S1;                      [second resource is mercury]
+  !!VRv9557:S0;                      [third resource is wood]
+!!en;
+
+************************ DUNGEON *****************************
+
+!!if&y2=5;
+  !!VRz945:Sz199879;                 [text before building]
+  !!VRz950:Sz199880;                 [text after building]
+  !!VRz953:Sz199881;                 [the name of the graphic]
+  !!VRz952:S^../data/p/dungeon2.bmp^;[path to builging graphics]
+  !!VRv9551:S23000;                  [price in gold]
+  !!VRv9552:S30;                     [price in sulfur]
+  !!VRv9553:S35;                     [price in ore]
+  !!VRv9554:Sv9545;                  [second resource amount]
+  !!VRv9555:Sv9543;                  [third resource amount]
+  !!VRv9556:S3;                      [second resource is sulfur]
+  !!VRv9557:S2;                      [third resource is ore]
+!!en;
+
+************************ STRONGHOLD *****************************
+
+!!if&y2=6;
+  !!VRz945:Sz199882;                 [text before building]
+  !!VRz950:Sz199883;                 [text after building]
+  !!VRz953:Sz199884;                 [the name of the graphic]
+  !!VRz952:S^../data/p/strongho.bmp^;[path to builging graphics]
+  !!VRv9551:S19000;                  [price in gold]
+  !!VRv9552:S60;                     [price in crystals]
+  !!VRv9553:S15;                     [price in gems]
+  !!VRv9554:Sv9543;                  [second resource amount]
+  !!VRv9555:Sv9546;                  [third resource amount]
+  !!VRv9556:S2;                      [second resource is ore]
+  !!VRv9557:S4;                      [third resource is crystal]
+!!en;
+
+************************ FORTRESS *****************************
+
+!!if&y2=7;
+  !!VRz945:Sz199885;                 [text before building]
+  !!VRz950:Sz199886;                 [text after building]
+  !!VRz953:Sz199887;                 [the name of the graphic]
+  !!VRz952:S^../data/p/fortress.bmp^;[path to builging graphics]
+  !!VRv9551:S18000;                  [price in gold]
+  !!VRv9552:S50;                     [price in wood]
+  !!VRv9553:S20;                     [price in sulfur]
+  !!VRv9554:Sv9542;                  [second resource amount]
+  !!VRv9555:Sv9545;                  [third resource amount]
+  !!VRv9556:S0;                      [second resource is wood]
+  !!VRv9557:S3;                      [third resource is sulfur]
+!!en;
+
+
+********************** check if the building is built ****************
+!!VRv9520:S(FALSE);
+!!CA(CURRENT_TOWN):U?y30;
+!!VRv9520&i^tum_upgGuild_%y30^:S(TRUE); [set a check value for 'yes' on v9520 - Archer]
+
+!!if&v9520;
+  !!CA(CURRENT_TOWN):U?n T?t;
+  !!FU(newup_ExtendTownDwellings):Pn/t;
+!!en;
+
+********************** handle texts on the town screen ***************
+!!CA(CURRENT_TOWN):R?y3;
+
+!!if&v9520=0;
+  !!if&y3=1;
+    !!VRz945:Sz945+z946;
+  !!el;
+    !!if&v4=1;
+
+      !!if&v9541>=v9551;
+
+        !!if&v9554>=v9552;
+          !!VRz945&v9555>=v9553:Sz945+z947;
+          !!VRz945&v9555<v9553:Sz945+z948;
+        !!el;
+          !!VRz945:Sz945+z948;
+        !!en;
+      !!el;
+        !!VRz945:Sz945+z948;
+      !!en;
+    !!el;
+      !!VRz945:Sz945+z949;
+    !!en;
+  !!en;
+
+  !!IF:V1/0;
+
+  !!if&y3=1;
+    !!IF:M1/945;
+  !!el;
+    !!if&v4=1;
+
+      !!if&v9541<v9551;
+        !!IF:Q2/6/v9551/v9556/v9552/v9557/v9553/1/945;
+      !!el;
+        !!if&v9554<v9552;
+          !!IF:Q2/6/v9551/v9556/v9552/v9557/v9553/1/945;
+        !!el;
+          !!IF&v9555<v9553:Q2/6/v9551/v9556/v9552/v9557/v9553/1/945;
+          !!IF&v9555>=v9553:Q1/6/v9551/v9556/v9552/v9557/v9553/2/945;
+        !!en;
+      !!en;
+    !!el;
+      !!IF:M1/945;
+    !!en;
+  !!en;
+
+  !!FU&-1:E;                      [(exit if player doesn't build)]
+
+******************************* building the special structure procedure *************
+  !!VRv9541:Sv9541-v9551;         [substract 'price' from 'gold']
+  !!VRv9554:Sv9554-v9552;         [substract 'price' from 'second resource amount']
+  !!VRv9555:Sv9555-v9553;         [substract 'price' from 'third resource amount']
+  !!OW:Ri^timerOwner^/6/v9541;            [set new gold value]
+  !!OW:Ri^timerOwner^/v9556/v9554;        [set new second resource]
+  !!OW:Ri^timerOwner^/v9557/v9555;        [set new third resource]
+  !!SN:P^..\data\p\BUILDTWN.WAV^;         [Play the sound of a new building]
+
+  !!CA(CURRENT_TOWN):U?y30;             [get town id - Archer]
+  !!VRi^tum_upgGuild_%y30^:S(TRUE);     [set flag]
+  !!FU(tum_SetUpTownMons):P;
+  !!FU(eighth_Update8thDwell):P;        [upgrade 8th dwelling]
+
+  !!CA(CURRENT_TOWN):R1;                [no more building today for this town]
+
+  !!VRv9520:S1;                         [set the helping v9520 because I don't want to re-write the entire code :P]
+  !!CA(CURRENT_TOWN):T?t;
+  !!FU(newup_ExtendTownDwellings):Py30/t;
+!!en;
+
+**************************** text if the structure is built **************
+!!if&v9520;
+  !!IF:D3/950/0/0/952/0/0/0/953/0/0/0/0/0/0/0;
+  !!IF:F3/0/0/0/0/0;              [disabled cancel button]
+  !!IF:E1/3;                      [Display dialogue box]
+
+  !!FU(tum_SetUpTownMons):Py30;
+  !!SN:D;
+  !!UN:R2;
+!!en;
+
+**************************** Third Upgrade Mod Town dwellings enhancement ****************************
+!?FU(newup_ExtendTownDwellings);
+; x1 - town ID
+; x2 - town type
+!!if&x2=0;                             [Castle]
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/0/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/1/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/197/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/2/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/3/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/198/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/4/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/5/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/199/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/6/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/7/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/291/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/8/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/9/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/320/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/10/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/11/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/201/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/12/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/13/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/150/100;
+!!el&x2=1;                             [Rampart]
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/14/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/15/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/293/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/16/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/17/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/203/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/18/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/19/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/256/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/20/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/21/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/204/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/22/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/23/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/205/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/24/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/25/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/206/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/26/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/27/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/151/100;
+!!el&x2=2;                             [Tower]
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/28/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/29/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/255/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/30/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/31/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/208/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/32/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/33/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/209/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/34/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/35/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/257/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/36/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/37/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/210/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/38/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/39/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/211/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/40/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/41/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/152/100;
+!!el&x2=3;                             [Inferno]
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/42/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/43/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/213/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/44/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/45/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/214/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/46/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/47/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/215/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/48/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/49/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/216/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/50/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/51/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/217/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/52/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/53/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/218/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/54/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/55/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/153/100;
+!!el&x2=4;                             [Necropolis]
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/56/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/57/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/220/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/58/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/59/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/329/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/60/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/61/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/261/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/62/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/63/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/221/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/64/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/65/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/222/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/66/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/67/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/223/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/68/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/69/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/154/100;
+!!el&x2=5;                             [Dungeon]
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/70/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/71/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/225/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/72/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/73/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/227/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/74/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/75/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/226/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/76/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/77/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/228/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/78/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/79/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/229/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/80/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/81/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/230/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/82/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/83/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/155/100;
+!!el&x2=6;                             [Stronghold]
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/84/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/85/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/232/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/86/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/87/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/233/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/88/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/89/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/234/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/90/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/91/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/235/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/92/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/93/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/236/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/94/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/95/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/237/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/96/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/97/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/156/100;
+!!el&x2=7;                             [Fortress]
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/98/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/99/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/321/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/100/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/101/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/240/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/104/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/105/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/241/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/106/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/107/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/242/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/102/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/103/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/244/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/108/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/109/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/243/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/110/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/111/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/157/100;
+!!el&x2=8;                             [Conflux]
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/118/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/119/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/246/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/112/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/127/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/247/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/115/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/123/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/248/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/114/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/129/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/249/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/113/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/125/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/250/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/120/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/121/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/251/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/130/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/131/100;
+  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/158/100;
+!!en;
+
+***************************************************************************
+************ AI building the special structure and upgrading **************
+***************************************************************************
+
+!?OB98&-1000;
+!!FU9504:P;               [-occur when AI is entering town]
+
+!$OB98&-1000;
+!!FU9504:P;               [-occur when AI is leaving town]
+
+!?FU9504;
+***************************** building part ******************************
+
+!!CA998:O?y-2;                          [(owner of the town: y-2)]
+!!FU&y-2<>i^timerOwner^:E;
+
+!!VRv4:S0;
+!!CA998:B3/9;                           [(ckeck if there's a castle)]
+!!VRv4&1:S1;                            [(set a helping var)]
+
+;get money
+!!OW:Ri^timerOwner^/6/?v9541;                   [1 - gold]
+!!OW:Ri^timerOwner^/0/?v9542;                   [2 - wood]
+!!OW:Ri^timerOwner^/2/?v9543;                   [3 - ore]
+!!OW:Ri^timerOwner^/1/?v9544;                   [4 - mercury]
+!!OW:Ri^timerOwner^/3/?v9545;                   [5 - sulfur]
+!!OW:Ri^timerOwner^/4/?v9546;                   [6 - crystal]
+!!OW:Ri^timerOwner^/5/?v9547;                   [7 - gems]
+!!OW:Ri^timerOwner^/7/?v9548;                   [8 - mithril]
+
+!!CA998:T?y2;                           [check town type]
+
+************************ CONFLUX *****************************
+!!if&y2=8;
+  !!VRv9551:S15000;                  [price in gold]
+  !!VRv9552:S30;                     [price in crystals]
+  !!VRv9553:S15;                     [price in gems]
+  !!VRv9554:Sv9546;                  [second resource amount]
+  !!VRv9555:Sv9547;                  [third resource amount]
+  !!VRv9556:S4;                      [second resource is crystal]
+  !!VRv9557:S5;                      [third resource is gems]
+!!en;
+
+************************* CASTLE *****************************
+!!if&y2=0;
+  !!VRv9551:S16000;                  [price in gold]
+  !!VRv9552:S30;                     [price in gems]
+  !!VRv9553:S30;                     [price in ore]
+  !!VRv9554:Sv9547;                  [second resource amount]
+  !!VRv9555:Sv9543;                  [third resource amount]
+  !!VRv9556:S5;                      [second resource is gems]
+  !!VRv9557:S2;                      [third resource is ore]
+!!en;
+
+************************ RAMPART ****************************
+!!if&y2=1;
+  !!VRv9551:S15000;                  [price in gold]
+  !!VRv9552:S25;                     [price in crystals]
+  !!VRv9553:S40;                     [price in wood]
+  !!VRv9554:Sv9546;                  [second resource amount]
+  !!VRv9555:Sv9542;                  [third resource amount]
+  !!VRv9556:S4;                      [second resource is crystal]
+  !!VRv9557:S0;                      [third resource is wood]
+!!en;
+
+************************ TOWER *****************************
+!!if&y2=2;
+  !!VRv9551:S17000;                  [price in gold]
+  !!VRv9552:S30;                     [price in gems]
+  !!VRv9553:S15;                     [price in mercury]
+  !!VRv9554:Sv9547;                  [second resource amount]
+  !!VRv9555:Sv9544;                  [third resource amount]
+  !!VRv9556:S5;                      [second resource is gems]
+  !!VRv9557:S1;                      [third resource is mercury]
+!!en;
+
+************************ INFERNO *****************************
+!!if&y2=3;
+  !!VRv9551:S14500;                  [price in gold]
+  !!VRv9552:S30;                     [price in mercury]
+  !!VRv9553:S15;                     [price in sulfur]
+  !!VRv9554:Sv9544;                  [second resource amount]
+  !!VRv9555:Sv9545;                  [third resource amount]
+  !!VRv9556:S1;                      [second resource is mercury]
+  !!VRv9557:S3;                      [third resource is sulfur]
+!!en;
+
+************************ NECROPOLIS *****************************
+!!if&y2=4;
+  !!VRv9551:S15500;                  [price in gold]
+  !!VRv9552:S25;                     [price in mercury]
+  !!VRv9553:S35;                     [price in wood]
+  !!VRv9554:Sv9544;                  [second resource amount]
+  !!VRv9555:Sv9542;                  [third resource amount]
+  !!VRv9556:S1;                      [second resource is mercury]
+  !!VRv9557:S0;                      [third resource is wood]
+!!en;
+
+************************ DUNGEON *****************************
+!!if&y2=5;
+  !!VRv9551:S17000;                  [price in gold]
+  !!VRv9552:S30;                     [price in sulfur]
+  !!VRv9553:S35;                     [price in ore]
+  !!VRv9554:Sv9545;                  [second resource amount]
+  !!VRv9555:Sv9543;                  [third resource amount]
+  !!VRv9556:S3;                      [second resource is sulfur]
+  !!VRv9557:S2;                      [third resource is ore]
+!!en;
+
+************************ STRONGHOLD *****************************
+!!if&y2=6;
+  !!VRv9551:S14500;                  [price in gold]
+  !!VRv9552:S60;                     [price in crystals]
+  !!VRv9553:S15;                     [price in gems]
+  !!VRv9554:Sv9543;                  [second resource amount]
+  !!VRv9555:Sv9546;                  [third resource amount]
+  !!VRv9556:S2;                      [second resource is ore]
+  !!VRv9557:S4;                      [third resource is crystal]
+!!en;
+
+************************ FORTRESS *****************************
+!!if&y2=7;
+  !!VRv9551:S14000;                  [price in gold]
+  !!VRv9552:S50;                     [price in wood]
+  !!VRv9553:S20;                     [price in sulfur]
+  !!VRv9554:Sv9542;                  [second resource amount]
+  !!VRv9555:Sv9545;                  [third resource amount]
+  !!VRv9556:S0;                      [second resource is wood]
+  !!VRv9557:S3;                      [third resource is sulfur]
+!!en;
+
+
+********************** check if the building is built ****************
+!!VRv9520:S(FALSE);
+!!CA998:U?y30;                          [get town ID]
+!!VRv9520&i^tum_upgGuild_%y30^:S(TRUE); [set a check value for 'yes' on the v9520 - Archer]
+
+
+********************** set a flag if the right conditions are met  ***************
+*** NOTE: to make it easier for the AI, it builds as soon as it gets the right resources,
+*** no matter if AI built in tis turn or not
+
+!!if&v9520=0;
+  !!IF&v4=0:V1/0;
+
+  !!if&v4=1;
+    !!IF&v9541>=v9551:V1/1;
+    !!IF&v9541<v9551:V1/0;
+  !!en;
+
+  !!if&-1;
+    !!FU:E;                      [(exit if player doesn't build)]
+  !!el;
+
+******************************* building the special structure procedure **************
+***** NOTE: AI has to have only the right ammount of gold - resources will be substracted
+***** (if not enough resources, then take away what AI has), but the building procedure
+***** for the AI doesn't depend on them - only on gold.
+***** (this is because AI doesn't know it 'needs' the right resources and won't use the
+***** marketplace or won't save resources to get them)
+***************************************************************************************
+***** UPDATE: AI now has to have only about 75% of the gold ammount for human players
+***************************************************************************************
+
+    !!VRv9541:Sv9541-v9551;       [substract 'price' from 'gold']
+    !!VRv9554&v9554<v9552:S0;     [set '0' for 'second resource amount' (if NOT enough)]
+    !!VRv9554&v9554>=v9552:Sv9554-v9552; [substract 'price' from 'second resource amount' (if enough)]
+    !!VRv9555&v9555<v9553:S0;     [set '0' for 'third resource amount'  (if NOT enough)]
+    !!VRv9555&v9555>=v9553:Sv9555-v9553; [substract 'price' from 'third resource amount'  (if enough)]
+
+    !!OW:Ri^timerOwner^/6/v9541;          [set new gold value]
+    !!OW:Ri^timerOwner^/v9556/v9554;      [set new second resource]
+    !!OW:Ri^timerOwner^/v9557/v9555;      [set new third resource]
+
+    !!VRi^tum_upgGuild_%y30^:S(TRUE);     [set flag - Archer]
+    !!FU(eighth_Update8thDwell):P;        [upgrade 8th dwelling]
+  !!en;
+!!en;
+
+
+***************************** upgrading part *****************************
+
+!!FU&i^tum_upgGuild_%y30^=(FALSE):E;    [Exit if there's no special structure in town - Archer]
+
+!!HE(CURRENT_HERO):N?v1;                [Hero number: v1]
+!!CA998:T?v2;                           [Town type: v2]
+
+ [Check each creature in AI hero's army]
+!!DO9503/0/6/1:Pv1/v2;
+
+
+ [Check each creature in AI hero's army]
+ [x1=hero number, x2=town type]
+!?FU9503;
+
+!!HEx1:C0/x16/?y1/?y7;                  [Type of creature: y1, Number: y7]
+
+!!FU|y1<=(NO_MON)/y7=0:E;               [Exit if creature slot is empty]
+
+!!MA:Oy1/?y2;                           [Town creature belongs to: y2]
+!!MA:Uy1/?y3;                           [Creature's upgrade number: y3]
+!!MA:Ly1/?y4;                           [Creature's level: y4]
+
+
+!!VRy6:Sy4 +37;                         [Upgraded dwelling number in town: y6]
+!!CA998:B3/y6;                          [Check if upgraded dwelling is built: Flag 1 is true if yes]
+!!CA998&-1:B3/19;                       [Check if horde building 1 is built: Flag 1 is true if yes]
+!!CA998&-1:B3/25;                       [Check if horde building 2 is built: Flag 1 is true if yes]
+
+ [Exit if NOT native town, creature has no upgrade, creature has default upgrade or upgraded dwelling isn't built]
+!!FU|y3<=(NO_MON)/y2<>x2/-1:E;
+
+!!OW:Ri^timerOwner^/(RES_GOLD)/?v9541;  [get gold]
+!!HEx1:C0/x16/y1/?v9588;                [get number of creatures]
+!!MA:Cy1/(RES_GOLD)/?v9589;             [get cost of creature un-upg]
+!!MA:Cy3/(RES_GOLD)/?v9590;             [get cost of creature upg]
+!!VRv9590:Sv9590-v9589;                 [calculate difference in costs]
+!!VRv9590:Sv9590*v9588;                 [multiply by creature number to get the real price]
+!!VRv9590:Sv9590:4;                     [divide by 4 and multiply by 3 to get 75% of the real price]
+!!VRv9590:Sv9590*3;                     [divide by 4 and multiply by 3 to get 75% of the real price]
+
+!!HEx1&v9590<=v9541:C0/x16/y3/d;        [Upgrade creature]
+!!VRv9591&v9590<=v9541:Sv9541-v9590;    [substract 'price' from 'gold']
+!!OW&v9590<=v9541:Ri^timerOwner^/6/v9591; [set new gold value]
+
+
+****************************************************************************************************
+Disable the chain-lightning damage to own troops by monster casts (for Zeus)
+script by Perry R and Archer30
+; Not for TUM Reborn as this ability is disabled there
+!?FU(OnDwarfMagicResistance)&i^tum_reborn_on^<>(TRUE);
+!!BG:A?(action:y);
+!!MR:S?(spell:y);
+
+!!if&(action)=(BATTLE_ACTION_MONSTER_CAST)/(SPELL_CHAIN_LIGHTNING);
+  !!MR:N?(castedStack:y);
+  !!BM(castedStack):I?(castedSide:y);
+  !!MR&(castedSide)=i^battle_acting_side^:F100;
+!!en;
+
+****************************************************************************************************
+*Creature_Specialist Third Upgrade Mod* A Mod for ERA 2.9
+*Author PerryR, updated by Archer30
+*Sets new description for all creature Specialists and gives them a scaling, script taken from Advanced Classes Mod
+
+!?FU(OnAfterErmInstructions);
+!!SN:W^Advanced_Classes_Mod_Active^/?y1; !!FU&y1=1:E; [Exit if ACM mod active]
+
+!!re i/(HERO_FIRST)/(HERO_LAST_WOG);
+  !!HEi:X?(specType:y)/?(specSubtype:y);
+  !!HEi&(specType)=4:X1/?(specSubtype);
+!!en;
+
+!?CM2&1000;                             [Show Correct Info for Creature Specialists]
+!!SN:W^Advanced_Classes_Mod_Active^/?y1; !!FU&y1=1:E; [Exit if ACM mod active]
+
+!!CM:F?v3 I?v4 S?v5 T?v6;               [where we click and click subtype]
+!!FU|v4<>118/v6<>512/v5=13:E;           [If not Specialty Icon Clicked Exit]
+
+!!if|v3=512/v3=0;                       [if right or left click]
+  !!HE(CURRENT_HERO):N?y6;                [Get current hero #]
+  *!FU&y6>=(HERO_SIR_MULLICH):E;          [Exit for Extension Heroes]
+
+  !!HEy6:X?y11/?y12/?y13/?y14/?y15/?y16/?y17; [Check Hero Speciality]
+  !!FU&y11<>1:E;                          [Exit if no Creature_Specialist]
+
+  !!CM:R0;                                [disable standard reaction]
+  !!HEy6:R2/?y70;
+  !!HEy6:B0/?z1;
+  !!HEy6:E?y47/?y48/1;                    [Check hero Level]
+  !!SN&y70=0:T^Third_Upgrade_Mod.his^/?z5;
+  !!SN&y70=1:T^Third_Upgrade_Mod.her^/?z5;
+
+  !!FU(Set_Creature_Upgrades_1):Py12/y6/?y16/?y17;
+
+  !!UN:N3/z3/y12/1;                      [Normal Creature]
+  !!UN:N3/z4/y16/1;                      [First Upgrade]
+  !!UN:N3/z6/y17/1;                      [Second Upgrade]
+
+  !!MA:Ly12/?y14;                         [Get creature level]
+  !!VRy60&y14=0:S16; !!VRy60&y14=1:S15; !!VRy60&y14=2:S13; !!VRy60&y14=3:S12; !!VRy60&y14=4:S10; !!VRy60&y14=5:S7; !!VRy60&y14=6:S5;
+  !!VRy14:+1;
+  !!VRy50:Sy48:7+1;                       [7 Attack and Defense per Level]
+  !!VRy51:Sy48:y60;                       [Damage per Level based on creature level]
+  !!VRy52:Sy48+9;                         [+1% per Health per Level +9%]
+
+  !!SN:T^Third_Upgrade_Mod.Creature_Specialist^/?z7/^level^/y14/^attack^/y50/^damage^/y51/^health^/y52/^Crea1^/z3/^Crea2^/z4/^Crea3^/z6/^Hero^/z1/^sex^/z5;
+
+  !!IF&i^mouse_action^=(MOUSE_LMB_PRESSED):M1/1/^%z7^;
+  !!IF&i^mouse_action^=(MOUSE_RMB_PRESSED):M1/4/^%z7^;
+!!en;
+
+!?BF;
+!!SN:W^Advanced_Classes_Mod_Active^/?y1;
+!!FU&y1=1:E; [Exit if ACM mod active]
+
+!!BH0:N?y1;                             [Attacker]
+!!FU(Third_Upgrade_1)&y1>=0/y1<=155:Py1/1;
+
+!!BH1:N?y1;                             [Defender]
+!!FU(Third_Upgrade_1)&y1>=0/y1<=155:Py1/2;
+
+!?FU(Third_Upgrade_1);
+!!HEx1:X?y11/?y12/?y13/?y14/?y15/?y16/?y17; [Check Hero Speciality]
+!!FU&y11<>1:E;                          [Exit if no Creature Specialist]
+
+!!HEx1:E?y47/?y48/1;                    [Check hero Level]
+!!MA:Ly12/?y14;
+!!VRy60&y14=0:S16; !!VRy60&y14=1:S15; !!VRy60&y14=2:S13; !!VRy60&y14=3:S12; !!VRy60&y14=4:S10; !!VRy60&y14=5:S7; !!VRy60&y14=6:S5;
+
+!!FU(Set_Creature_Upgrades_1):Py12/x1/?y13/?y14;
+
+!!VRy50:Sy48:7+1;                       [Attack and Defense per 7 Level]
+!!VRy51:Sy48:y60;                       [Damage per Level]
+!!VRy52:Sy48+9 +100;                    [+1% per Health per Level +9%]
+!!DO(Third_Upgrade_0)/0/20/1&x2=1:Py12/y13/y50/y52/y51/y14; [Pass Creature, Upgraded Creature, Att/Def, Health and Damage]
+!!DO(Third_Upgrade_0)/21/41/1&x2=2:Py12/y13/y50/y52/y51/y14; [Pass Creature, Upgraded Creature, Att/Def, Health and Damage]
+
+!?FU(Third_Upgrade_0);
+
+!!BMx16:T?y1;
+
+!!if|y1=x1/y1=x2/y1=x6;                 [If Special Creature or Upgraded Creature is found increase stats]
+  !!BMx16&y1<>(MON_FIRST_AID_TENT)/y1<>(MON_AMMO_CART):Adx3; [Attack]
+  !!BMx16:Ddx3;                         [Defense]
+  !!BMx16:H?y2; !!VRy2:*x4:100;         [Get Health]
+  !!BMx16:Hy2;
+  !!BMx16:U1/dx5 U2/dx5;                [Min+Max Damage]
+!!en;
+
+!?FU(Set_Creature_Upgrades_1);
+!#VA(mon:x) (hero:x) (upgMon:x) (thirdUpgMon:x);
+
+!!if&(mon)<>(MON_BALLISTA);
+  !!MA:O(mon)/?(townType:y) L(mon)/?(level:y);
+  !!FU(tum_GetTownMon):P(townType)/(level)/(mon)/?(upgMon)/?(thirdUpgMon);
+!!el;
+  !!VR(upgMon):S(MON_FIRST_AID_TENT);
+  !!VR(thirdUpgMon):S(MON_AMMO_CART);
+!!en;
+
+!?FU(Third_Upgrade_2);
+132 Monere    !!HE132:X1/120;
+133 Erdamon   !!HE133:X1/113;
+134 Fiur      !!HE134:X1/114;
+135 Kalt      !!HE135:X1/115;
+
+128 Pasis     !!HE128:X1/120;
+129 Thunar    !!HE129:X1/113;
+131 Lacus     !!HE131:X1/115;
+130 Ignissa   
+
+Catherine Upgrade Specialty
+!!HE146:X6/7/291/340; (Upgrade Crusader and Inquisitor into Swordmaster)
+
+!#FU(Third_Upgrade_2)&i^Advanced_Classes_Mod_Active^<>(TRUE):P;           [Set Conflux Heroes to normal Creature_Specialist]
+
+***********************************************************************************
+***********************************************************************************
+**** New Monsters * New Monsters * New Monsters * New Monsters * New Monsters *****
+***********************************************************************************
+***********************************************************************************
+; Succubus Spike Attack animation by Archer30
+!?FU(OnStackToStackDamage)&i^battle_isVisible^;
+!#VA(atkStack:x) (defStack:x) (finalDmgConst:x) (finalDmg:x) (basicDmg:x) (dmgBonus:x) (isDistant:x) (distanceArg:x) (isTheoretical:x);
+
+!!FU&(isTheoretical):E;
+
+; Check if it is shooting or ranged retaliationing
+!!BG:A?(action:y);
+
+!!if|(action)=(BATTLE_ACTION_SHOOT)/(action)=0;
+  ; Check if the attacker is Succubus
+  !!BM(atkStack):T?(type:y);
+
+  !!if|(type)=(MON_SUCCUBUS)/(type)=(MON_LILIM);
+    !!BM(defStack):P?(pos:y);
+    !!FU(tum_PlayCustomAnimation):P^hatespike.def^/(pos); [Function to play custom animation by Hawaiing]
+  !!en;
+!!en;
+
+************************************************************************
+
+Creature ID 283/346/347 is Immune to all the creature spells
+script by Perry R
+!?FU(OnMonsterPhysicalDamage);          [*Physical Combat *]
+!!MF:N?y1;                              [damage receiving stack]
+!!BMy1:T?y2;
+
+!!FU(tum_CheckIfMonIsImmuneToMonSpells):Py2/?y31;
+
+!!if&y31;                               [Only Run Script when got damaged]
+  !!UN:C42149568/4/?y10;                [Get Physical Damage type]
+
+  ; Skip if directly hit by Death Clood and Fireball attack
+  !!if|y10=4455746/y10=4460621;
+    !!BG:E?y30;
+
+    !!FU&y1=y30:E;;
+  !!en;
+
+  !!if|y10=4460149/y10=4455746/y10=4458589/y10=4460621/y10=4461137/y10=4462479/y10=5902442; [Death Gaze, Death Cloud damage, Ring Damage, Fireball damage, Lightning strike, Acid attack damage, Dragon damage, Death ripple]
+    !!MF:E(FALSE);                      [Cancel Damage Animation]
+    !!MF:F0;                            [Apply Zero Damage]
+  !!en;
+!!en;
+
+!?FU(OnBattleActionEnd);
+!!rei/0/41;
+  !!BMi:T?y3 N?y30;                           [Get Creature Type]
+  !!co&y30<=0;
+
+  !!FU(tum_CheckIfMonIsImmuneToMonSpells):Py3/?y31;
+
+  !!if&y31;                             [If found]
+    *!IF:M^Now^;
+    !!FU(tum_RemoveSpellFromStack):Pi/42;    [42 Curse]
+    !!FU(tum_RemoveSpellFromStack):Pi/52;    [52 Misfortune]
+    !!FU(tum_RemoveSpellFromStack):Pi/45;    [45 Weakness]
+    !!FU(tum_RemoveSpellFromStack):Pi/54;    [54 Slow]
+    !!FU(tum_RemoveSpellFromStack):Pi/50;    [50 Sorrow]
+    !!FU(tum_RemoveSpellFromStack):Pi/52;    [52 Misfortune]
+    !!FU(tum_RemoveSpellFromStack):Pi/62;    [62 Blind]
+    !!FU(tum_RemoveSpellFromStack):Pi/59;    [59 Berserk]
+    !!FU(tum_RemoveSpellFromStack):Pi/60;    [60 Hypnotize]
+    !!FU(tum_RemoveSpellFromStack):Pi/61;    [61 Forgetfulness]
+    !!FU(tum_RemoveSpellFromStack):Pi/70;    [Stone]
+    !!FU(tum_RemoveSpellFromStack):Pi/71;    [Poison]
+    !!FU(tum_RemoveSpellFromStack):Pi/72;    [Bind]
+    !!FU(tum_RemoveSpellFromStack):Pi/73;    [Disease]
+    !!FU(tum_RemoveSpellFromStack):Pi/74;    [Paralyze]
+    !!FU(tum_RemoveSpellFromStack):Pi/75;    [Age]
+  !!en;
+!!en;
+
+// Function for setting up creature IDs with creature spell immunity
+!?FU(tum_CheckIfMonIsImmuneToMonSpells);
+!#VA(mon:x) (result:x);
+
+!!VR(result):S(FALSE);
+!!VR(result)&(mon)=(MON_QUETZALCOATL):S(TRUE);
+!!VR(result)|(mon)=(MON_FIRE_DRAGON)/(mon)=(MON_ICE_DRAGON):S(TRUE);
+
+****************************************************************************
+TUM Necromancy 
+script by Archer30 and daemon_n
+!?FU(tum_OnNecromancyAddCreatures);
+!#VA(hook:x);
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EAX)/(UNC_INT8)/?(canAddSkeletonWarriors:y);
+!!if&(canAddSkeletonWarriors)=(FALSE);
+  !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_ESI)/(UNC_INT)/?(esi:y) C(esi)/81232/(UNC_INT)/?(monType:y) C(esi)/81228/(UNC_INT)/?(monNum:y);
+  !!FU(GetUpgradedMonster):P(monType)/?(upgMon:y);
+
+  !!if&(upgMon)>(NO_MON);
+    !!VR(monNum):*2 +2 :3 F1/(INT_MAX);
+    !!UN:C(esi)/81232/(UNC_INT)/(upgMon);
+    !!UN:C(esi)/81228/(UNC_INT)/(monNum);
+
+    !!UN:C(hook:x)/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp)/8/4/?(side:y);
+
+    !!VR(armyPtrOffs:y):S(side) *(UNC_INT) +21700;
+    !!UN:C(esi)/(armyPtrOffs)/4/?(armyPtr:y);
+    !!SN:E4499888/(CALLCONV_FASTCALL)/(armyPtr:y)/(monNum)/(upgMon)/(monNum)/-1;
+    !!VR(result:y):Sv1;
+    !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EAX)/(UNC_INT8)/(result:y);
+  !!en;
+!!en;
+
+
+**************************************************************************
+; Antichrist Rage
+; Script by Archer30
+!?FU(OnBeforeBattleAction);
+!!BG:N?(stack:y) A?(action:y);
+!!BM(stack):T?(type:y);
+!!FU|(action)<>(BATTLE_ACTION_WALK_AND_ATTACK)/(type)<>(MON_ANTICHRIST):E;
+
+!!BM(stack):D?(def:y);
+
+!!if&(def)>0;
+  
+  ; Show battle log and animation
+  !!if&i^battle_isVisible^;
+    !!BM(stack):N?(num:y);
+    !!VR(isPlural:y):S(num) B;
+    !!SN:H^monname^/(MON_ANTICHRIST)/(isPlural)/?(antichristName:z);
+    !!SN:T^Third_Upgrade_Mod.antichrist^?(battleLog:z)/^antichrist^/(antichristName);
+    !!MM:S(battleLog);
+
+    !!SN:P^FRENZY^;
+    !!BM(stack):V17;
+  !!en;
+
+  !!BM(stack):Dd-1 Ad3;
+!!en;
+
+; Assassin - Cutthroat
+; Script by Archer30
+// Initializaion
+!?FU(OnBeforeBattleUniversal)&i^tum_reborn_on^<>(TRUE);
+; Initialise variable - This must to be executed regardless of the option
+!!VRi^tum_assas_defStack^:S(NO_STACK);
+
+// Store defending stack ID if it is Rogue attacking another stack
+!?FU(OnBeforeBattleAction)&i^tum_reborn_on^<>(TRUE);;
+!!BG:A?(action:y);
+!!BMi^battle_acting_stack^:T?(type:y);
+
+!!if&(action)=(BATTLE_ACTION_WALK_AND_ATTACK);
+  !!if&(type)=(MON_ASSASSIN);
+    !!BG:E?(defStack:y);
+    !!VRi^tum_assas_defStack^&(defStack)>(NO_MON):S(defStack);
+  !!en;
+!!en;
+
+// Check if Rogue is eligible to attack again
+!?FU(OnBattleActionEnd)&i^tum_assas_defStack^>(NO_STACK)/i^tum_reborn_on^<>(TRUE);;
+; Check if the defending stack is dead
+!!BMi^tum_assas_defStack^:N?(defNum:y);
+
+!!if&(defNum)<=0;
+  ; Remove the acted flag so cutthroat can act again
+  !!BMi^battle_acting_stack^:Fd~(MON_FLAG_ACTED);
+
+  ; Show battle log and play animation/sound
+  !!if&i^battle_isVisible^;
+    !!BMi^battle_acting_stack^:N?(cutthroatNum:y) T?(type:y);
+
+    !!if&(cutthroatNum)=1;
+      !!SN:H^monname^/(type)/0/?(cutthroatName:z);
+    !!el;
+      !!SN:H^monname^/(type)/1/?(cutthroatName);
+    !!en;
+
+    !!SN:T^Third_Upgrade_Mod.assassin^?(battleLog:z)/^cutthroat^/(cutthroatName);
+    !!MM:S(battleLog);
+
+    !!SN:P^MIRTH^;                      [вывод звука морали]
+    !!BMi^battle_acting_stack^:V20;     [анимация морали на отряде]
+  !!en;
+!!el;
+  !!VRi^tum_assas_defStack^:S(NO_STACK);
+!!en;
+
+// Restore the turn to Rogue's turn
+!?FU(OnBeforeBattleStackTurn)&i^tum_assas_defStack^>(NO_STACK)/i^tum_reborn_on^<>(TRUE);;
+!#VA(stack:x);
+
+!!VR(stack):Si^battle_acting_stack^;
+!!VRi^tum_assas_defStack^:S(NO_STACK);
+
+; Ghoul - Flesheaters
+; Script by Archer30
+!?FU(OnMonsterPhysicalDamage)&i^tum_reborn_on^<>(TRUE);;
+!#VA(atkStack:x);
+; Exit if the attacking stack ID is out-of-limit (Would be screwed if missing and damaged by Fire Shield)
+!!FU|(atkStack)<(BATTLE_STACK_FIRST)/(atkStack)>(BATTLE_STACK_LAST):E;
+
+; Check if the defedning monster (must be a living one) would be be killed by the Zombie attacker
+!!MF:N?(defStack:x) F?(dmg:y);
+
+!!BM(atkStack):T?(type:y);
+!!BM(defStack):F?(flags:y) N?(num:y) H?(hp:y) L?(lostHp:y);
+!!VR(isAlive:y):S(flags) &(MON_FLAG_ALIVE);'
+!!VR(defCurrTotalHp:y):S(num) *(hp) -(lostHp);
+
+; Store the hp of the def stack if it would be killed, set up flags for the victim to disappear 
+!!if&(isAlive)/(dmg)>=(defCurrTotalHp);
+
+  !!if&(type)=(MON_GHOUL);
+    !!VRi^tum_ghoul_regenHp^:S(defCurrTotalHp);
+    !!BM(defStack):Fd|813694976 E0 K1;    [добавляем цели флаги жертвы/клона/неизменяемости цвета]
+  !!en;
+!!en;
+
+!?FU(ES_OnAfterMelee)&i^tum_ghoul_regenHp^/i^tum_reborn_on^<>(TRUE);;
+!#VA(zombieStack:x) (defStack:x);
+
+; Calculate the new HP and number of the flesheater
+!!VR(noHpLost:y):S(FALSE);
+!!BM(zombieStack):N?(num:y) H?(hp:y) L?(lostHp:y) B?(startNum:y);
+
+!!VR(totalStartHp:y):S(startNum) *(hp);
+!!VR(totalHp:y):S(num) *(hp) -(lostHp);
+!!VR(noHpLost)&(totalStartHp)=(totalHp):S(TRUE);
+
+!!VR(newTotalHp:y):S(totalHp) +i^tum_ghoul_regenHp^ F(totalHp)/(totalStartHp);
+!!VR(newCurrHp:y):S(newTotalHp) %(hp);
+!!VR(newNum:y):S(newTotalHp) :(hp) +1;
+
+!!if&(newCurrHp)=0;
+  !!VR(newCurrHp):S(hp);
+  !!VR(newNum):-1;
+!!en;
+
+!!VR(newLostHp:y):S(hp) -(newCurrHp);
+
+; Show battle log and play animation/sound
+!!if&i^battle_isVisible^/(noHpLost)<>(TRUE);
+  !!BM(zombieStack):T?(type:y);
+
+  !!if&(num)=1;
+    !!SN:H^monname^/(type)/0/?(flesheaterName:z);
+  !!el;
+    !!SN:H^monname^/(type)/1/?(flesheaterName);
+  !!en;
+
+  !!SN:T^Third_Upgrade_Mod.ghoul^?(battleLog:z)/^flesheater^/(flesheaterName);
+  !!MM:S(battleLog);
+
+  ; Play sound and animation
+  !!SN:P^ANIMDEAD^;
+  !!BM(zombieStack):V74;
+!!en;
+
+; Set up new number and hp for the Zombises
+!!BM(zombieStack):N(newNum) L(newLostHp);
+; Restore the global variable
+!!VRi^tum_ghoul_regenHp^:S0;
+
+****************************************************************************************************
+*Script by PerryR and Archer30
+Creatures with a certain rank evolve to new creature over night in hero army
+Cute little Rust Dragonling :)
+; Not for TUM Reborn as it has its own method of upgrades
+!?FU(OnEveryDay)&i^tum_reborn_on^<>(TRUE); [Trigger runs for every player every day]
+
+!!OW:C?y1;                              [Get current player]
+!!re i/0/155;                           [loop all heroes]
+    !!HEi:O?y2 B0/?z1;                  [get hero owner and hero name]
+    !!if&y1=y2;                         [if hero has same owner as current player]
+        !!re t/0/6;                     [loop hero creature slots]
+        !!HEi:C0/t/?y10/?y11;           [get creature IDs from slot]
+            !!if|y10=341/y10=342/y10=343/y10=344/y10=345; [If any Dragonling ID found]
+                !!SN:H^monname^/y10/0/?z2; [Get new creature name in z2]
+                !!HEi:C0/t/d/d/?y21/?y22;[Check experience level of that creature]
+
+                !!VRy30:S(NO_MON);
+
+                !!if&y21>=10;
+                  !!VRy30&y10=341:S26;[Set to new ID to creature should evolve to 26 Green Dragon]
+                  !!VRy30&y10=342:S82;[Set to new ID to creature should evolve to 82 Red Dragon]
+
+                  !!VRy30&y10=343:S134;[Set to new ID to creature should evolve to 134 Faerie Dragon]
+                  !!VRy30&y10=344:S135;[Set to new ID to creature should evolve to 135 Rust Dragon]
+                
+                  !!VRy30&y10=345:S132;[Set to new ID to creature should evolve to 132 Azure Dragon]
+                !!en;
+
+                *!SN:H^monname^/y10/0/?z3; [Get new creature name in z3 Name of new creature if needed]
+                !!if&y30>(NO_MON);
+                  !!HEi:C0/t/y30/y11; [Place new creaturs in that slot]
+                  !!HEi:C0/t/d/d/0/0; [Set Experience of that creature to zero]
+                  !!SN:T^Third_Upgrade_Mod.dragonEvolve^/?z3/^hero^/z1/^mon^/z2;
+                  !!IF&999:Q1/21/y30/1^%z3^; [Show Message]
+                !!en;
+            !!en;
+        !!en;
+    !!en;
+!!en;
+
+
+**********************************************************************
+**** Aura of Bravery for Centaure Leaders (or any other creature) ****
+**********************************************************************
+// Author Perry R, Script for ERA 3
+*all creatures standing next to the aura gain certain bonuses*
+
+The script loops through all battlefield positions (after every battle action) and checks if the monsters standing at that positions are next to a centaur.
+If yes bonus is given. After that the script loops after every battle action trough all monsters on the battlefield and checks if they are still standing next to the centaur,
+if no the bonus is removed.
+
+!#SN:W^Aura_Bravery_Creature_ID_293^/293; Set here the creature ID that should get the Aura
+
+
+!?FU(OnCombatRound)&v997=0; Before every battle resets variables
+!!re y1/0/41:;
+    !!SN:W^Aura_Bravery_Stack_%Y1^/0;
+!!en:;
+
+!?FU(OnBeforeBattleAction);
+!!FU(Check_Aura_Bravery):P;
+
+!?FU(OnAfterBattleAction);
+!!FU(Check_Aura_Bravery):P;
+
+
+!?FU(Check_Aura_Bravery);
+!!BG:Q?f;                               [Quick Combat flag]
+!!FU&f=1:E;                             [Exit in quick combat]
+
+!!SN:W^Aura_Bravery_Creature_ID_293^/?y50;[Get creature ID that should emit Aura]
+
+!!re y1/0/41:;                          [Reset the speed and flag every combat action]
+    !!SN:W^Aura_Bravery_Stack_%Y1^/?y2;
+    !!BMy1&y2=1:Sd-1;
+    !!SN&y2=1:W^Aura_Bravery_Stack_%Y1^/0;
+!!en:;
+
+
+!!re y1/0/186:;                         [Loop all battlefield positions]
+!!BU:Ey1/?y4;                           [Check if create stands on this hex]
+    !!if&y4>=0:;                        [if a monster is at a given position]
+    !!BMy4:T?y10 P?y11 I?y12 B?y13 N?y14 H?y15 F?y16; [Get Creature Type and Position]
+        !!if&y13>=1/y14>=1/y15>=1/y10<>145/y10<>146/y10<>147/y10<>148/y10<>149/y10<>y50:; [If any valid creature, execlude Warmachines]
+            !!re i/0/5:;                [loop around the creatures in cirlce 0-6 positions]
+            !!FU(Calc_neighbouring_hex_2):Py1/i/?y3; [Pass position and return first neighbouring hex field]
+            !!BU&y3>=0/y3<=186:Ey3/?y5; [Check if create stands on this hex]
+            !!BMy5&y5>=0/y5<=41:I?y6 T?y20 S?y7; [Get the creatures side and speed and type]
+            !!SN&y5>=0/y5<=41:W^Aura_Bravery_Stack_%Y4^/?y8; [Check creature bravery flag]
+               !!if&y5>=0/y5<=41/y6=y12/y7>=1/y20=y50/y8=0:; [If creature is Centaure, belongs to same hero and has speel >1 and does not have bonus]
+                    !!BMy4:Sd1;         [increase speed by +1]
+                    !!SN:W^Aura_Bravery_Stack_%Y4^/1; [Set flag to true for creature to remember that bonus was given]
+                !!en:;
+            !!en:;
+        !!en:;
+    !!en:;
+!!en:;
+
+!!re y1/0/41:;
+    !!SN:W^Aura_Bravery_Stack_%Y1^/?y2;
+    !!BMy1&y2=1:F?y3;
+    !!VRy3&y2=1:&131072;                [just look at no morlae bit]
+    !!BMy1&y3=0/y2=1:G212/d1/d;         [Increase +1 Morale]
+!!en:;
+
+
+!?FU(Calc_neighbouring_hex_2);          [Funktion to calculate neighbouring Hex cells]
+!!UN:C6919200/4/?y1;                    [Y1 = combatManager]
+!!VRx2:*2;
+!!VRx1:*12+ y1+ 78952+ x2;
+!!UN:Cx1/2/?x3;
+
+***************************************
+**** Swordmaster Acts Twice on R10 ****
+***************************************
+// Script by Berseker and Archer30
+!?FU(OnBattleRound);
+!!VRi^tum_twice_actingStack^:S(NO_STACK);
+
+!?FU(OnBeforeBattleAction)&i^battle_round^>=0;
+!!VRi^tum_twice_actingStack^:S(NO_STACK);
+
+!!BG:A?(action:y);
+!!FU&(action)<>(BATTLE_ACTION_WALK)/
+     (action)<>(BATTLE_ACTION_WALK_AND_ATTACK)/
+     (action)<>(BATTLE_ACTION_SHOOT)/
+     (action)<>(BATTLE_ACTION_CATAPULT)/
+     (action)<>(BATTLE_ACTION_MONSTER_CAST)/
+     (action)<>(BATTLE_ACTION_TENT_HEAL):E;
+
+; Exit if the stack is not Swordmaster
+!!BMi^battle_acting_stack^:T?(type:y);
+!!FU&(type)<>(MON_SWORDMASTER):E;
+
+; Exit if the stack is not R10
+!!VR(eaStack:y):Si^battle_acting_stack^ +1 *-1;
+!!EA(eaStack):E?(rank:y)/12/d/d;
+!!FU&(rank)<10:E;
+
+!!BG:N?i^tum_twice_actingStack^;
+
+!?FU(OnBattleActionEnd)&i^tum_twice_actingStack^<>(NO_STACK)/i^tum_abilityCounter_%i(tum_twice_actingStack)^=0;
+!!BMi^tum_twice_actingStack^:Fd~(MON_FLAG_ACTED);
+
+!?FU(OnBeforeBattleStackTurn)&i^tum_twice_actingStack^<>(NO_STACK);
+!#VA(stack:x);
+
+!!FU&i^tum_abilityCounter_%i(tum_twice_actingStack)^>0:E;
+
+!!BMi^tum_twice_actingStack^:T?(monType:y) N?(monNum:y);
+!!FU|(monType)=(NO_MON)/(monNum)<=0:E;
+
+!!VRi^tum_abilityCounter_%i(tum_twice_actingStack)^:+1;
+!!VR(stack):Si^tum_twice_actingStack^;
+
+**************************************************
+**** Morale and Luck bonuses for 4th upgrades ****
+**************************************************
+; Script by Archer30
+; So freaking difficult, I'm out :(
+!?FU(OnSetupBattlefield_Quit);
+!!FU:E;
+
+*#VA(hasAngel[2]:y):S0;
+*#VA(has3thAngel[2]:y):S0;
+*#VA(has4thAngel[2]:y):S0;
+*#VA(hasDevil[2]:y):S0;
+*#VA(has3thDevil[2]:y):S0;
+*#VA(has4thDevil[2]:y):S0;
+*#VA(hasDragon[2]:y):S0;
+*#VA(has3thDragon[2]:y):S0;
+*#VA(has4thDragon[2]:y):S0;
+
+*#VA(has3thBehemoth[2]:y):S0;
+*#VA(has4thBehemoth[2]:y):S0;
+
+*#VA(extraMorale[2]:y):S0;
+*#VA(extraLuckReduction[2]:y):S0;
+*#VA(extraMoraleReduction[2]:y):S0;
+*#VA(extraLuck[2]:y):S0;
+
+*!re i/(BATTLE_STACK_FIRST)/(BATTLE_STACK_LAST);
+  *!BMi:T?(type:y) N?(num:y);
+  *!co&(num)<=0;
+
+  *!BMi:I?(side:y);
+
+  ; Morale+
+  *!if|(type)=(MON_ANGEL)/(type)=(MON_ARCHANGEL);
+    *!VR(hasAngel[side]):+1;
+  *!el&(type)=(MON_SUPREME_ARCHANGEL);
+    *!VR(has3thAngel[side]):+1;
+  *!el&(type)=(MON_SERAPH);
+    *!VR(has4thAngel[side]):+1;
+  *!en;
+
+  ; Luck-
+  *!if|(type)=(MON_DEVIL)/(type)=(MON_ARCH_DEVIL);
+    *!VR(hasDevil[side]):+1;
+  *!el&(type)=(MON_HELL_BARON);
+    *!VR(has3thDevil[side]):+1;
+  *!el&(type)=(MON_ANTICHRIST);
+    *!VR(has4thDevil[side]):+1;
+  *!en;
+
+  ; Morale-
+  *!if|(type)=(MON_BONE_DRAGON)/(type)=(MON_GHOST_DRAGON);
+    *!VR(hasDragon[side]):+1;
+  *!el&(type)=(MON_BLOOD_DRAGON);
+    *!VR(has3thDragon[side]):+1;
+  *!el&(type)=(MON_RED_BONE_DRAGON);
+    *!VR(has4thDragon[side]):+1;
+  *!en;
+
+  ; Luck+ (lower Behemoths do not provide bonuses)
+  *!if&(type)=(MON_GHOST_BEHEMOTH);
+    *!VR(has3thBehemoth[side]):+1;
+  *!el&(type)=(MON_SPECTRAL_BEHEMOTH);
+    *!VR(has4thBehemoth[side]):+1;
+  *!en;
+*!en;
+
+*!re (side)/0/1;
+  ; Morale+
+
+*!en;
+
+****************************************************************************************
+****************************************************************************************
+**** New Artifacts * New Artifacts * New Artifacts * New Artifacts * New Artifacts *****
+****************************************************************************************
+****************************************************************************************
+
+*********************
+**** Dragonheart ****
+*********************
+// Script by daemon_n and Archer30
+//  Now it is possible to summon any dragon on the battlefield
+
+!?FU(OnGameEnter);
+; убираем зависимость: случайно или от типа почвы. 
+; ставим: всегда случайно
+!!UN:C7763959/2/37008; 
+; выпиливаем случайный выбор дракона: 
+; всегда берём первого монстра из массива 
+; AnyDragon2Summon[Random(0,14)]
+!!UN:C7763962/1/0;  правим "14" в "0"
+!!if&i^tum_DragonsID_ArrayID^=0;
+  !!SN:M(M_AUTO_ID)/0/(M_INT)/(M_STORED)/?i^tum_DragonsID_ArrayID^;
+  !!FU(GetMaxMonsterId):P?(lastMon:y);
+
+  !!re i/(MON_FIRST)/(lastMon);
+    !!co&i>=(MON_GREEN_DRAGONLING)/i<=(MON_ICE_DRAGON); [Skip dragonlings and the two ultimate dragons as they break balance]
+
+    !!MA:Xi/?(flags:y);
+    !!VR(isDragon:y):S(flags) &(MON_FLAG_DRAGON);
+    !!FU(Array_Push)&(isDragon):Pi^tum_DragonsID_ArrayID^/i;
+  !!en;
+!!en;
+
+!?FU(OnBeforeBattleUniversal); 
+; подменяем первого монстра в массиве AnyDragon2Summon
+!!SN:Mi^tum_DragonsID_ArrayID^/?(size:y);
+
+!!if&(size);
+  !!VR(randomInd:y):R0/1/(size) -1;
+  !!SN:Mi^tum_DragonsID_ArrayID^/(randomInd)/?(randId:y);
+  !!UN:C8002264/4/(randId); указываем номер монстра для вызова
+!!en;
+
+********************************************
+**** Legacy Artifact Scripts Collection ****
+********************************************
+Scripts by Archer30
++50% spell damage for Orb of Chaos
+; Note that the native Orb mechenism works before MR0 (modifies MR:D value). This implementation is not perfect as it may interact with other scripted bonuses.
+
+!?FU(OnMagicBasicResistance)&i^tum_emerald_on^;
+!!BG:A?(action:y);
+
+!!if&(action)=(BATTLE_ACTION_HERO_CAST);
+  !!HEi^battle_hero_%i(battle_acting_side)^:A2/(ART_ORB_OF_CHAOS)/?(has:y)/?(equipped:y);
+
+  !!if&(equipped)>0;
+    !!MR:D?(damage:y);
+    !!VR(damage):*3 :2;
+    !!MR:D(damage);
+  !!en;
+!!en;
+
+****************************************************************************************************
+Scripts by Perry 2020
+for Third Upgrade Mod by VMaiko
+
+
+ 171 (Hammer of Doom),
+ 172 (Helmet of Fallen Paladin),
+ 173 (Eclipse Shield),
+ 174 (Dragonsrider's Armor),
+
+ 179 (Golden Goose), +4750 Gold per day
+ 180 (Diplomat's Cloak),
+ 181 (Pendant of Reflection), +20% MR Dwarve Type
+ 182 (Ironfist of the Ogre).
+ 183 (Pendant of Downfall) -2 Morale to Enemies
+ 188 (Ring of Suppression) -1 Morale to Enemies
+ 186 (Hideous Mask) -1 Morale to Enemies
+ 187 (Runes of Imminency) -1 Luck to Enemies
+ 185 (Demon's Horseshoe) -1 Luck to Enemies
+ 184 (Shaman's Puppet) -2 Luck to Enemies
+ 219 (Compendium of Magic)
+
+!?FU(OnAfterLoadGame);
+!!FU(tum_SetUpNewComnbiArts):P;
+
+!?FU(tum_SetUpNewComnbiArts)&i^tum_emerald_on^;
+!!UN:A13/219/86/87/88/89;
+!!UN:A14/181/57/58/59;
+!!UN:A15/180/66/67/68;
+!!UN:A16/179/115/116/117;
+!!UN:A17/238/79/80/81/82;
+!!UN:A18/258/23/11/29/17;
+
+; These artifacts will only work with extended combination artifact support (usually artifact after #170 cannot be set pieces)
+!!if&i^tum_reborn_on^<>(TRUE);
+  !!UN:A19/182/171/172/173/174;
+  !!UN:A20/232/128/235/236/237;
+  !!UN:A21/259/175/176/177/178;
+  !!UN:A22/278/273/274/276/277;
+!!en;
+
+!#FU(tum_SetUpNewComnbiArts):P;
+
+****************************************************************************************************
+!?FU(OnHeroScreenMouseClick)&i^Typhon_Third_Upgrade_Mod_Active^;
+!!CM:F?y1 I?y2 S?y3;
+
+!!if&y1=512/y2=8000/y3=14; 
+  !!DL571:N^TUM_Arts.txt^;
+  !!SN:T^AC_Artifacts.TUM_Set_Table_Name^/?z20; !!DL571:A20/3/z20/1; 
+  !!SN:T^AC_Artifacts.TUM_Set_Name_0^/?z21; !!DL571:A28/3/z21/1;
+  !!SN:T^AC_Artifacts.TUM_Set_Name_1^/?z22; !!DL571:A14/3/z22/1;
+  !!SN:T^AC_Artifacts.TUM_Set_Name_2^/?z23; !!DL571:A22/3/z23/1;
+  !!SN:T^AC_Artifacts.TUM_Set_Name_3^/?z24; !!DL571:A62/3/z24/1;
+  !!SN:T^AC_Artifacts.TUM_Set_Name_4^/?z25; !!DL571:A78/3/z25/1;
+  !!SN:T^AC_Artifacts.TUM_Set_Name_5^/?z26; !!DL571:A44/3/z26/1;
+  !!SN:T^AC_Artifacts.TUM_Set_Name_6^/?z27; !!DL571:A30/3/z27/1;
+  !!SN:T^AC_Artifacts.TUM_Set_Name_7^/?z28; !!DL571:A6/3/z28/1;
+  !!SN:T^AC_Artifacts.TUM_Set_Name_8^/?z29; !!DL571:A11/3/z29/1;     
+  !!DL571:S;
+!!en;
+ 
+!?DL&v998=571/v1000=(MOUSE_RMB_PRESSED);[Show information about artifact when right clicked]
+!!if&v999>0/v999<300;                   [DL Arti ID must match arti ID to work]
+  !!SN:H^art^/v999/1/?s^Text^;
+  !!IF:M0/4/^%S(Text)^; 
+!!en;
+
+!?DL&v998=571/v999=30722/v1000=13;
+!!DL:C1;                                [Close Art Table DL]
+
+****************************************************************************************************
+*Morale and Luck reducing artefacts*
+Script by Daemon_n and JackSlater (26.01.23)
+
+
+!?FU(tum_CreateERMHook);
+!!SN:Ex1/1/4447691/(tum_MinusMorale);
+!!SN:Ex1/1/4501536/(tum_MinusLuck);
+
+
+!?FU(tum_MinusMorale);
+!!UN:Cx1/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp:y)/20/4/?(oppHero:y);
+
+!!VR(moralReduction:y):S0; [Reset var]
+
+!!if&(oppHero);
+  !!SN:E5084256/(CALLCONV_THISCALL)/(oppHero)/(ART_PENDANT_OF_DOWNFALL);
+  !!if&v1;
+    !!VR(moralReduction): -2;
+  !!en;
+
+  !!SN:E5084256/(CALLCONV_THISCALL)/(oppHero)/(ART_HIDEOUS_MASK);
+  !!if&v1;
+    !!VR(moralReduction): -1;
+  !!en;
+  
+  !!SN:E5084256/(CALLCONV_THISCALL)/(oppHero)/(ART_RING_OF_SUPPRESSION);
+  !!if&v1;
+    !!VR(moralReduction): -1;
+  !!en;
+
+  !!SN:E5084256/(CALLCONV_THISCALL)/(oppHero)/(ART_DRAGONS_HEAD);
+  !!if&v1;
+    !!VR(moralReduction): -2;
+  !!en;
+
+  !!SN:E5084256/(CALLCONV_THISCALL)/(oppHero)/(ART_PENDANT_OF_DESPAIR);
+  !!if&v1;
+    !!VR(moralReduction): -3;
+  !!en;
+
+  !!UN:Cx1/(STRUCT_HOOK_CONTEXT_ESI)/4/d(moralReduction);
+!!en;
+
+
+!?FU(tum_MinusLuck);
+!!UN:Cx1/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp:y)/16/4/?(oppHero:y);
+
+!!VR(luckReduction:y):S0; [Reset var]
+
+!!if&(oppHero);
+  !!SN:E5084256/(CALLCONV_THISCALL)/(oppHero)/(ART_SHAMANS_PUPPET);
+  !!if&v1;
+    !!VR(luckReduction): -2;
+  !!en;
+
+  !!SN:E5084256/(CALLCONV_THISCALL)/(oppHero)/(ART_DEMONS_HORSESHOE);
+  !!if&v1;
+    !!VR(luckReduction): -1;
+  !!en;
+  
+  !!SN:E5084256/(CALLCONV_THISCALL)/(oppHero)/(ART_RUNES_OF_IMMINENCY);
+  !!if&v1;
+    !!VR(luckReduction): -1;
+  !!en;
+
+  !!SN:E5084256/(CALLCONV_THISCALL)/(oppHero)/(ART_MISFORTUNE_RING);
+  !!if&v1;
+    !!VR(luckReduction): -3;
+  !!en;
+
+  !!SN:E5084256/(CALLCONV_THISCALL)/(oppHero)/(ART_PENDANT_OF_DESPAIR);
+  !!if&v1;
+    !!VR(luckReduction): -3;
+  !!en;
+
+  !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EAX)/4/d(luckReduction);
+!!en;
+
+**********************
+**** Golden Goose ****
+**********************
+// Script by Archer30
+; Works with Backpack Artifact option
+; Note that Golden Goose combination artifact does not include its components' effect by default
+!?FU(OnEveryDay)&i^tum_emerald_on^/i^timerOnce^;
+!!UN:P727/?(backpackArt:y);             [Check Backpack Artifact option of Era Scripts]
+
+!!re i/(HERO_FIRST)/(HERO_LAST_WOG);
+  !!HEi:O?(owner:y);
+
+  !!if&(owner)>(NO_OWNER);
+    !!HEi:A2/(ART_GOLDEN_GOOSE)/?(has:y)/?(equipped:y);
+    !!co&(has)=0:E;
+
+    !!if&(backpackArt);;
+      !!VR(bonusGold:y):S(has) *7000;
+    !!el;
+      !!VR(bonusGold):S(equipped) *7000;
+    !!en;
+
+    !!OW:R(owner)/(RES_GOLD)/d(bonusGold);
+  !!en;
+!!en;
+
+*******************************
+**** Pendant of Reflection ****
+*******************************
+// Script by Archer30
+!?FU(OnDwarfMagicResistance)&i^tum_emerald_on^;
+; Exit if the targeted stack does not belong to a hero
+!!MR:N?(stack:y);
+!!BM(stack):I?(side:y);
+!!FU&i^battle_hero_%(side)^=(NO_HERO):E;
+
+!!HEi^battle_hero_%(side)^:A2/(ART_PENDANT_OF_REFLECTION)/?(has:y)/?(equipped:y);
+
+; Increase spell immunity by 20
+!!if&(equipped);
+  !!MR:F?(resist:y);
+  !!VR(resist):+20 F0/100;
+  !!MR:F(resist);
+!!en;
+
+*********************************
+**** Helm of the Hydra Queen ****
+*********************************
+// Script by Archer30, idea by Kongsuni
+// Add strike all around flag to the current stack with the owner having a Helm of the Hydra Queen
+// Skip double hexes, breath weapon and life drains users
+; Set up no retaliation when the stack stats are initialised
+; This works perfectly random heroes option. If Asmodeus is summoned, the stacks are only granted No Retaliation only if Asmodeus himself has Helm
+!?FU(tum_BattleStack_InitParams)&i^tum_emerald_on^;
+!#VA(stack:x);
+
+!!BM(stack):I?(side:y);
+
+!!if&i^battle_hero_%(side)^>(NO_HERO);
+  !!HEi^battle_hero_%(side)^:A2/(ART_HELM_OF_THE_HYDRA_QUEEN)/?(has:y)/?(equipped:y);
+  !!if&(equipped)>0;
+    !!BM(stack):T?(type:y);
+
+    !!if&(type)<>(MON_ARROW_TOWERS);
+      !!BM(stack):F?(flags:y);
+
+      !!VR(hasBreath:y):S(flags) &(MON_FLAG_WIDE_ATTACK);
+      !!VR(isWide:y):S(flags) &(MON_FLAG_WIDE);
+      !!FU(WOG_44_CheckIfMonDrainsLife):P(type)/?(result:y);
+
+      !!if&(hasBreath)=(FALSE)/(isWide)=(FALSE)/(result)=(FALSE);
+        !!BM(stack):Fd|(MON_FLAG_ATTACKS_ALL_AROUND);
+      !!en;
+    !!en;
+  !!en;
+!!en;
+
+**************************
+**** Wayfarer's boots ****
+**************************
+// Script by Archer30
+// Walk on any terrain just like having Expert Pathfinding
+// The scripts works only for human to reduce spamming in era tracking.erm
+!?FU(tum_OnCalcMovementPointsCost)&i^timerIsHuman^/i^tum_emerald_on^;
+!#VA(address:x);
+
+!!OW:A(CURRENT_PLAYER)/?(hero:y);
+
+!!if&(hero)>(NO_HERO);
+  !!HE(hero):A2/(ART_WAYFARERS_BOOTS)/?(has:y)/?(equipped:y);
+
+  ; Change the input arg of pathfinding level to Expert
+  !!if&(equipped)>0;
+    !!UN:C(address)/(STRUCT_HOOK_CONTEXT_ESP)/(UNC_INT)/?(ptr:y);
+    !!UN:C(ptr)/12/(UNC_INT)/(SKILL_EXPERT);
+  !!en;
+!!en;
+
+// For AI we just give free movements (400)
+!?FU(OnEveryDay)&i^timerIsAi^/i^tum_emerald_on^;
+!!re i/(HERO_FIRST)/(HERO_LAST_WOG);
+  !!HEi:O?(owner:y);
+
+  !!if&(owner)=i^timerOwner^;
+    !!HEi:A2/(ART_WAYFARERS_BOOTS)/?(has:y)/?(equipped:y);
+
+    !!HEi&(equipped)>0:Wd400/1 Gd400;
+  !!en;
+!!en;
+
+**************************
+**** Ring of Elements ****
+**************************
+// Script by Archer30
+// Allow summoning different elementals in the same battle.
+!?FU(OnSetupBattlefield)&i^tum_emerald_on^;
+!!UN:C5896327/1/?i^tum_origElemLimit^;
+
+!?FU(OnBattleRound)&i^battle_round^=0/i^tum_emerald_on^;
+!!VRi^tum_elemRingDiff^:S(FALSE);
+
+!!BA:A?(isOnlyAi:y) Q?(isQuick:y);
+!!FU|(isOnlyAi)/(isQuick):E;
+
+!!BA:H0/?(attacker:y) H1/?(defender:y);
+
+!!HE(attacker):A2/(ART_RING_OF_ELEMENTS)/?(qty:y)/?(atkEquipped:y);
+!!HE(defender)&(defender)>(NO_HERO):A2/(ART_RING_OF_ELEMENTS)/?(qty)/?(defEquipped:y);
+
+!!FU(tum_ActivateElemRing)&(atkEquipped)/(defEquipped):P(TRUE);
+!!FU(tum_ActivateElemRing)&(atkEquipped)=(FALSE)/(defEquipped)=(FALSE):P(FALSE);
+
+!!VRi^tum_elemRingDiff^&(atkEquipped)<>(defEquipped):S(TRUE);
+
+!?FU(OnBattleStackObtainsTurn)&i^tum_elemRingDiff^;
+!#VA(stackSide:x) (stackInd:x);
+
+!!BH(stackSide):N?(hero:y);
+
+!!if&(hero)>(NO_HERO);
+  !!HE(hero):A2/(ART_RING_OF_ELEMENTS)/?(qty:y)/?(equipped:y);
+  !!FU(tum_ActivateElemRing):P(equipped);
+!!en;
+
+!?FU(tum_ActivateElemRing);
+!#VA(equipped:x);
+
+!!if&(equipped)>0;
+  !!UN:C5896327/1/235;
+!!el;
+  !!UN:C5896327/1/i^tum_origElemLimit^;
+!!en;
+
+***************************
+**** Horn of the Abyss ****
+***************************
+// Script by Archer30
+// Summon fangarms if a living stack is killed by a hero with HotA equipped
+
+// Summon with Melee/Ranged attacks
+!?FU(tum_OnAfterAttack)&i^tum_emerald_on^;
+!#VA(atkStack:x) (defStack:x);
+
+!!BM(atkStack):I?(atkSide:y);
+!!FU(tum_hota_SummonFangarmsOnTheBattlefield):P(atkSide)/(defStack);
+
+// Summon with spell damage
+; Currently the script does not support summon Fangarms from AOE spells like Destroy Undead, is this the same situation as in Hota? - Archer30
+; i^tum_targetStack^ is defined in 1000 tum - stdlib, the value of BG:E. It is required to get the BG:E from BG0 as in BattleActionEnd, the targeted stack could die and retuns -1 to BG:E result
+!?FU(OnBattleActionEnd)&i^tum_targetStack^>(NO_STACK)/i^tum_emerald_on^;
+; Check if it was an action that could result in casualties
+!!BG:A?(action:y);
+
+!!if|(action)=(BATTLE_ACTION_HERO_CAST)/(action)=(BATTLE_ACTION_MONSTER_CAST);
+  ; Check if it was an event one player act against the other
+  !!BG:N?(atkStack:y) Q?(atkSide:y);
+  !!VR(defStack:y):Si^tum_targetStack^;
+  !!BM(defStack):I?(defSide:y);
+
+  !!if&(atkSide)<>(defSide);
+    ; Execute function for both sides
+    !!FU(tum_hota_SummonFangarmsOnTheBattlefield):P(atkSide)/(defStack) P(defSide)/(atkStack);
+  !!en;
+!!en;
+
+!?FU(tum_hota_SummonFangarmsOnTheBattlefield);
+!#VA(atkSide:x) (defStack:x);
+
+; Check if HotA is equipped
+!!if&i^battle_hero_%(atkSide)^>(NO_HERO);
+  !!HEi^battle_hero_%(atkSide)^:A2/(ART_HORN_OF_THE_ABYSS)/?(has:y)/?(equipped:y);
+
+  !!if&(equipped);
+    ; Check if the defending stack was killed
+    !!BM(defStack):B?(startNum:y) N?(currNum:y) T?(type:y) F?(flags:y);
+    !!VR(isAlive:y)S(flags) &(MON_FLAG_ALIVE);
+    !!FU(tum_hota_CheckIfPossibleToSummon):P(atkSide)/?(isEligible:y);
+
+    !!if&(startNum)>0/(currNum)<=0/(type)<>(MON_FANGARM)/(isAlive)/(isEligible);
+      ; Calculate the number of fangarm summoning
+      !!BM(defStack):P?(defHp:y);
+      !!VR(defTotalHp:y):S(startNum) *(defHp);
+      !!MA:P(MON_FANGARM)/?(fangarmHp:y);
+      !!VR(maxNum:y):S(startNum) :2;
+      !!VR(summNum:y):S(defTotalHp) :(fangarmHp) F0/(maxNum);
+
+      ; Summon the fangarms if the result is more than 0
+      !!if&(summNum)>0;
+        !!FU(tum_RemoveDeadBody):P(defStack)/(FALSE);
+        !!BM(defStack):P?(pos:y);
+
+        !!if&i^battle_isVisible^;
+          !!FU(tum_PlayCustomAnimation):P^SP16.def^/(pos);
+          !!SN:P^FNGRSUMM.wav^;
+        !!en;
+
+        !!BU:S(MON_FANGARM)/(summNum)/(pos)/(atkSide)/-1/1 E(pos)/?(stack:y);
+        !!BM(stack)&(stack)>(NO_STACK):B0 Fd|(MON_FLAG_SUMMONED);
+      !!en;
+    !!en;
+  !!en;
+!!en;
+
+; Check if there are few than 21 stacks on the battlefield
+!?FU(tum_hota_CheckIfPossibleToSummon);
+!#VA(side:x) (isEligible:x);
+
+!!VR(isEligible):S(FALSE);
+
+!!UN:C6919200/4/?(value:y);
+!!VR(address:y):S(side) *4 +21692 +(value);
+!!UN:C(address)/4/?(stackNum:y);
+
+!!VR(isEligible)&(stackNum)<=20:S(TRUE);
+
+// Get the number of increased Fangarms after battle
+!?FU(OnAfterBattleAction)&i^tum_emerald_on^;
+!!BU:C?(battleIsEnd:y);
+
+!!if&(battleIsEnd);
+  !!re i/(BATTLE_LEFT)/(BATTLE_RIGHT);
+    !!FU(tum_hota_GetFangarmsIncreasedAfterBattle):Pi;
+  !!en;
+!!en;
+
+!?FU(tum_hota_GetFangarmsIncreasedAfterBattle);
+!#VA(side:x);
+
+!!VRi^tum_hota_fangarmIncreased_%(side)^:S0;
+!!VR(firstStack:y):S(side) *21;
+!!VR(lastStack:y):S(firstStack) +20;
+
+!!re i/(firstStack)/(lastStack);
+  !!BMi:T?(type:y);
+
+  !!if&(type)=(MON_FANGARM);
+    !!BMi:B?(startNum:y) N?(currNum:y);
+    !!VR(fangarmIncreased:y):S(currNum) -(startNum);
+    !!VRi^tum_hota_fangarmIncreased_%(side)^&(fangarmIncreased)>0:+(fangarmIncreased);
+  !!en;
+!!en;
+
+!?FU(OnAfterBattleUniversal)&i^tum_emerald_on^;
+!!FU(tum_hota_GiveFangarmAfterBattle)&i^tum_hota_fangarmIncreased_0^>0:P(BATTLE_LEFT);
+!!FU(tum_hota_GiveFangarmAfterBattle)&i^tum_hota_fangarmIncreased_1^>0:P(BATTLE_RIGHT);
+
+!?FU(tum_hota_GiveFangarmAfterBattle);
+!#VA(side:x);
+
+; Check if the targeted hero won
+!!VR(hero:y):Si^battle_hero_%(side)^;
+
+!!if&(hero)>(NO_HERO);
+  !!HE(hero):O?(owner:y);
+
+  !!if&(owner)>(NO_OWNER);
+    ; Give Fangarm only when there is an available slot in the army
+    !!FU(tum_hota_GetHeroAvailSlot):P(hero)/?(slot:y);
+    !!HE(hero)&(slot)>-1:C2/(MON_FANGARM)/i^tum_hota_fangarmIncreased_%(side)^/1;
+    !!SN:D;
+  !!en;
+!!en;
+
+; Funciton for getting a slot with Fangarms or no monster
+!?FU(tum_hota_GetHeroAvailSlot);
+!#VA(hero:x) (slot:x);
+
+; Initializatino
+!!VR(slot):S-1;
+
+; Set the slot as the first slot with Fangarm
+!!re i/(ARMY_SLOT_FIRST)/(ARMY_SLOT_LAST);
+  !!HE(hero):C0/i/?(mon:y)/?(qty:y);
+
+  !!if&(mon)=(MON_FANGARM);
+    !!VR(slot):Si;
+    !!br;
+  !!en;
+!!en;
+
+; Set the slot as the first slot with no monster if Fangarm was not found
+!!if&(slot)=-1;
+  !!re i/(ARMY_SLOT_FIRST)/(ARMY_SLOT_LAST);
+    !!HE(hero):C0/i/?(mon:y)/?(qty:y);
+
+    !!if&(mon)=(NO_MON);
+      !!VR(slot):Si;
+      !!br;
+    !!en;
+  !!en;
+!!en;
+
+****************************
+**** Kongsuni Artifacts ****
+****************************
+// Sctipt by Kongsuni
+
+** Exchange Cloak (261) : When fighting an enemy hero, the stats of the friendly hero and the enemy hero are reversed. (Except the spell power)
+** Atma Sword (264) : The lower value of Attack and Defense is adjusted to the higher value.
+** Atma Robe (265) : The lower value of Power and Knowledge is adjusted to the higher value.
+
+**  Cloak of Despair (261) **
+!?BF&1000/i^tum_emerald_on^;
+
+!!BH0:N?y1;                             [Attacker]
+!!BH1:N?y2;                             [Attacker]
+!!FU&y2=-1:E;
+
+!!HEy1:A2/(ART_EXCHANGE_CLOAK)/?y20/?y21;
+!!HEy2:A2/(ART_EXCHANGE_CLOAK)/?y22/?y23;
+!!FU&y21=0/y23=0:E;
+!!FU&y21>0/y23>0:E;
+
+!!HEy1:F?y11/?y12/?y13/?y14;
+!!HEy2:F?y15/?y16/?y17/?y18;
+
+; Exchange Mana
+!!if&i^tum_reborn_on^<>(TRUE);
+  !!HEy1:I?y31;
+  !!HEy2:I?y32;
+  !!HEy1:Iy32;
+  !!HEy2:Iy31;
+!!en;
+
+!!DO(KO_cape)/0/20/1:Py15/y16;
+!!DO(KO_cape2)/0/20/1:Py11/y12;
+!!DO(KO_cape)/21/41/1:Py11/y12;
+!!DO(KO_cape2)/21/41/1:Py15/y16;
+
+!?FU(KO_cape);
+!!BMx16:T?y1;
+!!FU|y1=145/y1=146/y1=147/y1=148/y1=149:E;                                      [Execlude Warmachines]
+!!BMx16:Adx1;                                                                   [Attack]
+!!BMx16:Ddx2;                                                                   [Defense]
+
+!?FU(KO_cape2);
+!!BMx16:T?y1;
+!!FU|y1=145/y1=146/y1=147/y1=148/y1=149:E;                                      [Execlude Warmachines]
+!!VRy1:Sx1*-1;
+!!VRy2:Sx2*-1;
+!!BMx16:Ady1;                                                                   [Attack]
+!!BMx16:Ddy2;
+
+
+*** Ax of Lord (264) , Armor of abyss (265) **
+
+!?AE1&v998=264/i^tum_emerald_on^;
+!!HE-1:N?y1;
+!!FU(KO_AXE_equip):Py1;
+
+
+!?AE0&v998=264/i^tum_emerald_on^;
+!!HE-1:N?y1;
+!!FU(KO_AXE_unequip):Py1;
+
+
+!?FU(KO_AXE_equip);
+!!HEx1:F?y11/?y12/?y13/?y14;
+!!HEx1&y11>y12:Fy11/y11/d0/d0;
+!!HEx1&y12>y11:Fy12/y12/d0/d0;
+!!VRy21:Sy12-y11;
+!!SN:W^k_AXE_Hero%X1^/y21;
+
+!?FU(KO_AXE_unequip);
+!!HEx1:F?y11/?y12/?y13/?y14;
+!!SN:W^k_axe_Hero%X1^/?y21;
+!!VRy5:Sy21*-1;
+!!HEx1&y21>0:Fdy5/y12/d0/d0;
+!!HEx1&y21<0:Fy11/dy21/d0/d0;
+!!HEx1:F?y11/?y12/?y13/?y14;
+!!SN:W^k_AXE_Hero%X1^/0;
+
+
+
+!?AE1&v998=265/i^tum_emerald_on^;
+!!HE-1:N?y1;
+!!FU(KO_Armor_equip):Py1;
+
+!?AE0&v998=265/i^tum_emerald_on^;
+!!HE-1:N?y1;
+!!FU(KO_Armor_unequip):Py1;
+
+
+!?FU(KO_Armor_equip);
+!!HEx1:F?y11/?y12/?y13/?y14;
+!!HEx1&y13>y14:Fd0/d0/y13/y13;
+!!HEx1&y14>y13:Fd0/d0/y14/y14;
+!!VRy21:Sy14-y13;
+!!SN:W^k_armor_Hero%X1^/y21;
+
+
+!?FU(KO_Armor_unequip);
+!!HEx1:F?y11/?y12/?y13/?y14;
+!!SN:W^k_armor_Hero%X1^/?y21;
+!!VRy5:Sy21*-1;
+!!HEx1&y21>0:Fd0/d0/dy5/y14;
+!!HEx1&y21<0:Fd0/d0/y13/dy21;
+!!SN:W^k_armor_Hero%X1^/0;
+
+
+!?CM2&i^tum_emerald_on^;
+!!HE-1:F?y11/?y12/?y13/?y14;
+!!HE-1:A2/265/?y51/?y52;
+!!HE-1:A2/264/?y53/?y54;
+!!HE-1:N?y1;
+!!FU&y52=0/y54=0:E;
+!!FU(KO_Armor_unequip)&y52=1:Py1;
+!!FU(KO_Armor_equip)&y52=1:Py1;
+!!FU(KO_AXE_unequip)&y54=1:Py1;
+!!FU(KO_AXE_equip)&y54=1:Py1;
+
+***********************
+**** Lightning Rod ****
+***********************
+// Script by Archer30
+// Prevetn Chain Lightning to damage own troops. Neglect all the Lightning Bolt and Chain Lightning immunity except for artifact effects
+!?FU(OnSetupBattlefield)&i^tum_emerald_on^;
+!!VRi^tum_lr_equipped_0^:S(FALSE);
+!!VRi^tum_lr_equipped_1^:S(FALSE);
+
+!!re i/(BATTLE_LEFT)/i^battle_hero_vs_hero^;
+  !!HEi^battle_hero_%i^:A2/(ART_LIGHTNING_ROD)/?(has:y)/?(equipped:y);
+
+  !!VRi^tum_lr_equipped_%i^&(equipped):S(TRUE);
+!!en;
+
+// Must be executed later than anything else
+!?FU(OnDwarfMagicResistance_Quit)&i^tum_emerald_on^;
+; Check if the spell is a lightning spell
+!!MR:S?(spell:y);
+
+!!if|(spell)=(SPELL_LIGHTNING_BOLT)/(spell)=(SPELL_CHAIN_LIGHTNING);
+  !!MR:N?(stack:y);
+  !!BM(stack):I?(side:y);
+
+  ; Exit if the target stack has any artifact that is immune to 
+  !!if&i^battle_hero_%(side)^>(NO_HERO);
+    !!HE&i^battle_hero_%(side)^:A2/(ART_PENDANT_OF_NEGATIVITY)/?(has:y)/?(equipped:y);
+    !!FU&(equipped)>0:E;
+
+    !!HE&i^battle_hero_%(side)^:A2/(ART_IONIZED_ARMOR)/?(has)/?(equipped);
+    !!FU&(equipped)>0:E;
+
+    !!if&i^tum_reborn_on^;
+      !!SN:Mi^tum_artifactImmunity_%(side)^/(spell)/?(isImmune:y);
+      !!FU&(isImmune):E;
+    !!en;
+  !!en;
+
+  ; Set resistance to 100 and exit if the spell is Chain Lightning, the target and the caster is on the same side, with Lightning Rod equipped
+  ; Note: here we get the caster by i^battle_acting_side^. However, this could be wrong, for example - casting Chain lightning on retaliation, BG:Q is still the original attacker
+  !!if&(spell)=(SPELL_CHAIN_LIGHTNING)/i^battle_acting_side^=(side)/i^tum_lr_equipped_%(side)^;
+    !!MR:F100;
+    !!FU:E;
+  !!en;
+
+  ; If any of the side has Lighting Rod, neglect the immunity to lightning
+  !!if|i^tum_lr_equipped_0^/i^tum_lr_equipped_1^;
+    !!MR:F0;
+  !!en;
+!!en;
+
+// Cast Lightning Bolt on every target of Chain Lightning
+!?FU(OnBeforeBattleAction)&i^tum_emerald_on^/i^tum_lr_equipped_%i(battle_acting_side)^;
+!!BG:A?(action:y) S?(spell:y);
+
+!!if&(action)=(BATTLE_ACTION_HERO_CAST)/(spell)=(SPELL_CHAIN_LIGHTNING);
+  ; Get the hero's power and calculate the new power for sub targets
+  !!UN:C(COMBAT_MANAGER)/(UNC_INT)/?(combatManager:y);
+  !!VR(offset:y):S4 *i^battle_acting_side^ +21460;
+  !!UN:C(combatManager)/(offset)/(UNC_INT32)/?(power:y);
+
+  ; Get the school level to cast
+  !!HEi^battle_hero_%i(battle_acting_side)^:Z?(heroStruct:y);
+  !!SN:E5133040/(CALLCONV_THISCALL)/(heroStruct)/(SPELL_LIGHTNING_BOLT)/0;
+  !!VR(level:y):Sv1;
+
+  ; Calculate the damage of Lightning Bolt (artifact bonuses are ignored)
+  !!SS(SPELL_LIGHTNING_BOLT):E(level)/?(spellEffect:y) P?(spellPower:y);
+  !!VRi^tum_lr_damage^:S(spellPower) *(power) +(spellEffect);
+!!en;
+
+!?FU(OnMagicCorrectedResistance)&i^tum_lr_damage^>0;
+!!MR:S?(spell:y);
+
+!!if&(spell)=(SPELL_CHAIN_LIGHTNING);
+  !!MR:N?(targetStack:y);
+  !!BM(targetStack):I?(side:y);
+
+  !!if&(side)<>i^battle_acting_side^;
+    !!BM(targetStack):V37 Ki^tum_lr_damage^;
+  !!en;
+!!en;
+
+!?FU(OnBattleActionEnd)&i^tum_lr_damage^>0;
+!!VRi^tum_lr_damage^:S0;
+
+***************************************************************************
+**** Amulet of the Return of Samsara and Implosion Amplifying Bracelet ****
+***************************************************************************
+// Script by Archer30
+// Amulet of the return of Samsara: When casting resurrection and Animate Dead, it will also be cast on all the other allied units with 30% power.
+// Implosion Amplifying Bracelet: When casting implosion, it will also be cast on all the other hostile units with 30% power.
+!?FU(OnBattleActionEnd)&i^tum_emerald_on^;
+!!BG:A?(action:y);
+
+!!if|(action)=(BATTLE_ACTION_HERO_CAST)/(action)=(BATTLE_ACTION_CANCEL); [for some reason, when a hero casts, it's possible to return BG:A as 0. Yuji is that you??]
+  !!BG:S?(spell:y);
+
+  !!if|(spell)=(SPELL_RESURRECTION)/(spell)=(SPELL_ANIMATE_DEAD);
+    !!FU(tum_CastMassiveSpell):P(spell)/(ART_AMULET_OF_THE_RETURN_OF_SAMSARA)/30;
+  !!el&(spell)=(SPELL_IMPLOSION);
+    !!FU(tum_CastMassiveSpell):P(spell)/(ART_IMPLOSION_AMPLIFYING_BRACELET)/30;
+  !!en;
+!!en;
+
+!?FU(tum_CastMassiveSpell);
+!#VA(spell:x) (art:x) (subTargetPowerPercent:x);
+
+!!BG:H?(hero:y);
+
+; Exit if the casting hero does not have the required artifact
+!!HE(hero):A2/(art)/?(has:y)/?(equipped:y);
+!!FU&(equipped)<=0:E;
+
+; Set up variables. Exit if the spell is neither a friendly or hostile targeting spell
+!!VR(castSide:y):S-1;
+!!SS(spell):O?(targetType:y);
+
+!!if&(targetType)=1;
+  !!VR(castSide):Si^battle_acting_side^;
+!!el&(targetType)=-1;
+  !!VR(castSide):Si^battle_acting_side^ X(TRUE);
+!!en;
+
+!!FU&(castSide)=-1:E;
+
+!!VR(firstStack:y):S(BATTLE_DEFENDER_STACK_FIRST) *(castSide);
+!!VR(lastStack:y):S(firstStack) +(BATTLE_STACKS_PER_SIDE) -1;
+
+; Get the hero's power and calculate the new power for sub targets
+!!UN:C(COMBAT_MANAGER)/(UNC_INT)/?(combatManager:y);
+!!VR(offset:y):S4 *i^battle_acting_side^ +21460;
+!!UN:C(combatManager)/(offset)/(UNC_INT32)/?(power:y);
+!!VR(newPower:y):S(power) *(subTargetPowerPercent) :100 F1/255;
+
+; Get the school level to cast
+!!HE(hero):Z?(heroStruct:y);
+!!SN:E5133040/(CALLCONV_THISCALL)/(heroStruct)/(spell)/0;
+!!VR(schoolLvl:y):Sv1;
+
+; Store and set up the side to case
+!!UN:C(combatManager)/78528/4/?(savedSide:y) C(combatManager)/78528/4/i^battle_acting_side^;
+
+; Loop through one side of battlefield and cast spells with alternative Power
+!!re i/(firstStack)/(lastStack);
+  ; Skip the main target of the spell
+  !!co&i=i^tum_targetStack^;
+
+  ; Check if the stack is eligible to be casted
+  !!BMi:T?(type:y) N?(num:y);
+  !!co|(type)<=(NO_MON)/(type)=(MON_ARROW_TOWERS)/(num)<=0;
+
+  !!FU(tum_Battle_CanStackReceiveSpell):Pi/(spell)/i^battle_acting_side^/?(canReceive:y);
+  !!co&(canReceive)=(FALSE);
+
+  ; Get the position to cast
+  !!BMi:P?(pos:y);
+
+  ; Cast the spell
+  !!SN:E5898560/(CALLCONV_THISCALL)/(combatManager)/(spell)/(pos)/2/-1/(schoolLvl)/(newPower);
+!!en;
+
+; Restore the side to cast
+!!UN:C(combatManager)/78528/4/(savedSide);
+
+**************************
+**** Ring of Oblivion ****
+**************************
+// Script by Archer30 and JackSlater
+// To-do: Restrain the use of Life Drain/Attract Dead Souls abilities
+!?FU(OnSetupBattlefield)&i^tum_emerald_on^;
+!!VRi^tum_roo_equipped^:S(FALSE);
+
+!!re i/(BATTLE_LEFT)/i^battle_hero_vs_hero^;
+  !!HEi^battle_hero_%i^:A2/(ART_RING_OF_OBLIVION)/?(has:y)/?(equipped:y);
+
+  !!if&(equipped)>0;
+    !!VRi^tum_roo_equipped^:S(TRUE);
+    !!br;
+  !!en;
+!!en;
+
+!?FU(OnDwarfMagicResistance)&i^tum_roo_equipped^/i^tum_emerald_on^;
+; Exit if the spell is not Resurrection or Animate Dead
+!!MR:S?(spell:y);
+!!FU&(spell)<>(SPELL_RESURRECTION)/(spell)<>(SPELL_ANIMATE_DEAD)/(spell)<>(SPELL_SACRIFICE):E;
+
+; Set spell immunity to 100 if any hero has Ring of Oblivion
+!!MR:F100;
+
+// Destroy dead body with attacks
+!?FU(tum_OnAfterAttack)&i^tum_roo_equipped^/i^tum_emerald_on^;
+!#VA(atkStack:x) (defStack:x);
+
+!!FU(tum_roo_RemoveDeadBodiesOnTheBattlefield):P;
+
+// Destroy dead body with spell damage
+!?FU(OnBattleActionEnd)&i^tum_roo_equipped^/i^tum_emerald_on^;
+; Check if it was an casting
+!!BG:A?(action:y);
+!!FU&(action)<>(BATTLE_ACTION_HERO_CAST)/(action)<>(BATTLE_ACTION_MONSTER_CAST):E;
+
+!!VR(mustCheckBattlefield:y):S(FALSE);
+
+; Check the whole battlefield if casted a damaging spell
+!!if&(action)=(BATTLE_ACTION_HERO_CAST);
+  !!BG:S?(spell:y);
+  !!SS(spell:y):F?(spellFlags:y);
+  !!VR(isDmgSpell:y):S(spellFlags) &512 B; [Flag for check Death Ripple etc]
+  !!VR(mustCheckBattlefield)&(isDmgSpell):S(TRUE);
+; Always check the battlefield after casting a monster spell (since we can't get the spell ID with BG:S)
+!!el&(action)=(BATTLE_ACTION_MONSTER_CAST);
+  !!VR(mustCheckBattlefield):S(TRUE);
+!!en;
+
+!!FU(tum_roo_RemoveDeadBodiesOnTheBattlefield):P;
+
+!?FU(tum_roo_RemoveDeadBodiesOnTheBattlefield);
+!!re i/(BATTLE_STACK_FIRST)/(BATTLE_STACK_LAST);
+  !!BMi:N?(currNum:y) T?(type:y);
+
+  !!FU(tum_RemoveDeadBody)&(type)>(NO_MON)/(type)<>(MON_ARROW_TOWERS)/(currNum)<0:Pi/(FALSE);
+!!en;
+
+// Disable Necromancy after battle
+!?FU(tum_OnCalcNecromancyPower)&i^tum_roo_equipped^/i^tum_emerald_on^;
+!#VA(address:x);
+
+!!UN:C(address)/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp)/-4/4/?(necromancyPower:e);
+!!VR(necromancyPower):S0;
+!!UN:C(ebp)/-4/4/(necromancyPower);
+
+********************************
+**** Interference Artifacts ****
+********************************
+// Script by Archer30 and daemon_n
+; Set up new real power depending on whether interference artifact is equipped
+!?FU(OnSetupBattlefield)&i^battle_hero_0^>(NO_HERO)/i^battle_hero_1^>(NO_HERO)/i^tum_emerald_on^;
+!!VRi^tum_trueHeroPower_0^:S0;
+!!VRi^tum_trueHeroPower_1^:S0;
+
+!!re i/(BATTLE_LEFT)/(BATTLE_RIGHT);
+  !!HEi^battle_hero_%i^:A2/(ART_CHARM_OF_ECLIPSE)/?(has:y)/?(equipped1:y);
+  !!HEi^battle_hero_%i^:A2/(ART_SEAL_OF_SUNSET)/?(has)/?(equipped2:y);
+  !!HEi^battle_hero_%i^:A2/(ART_PLATE_OF_DYING_LIGHT)/?(has)/?(equipped3:y);
+
+  ; Calculate the percentage of power reduction
+  !!VR(enemyPowerReductionPercent:y):S0;
+  !!VR(enemyPowerReductionPercent)&(equipped1):+10;
+  !!VR(enemyPowerReductionPercent)&(equipped2):+10;
+  !!VR(enemyPowerReductionPercent)&(equipped3):+25;
+  !!VR(enemyPowerReductionPercent):F0/100;
+
+  !!if&(enemyPowerReductionPercent)>0;
+    !!VR(enemySide:y):Si X(TRUE);
+
+    ; Get the new power value
+    !!HEi^battle_hero_%(enemySide)^:F?(ps:y)/?(ps)/?(power:y)/?(ps);
+    !!VR(newPower:y):S100 -(enemyPowerReductionPercent) *(power) :100 F1/(INT_MAX);
+
+    ; Set the value up
+    !!UN:C(COMBAT_MANAGER)/(UNC_INT)/?(combatManager:y);
+    !!VR(offset:y):S(enemySide) *(UNC_INT) +21460;
+    !!UN:C(combatManager)/(offset)/(UNC_INT)/(newPower);
+    !!VRi^tum_trueHeroPower_%(enemySide)^:S(newPower);
+  !!en;
+!!en;
+
+; Set up text display according to the new power (if changed)
+!?FU(tum_OnDlg_HeroPreview_SpellPowerWrite)|i^tum_trueHeroPower_0^>0/i^tum_trueHeroPower_1^>0;
+!#VA(address:x);
+
+!!UN:C(address)/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp)/8/4/?(heroStruct:y) C(heroStruct)/26/2/?(heroId:y);
+
+!!re i/(BATTLE_LEFT)/(BATTLE_RIGHT);
+  !!if&i^battle_hero_%i^=(heroId)/i^tum_trueHeroPower_%i^>0;
+    !!VR(truePower:y):Si^tum_trueHeroPower_%i^;
+    !!UN:C(address)/(STRUCT_HOOK_CONTEXT_EAX)/4/?(txtPtr:y);
+    !!SN:B(txtPtr)/d/?(power:z) B(txtPtr)/d/^%(power) (%(truePower))^;
+  !!en;
+!!en;
+
+**************************************Halfling Grenadiers*******************************************
+Play sound and animation and target stack when Halfling Grenadiers shoot
+!?MF1;
+
+!!UN:C42149568/4/?y10;                  [Get Physical Damage type]
+!!if&y10=4455011;                       [Only run when shooting damage]
+!!BG:A?y1;                              [Aktion in y1]
+!!if&y1=7;                              [If shooting attack]
+  !!BG:N?y1;                            [Attacking Stack]
+  !!MF:N?y4;                            [damage receiving stack]
+  !!BMy1:T?y2;                          [Get monster ID]
+  !!FU&y2<>348:E;                       [Exit if no Halfling Grenadiers]
+  !!VRz-1&1000:S^GRENEXPL.wav^;         [find sound]
+  !!SN&i^battle_isVisible^:Pz-1;        [play sound]
+  !!BMy4:P?y20 I?y50;                   [get position and side of attacked stack]
+  !!FU(TUM_GetStackHeadPosition):Py4/?y20; [While BM:P returns the position of the "ass" of a wide stack, this function always returns the position of the head]
+  !!VRz3&i^battle_isVisible^:S^Boom.def^;[get animation def]
+  !!FU(TUM_PlayCustomAnimation)&i^battle_isVisible^:P0/3/y20/100/1/0/1; [Function to play custom animation]
+!!en;
+!!en;
+
+
+!?FU(TUM_PlayCustomAnimation);
+
+!!FU|x1<0/x1>82/x2<0/x2>1000:E;
+!!VRx3|x3<0/x3>187:S93;
+!!VRx4&x4<0:S100;
+!!VRx5|x5<0/x5>4:S0;
+!!VRx6|x6<0/x6>1:S0;
+!!UN:C6919200/4/?y20;
+!!VRy21:Sy20 +78568;
+!!VRy22:Sy20 +78572;
+!!UN:C4454270/4/?y1;
+!!UN:Cy21/4/0 Cy22/4/-1;
+!!VRy2:Sx1 *12 +y1;
+!!VRy3:Sy2 +8;
+!!VRy4:Sx2 *512 +9597416;
+!!VRy5:Sx6 *256 +x5;
+!!UN:Cy2/4/?y10;
+!!UN:Cy3/4/?y11;
+!!UN:Cy2/4/y4;
+!!UN&x7<>0:Cy3/4/y5;
+!!SN:E4810128/2/y20/x1/x3/x4/0;
+!!UN:Cy2/4/y10;
+!!UN&x7<>0:Cy3/4/y11;
+!!UN:Cy21/4/0 Cy22/4/-1;
+
+; While BM:P returns the position of the "ass" of a wide stack, this function always returns the position of the head.
+!?FU(TUM_GetStackHeadPosition);
+!#VA(stack:x) (pos:x);
+!!BM(stack):Z?(stackStuct:y) P?(pos) F?(flags:y);
+!!VR(isWide:y):S(flags) &(MON_FLAG_WIDE);
+!!if&(isWide);
+  !!UN:C(stackStuct)/68/4/?(secPosOrientation:y);
+  ; If the stack is wide
+  !!if&(secPosOrientation)>=0;
+    !!if&(secPosOrientation)=0;
+      !!VR(pos):-1;
+    !!el&(secPosOrientation)=1;
+      !!VR(pos):+1;
+    !!en;
+  !!en;
+!!en;

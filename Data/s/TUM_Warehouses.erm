@@ -1,0 +1,153 @@
+ZVSE2
+*Warehouse script by PerryR for ERA3* Created 2021
+*Visiting Warehouses grants the player resources once per week and warehouse*
+
+
+!#VRi^Warehouse_Type^:S63;                (Write here type number of the object)
+!#VRi^Warehouse_Subtype_Wood^:S98;        (Write here subtype number of the object)
+!#VRi^Warehouse_Subtype_Mercury^:S99;
+!#VRi^Warehouse_Subtype_Ore^:S100;
+!#VRi^Warehouse_Subtype_Sulfur^:S101;
+!#VRi^Warehouse_Subtype_Crystal^:S102;
+!#VRi^Warehouse_Subtype_Gems^:S103;
+!#VRi^Warehouse_Subtype_Gold^:S104;
+
+!#VRs^Warehouse_Wood^:S^Warehouse of Wood^; [Write here the name of the Object]
+!#VRs^Warehouse_Mercury^:S^Warehouse of Mercury^;
+!#VRs^Warehouse_Ore^:S^Warehouse of Ore^;
+!#VRs^Warehouse_Sulfur^:S^Warehouse of Sulfur^;
+!#VRs^Warehouse_Crystal^:S^Warehouse of Crystal^;
+!#VRs^Warehouse_Gems^:S^Warehouse of Gems^;
+!#VRs^Warehouse_Gold^:S^Warehouse of Gold^;
+
+****************************************************************************************************
+Object Trigger
+
+!?OB63/98;                              [Objekt Trigger for Wood Warehouse]
+!!HE-1:O?y1;                            [Get Hero Owner]
+!!PO998:N?y2;
+!!FU(TUM_Warehouse_Function):Py1/0/10/y2;[Pass Player and Warehouse Type and amount of Res]
+!!PO998:N2;
+
+!?OB63/99;                              [Objekt Trigger for Mercury Warehouse]
+!!HE-1:O?y1;                            [Get Hero Owner]
+!!PO998:N?y2;
+!!FU(TUM_Warehouse_Function):Py1/1/6/y2;[Pass Player and Warehouse Type and amount of Res]
+!!PO998:N2;
+
+!?OB63/100;                             [Objekt Trigger for Ore Warehouse]
+!!HE-1:O?y1;                            [Get Hero Owner]
+!!PO998:N?y2;
+!!FU(TUM_Warehouse_Function):Py1/2/10/y2;[Pass Player and Warehouse Type and amount of Res]
+!!PO998:N2;
+
+!?OB63/101;                             [Objekt Trigger for Sulfur Warehouse]
+!!HE-1:O?y1;                            [Get Hero Owner]
+!!PO998:N?y2;
+!!FU(TUM_Warehouse_Function):Py1/3/6/y2;[Pass Player and Warehouse Type and amount of Res]
+!!PO998:N2;
+
+!?OB63/102;                             [Objekt Trigger for Crystal Warehouse]
+!!HE-1:O?y1;                            [Get Hero Owner]
+!!PO998:N?y2;
+!!FU(TUM_Warehouse_Function):Py1/4/6/y2;[Pass Player and Warehouse Type and amount of Res]
+!!PO998:N2;
+
+!?OB63/103;                             [Objekt Trigger for Gems Warehouse]
+!!HE-1:O?y1;                            [Get Hero Owner]
+!!PO998:N?y2;
+!!FU(TUM_Warehouse_Function):Py1/5/6/y2;[Pass Player and Warehouse Type and amount of Res]
+!!PO998:N2;
+
+!?OB63/104;                             [Objekt Trigger for Gold Warehouse]
+!!HE-1:O?y1;                            [Get Hero Owner]
+!!PO998:N?y2;
+!!FU(TUM_Warehouse_Function):Py1/6/2000/y2; [Pass Player and Warehouse Type and amount of Res]
+!!PO998:N2;
+****************************************************************************************************
+
+
+!?FU(TUM_Warehouse_Function);
+x1=player 0-7, x2=Warehouse type 0-6, x3=resource amount, x4=PO-number (never visited/visited/not visited)
+!!VRz4&1000:S^WERHOUSE.wav^;            [Name of the soundfile that should be played]
+!!SN&1000:Pz4;                          [Play Warehouse Sound]
+!!if|x4=0/x4=1:;                        [Give Res when visiting first time (0) or in a new week (1)]
+  !!OW:Rx1/x2/dx3;                      [Add Res for player]
+  !!VRz3&x2=0:S^Wood^;
+  !!VRz3&x2=1:S^Mercury^;
+  !!VRz3&x2=2:S^Ore^;
+  !!VRz3&x2=3:S^Sulfur^;
+  !!VRz3&x2=4:S^Crystal^;
+  !!VRz3&x2=5:S^Gems^;
+  !!VRz3&x2=6:S^Gold^;
+
+  !!VRz2:S^{Warehouse of %Z3}
+
+  After a closer inspection of the warehouse, you find {%X3} %Z3.^;
+
+  !!IF&1000:M^%Z2^;                     [Show Message]
+  !!SN&1000:D;                          [Redraw resource bar]
+!!en:;
+
+
+****************************************************************************************************
+When hovering the mouse over the objects set hint description
+
+!?FU(OnAdvMapTileHint);
+
+!!SN:X?y1/?y2/?y3/?y4/?y5;
+!!VRy10:Si^Warehouse_Type^;
+!!VRy20:Si^Warehouse_Subtype_Wood^;      (Wood)
+!!VRy21:Si^Warehouse_Subtype_Mercury^;   (Mercury)
+!!VRy22:Si^Warehouse_Subtype_Ore^;       (Ore)
+!!VRy23:Si^Warehouse_Subtype_Sulfur^;    (Sulfur)
+!!VRy24:Si^Warehouse_Subtype_Crystal^;   (Crystal)
+!!VRy25:Si^Warehouse_Subtype_Gems^;      (Gems)
+!!VRy26:Si^Warehouse_Subtype_Gold^;      (Gold)
+!!FU&y4<>y10:E;                           [Exit it it is not Warehouse_Type]
+
+*!IF:L^%Y1 %Y2 %Y3 Type:%Y4 Subtype:%Y5^;
+!!if|y5=y20/y5=y21/y5=y22/y5=y23/y5=y24/y5=y25/y5=y26;
+
+  !!POy1/y2/y3:N?y6;                      (Check PN value 2 means has already been visited but not cleared)
+  !!VRz1&y5=y20:Ss^Warehouse_Wood^;
+  !!VRz1&y5=y21:Ss^Warehouse_Mercury^;
+  !!VRz1&y5=y22:Ss^Warehouse_Ore^;
+  !!VRz1&y5=y23:Ss^Warehouse_Sulfur^;
+  !!VRz1&y5=y24:Ss^Warehouse_Crystal^;
+  !!VRz1&y5=y25:Ss^Warehouse_Gems^;
+  !!VRz1&y5=y26:Ss^Warehouse_Gold^;
+
+  !!VRz1&y6=0:S^%Z1^;
+  !!HTy4/y5&y6=0:P0/z1;                 [Set description for never visited]
+
+  !!VRz1&y6=1:S^%Z1 (Not Visited)^;     [Not visited Warehouse]
+  !!HTy4/y5&y6=1:P1/z1;
+
+  !!VRz1&y6=2:S^%Z1 (Visited)^;         [Visited Warehouse]
+  !!HTy4/y5&y6=2:P2/z1;
+!!en:;
+
+
+!?FU(OnEveryDay)&i^timerOnce^=1/i^timerDay^>0/i^timerWeekDay^=1/i^timerIsAi^=0;
+*Triggers every Monday and resets Warehouses Flag*
+
+!!VRy30:Si^Warehouse_Type^;             [(Type)]
+!!VRy20:Si^Warehouse_Subtype_Wood^;     [(Wood)]
+!!VRy21:Si^Warehouse_Subtype_Mercury^;  [(Mercury)]
+!!VRy22:Si^Warehouse_Subtype_Ore^;      [(Ore)]
+!!VRy23:Si^Warehouse_Subtype_Sulfur^;   [(Sulfur)]
+!!VRy24:Si^Warehouse_Subtype_Crystal^;  [(Crystal)]
+!!VRy25:Si^Warehouse_Subtype_Gems^;     [(Gems)]
+!!VRy26:Si^Warehouse_Subtype_Gold^;     [(Gold)]
+
+!!UN:Uy30/-1/?y10;                      [(Get amount of objects on the map)]
+!!VRv2:S-1;                             [start searching from the first map object]
+!!re i/1/y10:;
+  !!UN:Uy30/-1/-1/2;                    [get coordinates from the objects in v2, v3, v4]
+  !!OBv2/v3/v4:T?y2 U?y3;               [(Get Type and Subtype)]
+  !!POv2/v3/v4|y3=y20/y3=y21/y3=y22/y3=y23/y3=y24/y3=y25/y3=y26:N?y31; [(Reset PO value to 0, means not taken and can be visited again)]
+  !!if&y31>0:;
+  !!POv2/v3/v4|y3=y20/y3=y21/y3=y22/y3=y23/y3=y24/y3=y25/y3=y26:N1; [Set new PO number]
+  !!en:;
+!!en:;

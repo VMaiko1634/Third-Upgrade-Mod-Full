@@ -1,0 +1,107 @@
+ZVSE2
+; Author:   Archer30
+; Engine:   ERM 2.0+
+; Requires: ERA 3.3+, Third Upgrade Mod
+
+; This option enables the 4th upgraded 7/8th level creatures in the game.
+; They can be either upgraded in town if the third upgrade buiilding has been built or upgraded in hill forts.
+
+; Recruite Dialogue
+!?FU(newup_ExtendTownDwellings);
+!#VA(townId:x) (townType:x); 
+
+!!UN:P(WOG_OPT_4TH_UPGRADES)/?(fourthUpgOn:y);
+!!FU&(fourthUpgOn)<>(TRUE):E;
+
+!!if&(townType)=(TOWN_CASTLE);          [Castle]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/3/12/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/2/13/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/150/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/202/100;
+!!el&(townType)=(TOWN_RAMPART);         [Rampart]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/3/26/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/2/27/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/151/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/207/100;
+!!el&(townType)=(TOWN_TOWER);           [Tower]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/3/40/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/2/41/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/152/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/212/100;
+!!el&(townType)=(TOWN_INFERNO);         [Inferno]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/3/54/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/2/55/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/153/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/219/100;
+!!el&(townType)=(TOWN_NECROPOLIS);      [Necropolis]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/3/68/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/2/69/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/154/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/224/100;
+!!el&(townType)=(TOWN_DUNGEON);         [Dungeon]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/3/82/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/2/83/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/155/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/231/100;
+!!el&(townType)=(TOWN_STRONGHOLD);      [Stronghold]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/3/96/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/2/97/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/156/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/238/100;
+!!el&(townType)=(TOWN_FORTRESS);        [Fortress]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/3/110/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/2/111/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/157/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/245/100;
+!!el&(townType)=(TOWN_CONFLUX);         [Conflux]
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/3/130/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/2/131/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/158/100;
+  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/252/100;
+!!en;
+
+; Look for level 8 dwellings on the map and level them up - must be executed later than WoGify since level 8 dwelling only generates there
+!?FU(OnEveryDay)&i^timerOnce^/i^timerDay^=1/i^tum_reborn_on^;
+; Check if 4th upgrade is enabled
+; Here we don't check replacement options as the dwellings might be placed by the map maker
+!!UN:P(WOG_OPT_4TH_UPGRADES)/?(wogOption:y);  
+!!FU&(wogOption)<>(TRUE):E;
+
+!!UN:X?(mapSize:y)/?(hasUnderground:y); 
+; pass once through all cells of the map
+!!re l/0/(hasUnderground)/1;  coord z
+  !!re k/0/(mapSize)/1/-1;    coord y
+    !!re i/0/(mapSize)/1/-1;  coord x
+      !!OBi/k/l:T?(objType:y) U?(objSubtype:y);
+      !!TRi/k/l:E?(isYellowSquare:y) P?(isPassable:y); 
+      !!VR(isYellowSquare):X1;  reverse param isYellowSquare
+      !!FU(tum_OnIterateAllMapObjectsDay1):Pi/k/l/(objType)/(objSubtype)/(isYellowSquare)/(isPassable);
+    !!en;
+  !!en;
+!!en;
+
+!?FU(tum_OnIterateAllMapObjectsDay1);
+!#VA(x:x) (y:x) (z:x);
+!#VA(objType:x);
+!#VA(objSubtype:x);
+!#VA(isYellowSquare:x); boolean.
+!#VA(isPassable:x);     boolean.
+
+; check: is entry to the object
+!!FU&(isYellowSquare)<>(TRUE):E;
+
+; check: object type
+!!FU&(objType)<>(OBJ_CREATURE_GENERATOR_1):E;
+!!FU|(objSubtype)<80/(objSubtype)>88:E;
+
+; Set up dwelling creature to 4th level (production and guards)
+!!DW(x)/(y)/(z):M0/?(type:y)/?(num:y);
+!!FU(GetUpgradedMonster):P(type)/?(upgMon:y);
+!!FU&(upgMon)=(NO_MON):E;
+
+!!DW(x)/(y)/(z):M0/(upgMon)/(num);
+
+!!re i/(ARMY_SLOT_FIRST)/(ARMY_SLOT_LAST);
+  !!DW(x)/(y)/(z):Gi/?(type:y)/?(num:y);
+  !!DW(x)/(y)/(z)&(type)>(NO_MON):Gi/(upgMon)/(num);
+!!en;

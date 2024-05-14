@@ -1,0 +1,853 @@
+ZVSE2
+*by ElfbI
+*updated by Archer30 for the compatibility with TUM
+*Pandora's Box
+*used flags 203
+**************
+!#SN:W^Box_variant_90^/-1;                              init
+!#SN:W^Bless_variant_90^/-1;                            init
+!#SN:W^Hero_level_90^/1;                                init
+!#SN:W^init_pandora_90^/-1;                             [haven't initialized boxes]
+
+; Enable new pandora only when object replacement is enabled, the map is a random map
+!#UN:P195/?(wogOption:y);
+!#FU(tum_CheckRandMap):P?(isRandomMap:y);
+!#VRi^pandora_enabled^&(wogOption)/(isRandomMap):S(TRUE);
+
+!?FU(OnStartOrLoad)&i^pandora_enabled^;
+!!SN:L^erm_hooker.era^/?(hooker:y);
+!!FU&(hooker)=0:E;
+
+!!SN:A(hooker)/^SetHook^/?(hookingFuncAddress:y);
+!!FU(pandora_CreateERMHook):P(hookingFuncAddress);
+
+!?FU(pandora_CreateERMHook);                      [функция создания хука (см.1000 wog - base)]
+!!UN:C4603972/1/235;                              [нет проверки на в подземелье (Z=1)]
+!!SN:Ex1/1/4601891/(pandora_SetNewBattleFields);
+
+*************************************************Initial Timer Set******************************************************
+!?FU(OnAfterErmInstructions)&i^pandora_enabled^;
+!!UN:U6/-1/?y1;                         [count boxes->count_pandora_90]
+!!SN:W^count_pandora_90^/y1;            [write pandora numb]
+
+!!if&y1>0;
+ !!VRv2:S-1;
+
+ !!re i/1/y1/1;
+   !!UN:U6/-1/-1/2;                     [get x/y/level v2-v4]
+   !!VRy10:S1 R15;                      [random box variants - 16 parts.]
+   !!VRy11:S2 R3;                       [random bless/curse variants - 4 parts.]
+   !!FU(PackedCoords):Py10/y11/0/?y2;   [pack vars]
+   !!SN:W^%V2_%V3_%V4_pandora90^/y2;    [write vars]
+
+   !!if&y10>=6;                        [настраиваем "призрачное" содержание ящика для ИИ, только сингл или хот-сит, команда нестабильна по сети]
+
+    !!if|y10<=10/y10=16;
+     !!PA2:E200000;                     [если в ящике что-то полезное, ИИ "подсмотрит" 200к опыта]
+    !!el;
+     !!PA2:X1;                          [если в ящике что-то вредное, ИИ "подсмотрит" охрану]
+     !!PA2:G1/196/10000;                [и увидит 10к драколичей]
+    !!en;
+  !!en;
+ !!en;
+!!en;
+*
+*************************************************Main Trigger Section****************************************************
+!?OB6&i^pandora_enabled^;
+!!IF:V203/0;
+******************* set Box Variant
+!!SN:W^%V998_%V999_%V1000_pandora90^/?y2;
+!!FU(UnPackedCoords):P?y34/?y35/?y1/y2;                                         get coord
+!*!VRy34:S12;                                                                   |||   for variant maintaining script
+!!SN:W^Box_variant_90^/y34; !!SN:W^Bless_variant_90^/y35;
+*теперь в Box_variant_90 хранится вариант открытой коробки
+*а в Bless_variant_90 вариант бонуса/проклятия для Box_variant_90=7,8,11
+******************* set main trigger
+!!if&y34>=6;                                                           33% шанс на старую коробку
+ !!IF:V203/0;                                                           flag to 0
+ !!OBv998/v999/v1000:M-1/1/0;                                           автответ на стандартный вопрос ящика пандоры, если y34>=6, координаты определены автоматически
+ !!SN&1000:T^ep.open_box_q^/?z1;
+ !!IF&1000:Q203/z1;                                            Вопрос, если человек, флаг 203
+ !!IF&-1000:V203/1;                                               Sets FLAG 203 to TRUE if active player AI and y34>=6
+!!en;
+!!FU(Pandora90_main):Pv998/v999/v1000;         передаем координаты, чтобы ящик удалился после использования боевых триггеров
+**************************
+*****************************значение y34=6, игрок получает ресурсы каждого вида
+!?FU(Pandora90_main);
+!!SN:W^opt_149_mythril^/?y1 W^Box_variant_90^/?y34 W^Bless_variant_90^/?y35;
+
+!!if&203/y34=6;
+ !!HE-1:S13/?y61;                                                               check estates
+ !!VRy62:S7 R6;
+  !!if&1000/y61=0;
+   !!SN:T^ep.res_box_m^/?z1;
+   !!IF:M1/1;
+  !!en;
+  !!if&y61>0;                                                                  и навык >0
+   !!SN&y61=1:T^ep.basic_box_m^/?z1;
+   !!SN&y61=2:T^ep.advanced_box_m^/?z1;
+   !!SN&y61=3:T^ep.expert_box_m^/?z1;
+   !!SN:T^ep.res_box_m1^/?z2/^estate^/z1;
+   !!IF&1000:M1/2;
+   !!VRy61: *2;                                                                 double estates level
+   !!VRy62:Sy62 +y61;                                                           raise value
+  !!en;
+  !!if&1000;
+   !!IF&y1=0:N1/y62/3/y62/4/y62/5/y62;
+   !!IF&y1=1:N1/y62/3/y62/4/y62/5/y62/7/10;
+   !!IF:N^^;
+  !!en;
+  !!OW:R-1/1/dy62 R-1/3/dy62 R-1/4/dy62 R-1/5/dy62;                             выдать ресурсы, кроме дерева и руды
+  !!OW&y1=1:R-1/7/d10;                                                          выдать мифрил, если включен (проверка переменной $mithril$)
+!!en;
+**************************
+*****************************значение y34=7, герой получает атаку и защиту
+!!if&203/y34=7;
+ !!HE-1:S21/?y61;                                                               check обучение
+ !!VRy62:Sy35 -1;
+ !!if&y61>0;                                                                   get bonus
+  !!VRy62:Sy62 +y61;                                                            add to bonus
+  !!VRy62&y62>6:S6;                                                             if too high
+ !!en;
+ !!if&1000;                                                              если игрок - человек
+  !!SN&y61=0:T^ep.skill_box_m^/?z1;
+  !!IF&y61=0:Q1/31/y62/32/y62/1/z1;
+  !!if&y61>0;                                                                  и навык  >0
+   !!SN&y61=1:T^ep.basic_box_m^/?z1;
+   !!SN&y61=2:T^ep.advanced_box_m^/?z1;
+   !!SN&y61=3:T^ep.expert_box_m^/?z1;
+   !!SN:T^ep.skill_box_m1^/?z2/^learn^/z1;
+   !!IF:Q1/31/y62/32/y62/1/z2;
+  !!en;
+ !!en;
+ !!HE-1:Fdy62/dy62/d0/d0;                                         игрок получает атаку и защиту в кол-ве y62
+!!en;
+**************************
+*****************************значение y34=8, герой получает силу магии и знания
+!!if&203/y34=8;
+ !!HE-1:S18/?y61;                                                               check грамотность
+ !!VRy62:Sy35;
+ !!if&y61>0;
+  !!VRy62:Sy62 +y61;                                                            add to bonus
+  !!VRy62&y62>6:S6;                                                             if too high
+ !!en;
+ !!if&1000;                                                                   если игрок - человек
+  !!SN&y61=0:T^ep.skill_box_m^/?z1;
+  !!IF&y61=0:Q1/33/y62/34/y62/1/z1;
+  !!if&y61>0;                                                                  и навык  >0
+   !!SN&y61=1:T^ep.basic_box_m^/?z1;
+   !!SN&y61=2:T^ep.advanced_box_m^/?z1;
+   !!SN&y61=3:T^ep.expert_box_m^/?z1;
+   !!SN:T^ep.mskill_box_m1^/?z2/^learn1^/z1;
+   !!IF:Q1/33/y62/34/y62/1/z2;
+  !!en;
+ !!en;
+ !!HE-1:Fd0/d0/dy62/dy62;                                                       игрок получает знания и силу магии в кол-ве y62
+!!en;
+**************************
+*****************************значение y34=9, герой получает очки передвижения
+!!if&203/y34=9;
+ !!HE-1:S3/?y61;                                                                check разведка
+  !!if&y61>0;
+   !!VRy62:Sy61 *500;                                                           calc to bonus
+   !!HE-1:Wdy62;                                                                bonus
+   !!VRy62&y61>0:Sy62 %10;                                                      calc to bonus
+   !!HE-1:Gdy62;                                                                bonus
+  !!en;
+  !!if&1000;                                                                   если игрок - человек
+   !!SN&y61=0:T^ep.move_box_m^/?z1;
+   !!IF&y61=0:Q1/20/11/1/z1;
+   !!if&y61>0;                                                                 и навык разведки >0
+    !!SN&y61=1:T^ep.basic_box_m^/?z1;
+    !!SN&y61=2:T^ep.advanced_box_m^/?z1;
+    !!SN&y61=3:T^ep.expert_box_m^/?z1;
+    !!SN:T^ep.move_box_m1^/?z2/^move^/z1;
+    !!IF:Q1/20/11/1/z2;
+   !!en;
+  !!en;
+ !!HE-1:Wd2000;                                                                 Дать ~20 шагов
+ !!HE-1:Gd200;                                                                  Увеличить максимальный запас хода
+!!en;
+**************************
+*****************************значение y34=10, герой получает очки маны
+!!if&203/y34=10;
+ !!HE-1:S24/?y61;                                                               check интеллект
+ !!if&y61>0;
+  !!VRy62:Sy61 *50;                                                            a*b
+  !!VRy62: +200;                                                                +c
+  !!HE-1:Idy62;                                                                 bonus
+ !!el;
+  !!VRy62:S200;                                                                 +c
+  !!HE-1:Idy62;
+ !!en;
+ !!if&1000;                                                                    если игрок - человек
+  !!SN&y61=0:T^ep.magic_box_m^/?z1;
+  !!IF&y61=0:Q1/35/y62/1/z1;
+  !!if&y61>0;                                                                  и навык  >0
+    !!SN&y61=1:T^ep.basic_box_m^/?z1;
+    !!SN&y61=2:T^ep.advanced_box_m^/?z1;
+    !!SN&y61=3:T^ep.expert_box_m^/?z1;
+    !!SN:T^ep.magic_box_m1^/?z2/^magic^/z1;
+    !!IF:Q1/35/y62/1/z2;
+  !!en;
+ !!en;
+!!en;
+**************************
+*****************************значение y34=11, герой получает проклятие
+!!if&203/y34=11;
+ !!HE-1:S26/?y61;                                                               check resistance
+ !!VRy62:S5 -y61;                                                               уменьшаем длительность на уровень сопротивления
+ !!if&1000;
+  !!SN&y61=0:T^ep.curse_box_m^/?z1;                                                                  если игрок - человек
+  !!IF&y61=0:Q1/13/3/1/z1;
+  !!if&y61>0;                                                                  и навык resistanse >0
+    !!SN&y61=1:T^ep.curse_b_box_m^/?z1;
+    !!SN&y61=2:T^ep.curse_a_box_m^/?z1;
+    !!SN&y61=3:T^ep.curse_e_box_m^/?z1;
+    !!SN:T^ep.curse_box_m1^/?z2/^curse^/z1;
+    !!IF:Q1/13/3/1/z2;
+  !!en;
+ !!en;
+ !!if&y61<>3;
+  !!if&1000;
+   !!SN&y35=2:T^ep.curse_portal_m^/?z1/^durat^/y62;
+   !!IF&y35=2:Q1/9/9/1/z1;
+   !!SN&y35=3:T^ep.curse_view_m^/?z1/^durat^/y62;
+   !!IF&y35=3:Q1/9/3/1/z1;
+   !!SN&y35=4:T^ep.curse_move_m^/?z1/^durat^/y62;
+   !!IF&y35=4:Q1/20/5/1/z1;
+   !!SN&y35=5:T^ep.curse_rad_m^/?z1/^durat^/y62;
+   !!IF&y35=5:Q1/20/14/1/z1;
+  !!en;
+  !!HE-1&y35=2:Y49/0/y62/1;                                                   Накладываем проклятие 49
+  !!HE-1&y35=3:Y8/0/y62/1;                                                    Накладываем проклятие 8
+  !!HE-1&y35=4:Y10/200/y62/1;                                                 Накладываем проклятие 10
+  !!HE-1&y35=5:Y1/0/y62/1;                                                    Накладываем проклятие 1
+ !!en;
+!!en;
+**************************
+******************
+***********значение y34=12, герой атакован
+!!if&203/y34=12;
+ !!SN:T^ep.battle_box_q^/?z1;
+ !!IF&1000:Q1/z1;
+ !!if&-1;
+  !!IF:V203/0;
+  !!FU:E;
+ !!en;
+ !!HE-1:Ed/?y36;                                                                get level
+ !!SN:W^Hero_level_90^/y36;                                                     write level for battle trigger
+ !!VRy35&y36<31:S0;                                                             Записать в y35 0 для обработки боевыми триггерами, если уровень героя y36<31
+ !!VRy35&y36>=31:S1;                                                            Записать в y35 1, если уровень героя y36>=31
+ !!SN:W^Bless_variant_90^/y35;
+ !!HE-1&-1000:T0/0/0/134/1;                                                     если AI, то формальная битва с 1 сказочным
+
+ !!if&1000;
+  !!SN:T^ep.battle_box_m^/?z2;
+  !!IF:Q1/20/71/1/z2;
+  !!if&y35=0;
+   !!VRy36&y36>=2: :2;
+   !!VRy36&y36>=2/y36<4: :2;
+   !!VRy36&y36<=1:S1;
+   !!HE-1&y35=0:T0/0/0/134/y36;                                             битва со сказочными от уровня героя (уровень<31) после идет post battle trigger BA1
+  !!el;
+   !!VRy36: :3;
+   !!VRy36&y36>35:S20;
+   !!VRy36&y36<1:S1;
+   !!HE-1&y35=1:T0/0/0/132/y36;                                             битва с лазурными от уровня героя уровня героя (уровень>=20)
+  !!en;
+ !!en;
+!!en;
+**************************
+*****************************значение y34=13, герой теряет все очки заклинаний
+!!if&203/y34=13;
+ !!HE-1:S25/?y61;                                                               check sorc
+ !!HE-1:S12/?y63;                                                               check necro
+ !!VRy61&y61<y63:Sy63;
+ !!HE-1:I?y62;                                                                  check mana
+ !!if&y61>0/y62>0;
+  !!VRy62: :6 *y61;                                                             add to bonus
+ !!el;
+  !!VRy62:S0;
+ !!en;
+ !!HE-1:Iy62;                                                                   установить очки маны на y63
+ !!if&1000;
+  !!SN&y61=0:T^ep.necro_sorc_box_m^/?z1;
+  !!IF&y61=0:Q1/35/y62/1/z1;
+  !!if&y61>0;                                                                  и навык  >0
+    !!SN&y61=1:T^ep.basic_box_m^/?z1;
+    !!SN&y61=2:T^ep.advanced_box_m^/?z1;
+    !!SN&y61=3:T^ep.expert_box_m^/?z1;
+    !!if&y61<y63;
+     !!SN:T^ep.necro_box_m^/?z2;
+    !!el;
+     !!SN:T^ep.sorc_box_m^/?z2;
+    !!en;
+    !!SN:T^ep.necro_sorc_box_m1^/?z3/^sorne^/z2/^nesor^/z1;
+    !!IF:Q1/35/y62/1/z3;
+  !!en;
+ !!en;
+ !!VRy61:S0;
+ !!VRy62:S0;
+!!en;
+**************************
+*****************************значение y34=14, игрок встречает жадного гремлина и теряет ресурсы
+!!if&203/y34=14;
+ !!HE-1:S4/?y62;                                                                check diplomathy -> y62
+ !!if&1000;
+  !!if&y62>0;
+   !!VRy60:S-5 +y62;
+   !!SN&y62=1:T^ep.basic_box_m^/?z1;
+   !!SN&y62=2:T^ep.advanced_box_m^/?z1;
+   !!SN&y62=3:T^ep.expert_box_m^/?z1;
+   !!SN:T^ep.diplo_box_m^/?z2/^diplo^/z1;
+   !!IF:Q1/21/173/1/z2;   если игрок - человек, показать сообщение
+  !!el;
+    !!VRy60:S-5;
+    !!SN:T^ep.diplo_box_m1^/?z2;
+    !!IF:Q1/21/173/1/z2;   если игрок - человек, показать сообщение
+  !!en;
+  !!VRy62:Sy60*-1;
+  !!IF:N1/y62/3/y62/4/y62/5/y62/1;
+  !!SN:T^ep.diplo_box_m2^/?z3;
+  !!IF:N1/z3;
+ !!en;
+ !!OW:R-1/1/?y1 R-1/3/?y3 R-1/4/?y4 R-1/5/?y5;*
+ !!VRy61:Sy1+y60; !!OW&y61<0:R-1/1/0; !!OW&y61>=0:R-1/1/dy60;                                                           Если меньше 0, установить на ноль
+ !!VRy63:Sy3+y60; !!OW&y63<0:R-1/3/0; !!OW&y63>=0:R-1/3/dy60;
+ !!VRy64:Sy4+y60; !!OW&y64<0:R-1/4/0; !!OW&y64>=0:R-1/4/dy60;
+ !!VRy65:Sy5+y60; !!OW&y65<0:R-1/5/0; !!OW&y65>=0:R-1/5/dy60;
+!!en;
+**************************
+*****************************значение y34=15, игрок обворован
+!!if&203/y34=15;
+ !!HE-1:S9/?y61;                                                                check luck -> y61
+ !!VRy63:S30 R30;                                                               30-60
+ !!if&y61>0;
+  !!VRy62:Sy61 *10;                                                             Transform luck to gold index 0-30
+  !!VRy63:Sy63 -y62;
+ !!en;
+ !!VRy63: *100;                                                                 set gold ammount
+ !!if&1000;
+  !!if&y61>0;                                                                  и навык  >0
+   !!SN&y61=1:T^ep.thief_b_box_m^/?z1;
+   !!SN&y61=2:T^ep.thief_a_box_m^/?z1;
+   !!SN&y61=3:T^ep.thief_e_box_m^/?z1;
+   !!SN:T^ep.thief_box_m^/?z2/^luck^/z1;
+   !!IF:Q1/21/143/1/z2;   если игрок - человек, показать сообщение
+  !!el;
+   !!SN:T^ep.thief_box_m1^/?z1;
+   !!IF:Q1/21/143/1/z1;   если игрок - человек, показать сообщение
+  !!en;
+  !!IF:Q1/6/d/1^{-%Y63}^;
+ !!en;
+ !!OW:R-1/6/?y61;                                                               кол-во денег игрока в y61
+ !!VRy61:Sy61 -y63;                                                             вычитаем нужную сумму
+ !!VRy61&y61<0:S0;                                                              остаток меньше 0, установить на ноль
+ !!OW:R-1/6/y61;                                                                меняем деньги игрока на новое кол-во
+ !!VRy63:S0;                                                                    обнуляем переменную y35
+!!en;
+**************************
+*****************************значение y34=16, игрок получает артефакты
+!!SN:W^Box_variant_90^/?y34 W^Bless_variant_90^/?y35;                           reget var (if was changed in var 12)
+
+!!if&203/y34=16;
+ !!FU(pandora90_art_disp):P3/0;                                                 Give 3 art
+ !!HE-1:S11/?y61;                                                               check eagle eye -> y61
+ !!if&y61>0;
+  !!FU(pandora90_art_disp):Py61/y61;                                            give 1 art for every Eagle eye level
+ !!en;
+!!en;
+**************************
+*****************************конец события, сбрасываем флаги и переменные, удаляем объект**
+!!if&203;
+ !!VRy20:S0 R6;
+ !!VRz1&y20=0:S^pickup01.82M^;!!VRz1&y20=3:S^pickup04.82M^;!!VRz1&y20=6:S^pickup07.82M^;
+ !!VRz1&y20=1:S^pickup02.82M^;!!VRz1&y20=4:S^pickup05.82M^;
+ !!VRz1&y20=2:S^pickup03.82M^;!!VRz1&y20=5:S^pickup06.82M^;
+ !!SN:Pz1;
+ !!UN:Ox1/x2/x3;                                                                             удаляем ящик
+!!en;
+!!VRy36:S0;
+!!IF:V203/0;
+*****************************END MAIN TRIGGER*****************************
+**************************** Pre-battle trigger
+!?FU(pandora_SetNewBattleFields)&203/i^pandora_enabled^;
+!!SN:W^Box_variant_90^/?y34 W^Bless_variant_90^/?y35;
+!!if&y34=12;
+ !!BA&y35=0:B9;                                                   set field
+ !!BA&y35=1:B17;
+!!en;
+**************************
+*****************************Sets up special battlefield
+!?BF&203/i^pandora_enabled^;
+!!SN:W^Box_variant_90^/?y34 W^Bless_variant_90^/?y35;
+!!if&y34=12;
+ !!BF:C;                                                           Clear the battlefield
+ !!BF&y35=1:O28/4 O28/21 O28/37 O28/40 O28/57 O28/73 O28/91 O28/107 O28/124 O28/140 O28/8 O28/26 O28/43 O28/63 O28/79 O28/96 O28/113 O28/131 O28/147 O28/162 O28/179;   set obstacles
+ !!BF&y35=0:O75/4 O75/21 O75/37 O75/40 O75/57 O75/73 O75/91 O75/107 O75/124 O75/140 O75/8 O75/26 O75/43 O75/63 O75/79 O75/96 O75/113 O75/131 O75/147 O75/162 O75/179;   set obstacles
+!!en;
+****************************************************
+*****************************BG  trigger
+!?BG&203/i^pandora_enabled^;
+!!SN:W^Box_variant_90^/?y34 W^Bless_variant_90^/?y35;
+!!if&y34=12;
+ !!BU&y35=0:G1;
+ !!BU&y35=1:G6;                                                    set field effects
+!!en;
+**************************
+************************** Battlefield round trigger**********************
+!?FU(OnAfterTacticsPhase)&203/1000/i^pandora_enabled^;
+!!SN:W^Box_variant_90^/?y34 W^Bless_variant_90^/?y35 W^Hero_level_90^/?y36;
+
+!!if&y34=12;
+  !!BU:S183/1/159/1/-1/0;         set pal
+  !!BU:E159/?y61;
+  !!if&y35=0;
+   !!BMy61:A45 D40 E1 H2750 S10 U1/160 U2/170 U3/0;
+   !!BMy61&y36<25:A40 D38 E1 H1550 S10 U1/130 U2/140 U3/0;
+   !!BMy61&y36<20:A32 D30 E1 H1050 S10 U1/115 U2/120 U3/0;
+   !!BMy61&y36<15:A25 D23 E1 H750 S10 U1/90 U2/100 U3/0;
+   !!BMy61&y36<9:A15 D13 E1 H250 S10 U1/90 U2/100 U3/0;
+   !!BMy61&y36<5:A10 D9 E1 H125 S5 U1/45 U2/50 U3/0;
+  !!el;
+   !!BMy61:A60 D52 E6 H5500 S15 U1/295 U2/400 U3/0;
+  !!en;
+  !!MA:X183/?i;
+  !!VRi:+4424720; +16 +1024 +32768 +65536 +131072 +4194304;
+  !!BMy61:Fi;
+*******set heal
+  !!BU:S184/1/164/1/-1/0;
+  !!BU:E164/?y61;
+  !!if&y35=0;
+   !!BMy61:A35 D45 E1 H2700 S8 U1/120 U2/140 U3/0;
+   !!BMy61&y36<25:A30 D40 E1 H1500 S8 U1/90 U2/110 U3/0;
+   !!BMy61&y36<20:A22 D32 E1 H1000 S8 U1/75 U2/90 U3/0;
+   !!BMy61&y36<15:A15 D25 E1 H700 S8 U1/50 U2/70 U3/0;
+   !!BMy61&y36<9:A10 D15 E1 H200 S8 U1/50 U2/70 U3/0;
+   !!BMy61&y36<5:A5 D10 E1 H100 S4 U1/25 U2/35 U3/0;
+  !!el;
+   !!BMy61:A30 D60 E3 H5100 S18 U1/250 U2/370 U3/0;
+  !!en;
+  !!MA:X184/?i;
+  !!VRi:-2;
+  !!VRi:+4326416; +16 +1024 +131072 +4194304;
+  !!BMy61:Fi;
+*******set tower
+  !!BU:S185/1/10/1/-1/0;
+  !!BU:E10/?y61;
+  !!if&y35=0;
+   !!BMy61:A55 D35 E1 H2650 S8 U1/145 U2/160 U3/0;
+   !!BMy61&y36<25:A50 D30 E1 H1450 S8 U1/115 U2/130 U3/0;
+   !!BMy61&y36<20:A42 D22 E1 H950 S8 U1/105 U2/115 U3/0;
+   !!BMy61&y36<15:A35 D15 E1 H650 S5 U1/85 U2/100 U3/24;
+   !!BMy61&y36<9:A25 D10 E1 H150 S5 U1/85 U2/100 U3/24;
+   !!BMy61&y36<5:A10 D5 E1 H50 S5 U1/43 U2/50 U3/12;
+  !!el;
+   !!BMy61:A80 D30 E3 H5000 S15 U1/285 U2/400 U3/24;
+  !!en;
+  !!MA:X185/?i;
+  !!VRi:-2;
+  !!VRi:+4363284; +4 +16 +1024 +4096 +32768 +131072 +4194304;
+  !!BMy61:Fi;
+*******set succ
+  !!BU:S186/1/45/1/-1/0;
+  !!BU:E45/?y61;
+  !!if&y35=0;
+   !!BMy61:A38 D43 E0 H2900 S8 U1/140 U2/150 U3/0;
+   !!BMy61&y36<25:A33 D38 E0 H1700 S8 U1/110 U2/120 U3/0;
+   !!BMy61&y36<20:A25 D30 E0 H1200 S8 U1/100 U2/110 U3/0;
+   !!BMy61&y36<15:A18 D23 E0 H900 S8 U1/80 U2/90 U3/0;
+   !!BMy61&y36<9:A8 D13 E0 H300 S8 U1/80 U2/90 U3/0;
+   !!BMy61&y36<5:A7 D9 E0 H150 S8 U1/40 U2/45 U3/0;
+  !!el;
+   !!BMy61:A52 D57 E0 H4600 S25 U1/280 U2/390 U3/0;
+  !!en;
+  !!MA:X186/?i;
+  !!VRi:+4867088; +16 +1024 +16384 +524288 +131072 +4194304;
+  !!BMy61:Fi;
+*******set zver
+  !!BU:S188/1/42/1/-1/0;
+  !!BU:E42/?y61;
+  !!if&y35=0;
+   !!BMy61:A40 D40 E0 H2750 S9 U1/150 U2/155 U3/0;
+   !!BMy61&y36<25:A35 D35 E0 H1550 S9 U1/120 U2/125 U3/0;
+   !!BMy61&y36<20:A27 D27 E0 H1050 S9 U1/110 U2/115 U3/0;
+   !!BMy61&y36<15:A20 D20 E0 H750 S9 U1/90 U2/95 U3/0;
+   !!BMy61&y36<9:A10 D10 E0 H250 S9 U1/90 U2/95 U3/0;
+   !!BMy61&y36<5:A7 D8 E0 H150 S9 U1/45 U2/55 U3/0;
+  !!el;
+   !!BMy61:A69 D45 E0 H5500 S16 U1/270 U2/420 U3/0;
+  !!en;
+  !!MA:X188/?i;
+  !!VRi:-2;
+  !!VRi:+4916240; +16 +1024 +65536 +131072 +524288 +4194304;
+  !!BMy61:Fi;
+*******set ludo
+  !!BU:S189/1/31/1/-1/0;
+  !!BU:E31/?y61;
+  !!if&y35=0;
+   !!BMy61:A65 D35 E0 H2550 S11 U1/160 U2/170 U3/0;
+   !!BMy61&y36<25:A60 D30 E0 H1350 S11 U1/130 U2/140 U3/0;
+   !!BMy61&y36<20:A52 D22 E0 H850 S11 U1/115 U2/125 U3/0;
+   !!BMy61&y36<15:A45 D15 E0 H550 S11 U1/100 U2/110 U3/24;
+   !!BMy61&y36<9:A35 D10 E0 H150 S11 U1/100 U2/110 U3/24;
+   !!BMy61&y36<5:A20 D5 E0 H750 S11 U1/50 U2/70 U3/16;
+  !!el;
+   !!BMy61:A85 D28 E0 H5300 S16 U1/300 U2/420 U3/24;
+  !!en;
+  !!MA:X189/?i;
+  !!VRi:-2;
+  !!VRi:+4883476; +4 +16 +1024 +32768 +131072 +524288 +4194304;
+  !!BMy61:Fi;
+*******set shama
+!!BU:S190/1/115/1/-1/0;
+!!BU:E115/?y61;
+  !!if&y35=0;
+   !!BMy61:A45 D45 E3 H2750 S10 U1/160 U2/160 U3/0;
+   !!BMy61&y36<25:A40 D40 E3 H1550 S10 U1/130 U2/130 U3/0;
+   !!BMy61&y36<20:A320 D32 E3 H1050 S10 U1/120 U2/120 U3/0;
+   !!BMy61&y36<15:A25 D25 E3 H750 S10 U1/100 U2/100 U3/5;
+   !!BMy61&y36<9:A15 D15 E3 H150 S10 U1/100 U2/100 U3/5;
+   !!BMy61&y36<5:A10 D10 E3 H75 S5 U1/50 U2/50 U3/5;
+  !!el;
+   !!BMy61:A60 D60 E5 H4300 S19 U1/200 U2/330 U3/5;
+  !!en;
+  !!MA:X190/?i;
+  !!VRi:-2;
+  !!VRi:+4408340; +4 +16 +1024 +16384 +65536 +131072 +4194304;
+  !!BMy61:Fi;
+*******set spirit
+  !!BU:S191/1/81/1/-1/0;
+  !!BU:E81/?y61;
+  !!if&y35=0;
+   !!BMy61:A40 D45 E0 H2925 S5 U1/160 U2/160 U3/0;
+   !!BMy61&y36<25:A35 D40 E0 H1725 S5 U1/130 U2/130 U3/0;
+   !!BMy61&y36<20:A27 D32 E0 H1225 S5 U1/120 U2/120 U3/0;
+   !!BMy61&y36<15:A20 D25 E0 H925 S5 U1/100 U2/100 U3/24;
+   !!BMy61&y36<9:A10 D15 E0 H225 S5 U1/100 U2/100 U3/24;
+   !!BMy61&y36<5:A8 D10 E0 H115 S5 U1/50 U2/60 U3/12;
+  !!el;
+   !!BMy61:A53 D60 E0 H5450 S11 U1/300 U2/350 U3/24;
+  !!en;
+  !!MA:X191/?i;
+  !!VRi:+4379652; +4 +1024 +4096 +16384 +32768 +131072 +4194304;
+  !!BMy61:Fi;
+
+  ; Disable commander spells
+  !!re i/(BATTLE_DEFENDER_STACK_FIRST)/(BATTLE_DEFENDER_STACK_LAST);
+    !!BMi:T?(type:y);
+
+    !!if&(type)>=(MON_COMMANDER_FIRST_D)/(type)<=(MON_COMMANDER_LAST_D);
+      !!BMi:E0;
+    !!en;
+  !!en;
+!!en;
+*****************************Post-battle trigger**************************
+!?FU(OnAfterBattleUniversal)&203/i^pandora_enabled^;
+!!SN:W^Box_variant_90^/?y34 W^Bless_variant_90^/?y35 W^Hero_level_90^/?y36;
+!!if&y34=12;
+ !!HE-1:O?t;           Выясняем, жив ли герой, в переменную t
+ !!if&t>=0;           Если жив
+******************
+  !!if&-1000;
+   !!HE-1:Fd3/d3/d3/d3;[AI receives additional primary skills]
+   !!HE-1:Ed7000;      [AI receives additional experience]
+   !!OW:R-1/6/d20000;  [AI receives additional gold]
+  !!en;
+******************
+  !!if&y35=0;                                                  если битва была со сказочными
+   !!VRy69:S0 R100;                                      шанс на склянку с кровью дракона
+*!IF&y35=0/1000:Q1/8/y36/1^random value %Y-69^;           | check
+*****
+   !!UN&y69<76:J6/16/?y37 J6/16/?y38;                          75% генерация 2 случ артефакта для сказочных драконов
+   !!VRy37&y69>=76:S127;                                       25% шанс склянкa с кровью дракона и 1 случ арт
+   !!UN&y69>=76:J6/16/?y38;
+*****
+   !!SN&1000:T^ep.art_box_m^/?z1;
+   !!IF&1000:Q1/8/y37/8/y38/1/z1;
+   !!HE-1:Ay37 Ay38;                                                 и отдать артефакт при победе
+  !!en;
+******************
+*********************Or**********************                                                   или
+  !!if&y35=1;
+   !!FU(pandora90_give_abil):P;                             для варианта с лазурными генерируем и даем отряду способность
+   !!VRy69:S0 R100;                                         5% шанс на Sword of Armageddon
+   !!if&y69>=96;
+    !!VRy36:S128;                                           Sword of Armageddon
+    !!HE-1:Ay36;                                            и отдать Sword of Armageddon при победе
+    !!SN&1000:T^ep.art_box_m^/?z4;
+    !!IF&1000:Q1/8/y36/1/z4;
+   !!el;
+    !!UN:J6/16/?y36 J6/16/?y37 J6/16/?y38;                   95% генерация 3 случ артефакта для лазурных драконов
+    !!HE-1:Ay36 Ay37 Ay38;
+    !!SN&1000:T^ep.art_box_m^/?z4;
+    !!IF&1000:Q1/8/y36/8/y37/8/y38/1/z4;
+   !!en;
+  !!en;
+  ; Disabled by Archer30 - the reward is already good enough
+  *!SN:W^Box_variant_90^/16;                             Set variant to 16 for additional artifacts
+*****Asking for money or experience*****
+  !!SN&1000:T^ep.battle_box_q1^/?z2;
+  !!IF&1000:Q1/6/50000/17/40000/7/z2;                    Displaying choise
+******************
+  !!SN&1000:T^ep.battle_box_m1^/?z3;
+  !!IF&1/1000:Q1/6/50000/1/z3;                           Displaying and passing money
+  !!OW-1&1/1000:R-1/6/d50000;
+  !!if&-1/1000;
+   !!SN:T^ep.battle_box_m2^/?z3;
+   !!IF:Q1/17/40000/1/z3;                                Displaying and passing experience
+   !!HE-1:Ed40000;
+  !!en;
+ !!en;      герой жив
+!!en;       герой атакован
+***************************End post-battle trigger************************
+*
+*****************************Functions to set box************************************
+!?FU(pandora90_give_abil);           [for ability to give - значение y34=12 герой атакован and y35=1 *Azure dragons*]
+; Get a random valid monster from the hero's army
+!!FU(NewIntArray):P?(heroMons:y);
+
+!!re i/(ARMY_SLOT_FIRST)/(ARMY_SLOT_LAST);
+  !!HE(CURRENT_HERO):C0/i/?(mon:y)/?(num:y);
+
+  !!FU(Array_Push)&(mon)>(NO_MON)/(num)>0:P(heroMons)/i;
+!!en;
+
+!!SN:M(heroMons)/?(size:y);
+!!FU&(size)=0:E;
+
+!!VR(lastIndex:y):S(size) -1;
+!!VRl:R0/0/(lastIndex);
+
+*
+!!HE-1:C0/l/?j/?i;        [get j type i q-ty of our random slot creature]
+!!UN&j>=0/i>0:N3/1/j/1;   [get plural name of creature into z1]
+*
+!!VRy3&j<0:S1;
+!!VRy3&i=0:S1;
+!!FU&y3<>0:E;             [If no creatures, don't do anything and exit]
+*
+!!VRz880:S^^;!!VRz881:S^^;!!VRz882:S^^;!!VRz883:S^^;!!VRz884:S^^;
+!!VRz885:S^^;!!VRz886:S^^;!!VRz887:S^^;   очистить текст в переменных z880-z887
+*
+!!MA:Xj/?y11;                               [Read Creature Flags: y1]
+!!VRy4&-1000:S1 R6;                                                    если ИИ способность случайная
+*
+!!VRy99:S0;                              prepare counter
+!!SN:T^ep.newabil_box_m^/?z9/^mon^/z1;
+*
+!!VRy1:Sy11;
+!!VRy1:&32768;
+
+!!SN&y1=0:T^ep.newabil_box_m1^/?z2;
+!!VRz2&y1=32768:S^^;
+!!VRy4&y1=32768/y4=1/-1000:S2;                 check AI choice
+!!VRy99&y1=32768:+1;
+*
+!!VRy1:Sy11;
+!!VRy1:&65536;
+!!SN&y1=0:T^ep.newabil_box_m2^/?z3;
+!!VRz3&y1=65536:S^^;
+!!VRy4&y1=65536/y4=2/-1000:S3;
+!!VRy99&y1=65536:+1;
+*
+!!VRy1:Sy11;    [Attack All Adjacent]
+!!VRy1:&524288;
+!!VRy5:Sy11;    [Check for Extended Attack]
+!!VRy5:&8;
+!!FU(WOG_44_CheckIfMonDrainsLife):Pj/?y30;
+!!SN&y1=0/y5=0:T^ep.newabil_box_m3^/?z4;
+!!VRz4&y1=524288:S^^;
+!!VRz4&y5=8:S^^;
+!!VRz4&y30:S^^;
+!!VRy4&y1=524288/y4=3/-1000:S4;
+!!VRy4&y1=8/y4=3:S4;
+!!VRy99|y1=8/y1=524288:+1;
+*
+!!VRy1:Sy11;
+!!VRy1:&16384;
+!!SN&y1=0:T^ep.newabil_box_m4^/?z5;
+!!VRz5&y1=16384:S^^;
+!!VRy4&y1=16384/y4=4/-1000:S5;
+!!VRy99&y1=16384:+1;
+*
+!!VRy1:Sy11;
+!!VRy1:&1024;
+!!SN&y1=0:T^ep.newabil_box_m5^/?z6;
+!!VRz6&y1=1024:S^^;
+!!VRy4&y1=1024/y4=5/-1000:S6;
+!!VRy99&y1=1024:+1;
+*
+!!VRy1:Sy11;
+!!VRy1:&2;
+!!SN&y1=0:T^ep.newabil_box_m6^/?z7;
+!!VRz7&y1=2:S^^;
+!!VRy4&y1=2/y4=6/-1000:S7;
+!!VRy99&y1=2:+1;
+*
+!!VRy1:Sy11;
+!!VRy1:&262144;
+!!SN&y1=0:T^ep.newabil_box_m7^/?z8;
+!!VRz8&y1=262144:S^^;
+!!VRy4&y1=262144/y4=7/-1000:S0;
+!!VRy99&y1=262144:+1;
+
+!!SN:T^era.buttons.cancel^/?z11;
+
+!!FU&y99>6:E;     If all abilities counted -> exit
+!!SN&203/1000:T^ep.newabil_box_m8^/?z10/^mon1^/z1;
+!!IF&203/1000:M1/10;
+!!IF&1000:G1/2/128/9/2/3/4/5/6/7/8/11/0/0/0/0;         диалог с выбором
+!!FU&v2=128:E;
+
+*таблица способностей*
+!!VRy4&v2=1:S1; !!VRy4&v2=2:S2; !!VRy4&v2=4:S3; !!VRy4&v2=8:S4; !!VRy4&v2=16:S5; !!VRy4&v2=32:S6; !!VRy4&v2=64:S7;
+*
+!!FU&y4=0:E;                    [AI choice failed]
+*
+!!VRy2&y4=1:S32768;             [Two Attacks: y2]
+!!VRy2&y4=2:S65536;             [No Retaliation: y2]
+!!VRy2&y4=3:S524288;            [Attack All Adjacent: y2]
+!!VRy2&y4=4:S16384;             [Immunity to Fire Spells: y2]
+!!VRy2&y4=5:S1024;              [Immunity to Mind Spells: y2]
+!!VRy2&y4=6:S2;                 [Flying: y2]
+!!VRy2&y4=7:S(MON_FLAG_UNDEAD) +(MON_FLAG_NO_MORALE) +(MON_FLAG_ALIVE);            [Undead: y2]
+*установка способностей*
+!!if&y4>0/y4<8;
+             !!VRy11:|y2;                              [OR Creature Flags (y11) with Special Ability bit (y2): y11]
+             !!VRy11&y4=7:- (MON_FLAG_ALIVE);          [Remove possible Alive flag if Undead was chosen]
+             !!MA:Xj/y11;                              [Set updated Creature Flags: y11]
+                        ; Disable renaming feature as it could conflict with Emerald Tower / It adds up all the prefixes
+                         *!VRy10:Sv5;
+                         *!VRv5:Sj;
+                         *!SN&y4=1:T^ep.monname_box_m0^/?z9;
+                         *!SN&y4=2:T^ep.monname_box_m1^/?z9;
+                         *!SN&y4=3:T^ep.monname_box_m2^/?z9;
+                         *!SN&y4=4:T^ep.monname_box_m3^/?z9;
+                         *!SN&y4=5:T^ep.monname_box_m4^/?z9;
+                         *!SN&y4=6:T^ep.monname_box_m5^/?z9;
+                         *!SN&y4=7:T^ep.monname_box_m6^/?z9;
+                         *!UN:N3/3/v5/0;                                                                 [get creature name in z3]
+                         *!UN:N3/4/v5/1;                                                                 [get creature plural name in z4]
+                         *!VRz5:S^%Z9 %Z3^;
+                         *!VRz6:S^%Z9 %Z4^;
+                         *!SN:H^monname^/v5/0/^%Z5^;                                                         [set new creature name]
+                         *!SN:H^monname^/v5/1/^%Z6^;                                                         [set new plural creature name]
+                         *!VRv5:Sy10;
+*************set new AI Fight Value and AI Value*******************
+             !!MA:Lj/?y6 Ij/?y7 Fj/?y8; unit level->y6 AI Value->y7 AI fight value->y8
+***level 1-3 and fight skills-two attack, no relatation, attack all adjacent
+   !!if&y6>=0/y6<3; 2
+       !!if&y4<4; 3
+          !!FU(pandora90_setup_fi_Val):Py7/y8/20/40; !!FU:E;
+       !!el;
+***level 1-3 (0-2  and minor fight skills-Immunity to Fire Spells, Immunity to Mind Spells, Flying, Undead
+          !!FU(pandora90_setup_fi_Val):Py7/y8/50/50; !!FU:E;
+       !!en; 3
+    !!en; 2
+***level 4 and fight skills-two attack, no relatation, attack all adjacent
+    !!if&y6=3;  2
+         !!if&y4<4;  3
+           !!FU(pandora90_setup_fi_Val):Py7/y8/170/180; !!FU:E;
+         !!el;
+***level 4 and and minor fight skills-Immunity to Fire Spells, Immunity to Mind Spells, Flying, Undead
+           !!FU(pandora90_setup_fi_Val):Py7/y8/90/90; !!FU:E;
+         !!en;  3
+    !!en;   2
+***level 5 and fight skills-two attack, no relatation, attack all adjacent
+    !!if&y6=4; 2
+         !!if&y4<4; 3
+           !!FU(pandora90_setup_fi_Val):Py7/y8/300/300; !!FU:E;
+         !!el;
+***level 5 and and minor fight skills-Immunity to Fire Spells, Immunity to Mind Spells, Flying, Undead
+           !!FU(pandora90_setup_fi_Val):Py7/y8/180/140; !!FU:E;
+         !!en;    3
+    !!en;   2
+
+***level 6 and fight skills-two attack, no relatation, attack all adjacent
+    !!if&y6=5;  2
+          !!if&y4<4;
+               !!FU(pandora90_setup_fi_Val):Py7/y8/700/700; !!FU:E;
+          !!el;    2
+***level 6 and and minor fight skills-Immunity to Fire Spells, Immunity to Mind Spells, Flying, Undead
+           !!FU(pandora90_setup_fi_Val):Py7/y8/450/200; !!FU:E;
+          !!en; 2
+    !!en; 2
+
+***level 7 and fight skills-two attack, no relatation, attack all adjacent
+    !!if&y6=6; 2
+         !!FU(pandora90_setup_fi_Val)&y4<4/j<>150/j<>151/j<>152/j<>153/j<>154/j<>155/j<>156/j<>157/j<>158/j<>196/j<>132/j<>133/j<>135:Py7/y8/2000/2500;  !!FU:E;
+***level 7 and fight skills-two attack, no relatation, attack all adjacent
+         !!FU(pandora90_setup_fi_Val)&y4>3/j<>150/j<>151/j<>152/j<>153/j<>154/j<>155/j<>156/j<>157/j<>158/j<>196/j<>132/j<>133/j<>135:Py7/y8/800/500;    !!FU:E;
+***level 8 and and minor Flying
+         !!if|j=150/j=151/j=152/j=153/j=154/j=155/j=156/j=157/j=158/j=132/j=133/j=135; 3
+                !!if&y4<4; 4
+                  !!FU(pandora90_setup_fi_Val):Py7/y8/450/7000; !!FU(pandora90_setup_fi_Val)|j=132/j=133/196:Py7/y8/2000/1000; !!FU:E;
+                !!en;  4
+***level 8 and and minor fight skills-Immunity to Fire Spells, Immunity to Mind Spells, Flying, Undead
+                !!if&y4>3; 4
+                  !!FU(pandora90_setup_fi_Val):Py7/y8/1000/1000; !!FU(pandora90_setup_fi_Val)|j=132/j=133/196:Py7/y8/10000/10000; !!FU:E;
+                !!en;4
+         !!en;   3
+    !!en;    2
+!!en;      1
+******************
+* function to set fight value
+!?FU(pandora90_setup_fi_Val);
+!!VRy1:Sx1 +x3;  !!VRy2:Sx2 +x4;
+!!MA&y1>0/y2>0:Ij/y1 Fj/y2; unit_level y6 AI_Value y7 AI_fight_value y8
+******************
+* function to give artifacts and display text
+!?FU(pandora90_art_disp);
+!!DO(pandora90_art_12)/1/x1/1:P2/7;[Loop for minor/major artifacts]    1-3
+!!UN:P900/?y63;        [Check for Stack Experience]
+!!UN:P143/?y64;        [Check for New Artifacts]
+!!UN:P234/?y65;        [Check for Warlord's Banner banning]
+
+!!if&1000;            Displaying text
+ !!if&x2=1;
+  !!SN:T^ep.eaglei_box_m^/?z1/^eye1^/z7;
+  !!IF:Q1/8/v2/1/z1;
+ !!en;
+ !!if&x2=2;
+  !!SN:T^ep.eaglei_box_m1^/?z1/^eye1^/z7/^eye2^/z8;
+  !!IF:Q1/8/v2/8/v3/1/z1;
+ !!en;
+ !!if&x2=3;
+  !!SN:T^ep.eaglei_box_m2^/?z1/^eye1^/z7/^eye2^/z8/^eye3^/z9;
+  !!IF:Q1/8/v2/8/v3/8/v4/1/z1;
+ !!en;
+ !!if&y63=1/y64=1/y65=0;       if se & na enabled, wb not banned
+  !!if&x1=3/x2=0;
+   !!SN:T^ep.eaglei_box_m3^/?z1/^eye1^/z7/^eye2^/z8/^eye3^/z9;
+   !!IF:M1/1;
+   !!IF:N8/v2/8/v3/8/v4/8/156;
+   !!SN:T^ep.eaglei_box_m4^/?z2;
+   !!IF:N1/z2;
+  !!en;
+ !!el;                        if se or na disabled or banned
+  !!SN:T^ep.eaglei_box_m5^/?z3/^eye1^/z7/^eye2^/z8/^eye3^/z9;
+  !!IF&x1=3/x2=0:Q1/8/v2/8/v3/8/v4/1/z3;
+ !!en;
+!!en;
+
+!!HE(CURRENT_HERO):A4/v2;                                                                passing minor/major artifacts
+!!HE(CURRENT_HERO)&x1>1:A4/v3;
+
+!!if&x1>2;
+  !!HE(CURRENT_HERO):A4/v4;
+  !!HE(CURRENT_HERO)&y63=1/y64=1/y65=0:A4/(ART_WARLORDS_BANNER);
+!!en;
+******************
+!?FU(pandora90_art_12);     [Function for generating 3 minor/major]
+!!UN:J6/12/?y1;                  [Generates minor/major]                               |
+!!VRvx1:Sy1;                     [Store result in v-variable for use outside function] |
+!!UN:N0/zx2/y1;                  [Look up artifacts name]                              |
+!!VRx1:+1;                       [Increase v-var                                       |
+!!VRx2:+1;                       [Increase z-var index]                                |
+****************
+!?FU(OnAfterLoadGame)&i^pandora_enabled^;    [Fix battle save compatibility - Archer]
+!!VRi^Box_variant_90^:S-1;                              init
+!!IF:V203/0;
+*****************************************************End******************************************************************

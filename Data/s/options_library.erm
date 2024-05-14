@@ -1,0 +1,38 @@
+ZVSE
+ERMS_PoweredBy=ERM Scripter v. 2005.9.7.814
+ERMS_ScriptName=Document_2
+ERMS_ScriptAuthor=ElfbI
+ERMS_ScriptVersion=1.0.0
+ERMS_ScriptERMVersion=2.70
+
+*Options SN W library*
+!#UN:P67/?y1;  !#SN:W^opt_67_Neutral_Conflux^/y1;                               проверка на скрипт 67 - сопряжение нейтралов
+!#UN:P71/?y1;  !#SN:W^opt_71_Commander_art^/y1;                                 проверка на скрипт 71 - артефакты командиров
+!#UN:P102/?y1; !#SN:W^opt_102_art_boost_76^/y1;                                 [Check if Artifact Boost is enabled in WoGify Options]
+!#UN:P149/?y1; !#SN:W^opt_149_mythril^/y1;                                      проверка на скрипт 149 - мифрил
+!#UN:P174/?y1; !#SN:W^opt_174_universal_upgrade^/y1;                            проверка на универсальное улучшение существ
+!#UN:P188/?y1; !#SN:W^opt_188_Ramp_fairy_dragon^/y1;                            проверка на скрипт 188 - Rampart Faerie Dragon
+!#UN:P195/?y1; !#SN:W^opt_195_obj_replacing^/y1;                                проверка на скрипт 195 - замена объектов
+!#UN:P755/?y1; !#SN:W^opt_755_limited_mines^/y1;                                проверка на скрипт 755 - истощающиеся шахты
+!#UN:P781/?y1; !#SN:W^opt_781_Balance_Conflux^/y1;                              проверка на скрипт 78 - измененный баланс сопряжения
+!#UN:P96/?y1;  !#SN:W^opt_96_Blind_reduce^/y1;                                  проверка на дебафф слепоты
+!#UN:P97/?y1;  !#SN:W^opt_97_Conserva^/y1;                                      проверка на бафф банков существ
+
+*need this too*
+!#UN:X?y1/?y2;                 !#SN:W^map_size_XY_libr^/y1;                     map size
+!#VRy2:Sy2 +1;                 !#SN:W^map_level_1_2_libr^/y2;                   map level instead of 0/1 get 1/2
+!#VRy3:Sy1 *y1 *y2; !#VRy3:-1; !#SN:W^map_squares_qty_libr^/y3;                 map number of squares
+
+
+; запаковать и разпаковать координаты на КП
+!?FU(PackedCoords);
+; x1, x2, x3 - запаковать координаты
+; ?x4 - возврат значения
+!!VRx4:S0;
+!!SN:E7413375/1/x1/x2/x3;
+!!VRx4:Sv1;
+!?FU(UnPackedCoords);
+; ?x1, ?x2, ?x3 - возврат значения (x/y/z)
+; x4 - передать сюда пакованные координаты
+!!SN:E7413577/1/?x1/?x2/?x3/x4;
+

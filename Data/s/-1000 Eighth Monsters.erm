@@ -1,0 +1,1065 @@
+ZVSE2
+; Author:   Archer30
+; Special thanks to Hawaiing
+; Engine:   ERM 2.0+
+; Requires: ERA 3.3+, Era Erm Framework, Third Upgrade Mod
+
+; 8th creature is now available for every town!
+; Portal of Summoning becomes Banner Workshop, provides a Warlord's Banner every week.
+
+; You can customise the 8th creatures by editing this script. Simply search for "Customise here" to find where you need to patch
+; It is the best if all the 8th creatures IDs are consistent, or you will need to rewrite a few lines 
+
+; To-Do:
+; Fix not able to recruit from left-clicking on left bottom of town screen (HD problem feature, now only Dungeon with Portal Of Summoning built works)
+
+
+; ============== SETTINGS ==============
+!#VRi^eighth_build8thDwellIntervalAi^:S3;[days between AI build 8th dwellings]
+!#VRi^eighth_recruit8thMaxGoldPctAi^:S50;[Max percent of gold spending on recruiting 8th creatures everyday for AI]
+!#VRi^eighth_8thHotkey^:S(KEY_D);       [hotkey for left-click features in Town]
+!#VRi^eighth_bannerPrice^:S1500;        [price of Warlord's Banner from Banner Workshop]
+; ============ END SETTINGS ============
+
+
+// Main Script
+!?FU(eighth_RestrainValues);
+!!VRi^eighth_build8thDwellIntervalAi^:F1/(INT_MAX);
+!!VRi^eighth_recruit8thMaxGoldPctAi^:F1/100;
+!!VRi^eighth_8thHotkey^:F8/254;
+!!VRi^eighth_bannerPrice^:F1/(INT_MAX);
+!!UN:P(WOG_OPT_8TH_MONSTERS)/?i^eighth_on^;
+
+!#FU(eighth_RestrainValues):P;
+
+!?FU(OnAfterErmInstructions);
+!!if&i^eighth_on^;
+  !!FU(eighth_CheckBanner):P;
+  !!UN:P(WOG_OPT_REGULAR_LEVEL8_DWELLINGS)/(TRUE);
+
+  ; Create 8 arrays with 9 items for dwellings on the map for every player
+  !!re i/(PLAYER_FIRST)/(PLAYER_LAST);
+    !!FU(NewIntArray):P9/?i^eighth_dwellQty_%i^/(M_TEMP);
+  !!en;
+
+  ; Create arrays with with 0 item for gold cost of 8th dwelling /pre-requirement building ID (for AI building)
+  !!FU(NewIntArray):P9/?i^eighth_dwellGoldCosts^/(M_TEMP);
+  !!FU(NewIntArray):P9/?i^eighth_dwellReqDwells^/(M_TEMP);
+
+  ; Create global array for AI 8th dwelling numbers (for distributing budget on 8th creatures). One element for one player
+  !!FU(NewIntArray):P8/?i^eighth_townsWith8thDwellAi^/(M_STORED);
+!!en;
+
+; Create array for all 8th creature (for checking whether a dweliing has 8th creatures)
+!!FU(NewIntArray):P18/?i^eighth_8thMons^/(M_TEMP);
+
+!?FU(eighth_CheckBanner);
+!!VRi^eighth_bannerOn^:S(TRUE);
+!!UN:P900/?(stackExpEnabled:y) P234/?(bannerBanned:y);
+!!VRi^eighth_bannerOn^|(stackExpEnabled)=(FALSE)/(bannerBanned)=(TRUE):S(FALSE);
+
+!?FU(OnStartOrLoad);
+!!if&i^eighth_on^;
+  !!FU(eighth_Patch):P;
+  !!FU(eighth_RenamePortalOfSummoning):P;
+  *!FU(eighth_CreateTownScreenHook):P;    [Test code]
+
+  ; Customise here
+  !!SN:Vi^eighth_dwellGoldCosts^/0/10000/3000/10000/5000/3000/4000/5000/4000/2500;
+  !!SN:Vi^eighth_dwellReqDwells^/0/36/33/36/33/33/34/35/34/32; [id of required buildings for each factions]
+!!en;
+
+!!SN:Vi^eighth_8thMons^/0/(MON_LIGHT_TEMPLAR)/(MON_LIGHT_PALADIN)/(MON_DRYAD)/(MON_OAK_DRYAD)/(MON_DRAKE_GOLEM)/(MON_DRAGON_GOLEM)/(MON_SUCCUBUS)/(MON_LILIM)/(MON_WEREWOLF_TOW)/(MON_DIRE_WEREWOLF)/(MON_ILLITHID)/(MON_ALHOON);
+!!SN:Vi^eighth_8thMons^/12/(MON_COATL)/(MON_QUETZALCOATL)/(MON_TROLL_HAG)/(MON_TROLL_WITCH)/(MON_TRITON)/(MON_ABYSSAL_TRITON);
+
+!?FU(eighth_Patch);                     [Hawaiing]
+!!UN:C5016381/2/9195;
+!!UN:C5362354/4/2425393296;
+!!UN:C5362358/2/37008;
+!!UN:C5362405/4/2425356288;
+!!UN:C5362409/2/5297;
+!!UN:C5362410/1/233;
+!!UN:C6055203/4/2425370091;
+!!UN:C6055207/2/37008;
+!!UN:C6055249/2/2027;
+!!UN:C6111194/4/2425393296;
+!!UN:C6111198/4/2425393296;
+!!UN:C6111202/4/2425393296;
+!!UN:C6111204/2/37008;
+!!UN:C6130652/2/10987;
+!!UN:C6130709/2/8427;
+
+!?FU(eighth_RenamePortalOfSummoning);
+; rename Portal of Summoning to Banner Workshop
+!!UN:C6968620/(UNC_INT)/?(ptr:y);       [name of Portal of Summoning]
+*!SN:B(ptr)/d/?s^eighth_patchStr1^;
+!!SN:B(ptr)/d/z770018;
+!!UN:C6977892/(UNC_INT)/?(ptr);         [description of Portal of Summoning]
+*!SN:B(ptr)/d/?s^eighth_patchStr2^;
+!!SN:B(ptr)/d/z770019;
+; Rename Portal of Summoning on opening town hall (just in case OSOS did not work correctly)
+!?FU(OnEnterTownHall)&i^eighth_on^;
+!!CA(CURRENT_TOWN):T?(townType:y);
+!!FU(eighth_RenamePortalOfSummoning)&(townType)=(TOWN_DUNGEON):P;
+
+; Test code
+!?FU(eighth_CreateTownScreenHook);
+!!SN:L^EraPlugins\erm_hooker.era^/?(value:y);
+!!FU&(value)=0:E;
+!!SN:A(value)/^SetHook^/?(value2:y) E(value2)/1/6057106/(eighth_OnAfterOpenTownScreen) E(value2)/1/6021984/(eighth_OnAfterBuildTownBuilding);
+
+****************************************************************************************************
+
+!?FU(OnEveryDay)&i^timerOnce^/i^timerWeekDay^=1/i^eighth_on^;
+!!FU(eighth_GetAllExt8thDwell):P;
+!!FU(eighth_Accum8thMon):P;
+
+!?FU(eighth_GetAllExt8thDwell);
+; Get dwelling quantity of 8th creatues on the map for every player
+!!re i/(PLAYER_FIRST)/(PLAYER_LAST);
+  !!FU(Array_Fill):Pi^eighth_dwellQty_%i^/0/0;
+!!en;
+
+!!VR(x:y):S-1;
+
+!!re i;
+  !!UN:U(OBJ_CREATURE_GENERATOR_1)/(ANY_OBJ)/-1/(x)/(y:y)/(z:y);
+  !!br&(x)<0;
+
+  !!DW(x)/(y)/(z):O?(owner:y);
+  !!co&(owner)<=(NO_PLAYER);
+
+  !!DW(x)/(y)/(z):M0/?(mon:y)/?(qty:y);
+  !!FU(eighth_CheckIf8thMon):P(mon)/?(eighthTown:y);
+  !!co&(eighthTown)=(NO_TOWN);
+
+  !!SN:Mi^eighth_dwellQty_%(owner)^/(eighthTown)/d1;
+!!en;
+
+!?FU(eighth_Accum8thMon);
+; Accumulate creatures for every town with 8th dwelling built
+!!VR(x:y):S-1;
+
+!!re i;
+  !!UN:U(OBJ_TOWN)/(ANY_OBJ)/-1/(x)/(y:y)/(z:y);
+  !!br&(x)<0;
+
+  !!CA(x)/(y)/(z):U?(townId:y) T?(townType:y);
+  !!co&i^eighth_8thDwell_%(townId)^=(FALSE);
+
+  !!FU(eighth_Get8thGrowth):P(townId)/?(growth:y)/?(castleBonus:y)/?(grailBonus:y); [growth with castle/grail]
+  !!CA0/(townId):O?(owner:y);
+
+  !!if&(owner)>(NO_PLAYER);
+    !!SN:Mi^eighth_dwellQty_%(owner)^/(townType)/?(dwell:y);
+    !!VR(totalGrowth:y):S(growth) +(dwell);
+  !!el;
+    !!VR(totalGrowth):S(growth);
+  !!en;
+
+  !!FU(eighth_SetOrGet8thMon):P(townId)/?(mon:y)/?(qty:y)/(TRUE); [get creature type and quantity]
+  !!VR(qtyNew:y):S(qty) +(totalGrowth);
+  !!FU(eighth_SetOrGet8thMon):P(townId)/(mon)/(qtyNew)/(FALSE); [set]
+!!en;
+
+!?FU(eighth_CheckIf8thMon);
+!#VA(mon:x) (eighthTown:x);
+
+!!VR(eighthTown):S(NO_TOWN);
+
+!!re (monInd:y)/0/17;
+  !!SN:Mi^eighth_8thMons^/(monInd)/?(eighthMon:y);
+
+  !!br&(eighthMon)=(mon);
+!!en;
+
+!!MA&(monInd)<=17:O(mon)/?(eighthTown);
+
+!?FU(eighth_Get8thGrowth);
+!#VA(townId:x) (growth:x) (castleBonus:x) (grailBonus:x);
+
+!!CA0/(townId):T?(townType:y);
+
+!!VRz2:S^^;                             [initialisation]
+!!VRz3:S^^;
+!!VR(castleBonus):S0;
+!!VR(grailBonus):S0;
+
+!!CA0/(townId):B3/9;                    [check for Castle]
+
+!!if&1;
+  !!VR(castleShare:y):S2;
+  !!UN:N2/2/(townType)/9;
+!!el;
+  !!CA0/(townId):B3/8;                  [check for Citadel if Castle is not built]
+
+  !!if&1;
+    !!VR(castleShare):S1;
+    !!UN:N2/2/(townType)/8;
+  !!el;
+    !!VR(castleShare):S0;
+  !!en;
+!!en;
+
+!!VRs^eighth_castleName^:Sz2;           [also get castle name for growth details dialog]
+
+!!CA0/(townId):B3/26;                   [check for grail]
+
+!!if&1;
+  !!VR(grailBuilt:y):S(TRUE);
+  !!UN:N2/3/(townType)/26;
+!!el;
+  !!VR(grailBuilt):S(FALSE);
+!!en;
+
+!!VRs^eighth_grailName^:Sz3;            [also get grail name for growth details dialog]
+
+!!FU(eighth_Get8thBasicGrowth):P(townType)/?(basicGrowth:y);
+!!VR(castleBonus)&(castleShare)>0:S(basicGrowth) *(castleShare) :2;
+!!VR(grailBonus)&(grailBuilt):S(basicGrowth) +(castleBonus) *3 :2 -(basicGrowth) -(castleBonus);
+!!VR(growth):S(basicGrowth) +(castleBonus) +(grailBonus);
+
+!?FU(eighth_Get8thBasicGrowth);
+!#VA(townType:x) (basicGrowth:x);
+
+!!FU(eighth_Get8thMon):P(townType)/(FALSE)/?(mon:y)/?(nonUpgMon:y);
+!!MA:G(mon)/?(basicGrowth);
+
+!?FU(eighth_Get8thMon);
+; Get creature ID for 8th dwellings
+!#VA(townType:x) (upg:x) (mon:x) (nonUpgMon:x);
+
+!!VR(nonUpgInd:y):S(townType) *2;
+!!SN:Mi^eighth_8thMons^/(nonUpgInd)/?(nonUpgMon);
+
+!!if&(upg);
+  !!VR(upgInd:y):S(townType) *2 +1;
+  !!SN:Mi^eighth_8thMons^/(upgInd)/?(mon);
+!!el;
+  !!VR(mon):S(nonUpgMon);
+!!en;
+
+****************************************************************************************************
+; Manage AI behaviours
+; Check AI towns and build 8th dwellings, recruit available 8th creatures
+!?FU(OnEveryDay)&i^eighth_on^;
+!!FU(eighth_Build8thDwellAi)&i^timerOnce^/i^timerDay^>=2:P;
+!!FU(eighth_Recruit8thMonAi)&i^timerIsAi^/i^timerDay^>=i^eighth_build8thDwellIntervalAi^:P;
+
+!?FU(eighth_Build8thDwellAi);
+; Execute the fucntion only at the right time
+!!VRi^eighth_buildTimer^:+1;
+!!FU&i^eighth_build8thDwellIntervalAi^<>i^eighth_buildTimer^:E;
+
+!!VRi^eighth_buildTimer^:S0;
+; Set up arrays for gold of AI players and towns with 8th dwelling
+!!FU(NewIntArray):P?(goldArray:y);
+
+!!re i/(PLAYER_FIRST)/(PLAYER_LAST);
+  !!OW:Ri/(RES_GOLD)/?(gold:y);
+  !!FU(Array_Push):P(goldArray)/(gold);
+!!en;
+
+!!FU(Array_Fill):Pi^eighth_townsWith8thDwellAi^/0/0;
+
+; Loop through all towns, check and build 8th dwelling if 8th is not built & requirements met
+!!VR(x:y):S-1;
+
+!!re i;
+  !!UN:U(OBJ_TOWN)/(ANY_OBJ)/-1/(x)/(y:y)/(z:y);
+  !!br&(x)<0;
+
+  !!CA(x)/(y)/(z):U?(townId:y) T?(townType:y) O?(owner:y);
+
+  !!OW:I(owner)/?(isAi:y);
+  !!co|(owner)=(NO_OWNER)/(isAi)=(FALSE);
+
+  ; if 8th dwelling is not built
+  !!if&i^eighth_8thDwell_%(townId)^=(FALSE);
+
+    ; Check gold
+    !!SN:Mi^eighth_dwellGoldCosts^/(townType)/?(cost:y);
+    !!SN:M(goldArray)/(owner)/?(gold);
+    !!co&(gold)<(cost);
+
+    ; Check pre-required buildings
+    !!CA0/(townId):B3/7;                [fort]
+
+    !!if&1;
+      !!SN:Mi^eighth_dwellReqDwells^/(townType)/?(reqDwell:y);
+      !!CA0/(townId):B3/(reqDwell);
+    !!en;
+
+    !!co&-1;
+
+    ; Build 8th dwelling and set up initial available creatures, does not set the town as built for making AIs' lives easier
+    !!VRi^eighth_8thDwell_%(townId)^:S(TRUE);
+    !!FU(eighth_Get8thMon):P(townType)/i^tum_upgGuild_%(townId)^/?(mon:y)/?(nonUpgMon:y);
+    !!FU(eighth_Get8thBasicGrowth):P(townType)/?(basicGrowth:y);
+    !!FU(eighth_SetOrGet8thMon):P(townId)/(mon)/(basicGrowth)/(FALSE); [set]
+
+    !!VR(goldNew:y):S(gold) -(cost);
+    !!OW:R(owner)/(RES_GOLD)/(goldNew);
+  !!en;
+
+  ; add 1 to the global var if the current town has 8th dwelling and belongs to the current player
+  !!SN&i^eighth_8thDwell_%(townId)^:Mi^eighth_townsWith8thDwellAi^/(owner)/d1;
+!!en;
+
+!?FU(eighth_Recruit8thMonAi);
+!!OW:C?(player:y);
+
+; Set up budge for buying 8th creatures of each town
+!!SN:Mi^eighth_townsWith8thDwellAi^/(player)/?(townsWith8th:y);
+!!FU&(townsWith8th)=0:E;
+
+!!OW:R(player)/(RES_GOLD)/?(gold:y);
+!!VR(budget:y):S(gold) :(townsWith8th) :100 *i^eighth_recruit8thMaxGoldPctAi^;
+
+; Search for towns of current AI
+!!VR(x:y):S-1;
+
+!!re i;
+  !!UN:U(OBJ_TOWN)/(ANY_OBJ)/-1/(x)/(y:y)/(z:y);
+  !!br&(x)<0;
+
+  !!CA(x)/(y)/(z):U?(townId:y) T?(townType:y) O?(owner:y);
+  !!co|(owner)<>(player)/i^eighth_8thDwell_%(townId)^=(FALSE); [next town if not owned by current player/8th dwelling still not built]
+
+  ; recruit 8th creatures
+  ; Check if there is an available slot
+  !!FU(eighth_FindAvailSlot):P(townId)/?(townSlot:y)/?(visitHero:y)/?(heroSlot:y);
+  !!co&(townSlot)=-1/(heroSlot)=-1;     [next town if both town and visiting hero has no slot]
+
+  ; Check how many 8th creatures AI can afford
+  !!FU(eighth_SetOrGet8thMon):P(townId)/?(mon:y)/?(qtyAvail:y)/(TRUE); [get]
+  !!co|(mon)<=(NO_MON)/(qtyAvail)<=0;
+
+  !!MA:C(mon)/(RES_GOLD)/?(unitPrice:y);
+  !!VR(qtyAfford:y):S(budget) :(unitPrice);
+  !!VR(qtyAfford)&(qtyAfford)>(qtyAvail):S(qtyAvail); [fix the quantity if there aren't that many left]
+  !!co&(qtyAfford)<=0;
+
+  ; Buy 8th creatures for AI
+  !!if&(townSlot)<>-1;                  [higher priority on town slots]
+    !!CA0/(townId):M2/(townSlot)/(mon)/(qtyAfford);
+  !!el&(heroSlot)<>-1;
+    !!HE(visitHero):C2/(mon)/(qtyAfford)/0; [add creature to AI - ignoring the actual 1st avail slot]
+  !!en;
+
+  !!VR(totalCost:y):S(unitPrice) *(qtyAfford);
+  !!VR(goldNew:y):S(gold) -(totalCost);
+  !!OW:R(player)/(RES_GOLD)/(goldNew);
+  !!VR(qtyNew:y):S(qtyAvail) -(qtyAfford);
+  !!FU(eighth_SetOrGet8thMon):P(townId)/(mon)/(qtyNew)/(FALSE); [set]
+  *!IF:M^%(budget), %(gold), %(goldNew), %(mon) %(unitPrice) %(qtyAvail) %(qtyAfford)^; [Testing]
+!!en;
+
+!?FU(eighth_FindAvailSlot);
+!#VA(townId:x) (townSlot:x) (visitHero:x) (heroSlot:x);
+
+!!CA0/(townId):T?(townType:y);
+!!FU(eighth_Get8thMon):P(townType)/i^eighth_8thMon_%(townId)^/?(eighthMon:y)/(nonUpgMon:y);
+
+!!VR(townSlot):S-1;
+!!VR(heroSlot):S-1;
+
+; Check for defending creatures
+!!re i/(ARMY_SLOT_FIRST)/(ARMY_SLOT_LAST);
+  !!CA0/(townId):M2/i/?(mon:y)/?(qty:y);
+
+  !!br|(mon)=(eighthMon)/(mon)<=(NO_MON);
+!!en;
+
+!!if&i<=(ARMY_SLOT_LAST);
+  !!VR(townSlot):Si;
+  !!FU:E;
+!!en;
+
+; Check for visiting hero if no slot in town
+!!CA0/(townId):H1/?(visitHero);
+!!FU&(visitHero)<=(NO_HERO):E;
+
+!!CA0/(townId):O?(townOwner:y);
+!!HE(visitHero):O?(heroOwner:y);
+!!FU&(townOwner)<>(heroOwner):E;
+
+!!re i/(ARMY_SLOT_FIRST)/(ARMY_SLOT_LAST);
+  !!HE(visitHero):C0/i/?(mon)/?(qty);
+
+  !!br|(mon)=(eighthMon)/(mon)<=(NO_MON);
+!!en;  
+
+!!VR(heroSlot)&i<=(ARMY_SLOT_LAST):Si;
+
+!?FU(OnEveryDay)&i^timerOnce^/i^timerDay^=1; [check hostile assembly]
+!!FU(DirExists):P^mods\wog era^/?(result:y); !!FU&(result)<>(TRUE):E; !!re i;!!en;
+
+****************************************************************************************************
+; Update 8th dwelling variables and displays
+!?FU(OnPreTownScreen)&i^eighth_on^;
+!#VA(townId:x);
+
+!!FU(eighth_Update8thDwell):P(townId);
+!!SN:D;
+
+!?FU(OnAfterBuildTownBuilding)&i^tum_onTownScreen^/i^eighth_on^;
+!#VA(townId:x) (buildingId:x);
+
+!!FU(eighth_Update8thDwell)|(buildingId)=7/(buildingId)=22:P(townId);
+!!SN:D;
+
+!?FU(eighth_Update8thDwell);
+!#VA(townId:x);
+
+!!CA0/(townId):B3/7 T?(townType:y);
+!!FU(eighth_Get8thMon):P(townType)/(TRUE)/?(upgMon:y)/?(nonUpgMon:y);
+
+; Demolish 8th dwellings if village hall is not built
+!!if&-1;
+  !!VRi^eighth_8thDwell_%(townId)^:S(FALSE);
+  !!FU(eighth_SetOrGet8thMon):P(townId)/(NO_MON)/-1/0;
+!!el;
+  !!FU(eighth_SetOrGet8thMon):P(townId)/?(mon:y)/?(num:y)/(TRUE); [Get]
+
+  !!if&i^eighth_8thDwell_%(townId)^;
+    !!if&i^tum_upgGuild_%(townId)^;
+      !!FU(eighth_SetOrGet8thMon):P(townId)/(upgMon)/(num)/(FALSE);
+    !!el;
+      !!FU(eighth_SetOrGet8thMon):P(townId)/(nonUpgMon)/(num)/(FALSE);
+    !!en;
+  !!en;
+!!en;
+
+!!if&i^tum_upgGuild_%(townId)^;
+  !!VRi^eighth_8thMon^:S(upgMon);
+!!el;
+  !!VRi^eighth_8thMon^:S(nonUpgMon);
+!!en;
+
+!!SN:H^monname^/i^eighth_8thMon^/1/?s^eighth_8thMonName^;
+
+****************************************************************************************************
+; recruit the 8th creature in fort
+!?FU(OnTownMouseClick)&i^mouse_item^>=7/i^mouse_item^<=9/i^mouse_action^=(MOUSE_LMB_PRESSED)/i^eighth_on^;
+!!FU(eighth_ManageFortDialog):P;
+
+!?FU(eighth_ManageFortDialog);
+; Set up 8th dwelling in fort dialogue
+!!CA(CURRENT_TOWN):U?(townId:y) T?(townType:y) O?(owner:y);
+!!FU&i^eighth_8thDwell_%(townId)^=(FALSE):E;
+
+!!UN:C6135068/1/44;                     [Hawaiing]
+
+!!if&i^tum_upgGuild_%(townId)^;
+  !!VR(value:y):S770009 +(townType);
+!!el;
+  !!VR(value):S770000 +(townType);
+!!en;
+
+!!SN:E7824928/1/(value);
+!!UN:C6133423/4/2425393296;
+!!UN:C6133427/2/37008;
+!!UN:C6133429/4/2425393296;
+!!UN:C6133433/1/184;                    [B8]
+!!UN:C6133434/4/v1;                     [name of the new building]
+
+!!FU(eighth_Get8thGrowth):P(townId)/?(growth:y)/?(castleBonus:y)/?(grailBonus:y);
+!!FU(eighth_GetExt8thDwellQty):P(townType)/(owner)/?(dwell:y);
+!!VR(totalGrowth:y):S(growth) +(dwell);
+
+; Set up growth in fort
+!!FU(NewStrArray):P?(fortGrowth:y);
+!!FU(Array_Push):P(fortGrowth)/^%(totalGrowth)^;
+
+!!SN:M(fortGrowth)/?(add:y)/0;
+!!UN:C6142165/4/(add);                  [005DB8D4+1]
+
+!?FU(eighth_GetExt8thDwellQty);
+!#VA(townType:x) (player:x) (dwell:x);
+
+!!VR(dwell):S0;
+!!VR(x:y):S-1;
+
+!!re i;
+  !!UN:U(OBJ_CREATURE_GENERATOR_1)/(ANY_OBJ)/-1/(x)/(y:y)/(z:y);
+  !!br&(x)<0;
+
+  !!DW(x)/(y)/(z):O?(owner:y);
+  !!co&(owner)<>(player);
+
+  !!DW(x)/(y)/(z):M0/?(mon:y)/?(qty:y);
+  !!FU(eighth_CheckIf8thMon):P(mon)/?(eighthTown:y);
+
+  !!VR(dwell)&(townType)=(eighthTown):+1;
+!!en;
+
+!?FU(OnTownMouseClick)&i^mouse_action^=(MOUSE_LMB_RELEASED)/i^eighth_on^;
+!!SN:F^GetButtonID^/^8thCreatures^;
+!!FU&i^mouse_item^<>v1:E;
+
+!!CM:R0;
+!!FU(eighth_BuildOrRecruit8th):P;
+
+!?FU(eighth_BuildOrRecruit8th);
+!!CA(CURRENT_TOWN):U?(townId:y) T?(townType:y) O?(owner:y);
+
+!!OW:C?(currPlayer:y)/?(clickedPlayer:y);
+!!FU&(owner)<>(clickedPlayer):E;
+
+!!if&i^eighth_8thDwell_%(townId)^=(FALSE);
+  !!FU(eighth_Build8thDwellDialogue):P(townId)/(townType)/(owner)/(FALSE); [left-clicking]
+!!el;
+  !!FU(eighth_SetOrGet8thMon):P(CURRENT_TOWN)/?(mon:y)/?(qty:y)/(TRUE); [get]
+
+  !!FU(eighth_ShowRecruitDialog)&(mon)>(NO_MON):P;
+!!en;
+
+!?FU(eighth_Build8thDwellDialogue);
+; build 8th dwelling
+!#VA(townId:x) (townType:x) (owner:x) (rightClick:x);
+
+; Ensure the 8th dwelling monster variables are updated
+!!FU(eighth_Update8thDwell):P(townId);
+
+; get dwellDesc base string
+!!VR(dwell:y):S(TRUE);
+!!VR(fort:y):S(TRUE);
+
+!!SN:Mi^eighth_dwellReqDwells^/(townType)/?(reqDwell:y);
+!!CA(CURRENT_TOWN):B3/(reqDwell);
+!!VR(dwell)&-1:S(FALSE);
+
+!!CA(CURRENT_TOWN):B3/7;                [fort]
+!!VR(fort:y)&-1:S(FALSE);
+
+!!VR(mon:y):Si^eighth_8thMon^;
+!!VR(monName:z):Ss^eighth_8thMonName^;
+
+!!if&i^tum_upgGuild_%(townId)^;
+  !!VR(ertInd:y):S(townType) +770009;
+!!el;
+  !!VR(ertInd):S(townType) +770000;
+!!en;
+
+!!VR(dwellName:z):Sz(ertInd);
+
+!!FU(eighth_GetReqBuildNames):P(townType);
+
+!!SN:T^eighth.dwellDesc^/?(dwellDesc:z)/^dwellName^/(dwellName:z)/^monName^/(monName:z); [dwellDesc]
+
+; get building requirement string
+!!SN:T^eighth.comma^/?(comma:z);
+!!VR(newLine:z):S^
+^;
+!!VR(buildReqMet:y):S(FALSE);
+!!VR(buildReq:z):S^^;
+
+!!if&(dwell)=(FALSE)/(fort)=(FALSE);
+ !!VR(buildReq):Ss^eighth_fortReq^ +(comma) +s^eighth_dwellReq^;
+!!el&(dwell)=(TRUE)/(fort)=(FALSE);
+  !!VR(buildReq):Ss^eighth_fortReq^;
+!!el&(dwell)=(FALSE)/(fort)=(TRUE);
+  !!VR(buildReq):Ss^eighth_dwellReq^;
+!!el&(dwell)=(TRUE)/(dwell)=(TRUE);
+  !!SN:T^eighth.reqMet^/?(buildReq);    [buildReq]
+  !!VR(buildReqMet):S(TRUE);
+!!en;
+
+!!VR(buildReq):+(newLine) +(newLine) +(newLine);
+
+; get resources requirement string
+!!VR(costs[7]:y)&(townType)=(TOWN_CASTLE):C10/0/10/0/10/0/10000;
+!!VR(costs)&(townType)=(TOWN_RAMPART):C5/0/5/0/0/3/3000;
+!!VR(costs)&(townType)=(TOWN_TOWER):C10/10/10/0/0/0/10000;
+!!VR(costs)&(townType)=(TOWN_INFERNO):C5/0/5/0/0/5/5000;
+!!VR(costs)&(townType)=(TOWN_NECROPOLIS):C5/0/0/0/3/0/3000;
+!!VR(costs)&(townType)=(TOWN_DUNGEON):C0/4/5/0/0/0/4000;
+!!VR(costs)&(townType)=(TOWN_STRONGHOLD):C5/0/5/0/0/5/5000;
+!!VR(costs)&(townType)=(TOWN_FORTRESS):C10/0/0/3/0/0/4000;
+!!VR(costs)&(townType)=(TOWN_CONFLUX):C5/0/5/0/0/0/2500;
+
+!!VR(resReqMet:y):S(TRUE);
+!!OW:R(CURRENT_PLAYER)/(RES_WOOD)/?(wood:y) R(CURRENT_PLAYER)/(RES_MERCURY)/?(mercury:y) R(CURRENT_PLAYER)/(RES_ORE)/?(ore:y) R(CURRENT_PLAYER)/(RES_SULFUR)/?(sulfur:y);
+!!OW:R(CURRENT_PLAYER)/(RES_CRYSTAL)/?(crystal:y) R(CURRENT_PLAYER)/(RES_GEMS)/?(gems:y) R(CURRENT_PLAYER)/(RES_GOLD)/?(gold:y); [get resources]
+!!VR(resReqMet)|(wood)<(costs[0])/(mercury)<(costs[1])/(ore)<(costs[2])/(sulfur)<(costs[3])/(crystal)<(costs[4])/(gems)<(costs[5])/(gold)<(costs[6]):S(FALSE);
+
+!!VR(resReq:z):S^^;
+
+!!re i/(RES_FIRST)/(RES_LAST_SOD);
+  !!VR(resReq)&(costs[i])>0:+^{~>RESOURCE.def:%i} %(costs[i])      ^;
+!!en;
+
+!!FU(Substr):P^%(resReq)^/0/-6/?(resReq);[remove the last 8 characters]
+!!VR(resReq):+(newLine) +(newLine) +(newLine); [resReq]
+
+; Set up all strings and summarise conditions
+!!FU(eighth_GetBuild8thDwellStatus):P(buildReqMet)/(resReqMet)/?(allReqMet:y);
+
+!!if&(allReqMet)/(rightClick);
+  !!VR(build8thDialog:z)S(dwellDesc) +(buildReq) +(resReq);
+  !!FU(Substr):P^%(build8thDialog)^/0/-3/?(build8thDialog);[remove the last 3 characters (newlines)]
+!!el;
+  !!VR(build8thDialog)S(dwellDesc) +(buildReq) +(resReq) +s^eighth_buildStatus^;
+!!en;
+
+!!if&(rightClick);
+  !!IF:Q1/(PIC_TYPE_MONSTER)/(mon)/4^%(build8thDialog)^; [dialgoue - right-click style]
+!!el&(allReqMet)/(rightClick)=(FALSE);
+  !!IF:Q1/(PIC_TYPE_MONSTER)/(mon)/2^%(build8thDialog)^; [dialogue - ask]
+
+  !!if&1;                               [if build]
+    !!VR(woodNew:y):S(wood) -(costs[0]);
+    !!VR(mercuryNew:y):S(mercury) -(costs[1]);
+    !!VR(oreNew:y):S(ore) -(costs[2]);
+    !!VR(sulfurNew:y):S(sulfur) -(costs[3]);
+    !!VR(crystalNew:y):S(crystal) -(costs[4]);
+    !!VR(gemsNew:y):S(gems) -(costs[5]);
+    !!VR(goldNew:y):S(gold) -(costs[6]);
+
+    !!OW:R(CURRENT_PLAYER)/(RES_WOOD)/(woodNew);
+    !!OW:R(CURRENT_PLAYER)/(RES_MERCURY)/(mercuryNew);
+    !!OW:R(CURRENT_PLAYER)/(RES_ORE)/(oreNew);
+    !!OW:R(CURRENT_PLAYER)/(RES_SULFUR)/(sulfurNew);
+    !!OW:R(CURRENT_PLAYER)/(RES_CRYSTAL)/(crystalNew);
+    !!OW:R(CURRENT_PLAYER)/(RES_GEMS)/(gemsNew);
+    !!OW:R(CURRENT_PLAYER)/(RES_GOLD)/(goldNew);
+
+    !!FU(eighth_Build8thDwell):P(townId)/(townType);
+  !!en;
+!!el&(allReqMet)=(FALSE)/(rightClick)=(FALSE);
+  !!IF:Q1/(PIC_TYPE_MONSTER)/(mon)/1^%(build8thDialog)^; [dialgoue - display only]
+!!en;
+
+!?FU(eighth_Build8thDwell);
+!#VA(townId:x) (townType:x);
+
+!!VRi^eighth_8thDwell_%(townId)^:S(TRUE);
+!!CA(CURRENT_TOWN):R(TRUE);
+
+!!FU(eighth_Get8thBasicGrowth):P(townType)/?(basicGrowth:y);
+!!FU(eighth_SetOrGet8thMon):P(CURRENT_TOWN)/i^eighth_8thMon^/(basicGrowth)/(FALSE); [set]
+
+!!UN:R4/(CURRENT_TOWN);
+!!VR(sound:z):S^BUILDTWN.wav^;
+!!SN:P(sound);
+
+!?FU(eighth_GetReqBuildNames);
+!#VA(townType:x);
+
+!!SN:Mi^eighth_dwellReqDwells^/(townType)/?(dwell:y);
+!!UN:N2/2/(townType)/(dwell);
+!!VRs^eighth_dwellReq^:Sz2;
+
+!!UN:N2/3/(townType)/7;                 [fort]
+!!VRs^eighth_fortReq^:Sz3;
+
+!?FU(eighth_GetBuild8thDwellStatus);
+!#VA(buildReqMet:x) (resReqMet:x) (allReqMet:x);
+
+!!VR(allReqMet):S(FALSE);
+!!CA(CURRENT_TOWN):R?(builtThisTurn:y);
+
+!!if&(builtThisTurn);
+  !!SN:T^eighth.built^/?s^eighth_buildStatus^;
+!!el;
+  !!SN&(buildReqMet)=(FALSE):T^eighth.missBuild^/?s^eighth_buildStatus^;
+
+  !!if&(buildReqMet)/(resReqMet)=(FALSE);
+    !!SN:T^eighth.missRes^/?s^eighth_buildStatus^;
+  !!el&(buildReqMet)/(resReqMet);
+    !!SN:T^eighth.dwellAsk^/?s^eighth_buildStatus^;
+    !!VR(allReqMet):S(TRUE);
+  !!en;
+!!en;
+
+!?FU(eighth_ShowRecruitDialog);             [Hawaiing]
+; Activate the dialogue of Portal of Summoning
+; 005D2D73 - 75 05 - jne 005d2d7a
+; 005D2E10 - 8b 0d 64 5e 6a 00  - mov ecx,[006a5e64]
+!!UN:C(TOWN_MANAGER)/4/?(value:y);
+!!SN:E6106448/2/(value);
+!!UN:C6106483/1/117;
+!!UN:C6106642/4/6970980;
+
+!!UN:R4/(CURRENT_TOWN);
+
+!?FU(eighth_SetOrGet8thMon);            [Hawaiing]
+; Set or get 8th creature type/available quantity
+!#VA(townId:x) (mon:x) (qty:x) (isGet:x);
+
+!!CA(CURRENT_TOWN)&(townId)=(CURRENT_TOWN):U?(townId);
+
+!!UN:C6919480/4/?(value:y);[<699538>Main_Structure]
+!!VR(value):+136724;
+!!UN:C(value)/4/?(value2:y);
+!!VR(value3:y):S(townId) *360 +(value2) +60;
+!!VR(value4:y):S(value3) +4;
+
+!!if&(isGet);
+  !!UN:C(value3)/4/?(mon) C(value4)/2/?(qty);
+!!el;
+  !!UN&(mon)>-2:C(value3)/4/(mon);
+  !!UN&(qty)>-2:C(value4)/2/(qty);
+!!en;
+
+!?FU(OnTownFortMouseClick)&i^eighth_on^;
+!!FU(eighth_DisableAlliedFortClicks):P;
+
+!?FU(eighth_DisableAlliedFortClicks);
+; Disable mouse clicks on 8th creatures in allied forst
+!!CM:I?(item:y);
+!!FU&(item)<>24:E;
+
+!!CA(CURRENT_TOWN):O?(owner:y);
+!!OW:C?(currPlayer:y)/?(clickedPlayer:y);
+!!CM&(owner)<>(clickedPlayer):R0;
+
+****************************************************************************************************
+; Key press event
+!?FU(OnKeyPressed_Town)&i^key^=i^eighth_8thHotkey^/i^eighth_on^;
+!#VA(key:x) (preventDefault:x) (isDown:x);
+
+!!VR(preventDefault):S(TRUE);
+
+!!FU(eighth_BuildOrRecruit8th):P;
+
+****************************************************************************************************
+; Right-click Events
+!?FU(OnTownMouseClick)&i^mouse_action^=(MOUSE_RMB_PRESSED)/i^eighth_on^;
+!!CM:I?(item:y);
+!!FU(eighth_Get8thMonItem):P?(eighthItem:y);
+!!FU|(item)<>(eighthItem):E;
+
+!!CM:R0;
+!!CA(CURRENT_TOWN):U?(townId:y) O?(owner:y);
+!!FU|i^eighth_8thDwell_%(townId)^=(FALSE)/i^eighth_8thMon^<=(NO_MON):E;
+
+!!OW:C?(currPlayer:y)/?(clickedPlayer:y);
+
+!!if&(owner)=(clickedPlayer);
+  !!FU(eighth_ShowRecruitDialog):P;
+!!el;
+  !!FU(eighth_ShowGrowthDetails):P;
+!!en;
+
+!?FU(eighth_Get8thMonItem);
+!#VA(eighthItem:x);
+
+; Calculate how many creatue is available
+!!VR(dwellQty:y):S0;
+
+!!re (dwellId:y)/30/36;
+  !!CA(CURRENT_TOWN):B3/(dwellId);
+  !!VR(dwellQty)&1:+1;
+!!en;
+
+!!VR(eighthItem):S(dwellQty) +164;
+
+!?FU(OnTownMouseClick)&i^mouse_action^=(MOUSE_RMB_PRESSED)/i^eighth_on^;
+; Right-click info of 8th creature button
+!!SN:F^GetButtonID^/^8thCreatures^;
+!!FU&i^mouse_item^<>v1:E;
+
+!!CM:R0;
+!!FU(eighth_RMB8thMonBtn):P;
+
+!?FU(eighth_RMB8thMonBtn);
+!!CA(CURRENT_TOWN):U?(townId:y) T?(townType:y) O?(owner:y);
+
+!!if|i^eighth_8thDwell_%(townId)^=(FALSE)/i^eighth_8thMon^<=(NO_MON);
+  !!FU(eighth_Build8thDwellDialogue):P(townId)/(townType)/(owner)/(TRUE); [right-click dialogue]
+!!el;
+  !!FU(eighth_ShowGrowthDetails):P;
+!!en;
+
+!?FU(eighth_ShowGrowthDetails);
+!!CA(CURRENT_TOWN):T?(townType:y) U?(townId:y) O?(owner:y);
+
+!!FU(eighth_Get8thBasicGrowth):P(townType)/?(basicGrowth:y);
+!!FU(eighth_Get8thGrowth):P(townId)/?(growth:y)/?(castleBonus:y)/?(grailBonus:y);
+!!FU(eighth_GetExt8thDwellQty):P(townType)/(owner)/?(dwell:y);
+!!VR(totalGrowth:y):S(growth) +(dwell);
+
+!!VR(newLine:z):S^
+^;
+!!SN:T^eighth.growthDetails^/?(growthDetails:z)/^monName^/s^eighth_8thMonName^/^totalGrowth^/(totalGrowth);
+
+!!if|(castleBonus)>0/(dwell)>0/(grailBonus)>0;
+  !!SN:T^eighth.growthBasic^/?(growthBasic:z)/^basicGrowth^/(basicGrowth);
+  !!VR(growthDetails):+(newLine) +(growthBasic);
+
+  !!if&(castleBonus)>0;
+    !!SN:T^eighth.growthCastle^/?(growthCastle:z)/^castle^/s^eighth_castleName^/^castleBonus^/(castleBonus);
+    !!VR(growthDetails):+(newLine) +(growthCastle);
+  !!en;
+
+  !!if&(dwell)>0;
+    !!SN:T^eighth.growthExtDwell^/?(growthExtDwell:z)/^extDwellBonus^/(dwell);
+    !!VR(growthDetails):+(newLine) +(growthExtDwell);
+  !!en;
+
+  !!if&(grailBonus)>0;
+    !!SN:T^eighth.growthGrail^/?(growthGrail:z)/^grail^/s^eighth_grailName^/^grailBonus^/(grailBonus);
+    !!VR(growthDetails):+(newLine) +(growthGrail);
+  !!en;
+!!en;
+
+!!IF:Q1/(PIC_TYPE_MONSTER)/i^eighth_8thMon^/4/^%(growthDetails)^;
+
+****************************************************************************************************
+; Mouse hint events
+!?FU(OnTownMouseHint)&i^eighth_on^;
+!!FU(eighth_Get8thMonItem):P?(eighthItem:y);
+!!SN:F^GetButtonID^/^8thCreatures^;
+
+!!if&i^mouse_item^=(eighthItem);
+  !!FU(eighth_ManageMonSlotHint):P;
+!!el&i^mouse_item^=v1;
+  !!FU(eighth_Manage8thBtnHint):P;
+  !!FU(eighth_ShowTownHint):P;
+!!en;
+
+!?FU(eighth_ManageMonSlotHint);
+!!CA(CURRENT_TOWN):U?(townId:y) T?(townType:y) O?(owner:y);
+
+; Empty hint if 8th dwelling is not build
+!!if|i^eighth_8thDwell_%(townId)^=(FALSE)/i^eighth_8thMon^<=(NO_MON);
+  !!VR(hint:z):S^^;
+!!el;
+  !!FU(eighth_Get8thGrowth):P(townId)/?(growth:y)/?(castleBonus:y)/?(grailBonus:y);
+  !!FU(eighth_GetExt8thDwellQty):P(townType)/(owner)/?(dwell:y);
+
+  !!VR(totalGrowth:y):S(growth) +(dwell);
+  !!SN:T^eighth.hintRecruit^/?(hint)/^monName^/s^eighth_8thMonName^/^totalGrowth^/(totalGrowth);
+!!en;
+
+!!VRs^eighth_townHint^:S(hint);
+!!FU(eighth_ShowTownHint):P;
+
+!?FU(eighth_Manage8thBtnHint);
+!!CA(CURRENT_TOWN):U?(townId:y) T?(townType:y) O?(owner:y);
+
+; Build xx if 8th dwelling is not built
+!!if|i^eighth_8thDwell_%(townId)^=(FALSE)/i^eighth_8thMon^<=(NO_MON);
+
+  !!if&i^tum_upgGuild_%(townId)^;
+    !!VR(ertInd:y):S(townType) +770009;
+  !!el;
+    !!VR(ertInd):S(townType) +770000;
+  !!en;
+
+  !!SN:T^eighth.hintBuild^/?(hint:z)/^buildName^/z(ertInd);
+!!el;
+  !!FU(eighth_Get8thGrowth):P(townId)/?(growth:y)/?(castleBonus:y)/?(grailBonus:y);
+  !!FU(eighth_GetExt8thDwellQty):P(townType)/(owner)/?(dwell:y);
+  !!VR(totalGrowth:y):S(growth) +(dwell);
+  !!SN:T^eighth.hintRecruit^/?(hint)/^monName^/s^eighth_8thMonName^/^totalGrowth^/(totalGrowth);
+!!en;
+
+!!VRs^eighth_townHint^:S(hint);
+
+!?FU(eighth_ShowTownHint);              [daemon_n]
+!!FU(H3Dlg_GetCurrentDlg):P?(rootDlg:y);
+
+!!FU(H3Dlg_SendCmdToItem):P(rootDlg)/7001/(DLG_CMD_SET_TEXT)/^{~text align=center}%s(eighth_townHint)}^/(DLG_CMD_TYPE_DEFAULT);
+
+!!SN:D;
+
+!!FU(H3Dlg_SendCmdToItem):P(rootDlg)/7001/(DLG_CMD_SET_TEXT)/^^/(DLG_CMD_TYPE_DEFAULT);
+
+****************************************************************************************************
+; Manage 8th button according to WoG option
+!?FU(OnTownMouseClick)&i^eighth_on^=(FALSE);
+; Show left click and right click info when 8th upgrade option is disabled
+!!SN:F^GetButtonID^/^8thCreatures^;
+!!FU&i^mouse_item^<>v1:E;
+
+!!CM:R0;
+!!FU(eighth_ShowDisablingInfo):P;
+
+!?FU(eighth_ShowDisablingInfo);
+!!CA(CURRENT_TOWN):U?(townId:y) T?(townType:y);
+
+!!if&i^tum_upgGuild_%(townId)^;
+  !!VR(ertInd:y):S(townType) +770009;
+!!el;
+  !!VR(ertInd):S(townType) +770000;
+!!en;
+
+!!VR(dwellName:z):S^{%z(ertInd)}^;
+!!VR(newLine:z):S^
+^;
+!!SN:T^eighth.disabled^/?(disabled:z);
+!!VR(info:z):S(dwellName) +(newLine) +(newLine) +(disabled);
+
+!!if&i^mouse_action^=(MOUSE_LMB_RELEASED);
+  !!IF:Q1/(PIC_TYPE_MONSTER)/i^eighth_8thMon^/1/^%(info)^;
+!!el&i^mouse_action^=(MOUSE_RMB_PRESSED);
+  !!IF:Q1/(PIC_TYPE_MONSTER)/i^eighth_8thMon^/4/^%(info)^;
+!!en;
+
+; Test code
+!?FU(eighth_OnAfterOpenTownScreen)&i^eighth_on^;
+!!FU:E;
+!!FU(eighth_Get8thMonItem):P?(item:y);
+!!FU(eighth_Get8thBtnPos):P(item:y)/?(x:y)/?(y:y);
+!!FU(eighth_SetUp8thBtn):P(x)/(y)/(FALSE);
+!!IF:M^%(item)^;
+
+; Test code
+!?FU(eighth_OnAfterBuildTownBuilding)&i^tum_onTownScreen^/i^eighth_on^;
+!!FU:E;
+!!FU(eighth_Get8thMonItem):P?(item:y);
+!!FU(eighth_Get8thBtnPos):P(item:y)/?(x:y)/?(y:y);
+!!FU(eighth_SetUp8thBtn):P(x)/(y)/(TRUE);
+!!IF:M^%(item)^;
+
+!?FU(eighth_Get8thBtnPos);
+!#VA(item:x) (x:x) (y:x);
+
+!!if|(item)=164/(item)=168;
+  !!VR(x):S(EIGHTH_BTN_DEFAULT_X_COORD) -55 -55 -55;
+!!el|(item)=165/(item)=169;
+  !!VR(x):S(EIGHTH_BTN_DEFAULT_X_COORD) -55 -55;
+!!el|(item)=166/(item)=170;
+  !!VR(x):S(EIGHTH_BTN_DEFAULT_X_COORD) -55;
+!!el|(item)=167/(item)=171;
+  !!VR(x):S(EIGHTH_BTN_DEFAULT_X_COORD);
+!!en;
+
+!!if&(item)>=164/(item)<=167;
+  !!VR(y):S(EIGHTH_BTN_DEFAULT_Y_COORD) -48;
+!!el&(item)>=168/(item)<=171;
+  !!VR(y):S(EIGHTH_BTN_DEFAULT_Y_COORD);
+!!en;
+
+!?FU(eighth_SetUp8thBtn);
+!#VA(x:x) (y:x) (refresh:x);
+
+!!SN:F^GetButtonID^/^8thCreatures^;
+!!VR(btnId:y):Sv1;
+!!UN:C6919500/4/?(value:y);
+!!VR(value):+280;
+!!UN:C(value)/4/?(value2:y);
+!!SN:E6288384/2/(value2)/512/52/(btnId)/(x);
+!!SN:E6288384/2/(value2)/512/53/(btnId)/(y);
+
+!!UN&(refresh):R4/(CURRENT_TOWN);
+
+****************************************************************************************************
+; Upgrade 8th creatures
+!?FU(OnDetermineMonInfoDlgUpgrade)&i^eighth_on^;
+!#VA(monType:x) (upgType:x) (town:x) (hero:x);
+
+; Exit if not from town screen
+!!FU&(town)<=(NO_TOWN):E;
+
+; Exit if town type doens't match
+!!CA0/(town):T?(townType:y);
+!!MA:O(monType)/?(ownerTown:y);
+!!FU&(ownerTown)<>(townType):E;
+
+; If the monster is a eighth monster, get its upgrade if 8th monster is enabled/8th dwelling is built
+; Customise here
+!!if&(monType)>=(MON_EIGHTH_FIRST)/(monType)<=(MON_EIGHTH_LAST)/i^tum_upgGuild_%(town)^/i^eighth_8thDwell_%(town)^;
+  !!FU(GetUpgradedMonster):P(monType)/?(eighthMonUpg:y);
+  !!VR(upgType)&(eighthMonUpg)<>(NO_MON):S(eighthMonUpg);
+!!en;
+
+*******************************************************
+**** Banner Workshop (replace Portal of Summoning) ****
+*******************************************************
+; Banner Workshop now replaces Portal of Summoning
+; Provides one Warlord's Banner every week (not accumulated)
+
+; Refill Banner Workshop every Monday
+; Give free banner to AI heres when there is hero visiting/in town
+!?FU(OnEveryDay)&i^timerOnce^/i^eighth_on^;
+!!FU(eighth_SetUpBannerShop):P;
+
+!?FU(eighth_SetUpBannerShop);
+!#VA(x:y) (y:y) (z:y);
+
+!!VR(x):S-1;
+
+!!re i;
+  !!UN:U(OBJ_TOWN)/(TOWN_DUNGEON)/-1/(x)/(y)/(z);
+  !!br&(x)<0;
+
+  !!CA(x)/(y)/(z):U?(townId:y) O?(owner:y);
+
+  ; refill banner workshop on Monday
+  !!VRi^eighth_banner_%(townId)^&i^timerWeekDay^=1:S(TRUE);
+
+  ; give AI hero free banner if there is a visiting hero (high priority) /hero in town
+  !!co|i^eighth_bannerOn^=(FALSE)/i^eighth_banner_%(townId)^=(FALSE); [next town if banner is not available or not even enabeld]
+  !!co&(owner)<=(NO_OWNER);             [Next town if the town has no owner]
+
+  !!OW:I(owner)/?(isAi:y);              [check if the town belongs to AI]
+  !!CA0/(townId):B3/22;                 [check if Banner Workshop (Portal of Summoning) is built]
+  !!co|-1/(isAi)<>(TRUE);
+
+  !!CA0/(townId):H0/?(townHero:y);
+  !!CA0/(townId):H1/?(visitHero:y);
+
+  !!if&(visitHero)>(NO_HERO);        [give banner to visiting hero if there is one]
+    !!HE(visitHero):A4/(ART_WARLORDS_BANNER);
+    !!VRi^eighth_banner_%(townId)^:S(FALSE); [set the banner quantity to 0]
+  !!el&(townHero)>(NO_HERO);            [give to town hero if no visiting hero]
+    !!HE(townHero):A4/(ART_WARLORDS_BANNER);
+    !!VRi^eighth_banner_%(townId)^:S(FALSE);
+  !!en;
+!!en;
+
+!?FU(OnTownMouseClick)&i^mouse_item^=22/i^mouse_action^=(MOUSE_LMB_PRESSED)/i^eighth_on^;
+; Buy Walord's Banner from Banner Workshop
+!!CA(CURRENT_TOWN): T?(townType:y);
+!!FU&(townType)<>(TOWN_DUNGEON):E;      [clicking on dungeon (Portal of Summoning)]
+
+!!CM:R0;
+!!FU(eighth_BuyBanner):P(townType);
+
+!?FU(eighth_BuyBanner);
+!!CA(CURRENT_TOWN):U?(townId:y) H1/?(visitHero:y);
+
+; Check if there is a vistiing hero/if there is a banner available
+!!if&(visitHero)<=(NO_HERO);
+  !!SN:T^eighth.noHero^/?(noHero:z);
+  !!IF:Q1/(PIC_TYPE_ART)/(ART_WARLORDS_BANNER)/1^%(noHero)^;
+  !!FU:E;
+!!el&i^eighth_banner_%(townId)^<>(TRUE);
+  !!SN:T^eighth.noBanner^/?(noBanner:z);
+  !!IF:Q1/(PIC_TYPE_ART)/(ART_WARLORDS_BANNER)/1^%(noBanner)^;
+  !!FU:E;
+!!en;
+
+; Check for gold
+!!VR(cost:y):Si^eighth_bannerPrice^;    [cost of the banner]
+!!OW:R-1/6/?(gold:y);                   [gold of the player]
+
+; Set up text for differnt conditions of adffordable
+!!if&(cost)<(gold);
+  !!SN:T^eighth.bannerAsk^/?(condition:z);
+!!el;
+  !!SN:T^eighth.missRes^/?(condition);
+!!en;
+
+!!SN:T^eighth.bannerUI^/?(bannerUI:z)/^cost^/(cost)/^condition^/(condition);
+
+; Buy banner for the player if affordale or else
+!!if&(cost)<=(gold);
+  !!IF:Q1/(PIC_TYPE_ART)/(ART_WARLORDS_BANNER)/2^%(bannerUI)^; [Ask whether to buy]
+  !!FU&-1:E;
+
+  !!VR(goldNew:y):S(gold) -(cost);
+  !!OW:R-1/6/(goldNew);                 [reduce gold]
+  !!UN:R4/(CURRENT_TOWN);
+
+  !!HE(visitHero):A4/(ART_WARLORDS_BANNER); [give banner]
+  !!VRi^eighth_banner_%(townId)^:S(FALSE);
+  !!SN:T^eighth.purchased^/?(purchased:z);
+  !!IF:M^%(purchased)^;                   [msg of purchased]
+!!el;
+  !!IF:Q1/(PIC_TYPE_ART)/(ART_WARLORDS_BANNER)/1^%(bannerUI)^;
+!!en;

@@ -1,0 +1,290 @@
+199850	
+You've already built here this turn.	String type = <!!S>	12.05.2005
+199851	
+Do you want to build it?	String type = <!!S>	12.05.2005
+199852	
+You don't have enough resources.	String type = <!!S>	12.05.2005
+199853	
+You need to have castle to build.	String type = <!!S>	12.05.2005
+199854	Boar Rider	String type = <!!S>	12.05.2005
+199855	Boar Riders	String type = <!!S>	12.05.2005
+199856	Undead. Raises ghosts (new ghosts vanish after combat ends).	String type = <!!S>	12.05.2005
+199857	Undead.
+Curse. 	String type = <!!S>	12.05.2005
+199858	{Escaton's Crystal}
+Escaton's Crystal is the only way into the Plane Between Planes, where some of your elementals may obtain new powers from their masters.
+
+This structure lets you upgrade:
+{Sprites} into {Fairies}
+{Storm Elementals} into {Hurricane Elementals}
+{Ice Elementals} into {Life Elementals}
+{Energy Elementals} into {Plasma Elementals}
+{Magma Elementals} into {Mineral Elementals}
+{Magic Elementals} into {Void Elementals}
+{Phoenixes} into {Sacred Phoenixes}
+	String type = <!!S>	12.05.2005
+199859	
+Escaton's Crystal
+
+Escaton's Crystal is the only way into the Plane Between Planes, where some of your elementals may obtain new powers from their masters.
+
+This structure lets you upgrade:
+
+Sprites into Fairies
+Storm Elementals into Hurricane Elementals
+Ice Elementals into Life Elementals
+Energy Elementals into Plasma Elementals
+Magma Elementals into Mineral Elementals
+Magic Elementals into Void Elementals
+Phoenixes into Sacred Phoenixes
+when their normal upgraded dwellings are built.	String type = <!!S>	12.05.2005
+199860	Escaton's Crystal	String type = <!!S>	12.05.2005
+199861	{The Heavenly Tower}
+This amazing construction reaches the ancient clouds above our world, where your creatures may receive new powers or become better trained.
+
+The Heavenly Tower lets you upgrade:
+{Halberdiers} into {Royal Halberdiers}
+{Marksmen} to {Crossbowmen}
+{Royal Griffins} into {Cesar Griffins}
+{Crusaders} into {Inquisitors} 
+{Zealots} into {High Priests}
+{Champions} into {Holy Champions}
+{Archangels} into {Supreme Archangels}
+	String type = <!!S>	12.05.2005
+199862	
+The Heavenly Tower
+
+This amazing construction reaches the ancient clouds above our world, where your creatures may receive new powers or become better trained.
+
+The Heavenly Tower lets you upgrade:
+Halberdiers into Royal Halberdiers
+Marksmen into Crossbowmen
+Royal Griffins into Cesar Griffins
+Crusaders into Inquisitors
+Zealots into High Priests
+Champion into Holy Champion
+Archangels into Supreme Archangels
+when their normal upgraded dwellings are built.
+	String type = <!!S>	12.05.2005
+199863	The Heavenly Tower	String type = <!!S>	12.05.2005
+199864	{Order of The Sun}
+In this temple dedicated to the mysterious Order of The Sun some of your creatures may find a completely new way to use magic.
+
+{Centaur Capitans} into {Centaur Generals}
+{Dwarves} into {Berserker Dwarves}
+{Grand Elves} into {Sharpshooter Elves}
+{Silver Pegasi} into {Golden Pegasi}
+{Dendroid Guards} do {Elder Dendroids}
+{War Unicorns} into {Legendary Unicorns}
+{Gold Dragons} into {Diamond Dragons}
+	String type = <!!S>	12.05.2005
+199865	
+Order of The Sun
+
+In this temple dedicated to the mysterious Order of The Sun some of your creatures may find a completely new way to use magic.
+
+Order of The Sun lets you upgrade:
+Centaur Capitans into Centaur Generals
+Dwarves into Berserker Dwarves
+Grand Elves into Sharpshooter Elves
+Silver Pegsi into Golden Pegasi
+Dendroid Guards do Elder Dendroids
+War Unicorns into Legendary Unicorns
+Gold Dragons into Diamond Dragons
+when their normal upgraded dwellings are built.
+	String type = <!!S>	12.05.2005
+199866	Order of The Sun	String type = <!!S>	12.05.2005
+199867	{Cloud Castle}
+Built on the top of Bracada's highest mountians this castle is in fact an academy for the greatest alchemists who can highly improve your units.
+
+In the Cloud Castle you can upgrade:
+{Master Gremlins} into {Grandmaster Gremlins}
+{Obsidian Gargoyles} into {Marble Gargoyles}
+{Iron Golems} into {Steel Golems}
+{Archmages} into {Arcane Mages}
+{Genies} into {Arcane Genies}
+{Nagas} into {Naga Empresses}
+{Titans} into {Lords of Thunder}
+	String type = <!!S>	12.05.2005
+199868	
+Cloud Castle
+
+Built on the top of Bracada's highest mountians this castle is in fact an academy for the greatest alchemists who can highly improve your units.
+
+In the Cloud Castle you can upgrade:
+Master Gremlins into Grandmaster Gremlins
+Obsidian Gargoyles into Marble Gargoyles
+Iron Golems into Steel Golems
+Archmages into Arcane Mages
+Genies into Arcane Genies
+Nagas into Naga Empresses
+Titans into Lords of Thunder
+when their normal upgraded dwellings are built.
+	String type = <!!S>	12.05.2005
+199869	Cloud Castle	String type = <!!S>	12.05.2005
+199870	{Kreegans' Gate}
+When opened by the most powerful heretics, this gate can take your creatures to the fiery world of Kreegans, where they can evolve.
+
+By traveling through this gate you can upgrade:
+{Familiars} into {Hellish Plagues}
+{Magogs} into {Winged Magog}
+{Cerberus} into {Astral Cerberus}
+{Horned Demons} into {Sharp-Horned Demons}
+{Pit Lords} do {Pit Masters}
+{Efreet Sultans} into {Efreet Rajahs}
+{Archdevils} into {Hell Barons}
+	String type = <!!S>	12.05.2005
+199871	
+Kreegans' Gate
+
+When opened by the most powerful heretics, this gate can take your creatures to the fiery world of Kreegans, where they can evolve.
+
+By traveling through this gate you can upgrade:
+Familiars into Hellish Plagues
+Magogs into Winged Magogs
+Cerberus into Astral Cerberus
+Horned Demons into Sharp-Horned Demon
+Pit Lords do Pit Masters
+Efreet Sultans into Efreet Rajahs
+Archdevils into Antichrists
+when their normal upgraded dwellings are built.	String type = <!!S>	12.05.2005
+199872	Kreegans' Gate	String type = <!!S>	12.05.2005
+199873	{Hall of The Pit}
+This hall may take you to the centre of necromancy itself, where the greatest necromancers may make your undead creatures more powerful.
+
+At The Pit you can upgrade:
+{Skeleton Wariors} into {Skeleton Knights}
+{Zombies} into {Ghouls}
+{Wraiths} into {Spectre}
+{Vampires} into {Nosferatu}
+{Power Liches} into {Ancient Liches}
+{Black Knight} into {Death Knight}
+{Ghost Dragons} into {Blood Dragons}
+	String type = <!!S>	12.05.2005
+199874	
+Hall of The Pit
+
+This hall may take you to the centre of necromancy itself, where the greatest necromancers may make your undead creatures more powerful.
+
+At The Pit you can upgrade:
+Skeleton Wariors into Skeleton Knights
+Zombies into Ghouls
+Wraiths into Spectre
+Vampires into Nosferatu
+Power Liches into Ancient Liches
+Black Knight into Death Knight
+Ghost Dragons into Blood Dragons
+when their normal upgraded dwellings are built.	String type = <!!S>	12.05.2005
+199875	Hall of The Pit	String type = <!!S>	12.05.2005
+199876	{Forsaken Labyrinth}
+Legend says that in the deepest mazes of this labyrinth lies an incredible source of magic that can evolve some creatures.
+
+By reaching the Forsaken Labyrinth you ban upgrade:
+{Infernal Troglodites} into {Phosforous Troglodytes}
+{Harpy Hags} into {Harpy Sanguinaries}
+{Evil Eyes} into {Monstrous Eyes}
+{Medusa Queens} into {Medusa Empresses}
+{Minotaur Kings} into {Black Minotaurs}
+{Scorpicore} into {Chimera}
+{Black Dragons} into {Darkness Dragons}
+	String type = <!!S>	12.05.2005
+199877	
+Forsaken Labyrinth
+
+Legend says that in the deepest mazes of this labyrinth lies an incredible source of magic that can evolve some creatures.
+
+By reaching the Forsaken Labyrinth you ban upgrade:
+Infernal Troglodites into Phosforous Troglodytes
+Harpy Hags into Harpy Sanguinaries
+Evil Eyes into Monstrous Eyes
+Medusa Queens into Medusa Empresses
+Minotaur Kings into Black Minotaurs
+Scorpicore into Chimera
+Black Dragons into Darkness Dragons
+when their normal upgraded dwellings are built.
+	String type = <!!S>	12.05.2005
+199878	Forsaken Labyrinth	String type = <!!S>	12.05.2005
+199879	{Underworld Entrance}
+By entering the underworld some of your creatures may drain new powers from there to become even more fearsome and fiery.
+
+The underworld powers let you upgrade:
+{Infernal Troglodites} into {Phosforous Troglodytes}
+{Harpy Hags} into {Harpy Sanguinaries}
+{Evil Eyes} into {Monstrous Eyes}
+{Medusa Queens} into {Medusa Empresses}
+{Minotaur Kings} into {Black Minotaurs}
+{Scorpicore} into {Chimera}
+{Black Dragons} into {Darkness Dragons}
+	String type = <!!S>	12.05.2005
+199880	
+Underworld Entrance
+
+By entering the underworld some of your creatures may drain new powers from there to become even more fearsome and fiery.
+
+The underworld powers let you upgrade:
+Infernal Troglodites into Phosforous Troglodytes
+Harpy Hags into Harpy Sanguinaries
+Evil Eyes into Monstrous Eyes
+Medusa Queens into Medusa Empresses
+Minotaur Kings into Black Minotaurs
+Scorpicore into Chimera
+Black Dragons into Darkness Dragons
+when their normal upgraded dwellings are built.
+	String type = <!!S>	12.05.2005
+199881	Underworld Entrance	String type = <!!S>	12.05.2005
+199882	{Barbarian Citadel}
+At this barbarian war camp some of your creatures may train through hours on end to finally master new battle techniques.
+
+In this citadel you can upgrade:
+{Hobgoblins} into {Hobgoblin Overlords}
+{Wolf Raider} into {Killer Wolf Rider}
+{Orc Chieftans} into {Orc Leaders}
+{Ogre Magi} to {Elder Ogres}
+{Thunderbirds} into {Lightningbirds}
+{King Cyclops} into {Cyclops Emperor}
+{Ancient Behemoths} into {Ghost Behemoths}
+	String type = <!!S>	12.05.2005
+199883	
+Barbarian Citadel
+
+At this barbarian war camp some of your creatures may train through hours on end to finally master new battle techniques.
+
+In this citadel you can upgrade:
+Hobgoblins into Hobgoblin Overlords
+Wolf Raider into Killer Wolf Rider
+Orc Chieftans into Orc Leaders
+Ogre Magi to Elder Ogres
+Thunderbirds into Lightningbirds
+King Cyclops into Cyclops Emperor
+Ancient Behemoths into Ghost Behemoths
+when their normal upgraded dwellings are built.
+	String type = <!!S>	12.05.2005
+199884	Barbarian Citadel	String type = <!!S>	12.05.2005
+199885	{Temple of The Snake}
+This mysterious temple holds strong primal magic of Tatalia's lizard ancestors which can completely transform some creatures.
+
+The Temple of The Snake lets you upgrade:
+{Gnoll Marauders} into {Gnoll Shaman}
+{Lizardmen} into {Elite Lizards}
+{Bronze Gorgons} into {Dedly Gorgons}
+{Dragon Fly} into {Chaotic Dragon Fly}
+{Royal Basilisks} into {Lava Basilisks}
+{Vyvern Monarchs} into {Acid Vyverns}
+{Chaos Hydras} into {Hell Hydras}
+	String type = <!!S>	12.05.2005
+199886	
+Temple of The Snake
+
+This mysterious temple holds strong primal magic of Tatalia's lizard ancestors which can completely transform some creatures.
+
+The Temple of The Snake lets you upgrade:
+Gnoll Marauders into Gnoll Shaman
+Lizardmen into Elite Lizards
+Bronze Gorgons into Deadly Gorgons
+Dragon Fly into Choatic Dragon Fly
+Royal Basilisks into Lava Basilisks
+Vyvern Monarchs into Acid Vyverns
+Chaos Hydras into Hell Hydras
+when their normal upgraded dwellings are built.
+	String type = <!!S>	12.05.2005
+199887	Temple of The Snake	String type = <!!S>	12.05.2005
