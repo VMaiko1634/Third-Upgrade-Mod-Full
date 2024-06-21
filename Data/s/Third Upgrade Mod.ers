@@ -23,21 +23,19 @@ Option 301 by Archer30
 
 Every town now has a eighth dwelling, where you may recruite the eighth monsters originally from The Tides of War expansion.
 
-If this option is selected, Portals of Summoning will be replaced with Banner Workshops which provide you Warlord's Banners every week.
-
 The eighth monsters may be upgraded in towns if the third upgrade buildings have been built.
 
 List of Eighth Monsters
 --------------------------------
 Castle: Templar --> Paladin
-Rampart: Dryadr --> Oak Dryad
+Rampart: Forest Spirit --> Spring Spirit
 Tower: Drake Golem --> Dragon Golem
-Inferno: Succubus --> Lilim
-Necropolis: Werewolf --> Dire Werewolf
-Dungeon: Illithid --> Alhoon
+Inferno: Tartarus Fiend --> Lord of Tartarus
+Necropolis: Dark Templar --> Dark Paladin
+Dungeon: Lady Spider --> Queen Spider
 Stonghold: Coatl --> Quetzalcoatl
-Fortress: Troll Hag --> Troll Witch
-Conflux: Triton --> Abyssal Triton
+Fortress: Sea Serpent --> Leviathan
+Conflux: Planeswalker --> Elementalist
 Dwelling Banks	0	0	1	-1	1	1	302	Dwelling Banks	Some external dwellings become "dwelling banks".	DWELLING BANKS
 
 Option 302 by Perry R

@@ -11,12 +11,16 @@ ZVSE2
 ***************************
 
 !?FU(tum_CheckEnvironment);
-!!UN:V?(wogVer:y)/?(ermVer:y)/?(hasHumanPlayer:y)/?(isNetworkGame:y)/?(networkType:y);
+!!UN:V?(wogVer:y)/?(eraVer:y)/?(hasHumanPlayer:y)/?(isNetworkGame:y)/?(networkType:y);
 
 ; Show msg if the ERA version is outdated
-!!if&(ermVer)<3903;
+!!VR(version:y):S3912;
+!!VR(versionStr:z):S^3.9.12^;
+
+!!if&(eraVer)<(version);
   !!SN:H^art^/(ART_PENDANT_OF_DEATH)/0/?(artName:z) H^art^/(ART_PENDANT_OF_DEATH)/0/^^;
-  !!IF:Q1/(PIC_TYPE_ART)/(ART_PENDANT_OF_DEATH)/(PIC_TYPE_ART)/(ART_PENDANT_OF_DEATH)/(MSG_TYPE_CHOOSE_PIC)/^%T(Third_Upgrade_Mod.outOfDate)^;
+  !!SN:T^Third_Upgrade_Mod.outOfDate^/?(msg:z)/^version^/(versionStr);
+  !!IF:Q1/(PIC_TYPE_ART)/(ART_PENDANT_OF_DEATH)/(PIC_TYPE_ART)/(ART_PENDANT_OF_DEATH)/(MSG_TYPE_CHOOSE_PIC)/^%(msg)^;
   !!SN:H^art^/(ART_PENDANT_OF_DEATH)/0/(artName);
 
   !!UN:R6/(INT_MAX);
@@ -42,8 +46,24 @@ ZVSE2
   ; Show msg if there are at least two teams of human players
   !!if&(size)>1;
     !!SN:H^art^/(ART_BOOTS_OF_POLARITY)/0/?(artName:z) H^art^/(ART_BOOTS_OF_POLARITY)/0/^^;
-    !!IF:Q1/(PIC_TYPE_ART)/(ART_BOOTS_OF_POLARITY)/(PIC_TYPE_ART)/(ART_BOOTS_OF_POLARITY)/(PIC_TYPE_ART)/(ART_BOOTS_OF_POLARITY)/(MSG_TYPE_MES)/^%T(Third_Upgrade_Mod.brokenMpSupport)^;
+    !!IF:Q1/(PIC_TYPE_ART)/(ART_BOOTS_OF_POLARITY)/(PIC_TYPE_ART)/(ART_BOOTS_OF_POLARITY)
+      /(PIC_TYPE_ART)/(ART_BOOTS_OF_POLARITY)/(MSG_TYPE_MES)/^%T(Third_Upgrade_Mod.brokenMpSupport)^;
     !!SN:H^art^/(ART_BOOTS_OF_POLARITY)/0/(artName);
+  !!en;
+!!en;
+
+; Check if 8th creatures' memory hacks are not restored
+!!UN:P301/?(eighthMon:y);
+
+!!if&(eighthMon)<>(TRUE);
+  !!UN:C6130709/2/?(value:y);
+
+  !!if&(value)=8427;
+    !!SN:H^art^/(ART_SKULL_HELMET)/0/?(artName:z) H^art^/(ART_SKULL_HELMET)/0/^^;
+    !!IF:Q1/(PIC_TYPE_ART)/(ART_SKULL_HELMET)/(PIC_TYPE_ART)/(ART_SKULL_HELMET)/(MSG_TYPE_CHOOSE_PIC)/^%T(Third_Upgrade_Mod.restartRequired)^;
+    !!SN:H^art^/(ART_SKULL_HELMET)/0/(artName);
+
+    !!UN:R6/(INT_MAX);
   !!en;
 !!en;
 
@@ -124,21 +144,24 @@ ZVSE2
 !!FU(tum_CreateERMHook):P(hookingFuncAddress);
 
 !?FU(tum_CreateERMHook);
-!#VA(address:x);
+!#VA(setHook:x);
 
-!!SN:E(address)/1/4292703/(tum_OnSetActiveHero);
-!!SN:E(address)/1/4462998/(tum_HOOK_AfterAttackMainFunc); [Trigger after melee attack, before retaliation]
-!!SN:E(address)/1/4455129/(tum_HOOK_AfterAttackMainFunc); [Trigger after shooting]
-!!SN:E(address)/1/4288964/(tum_OnMonsterClickDiplo); [Trigger on checking neutral monsters' aggresion (RMB)]
-!!SN:E(address)/1/4879500/(tum_OnMonsterAttackDiplo); [Trigger on checking neutral monsters' aggresion (Attacking)]
-!!SN:E(address)/1/4638788/(tum_OnDlg_HeroPreview_SpellPowerWrite); [Trigger on setting hero's power on the battlefield]
-!!SN:E(address)/1/4607930/(tum_OnBeforeArtifactAutoSpells); [Trigger before the native artifact auto spell casting (must be "before" in order to be compatible with emerald 3)]
-*!SN:E(address)/1/5085308/(tum_OnArtifactGiveSpell); [Trigger when artifact with spell given is about to be equipped (not compatible with emerald 3)]
-!!SN:E(address)/1/5128574/(tum_OnCalcNecromancyPower); [Trigger on calculating Necromancy power]
-!!SN:E(address)/1/4445639/(tum_HOOK_AfterStackInitParams); [Trigger after initialising the stats of a stack on the battlefield]
-!!SN:E(address)/1/4920480/(tum_OnCalcMovementPointsCost); [Trigger on calculating the cost of movement points]
-!!SN:E(address)/1/4627361/(tum_OnNecromancyAddCreatures); [Trigger on adding Necromancy creatures]
+!!SN:E(setHook)/1/4292703/(tum_OnSetActiveHero);
+!!SN:E(setHook)/1/4462998/(tum_HOOK_AfterAttackMainFunc); [Trigger after melee attack, before retaliation]
+!!SN:E(setHook)/1/4455129/(tum_HOOK_AfterAttackMainFunc); [Trigger after shooting]
+!!SN:E(setHook)/1/4288964/(tum_OnMonsterClickDiplo); [Trigger on checking neutral monsters' aggresion (RMB)]
+!!SN:E(setHook)/1/4879500/(tum_OnMonsterAttackDiplo); [Trigger on checking neutral monsters' aggresion (Attacking)]
+!!SN:E(setHook)/1/4638788/(tum_OnDlg_HeroPreview_SpellPowerWrite); [Trigger on setting hero's power on the battlefield]
+!!SN:E(setHook)/1/4607930/(tum_OnBeforeArtifactAutoSpells); [Trigger before the native artifact auto spell casting (must be "before" in order to be compatible with emerald 3)]
+*!SN:E(setHook)/1/5085308/(tum_OnArtifactGiveSpell); [Trigger when artifact with spell given is about to be equipped (not compatible with emerald 3)]
+!!SN:E(setHook)/1/5128574/(tum_OnCalcNecromancyPower); [Trigger on calculating Necromancy power]
+!!SN:E(setHook)/1/4445639/(tum_HOOK_AfterStackInitParams); [Trigger after initialising the stats of a stack on the battlefield]
+!!SN:E(setHook)/1/4920480/(tum_OnCalcMovementPointsCost); [Trigger on calculating the cost of movement points]
+!!SN:E(setHook)/1/4627361/(tum_OnNecromancyAddCreatures); [Trigger on adding Necromancy creatures]
+!!SN:E(setHook)/1/5137595/(tum_Hero_GetSpecMonster_BeforeMonIdCheck);
 
+; This is a replacement of FU(OnPreTownScreen)
+!!SN&i^tum_newTowns_on^<>(TRUE):E(setHook)/1/6058213/(tum_HOOK_PrepareTownScreen); [For TUM Full only - manage TUM/8th creatures/virtural dwelling/upgrade guild.] 5C70E5
 
 !?FU(tum_HOOK_AfterAttackMainFunc);      [by igrik]
 !!SN:X?(hook:y);
@@ -170,6 +193,13 @@ ZVSE2
 !!UN:C(address)/(STRUCT_HOOK_CONTEXT_EBX)/4/?(stackStruct:y) C(stackStruct)/244/4/?(side:y) C(stackStruct)/248/4/?(stackPerSide:y);
 !!VR(stack:y):S(side) *(BATTLE_STACKS_PER_SIDE) +(stackPerSide);
 !!FU(tum_BattleStack_InitParams):P(stack);
+
+!?FU(tum_HOOK_PrepareTownScreen);
+!#VA(hook:x);
+
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_ECX)/(UNC_INT)/?(townStruct:y);
+!!UN:C(townStruct)/1/?(townId:y);
+!!FU(tum_OnPrepareTownScreen):P(townId);
 
 ********************************************
 **** Set Up Global Variables and Arrays ****
@@ -695,3 +725,19 @@ ZVSE2
 !!UN:C6919200/4/?y10;
 !!VRy1:S(stack) *1352 +21708 +y10;
 !!SN:E4473392/2/y1/(spell);
+
+****************************
+**** Get town structure ****
+****************************
+; получение структуры города
+!?FU(tum_Town_GetStruct);
+; x1 - town number on map (0...47)
+;?x2 - return: ptr structure town
+!#VA(townId:x) (town:x); 
+!!IF&(townId)<(MAP_TOWN_FIRST)|(townId)>(MAP_TOWN_LAST):M^{FU(Town_GetStruct)}: Wrong town id.^;
+!!UN:C(GAME_MANAGER)/(UNC_UINT32)/?(game:y); 
+!!UN:C(game)/136724/(UNC_UINT32)/?(ptr:y); 
+!!VR(town):S(townId) *360 +(ptr);
+!!IF&(town)<43200000:M^{FU(Town_GetStruct): Attention!}
+Error in getting town structure address. 
+The game may fall at any time.^; 

@@ -26,7 +26,7 @@ ZVSE2
 !#DC(MON_BERSERKER_DWARF)          = 203;
 !#DC(MON_SHARPSHOOTER_ELF)         = 256;
 !#DC(MON_GOLDEN_PEGASUS)           = 204;
-!#DC(MON_ELDER_DENDROID)           = 205;
+!#DC(MON_DENDROID_ELDER)           = 205;
 !#DC(MON_LEGENDARY_UNICORN)        = 206;
 !#DC(MON_PURE_DIAMOND_DRAGON)      = 207;
 
@@ -54,7 +54,7 @@ ZVSE2
 !#DC(MON_SPECTRE)                  = 261;
 !#DC(MON_NOSFERATU)                = 221;
 !#DC(MON_LICH_KING)                = 222;
-!#DC(MON_DEATH_NIGHT)              = 223;
+!#DC(MON_DEATH_KNIGHT)             = 223;
 !#DC(MON_RED_BONES_DRAGON)         = 224;
 
 ; Dungeon
@@ -80,12 +80,12 @@ ZVSE2
 !#DC(MON_ELITE_LIZARD)             = 240;
 !#DC(MON_CHAOTIC_DRAGON_FLY)       = 241;
 !#DC(MON_LAVA_BASILISK)            = 242;
-!#DC(MON_ACID_WYVERN)              = 243;
 !#DC(MON_CATOBLEPAS)               = 244;
+!#DC(MON_ACID_WYVERN)              = 243;
 !#DC(MON_NIGHTMARE_HYDRA)          = 245;
 
 ; Conflux
-!#DC(MON_FAERIE)                   = 246;
+!#DC(MON_FAIRY)                    = 246;
 !#DC(MON_HURRICANE_ELEMENTAL)      = 247;
 !#DC(MON_LIFE_ELEMENTAL)           = 248;
 !#DC(MON_PLASMA_ELEMENTAL)         = 249;
@@ -102,7 +102,7 @@ ZVSE2
 !#DC(MON_WEREWOLF_TOW)             = 273;
 !#DC(MON_WEREWOLF_TUM)             = 273;
 !#DC(MON_ILLITHID)                 = 274;
-!#DC(MON_COATL)                    = 275;
+!#DC(MON_COUATL)                   = 275;
 !#DC(MON_TROLL_HAG)                = 276;
 !#DC(MON_TRITON)                   = 277;
 !#DC(MON_LIGHT_PALADIN)            = 278;
@@ -110,7 +110,7 @@ ZVSE2
 !#DC(MON_DRAGON_GOLEM)             = 280;
 !#DC(MON_LILIM)                    = 281;
 !#DC(MON_ALHOON)                   = 282;
-!#DC(MON_QUETZALCOATL)             = 283;
+!#DC(MON_QUETZALCOUATL)            = 283;
 !#DC(MON_TROLL_WITCH)              = 284;
 !#DC(MON_ABYSSAL_TRITON)           = 285;
 !#DC(MON_EIGHTH_LAST)              = 285;
@@ -121,18 +121,19 @@ ZVSE2
 !#DC(MON_PRIMAL_FAERIE_DRAGON)     = 258;
 !#DC(MON_SPELLWEAVER)              = 259;
 !#DC(MON_ASSASSIN)                 = 260;
-
+!#DC(MON_SATYR)                    = 262;
 !#DC(MON_FANGARM)                  = 263;
+!#DC(MON_LEPRECHAUN)               = 264;
 !#DC(MON_TOPAZ_CRYSTAL_DRAGON)     = 265;
 !#DC(MON_AMETHYST_CRYSTAL_DRAGON)  = 266;
 !#DC(MON_EMERALD_CRYSTAL_DRAGON)   = 267;
 !#DC(MON_SAPPHIRE_CRYSTAL_DRAGON)  = 268;
-
+!#DC(MON_DEMILICH)                 = 286;
+!#DC(MON_DREAD_SKIPPER)            = 287;
+!#DC(MON_MERMAID)                  = 288;
 !#DC(MON_FIRE_PALADIN)             = 289;
 !#DC(MON_ICE_KNIGHT)               = 290;
-
 !#DC(MON_THUNDER_WARRIOR)          = 292;
-
 !#DC(MON_VERMILLION_BIRD)          = 294;
 !#DC(MON_SKELETON_ARCHER)          = 295;
 !#DC(MON_RED_SKELETON)             = 296;
@@ -141,15 +142,40 @@ ZVSE2
 !#DC(MON_SHARPSHOOTER_SKELETON)    = 299;
 !#DC(MON_CONSCRIPT)                = 300;
 !#DC(MON_SQUIRE)                   = 301;
+!#DC(MON_MAN_AT_ARMS)              = 302;
+!#DC(MON_PEON)                     = 303;
+!#DC(MON_TORTOFOID)                = 304;
+!#DC(MON_VILE_TORTOFOID)           = 305;
+!#DC(MON_DARK_ELEMENTAL)           = 306;
+!#DC(MON_GIGAS)                    = 307;
+!#DC(MON_HILL_GIGAS)               = 308;
+!#DC(MON_FOREST_DRAGON)            = 309;
+!#DC(MON_SWAMP_DRAGON)             = 310;
+!#DC(MON_MOSS_THRALL)              = 311;
+!#DC(MON_RAVENOUS_CORTATRICE)      = 312;
+!#DC(MON_CENTAMONTH_HUNTER)        = 313;
+!#DC(MON_CENTAMONTH_THROWER)       = 314;
+!#DC(MON_STUMP_RIDER)              = 315;
+!#DC(MON_BABA_YAGA)                = 316;
 !#DC(MON_WILL_O_WISP)              = 317;
-
+!#DC(MON_ARCHER_RIDER)             = 318;
+!#DC(MON_TITANONAGA)               = 319;
+!#DC(MON_MIRAGE_DRAGON)            = 322;
+!#DC(MON_MIRROR_DRAGON)            = 323;
+!#DC(MON_MITHRIL_GOLEM)            = 324;
 !#DC(MON_SHADOW_DRAGON)            = 325;
-
+!#DC(MON_LIZARD_SOLDIER)           = 326;
+!#DC(MON_SLITHZERIKAI)             = 327;
+!#DC(MON_SACRED_ELF)               = 328;
+!#DC(MON_CRIMSON_DRAGON)           = 330;
 !#DC(MON_DARK_TEMPLAR)             = 331;
 !#DC(MON_DARK_PALADIN)             = 332;
 !#DC(MON_FALLEN_ANGEL)             = 333;
 !#DC(MON_ANGEL_OF_DEATH)           = 334;
-
+!#DC(MON_WINGED_DRAKE)             = 335;
+!#DC(MON_LESSER_DRAGON)            = 336;
+!#DC(MON_FIEND_OF_TARTARUS)        = 337;
+!#DC(MON_LORD_OF_TARTARUS)         = 338;
 !#DC(MON_SULFIDE_DRAGON)           = 339;
 !#DC(MON_SWORDMASTER)              = 340;
 !#DC(MON_GREEN_DRAGONLING)         = 341;
@@ -157,8 +183,8 @@ ZVSE2
 !#DC(MON_FAERIE_DRAGONLING)        = 343;
 !#DC(MON_RUST_DRAGONLING)          = 344;
 !#DC(MON_AZURE_DRAGONLING)         = 345;
-!#DC(MON_FIRE_DRAGON)              = 347;
-!#DC(MON_ICE_DRAGON)               = 348;
+!#DC(MON_FIRE_DRAGON)              = 346;
+!#DC(MON_ICE_DRAGON)               = 347;
 ; =============  END MONSTERS  =============
 
 
@@ -273,9 +299,6 @@ ZVSE2
 !#DC(ART_EYE_OF_THE_RUST_DRAGON)   = 276;
 !#DC(ART_EYE_OF_THE_AZURE_DRAGON)  = 277;
 !#DC(ART_PRISMATIC_EYE_OF_THE_GOD_DRAGON) = 278;
-
-*#DC(ART_GARB_OF_THE_FOREST_LORD)  = 279;
-*#DC(ART_VESTMENTS_OF_AUTHORITY)   = 180; [wog name from Enhanced Artifact II]
 ; ============  END ARTIFACTS  =============
 
 

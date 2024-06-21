@@ -8,6 +8,38 @@ Scripts by Perry, Archer30 and Berseker
 visit www.heroescommunity.com for updates and news
 ****************************************************************************************************
 
+// Scripts specifically for TUM Full
+// by Archer30
+; Special variable for TUM Full
+!#VRi^tum_full_on^:S(TRUE);
+
+; New 8th creatures
+!?FU(OnAfterErmInited);
+!!if&i^eighth_on^;
+  !!SN:Vi^eighth_dwellReqDwellsList^/0/34/34/35/34/34/34/34/34/34; [id of required buildings for each factions]
+  !!SN:Vi^eighth_dwellCostsList_%(TOWN_CASTLE)^/0/15/0/15/0/0/10/10000;
+  !!SN:Vi^eighth_dwellCostsList_%(TOWN_RAMPART)^/0/15/0/15/0/10/0/11000;
+  !!SN:Vi^eighth_dwellCostsList_%(TOWN_INFERNO)^/0/0/15/30/0/0/0/12000;
+  !!SN:Vi^eighth_dwellCostsList_%(TOWN_NECROPOLIS)^/0/15/10/15/0/0/0/10000;
+  !!SN:Vi^eighth_dwellCostsList_%(TOWN_DUNGEON)^/0/15/0/15/10/0/0/9000;
+  !!SN:Vi^eighth_dwellCostsList_%(TOWN_STRONGHOLD)^/0/0/0/30/0/15/0/11000;
+  !!SN:Vi^eighth_dwellCostsList_%(TOWN_FORTRESS)^/0/0/0/30/15/0/0/12000;
+  !!SN:Vi^eighth_dwellCostsList_%(TOWN_CONFLUX)^/0/15/5/15/5/5/5/11000;
+!!en;
+
+!!SN:Vi^eighth_8thMonsList^/2/349/350;
+!!SN:Vi^eighth_8thMonsList^/6/(MON_FIEND_OF_TARTARUS)/(MON_LORD_OF_TARTARUS)/(MON_DARK_TEMPLAR)/(MON_DARK_PALADIN)/351/352;
+!!SN:Vi^eighth_8thMonsList^/14/353/354/355/356;
+
+// Store original monster IDs at the start of the game
+// by daemon_n
+!?FU(OnAfterErmInited);
+  !!VR(monNum:y):S9*2*7;
+  !!SN:M(M_AUTO_ID)/(monNum)/(M_INT)/(M_STORED)/?i^tum_NativeTownCreaturesIds^; // create array
+  !!SN:Mi^tum_NativeTownCreaturesIds^/?(dstArrayAddr:y)/0; get its address
+  !!VR(size:y):S(monNum:y) Sd<<2; get size in bytes
+  !!SN:K(size)/6768564/(dstArrayAddr)/0; memcopy from table
+
 ****************************************************************
 ************************ Upgrading Part ************************
 ****************************************************************
@@ -21,7 +53,7 @@ visit www.heroescommunity.com for updates and news
   ; Set upgrading to the specialty creature from the third upgrade of lower creatures, if they are included in the specialty definition
   !!HE(hero):X?(type:y)/?(specMonType1:y)/?(param:y)/?(param)/?(param)/?(specMonType2:y)/?(specUpgType:y);
 
-  ; Check only when the hero has creature upgrade specialty
+  ; Check only when the hero has no creature upgrade specialty
   !!if&(type)=6;
     !!FU&(upgType)=(specUpgType):E;
 
@@ -58,7 +90,7 @@ visit www.heroescommunity.com for updates and news
   !!en;
 
   ; Check if the any artifact givs additional upgrades (TUM Reborn only)
-  !!if&i^tum_reborn_on^;
+  !!if&i^tum_reborn_on^/i^tum_emerald_on^;
     !!FU(tum_ManageArtifactUpgrades):P(monType)/(hero)/?(newUpgType:y);
 
     !!if&(upgType)<>(newUpgType)/(newUpgType)<>(NO_MON);
@@ -76,10 +108,15 @@ visit www.heroescommunity.com for updates and news
 
 ; Initialization
 !!VR(upgType):S(NO_MON);
+
+; Get town type of the monster of the town and see if they match
+!!MA:O(monType)/?(ownerType:y);
 !!CA0/(town):T?(townType:y);
+!!FU&(townType)<>(ownerType):E;
+
 ; Get monster's level and get upgrade chain of the level
 !!MA:L(monType)/?(level:y);
-!!FU(tum_GetTownMon):P(townType)/(level)/?(basicMon:y)/?(upgMon:y)/?(thirdUpgMon:y);
+!!FU(tum_GetMonstersInTown):P(townType)/(level)/?(basicMon:y)/?(upgMon:y)/?(thirdUpgMon:y);
 
 ; Exit if upgraded dwelling is not built - might not be compatible with extended ugrades (is disabled anyway)
 !!VR(upgDwelling:y):S37 +(level);
@@ -100,27 +137,22 @@ visit www.heroescommunity.com for updates and news
   !!FU(GetUpgradedMonster):P(monType)/?(upgType);
 !!en;
 
-!?FU(tum_GetTownMon);
+!?FU(tum_GetMonstersInTown);
 !#VA(townType:x) (level:x) (basicMon:x) (upgMon:x) (thirdUpgMon:x);
 
-; get non-upgrades
-!!UN:T(townType)/(level)/0/?(basicMon);      [won't be compatible with Neutral Towns]
+; Get non-upgrade
+!!UN:T(townType)/(level)/0/?(basicMon);
 
-; Get upgraded monsters
-!!VR(upgMon):S(basicMon) +1;
-; Fix elementals
-!!VR(upgMon)&(basicMon)=(MON_AIR_ELEMENTAL):S(MON_STORM_ELEMENTAL);
-!!VR(upgMon)&(basicMon)=(MON_WATER_ELEMENTAL):S(MON_ICE_ELEMENTAL);
-!!VR(upgMon)&(basicMon)=(MON_FIRE_ELEMENTAL):S(MON_ENERGY_ELEMENTAL);
-!!VR(upgMon)&(basicMon)=(MON_EARTH_ELEMENTAL):S(MON_MAGMA_ELEMENTAL);
+; Get upgraded monster
+!!VR(counter:y):S14 *(townType) +7 +(level);
+!!SN:Mi^tum_NativeTownCreaturesIds^/(counter:y)/?(upgMon);
 
-; Get third upgrades
+; Get third upgrade
 !!FU(GetUpgradedMonster):P(upgMon)/?(thirdUpgMon);
 
 // Adapt fast upgrades with holding A + mouse click
-// Note: Clicking on the spot of the garrison hero/visiting hero has not been coded yet
 !?FU(OnTownMouseClick)&i^mouse_action^=(MOUSE_LMB_PRESSED)/i^key_a^/999;
-; Exit if the third building is not built
+; Exit if the third building is not built - Well, looks like the original igrik's way has problem too, so we disable it
 !!CA(CURRENT_TOWN):U?(townId:y);
 !!FU&i^tum_upgGuild_%(townId)^<>(TRUE):E;
 
@@ -157,7 +189,7 @@ visit www.heroescommunity.com for updates and news
 !!en;
 
 !?FU(tum_UpgradeWithAClicking);
-!#VA(item:x) (townId:x) (visitHero:x) ;
+!#VA(item:x) (townId:x) (visitHero:x);
 
 ; Manage different actions depending on whether clicking on the garrison or a slot from the visiting hero
 !!if&(item)>=115/(item)<=121;
@@ -219,7 +251,6 @@ visit www.heroescommunity.com for updates and news
     !!en;    
 
     !!SN:D;
-    !!UN:R2;
   !!en;
 !!en;
 
@@ -344,25 +375,56 @@ visit www.heroescommunity.com for updates and news
 !!MA:U337/338;
 !!MA:U135/339;
 !!MA:U138/348;
-
+!!MA:U349/350;
+!!MA:U351/352;
+!!MA:U353/354;
+!!MA:U355/356;
 
 !#FU(tum_SetUpNewUpgrades):P;
 
-*****************************************************************************
-************** the special structure in a town used for upgrading ***********
-*****************************************************************************
+****************************************************************************
+TUM Necromancy 
+script by Archer30 and daemon_n
+!?FU(tum_OnNecromancyAddCreatures);
+!#VA(hook:x);
+
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EAX)/(UNC_INT8)/?(canAddSkeletonWarriors:y);
+
+!!if&(canAddSkeletonWarriors)=(FALSE);
+  !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_ESI)/(UNC_INT)/?(esi:y) C(esi)/81232/(UNC_INT)/?(monType:y) C(esi)/81228/(UNC_INT)/?(monNum:y);
+  !!FU(GetUpgradedMonster):P(monType)/?(upgMon:y);
+
+  !!if&(upgMon)>(NO_MON);
+    !!VR(monNum):*2 +2 :3 F1/(INT_MAX);
+    !!UN:C(esi)/81232/(UNC_INT)/(upgMon);
+    !!UN:C(esi)/81228/(UNC_INT)/(monNum);
+
+    !!UN:C(hook:x)/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp)/8/4/?(side:y);
+
+    !!VR(armyPtrOffs:y):S(side) *(UNC_INT) +21700;
+    !!UN:C(esi)/(armyPtrOffs)/4/?(armyPtr:y);
+    !!SN:E4499888/(CALLCONV_FASTCALL)/(armyPtr:y)/(monNum)/(upgMon)/(monNum)/-1;
+    !!VR(result:y):Sv1;
+    !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EAX)/(UNC_INT8)/(result:y);
+  !!en;
+!!en;
+
+************************************************************************************
+************** Set up the special structure in a town used for upgrading ***********
+************************************************************************************
 ; Set up monsters in the town
 ; Script by Archer30
-!?FU(OnPreTownScreen);
+!?FU(tum_OnPrepareTownScreen);
 !#VA(townId:x);
 
 !!FU(tum_SetUpTownMons):P(townId);
-!!SN:D;
 
+; If fort is demolished, the building id is 11 (instead of 7)
+; &i^tum_onTownScreen^ - assuming that AI will never do this
 !?FU(OnAfterBuildTownBuilding)&i^tum_onTownScreen^;
 !#VA(townId:x) (buildingId:x);
 
-!!FU(tum_SetUpTownMons)&(buildingId)=7:P(townId);
+!!FU(tum_SetUpTownMons)&(buildingId)=11:P(townId);
 !!FU(tum_SetUpTownMons)&(buildingId)>=37/(buildingId)<=43:P(townId);
 !!SN:D;
 
@@ -373,14 +435,15 @@ visit www.heroescommunity.com for updates and news
 !!VRi^tum_upgGuild_%(townId)^&-1:S(FALSE);
 
 ; Set to third upgrade monsters if third upgrade building is built - depedning on whether the upgraded dwelling is built
+// Set up UN:T if third upgrade building bult
 !!if&i^tum_upgGuild_%(townId)^;
   !!re i/(MON_MIN_LEVEL)/(MON_MAX_LEVEL);
     !!VR(building:y):Si +37;
     !!CA0/(townId):B3/(building);
 
-    !!FU(tum_GetTownMon):P(townType)/i/?(mon:y)/?(upgMon:y)/?(thirdUpgMon:y);
+    !!FU(tum_GetMonstersInTown):P(townType)/i/?(mon:y)/?(upgMon:y)/?(thirdUpgMon:y);
 
-    !!if&1/i^tum_upgGuild_%(townId)^;
+    !!if&1;
       ; if both the upgraded dwelling and upgrade guild is built, get the third upgrade creature
       !!UN:T(townType)/i/1/(thirdUpgMon);
 
@@ -398,202 +461,51 @@ visit www.heroescommunity.com for updates and news
       !!UN:T(townType)/i/1/(upgMon);
     !!en;
   !!en;
-; Restore to the original town monsters if third upgrade building is not built
+// Restore UN:T if third upgrade building is not built
 !!el;
   !!FU(tum_ResetTownMons):P(townId);
 !!en;
 
-; Manage town dwellings
+// Manage town dwellings slots
 !!if&i^tum_upgGuild_%(townId)^;
   !!FU(newup_ExtendTownDwellings):P(townId)/(townType);
 !!el;
   !!FU(tum_ResetTownDwellings):P(townId)/(townType);
 !!en;
 
-// Restore UN:T values to their original
+// Restore UN:T values on closing town screen so that they are the original values when called by other functions
 !?FU(OnCloseTownScreen);
 !#VA(townId:x);
 
-!!FU(tum_ResetTownMons):P(townId);
+!!FU(tum_ResetTownMons):P(townId);      [Here we use a function for it to be called in other triggers]
 
+; Function for restoring UN:T
 !?FU(tum_ResetTownMons);
-!#VA(townId:x);
+!!re (townType:y)/(TOWN_FIRST)/(TOWN_LAST_WOG);
+  !!VR(counter:y):S14 *(townType) +7;   [Upgrade mon only]
 
-!!re i/(TOWN_FIRST)/(TOWN_LAST_WOG);
-  !!if&i<(TOWN_FORTRESS);
-    !!re j/0/6;
-      !!VR(townOffset:y):Si *14 +1;
-      !!VR(mon:y):Sj *2 +(townOffset);
-      !!UN:Ti/j/1/(mon);
-    !!en;
-  !!el&i=(TOWN_FORTRESS);
-    !!UN:Ti/0/1/(MON_GNOLL_MARAUDER);
-    !!UN:Ti/1/1/(MON_LIZARD_WARRIOR);
-    !!UN:Ti/2/1/(MON_DRAGON_FLY);
-    !!UN:Ti/3/1/(MON_GREATER_BASILISK);
-    !!UN:Ti/4/1/(MON_MIGHTY_GORGON);
-    !!UN:Ti/5/1/(MON_WYVERN_MONARCH);
-    !!UN:Ti/6/1/(MON_CHAOS_HYDRA);
-  !!el&i=(TOWN_CONFLUX);
-    !!UN:Ti/0/1/(MON_SPRITE);
-    !!UN:Ti/1/1/(MON_STORM_ELEMENTAL);
-    !!UN:Ti/2/1/(MON_ICE_ELEMENTAL);
-    !!UN:Ti/3/1/(MON_ENERGY_ELEMENTAL);
-    !!UN:Ti/4/1/(MON_MAGMA_ELEMENTAL);
-    !!UN:Ti/5/1/(MON_MAGIC_ELEMENTAL);
-    !!UN:Ti/6/1/(MON_PHOENIX);
+  !!re j/(MON_MIN_LEVEL)/(MON_MAX_LEVEL);
+    !!SN:Mi^tum_NativeTownCreaturesIds^/(counter:y)/?(monId:y);
+    !!UN:T(townType)/j/1/(monId);
+    !!VR(counter):+1;
   !!en;
 !!en;
 
-*****************************************************************************
-; Destruct the special building if there is no fort
-; Script by Archer30
+; Function for restoring dwelling slots
 !?FU(tum_ResetTownDwellings);
 !#VA(townId:x) (townType:x);
 
-!!if&(townType)=(TOWN_CASTLE);          [Castle]
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_PIKEMAN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_HALBERDIER)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_ARCHER)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_MARKSMAN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_GRIFFIN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_ROYAL_GRIFFIN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_SWORDSMAN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_CRUSADER)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_MONK)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_ZEALOT)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_CAVALIER)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_CHAMPION)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_ARCHANGEL)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_ANGEL)/100;
-!!el&(townType)=(TOWN_RAMPART);         [Rampart]
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_CENTAUR)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_CENTAUR_CAPTAIN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_DWARF)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_BATTLE_DWARF)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_WOOD_ELF)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_GRAND_ELF)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_PEGASUS)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_SILVER_PEGASUS)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_DENDROID_GUARD)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_DENDROID_SOLDIER)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_UNICORN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_WAR_UNICORN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_GREEN_DRAGON)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_GOLD_DRAGON)/100;
-!!el&(townType)=(TOWN_TOWER);           [Tower]
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_GREMLIN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_MASTER_GREMLIN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_STONE_GARGOYLE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_OBSIDIAN_GARGOYLE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_STONE_GOLEM)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_IRON_GOLEM)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_MAGE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_ARCH_MAGE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_GENIE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_MASTER_GENIE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_NAGA)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_NAGA_QUEEN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_GIANT)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_TITAN)/100;
-!!el&(townType)=(TOWN_INFERNO);         [Inferno]
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_IMP)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_FAMILIAR)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_GOG)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_MAGOG)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_HELL_HOUND)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_CERBERUS)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_DEMON)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_HORNED_DEMON)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_PIT_FIEND)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_PIT_LORD)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_EFREETI)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_EFREET_SULTAN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_DEVIL)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_ARCH_DEVIL)/100;
-!!el&(townType)=(TOWN_NECROPOLIS);      [Necropolis]
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_SKELETON)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_SKELETON_WARRIOR)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_WALKING_DEAD)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_ZOMBIE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_WIGHT)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_WRAITH)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_VAMPIRE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_VAMPIRE_LORD)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_LICH)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_POWER_LICH)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_BLACK_KNIGHT)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_DREAD_KNIGHT)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_BONE_DRAGON)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_GHOST_DRAGON)/100;
-!!el&(townType)=(TOWN_DUNGEON);         [Dungeon]
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_TROGLODYTE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_INFERNAL_TROGLODYTE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_HARPY)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_HARPY_HAG)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_BEHOLDER)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_EVIL_EYE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_MEDUSA)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_MEDUSA_QUEEN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_MINOTAUR)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_MINOTAUR_KING)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_MANTICORE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_SCORPICORE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_RED_DRAGON)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_BLACK_DRAGON)/100;
-!!el&(townType)=(TOWN_STRONGHOLD);      [Stronghold]
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_GOBLIN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_HOBGOBLIN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_WOLF_RIDER)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_WOLF_RAIDER)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_ORC)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_ORC_CHIEFTAIN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_OGRE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_OGRE_MAGE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_ROC)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_THUNDERBIRD)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_CYCLOPS)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_CYCLOPS_KING)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_BEHEMOTH)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_ANCIENT_BEHEMOTH)/100;
-!!el&(townType)=(TOWN_FORTRESS);        [Fortress]
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_GNOLL)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_GNOLL_MARAUDER)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_LIZARDMAN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_LIZARD_WARRIOR)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_SERPENT_FLY)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_DRAGON_FLY)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_BASILISK)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_GREATER_BASILISK)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_GORGON)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_MIGHTY_GORGON)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_WYVERN)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_WYVERN_MONARCH)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_HYDRA)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_CHAOS_HYDRA)/100;
-!!el&(townType)=(TOWN_CONFLUX);         [Conflux]
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/0/(MON_PIXIE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/0/1/1/(MON_SPRITE)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/0/(MON_AIR_ELEMENTAL)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/1/1/1/(MON_STORM_ELEMENTAL)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/0/(MON_WATER_ELEMENTAL)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/2/1/1/(MON_ICE_ELEMENTAL)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/0/(MON_FIRE_ELEMENTAL)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/3/1/1/(MON_ENERGY_ELEMENTAL)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/0/(MON_EARTH_ELEMENTAL)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/4/1/1/(MON_MAGMA_ELEMENTAL)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/0/(MON_PSYCHIC_ELEMENTAL)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/5/1/1/(MON_MAGIC_ELEMENTAL)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/0/(MON_FIREBIRD)/100;
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/6/1/1/(MON_PHOENIX)/100;
-!!en;
+  !!VR(counter:y):S14 *(townType);
 
-!!re i/(MON_MIN_LEVEL)/(MON_MAX_LEVEL);
-  !!FU(dex_SetDwellingSlotByTownId):P(townId)/i/1/2/(NO_MON)/100;
-!!en;
+  !!re i/0/1;
+    !!VR(slot:y):Si X(TRUE);            [Upgraded creature would be placed in the left most slot]
 
-!!UN:P(WOG_OPT_4TH_UPGRADES)/?(fourthUpgOn:y);
-!!FU(dex_SetDwellingSlotByTownId)&(fourthUpgOn):P(townId)/6/1/3/(NO_MON)/100;
+    !!re j/0/6;
+      !!SN:Mi^tum_NativeTownCreaturesIds^/(counter:y)/?(monId:y);
+      !!FU(dex_SetDwellingSlotByTownId):P(townId)/j/1/(slot)/(monId)/100;
+      !!VR(counter:y):+1;
+    !!en;
+  !!en;
 
 *****************************************************************************
 !?FU(gem_OnOpenButtonDlg);          [Function from GEM Mod that is called when clicking the new buttons]
@@ -1368,11 +1280,11 @@ script by Perry R and Archer30
 
 ****************************************************************************************************
 *Creature_Specialist Third Upgrade Mod* A Mod for ERA 2.9
-*Author PerryR, updated by Archer30
+*Author PerryR and Archer30
 *Sets new description for all creature Specialists and gives them a scaling, script taken from Advanced Classes Mod
 
 !?FU(OnAfterErmInstructions);
-!!SN:W^Advanced_Classes_Mod_Active^/?y1; !!FU&y1=1:E; [Exit if ACM mod active]
+!!FU&i^Advanced_Classes_Mod_Active^:E;  [Exit if ACM mod active]
 
 !!re i/(HERO_FIRST)/(HERO_LAST_WOG);
   !!HEi:X?(specType:y)/?(specSubtype:y);
@@ -1380,7 +1292,7 @@ script by Perry R and Archer30
 !!en;
 
 !?CM2&1000;                             [Show Correct Info for Creature Specialists]
-!!SN:W^Advanced_Classes_Mod_Active^/?y1; !!FU&y1=1:E; [Exit if ACM mod active]
+!!FU&i^Advanced_Classes_Mod_Active^:E;  [Exit if ACM mod active]
 
 !!CM:F?v3 I?v4 S?v5 T?v6;               [where we click and click subtype]
 !!FU|v4<>118/v6<>512/v5=13:E;           [If not Specialty Icon Clicked Exit]
@@ -1406,31 +1318,124 @@ script by Perry R and Archer30
   !!UN:N3/z6/y17/1;                      [Second Upgrade]
 
   !!MA:Ly12/?y14;                         [Get creature level]
-  !!VRy60&y14=0:S16; !!VRy60&y14=1:S15; !!VRy60&y14=2:S13; !!VRy60&y14=3:S12; !!VRy60&y14=4:S10; !!VRy60&y14=5:S7; !!VRy60&y14=6:S5;
-  !!VRy14:+1;
-  !!VRy50:Sy48:7+1;                       [7 Attack and Defense per Level]
-  !!VRy51:Sy48:y60;                       [Damage per Level based on creature level]
-  !!VRy52:Sy48+9;                         [+1% per Health per Level +9%]
+  !!FU(tum_GetSpecMonsterStats):Py6/y14/?y50/?y53/?y51/?y52;
 
-  !!SN:T^Third_Upgrade_Mod.Creature_Specialist^/?z7/^level^/y14/^attack^/y50/^damage^/y51/^health^/y52/^Crea1^/z3/^Crea2^/z4/^Crea3^/z6/^Hero^/z1/^sex^/z5;
+  ; Add in native bonuses
+  !!FU(ACM_GetNativeMonSpecBonus):Py48/y12/?y30/?y31;
+  !!VRy50:+y30;
+  !!VRy53:+y31;
+
+  !!SN:T^Third_Upgrade_Mod.Creature_Specialist_Title^/?z7;
+  !!SN:T^Third_Upgrade_Mod.Creature_Specialist_Body^/?z8/^level^/y14/^attack^/y50/^defense^/y53/^damage^/y51/^health^/y52/^Crea1^/z3/^Crea2^/z4/^Crea3^/z6/^Hero^/z1;
+  !!VRz7:+z8;
 
   !!IF&i^mouse_action^=(MOUSE_LMB_PRESSED):M1/1/^%z7^;
   !!IF&i^mouse_action^=(MOUSE_RMB_PRESSED):M1/4/^%z7^;
 !!en;
 
-!?BF;
-!!SN:W^Advanced_Classes_Mod_Active^/?y1;
-!!FU&y1=1:E; [Exit if ACM mod active]
+!?FU(tum_GetNativeMonSpecBonus);
+!#VA(heroLevel:x) (mon:x) (bonusAtk:x) (bonusDef:x);
 
-!!BH0:N?y1;                             [Attacker]
-!!FU(Third_Upgrade_1)&y1>=0/y1<=155:Py1/1;
+!!MA:L(mon)/?(monLevel:y) A(mon)/?(attack:y) D(mon)/?(defense:y);
+!!VR(monLevel):+1;
+!!VR(heroLevelFloat:e):S(heroLevel);
+!!VR(monLevelFloat:e):S(monLevel);
 
-!!BH1:N?y1;                             [Defender]
-!!FU(Third_Upgrade_1)&y1>=0/y1<=155:Py1/2;
+!!VR(bonusFloat:e):S1 :20;
+!!VR(totalBonusFloat:e):S(heroLevelFloat) :(monLevelFloat) *(bonusFloat);
+
+!!VR(attackFloat:e):S(attack);
+!!VR(bonusAtkFloat:e):S(totalBonusFloat) *(attackFloat);
+
+!!VR(defenseFloat:e):S(defense);
+!!VR(bonusDefFloat:e):S(totalBonusFloat) *(defenseFloat);
+
+!!VR(bonusAtk):S(bonusAtkFloat) +1;
+!!VR(bonusDef):S(bonusDefFloat) +1;
+
+
+!?FU(Set_Creature_Upgrades_1);
+!#VA(mon:x) (hero:x) (upgMon:x) (thirdUpgMon:x);
+
+!!if&(mon)<>(MON_BALLISTA);
+  !!MA:O(mon)/?(townType:y) L(mon)/?(level:y);
+  !!FU(tum_GetMonstersInTown):P(townType)/(level)/?(basicMon:y)/?(upgMon)/?(thirdUpgMon);
+!!el;
+  !!VR(upgMon):S(MON_FIRST_AID_TENT);
+  !!VR(thirdUpgMon):S(MON_AMMO_CART);
+!!en;
+
+; Battlefield
+!?FU(tum_Hero_GetSpecMonster_BeforeMonIdCheck);
+!#VA(hook:x);
+
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp)/8/4/?(mon:y);
+!!FU&(mon)<(MON_SUPREME_ARCHANGEL):E;
+
+!!MA:O(mon)/?(townType:y);
+!!FU&(townType)=(NO_TOWN):E;
+
+!!MA:L(mon)/?(level:y);
+!!FU(tum_GetMonstersInTown):P(townType)/(level)/?(basicMon:y)/?(upgMon:y)/?(thirdUpgMon:y); 
+
+!!if&(mon)=(thirdUpgMon);
+  !!UN:C(ebp)/8/4/(basicMon);
+!!el;
+  !!UN:P(WOG_OPT_4TH_UPGRADES)/?(fourthUpgOn:y);
+
+  !!if&(fourthUpgOn);
+    !!MA:U(thirdUpgMon)/?(fourthUpgMon:y);
+    !!UN&(mon)=(fourthUpgMon)C(ebp)/8/4/(basicMon);
+  !!en;
+!!en;
+
+!?FU(tum_GetSpecMonsterStats);
+!#VA(heroId:x) (monLvl:x) (attack:x) (defense:x) (damage:x) (bonusHp:x);
+
+!!HE(heroId):E?t/?(level:y)/1;          [Check hero Level]
+!!VR(level):F1/(INT_MAX);               [Fix the value fetched in case it's buggy]
+
+!!VR(divider:y)&(monLvl)=0:S16;
+!!VR(divider)&(monLvl)=1:S15; 
+!!VR(divider)&(monLvl)=2:S13; 
+!!VR(divider)&(monLvl)=3:S12; 
+!!VR(divider)&(monLvl)=4:S10; 
+!!VR(divider)&(monLvl)=5:S7; 
+!!VR(divider)&(monLvl)=6:S5;
+
+!!VR(attack):S(level):7 +1;             [Attack and Defense per 7 Level]
+!!VR(defense):S(attack);
+!!VR(damage):S(level):(divider);        [Damage per Level]
+!!VR(bonusHp):S(level)+9;               [+1% per Health per Level +9%]
+
+!?FU(tum_Hero_GetSpecMonster);
+!#VA(hook:x);
+
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp)/-4/4/?(hero:y) C(hero)/26/4/?(heroId:y);
+!!HE(heroId):X?t/?(monId:y);
+
+!!if&(monId)<>(MON_BALLISTA);
+  !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_ESI)/4/?(monPtr:y) C(monPtr)/4/4/?(monLvl:y);
+  !!UN:C(monPtr)/76/4/?(currHp:y);
+  !!FU(tum_GetSpecMonsterStats):P(heroId)/(monLvl)/?(attack:y)/?(defense:y)/?(damage:y)/?(bonusHp:y);
+  !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp)/8/4/?(monId:y);
+  !!UN:C(monPtr)/84/4/d(attack) C(monPtr)/88/4/d(defense); [edit min/max damage]
+  !!VR(newHp:e):S(currHp) :100 *(bonusHp);
+  !!VR(hp:y):S(newHp);
+  !!UN:C(monPtr)/76/4/d(hp); edit hp
+  !!UN:C(monPtr)/92/4/d(damage) C(monPtr)/96/4/d(damage); [edit min/max damage]
+!!en;
+
+!?FU(OnSetupBattlefield)&i^Advanced_Classes_Mod_Active^<>(TRUE);
+!!re i/(BATTLE_LEFT)/i^battle_hero_vs_hero^;
+  !!FU(Third_Upgrade_1):Pi^battle_hero_%i^/i;
+!!en;
 
 !?FU(Third_Upgrade_1);
 !!HEx1:X?y11/?y12/?y13/?y14/?y15/?y16/?y17; [Check Hero Speciality]
 !!FU&y11<>1:E;                          [Exit if no Creature Specialist]
+
+!!FU&y12<>(MON_BALLISTA):E;             [Exit if not Ballista specialist]
 
 !!HEx1:E?y47/?y48/1;                    [Check hero Level]
 !!MA:Ly12/?y14;
@@ -1441,8 +1446,8 @@ script by Perry R and Archer30
 !!VRy50:Sy48:7+1;                       [Attack and Defense per 7 Level]
 !!VRy51:Sy48:y60;                       [Damage per Level]
 !!VRy52:Sy48+9 +100;                    [+1% per Health per Level +9%]
-!!DO(Third_Upgrade_0)/0/20/1&x2=1:Py12/y13/y50/y52/y51/y14; [Pass Creature, Upgraded Creature, Att/Def, Health and Damage]
-!!DO(Third_Upgrade_0)/21/41/1&x2=2:Py12/y13/y50/y52/y51/y14; [Pass Creature, Upgraded Creature, Att/Def, Health and Damage]
+!!DO(Third_Upgrade_0)/0/20/1&x2=(BATTLE_LEFT):Py12/y13/y50/y52/y51/y14; [Pass Creature, Upgraded Creature, Att/Def, Health and Damage]
+!!DO(Third_Upgrade_0)/21/41/1&x2=(BATTLE_RIGHT):Py12/y13/y50/y52/y51/y14; [Pass Creature, Upgraded Creature, Att/Def, Health and Damage]
 
 !?FU(Third_Upgrade_0);
 
@@ -1453,18 +1458,8 @@ script by Perry R and Archer30
   !!BMx16:Ddx3;                         [Defense]
   !!BMx16:H?y2; !!VRy2:*x4:100;         [Get Health]
   !!BMx16:Hy2;
-  !!BMx16:U1/dx5 U2/dx5;                [Min+Max Damage]
-!!en;
-
-!?FU(Set_Creature_Upgrades_1);
-!#VA(mon:x) (hero:x) (upgMon:x) (thirdUpgMon:x);
-
-!!if&(mon)<>(MON_BALLISTA);
-  !!MA:O(mon)/?(townType:y) L(mon)/?(level:y);
-  !!FU(tum_GetTownMon):P(townType)/(level)/(mon)/?(upgMon)/?(thirdUpgMon);
-!!el;
-  !!VR(upgMon):S(MON_FIRST_AID_TENT);
-  !!VR(thirdUpgMon):S(MON_AMMO_CART);
+  !!BMx16:U2/?y30;                      [Sometimes damage of tents are used as a indicator for healing]
+  !!BMx16&y30>0:U1/dx5 U2/dx5;          [Min+Max Damage]
 !!en;
 
 !?FU(Third_Upgrade_2);
@@ -1476,12 +1471,16 @@ script by Perry R and Archer30
 128 Pasis     !!HE128:X1/120;
 129 Thunar    !!HE129:X1/113;
 131 Lacus     !!HE131:X1/115;
-130 Ignissa   
-
-Catherine Upgrade Specialty
-!!HE146:X6/7/291/340; (Upgrade Crusader and Inquisitor into Swordmaster)
+130 Ignissa   !!HE130:X1/114;
 
 !#FU(Third_Upgrade_2)&i^Advanced_Classes_Mod_Active^<>(TRUE):P;           [Set Conflux Heroes to normal Creature_Specialist]
+
+; Catherine Upgrade Specialty
+!?FU(Third_Upgrade_3);
+!!HE(HERO_CATHERINE):X6/(MON_CRUSADER)/(MON_INQUISITOR)/(MON_SWORDMASTER); (Upgrade Crusader and Inquisitor into Swordmaster)
+!!SN:H^spec^/(HERO_CATHERINE)/2/^%T(Third_Upgrade_Mod.spec146)^;
+
+!#FU(Third_Upgrade_3):P;
 
 ***********************************************************************************
 ***********************************************************************************
@@ -1566,34 +1565,8 @@ script by Perry R
 !#VA(mon:x) (result:x);
 
 !!VR(result):S(FALSE);
-!!VR(result)&(mon)=(MON_QUETZALCOATL):S(TRUE);
+!!VR(result)&(mon)=(MON_QUETZALCOUATL):S(TRUE);
 !!VR(result)|(mon)=(MON_FIRE_DRAGON)/(mon)=(MON_ICE_DRAGON):S(TRUE);
-
-****************************************************************************
-TUM Necromancy 
-script by Archer30 and daemon_n
-!?FU(tum_OnNecromancyAddCreatures);
-!#VA(hook:x);
-!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EAX)/(UNC_INT8)/?(canAddSkeletonWarriors:y);
-!!if&(canAddSkeletonWarriors)=(FALSE);
-  !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_ESI)/(UNC_INT)/?(esi:y) C(esi)/81232/(UNC_INT)/?(monType:y) C(esi)/81228/(UNC_INT)/?(monNum:y);
-  !!FU(GetUpgradedMonster):P(monType)/?(upgMon:y);
-
-  !!if&(upgMon)>(NO_MON);
-    !!VR(monNum):*2 +2 :3 F1/(INT_MAX);
-    !!UN:C(esi)/81232/(UNC_INT)/(upgMon);
-    !!UN:C(esi)/81228/(UNC_INT)/(monNum);
-
-    !!UN:C(hook:x)/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp)/8/4/?(side:y);
-
-    !!VR(armyPtrOffs:y):S(side) *(UNC_INT) +21700;
-    !!UN:C(esi)/(armyPtrOffs)/4/?(armyPtr:y);
-    !!SN:E4499888/(CALLCONV_FASTCALL)/(armyPtr:y)/(monNum)/(upgMon)/(monNum)/-1;
-    !!VR(result:y):Sv1;
-    !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EAX)/(UNC_INT8)/(result:y);
-  !!en;
-!!en;
-
 
 **************************************************************************
 ; Antichrist Rage

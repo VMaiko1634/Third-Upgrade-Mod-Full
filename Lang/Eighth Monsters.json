@@ -17,12 +17,6 @@
     "hintBuild": "{Build @buildName@}",
     "hintRecruit":  "Recruit @monName@. {Growth: @totalGrowth@ per week.}",
 
-    "noHero": "Only visting heres may use the Banner Workshop.",
-    "noBanner": "Warlord's Banner is sold out. Please come again next week.",
-    "bannerUI": "{Buy a Warlord's Banner}\n\nResource cost:\n{~>SMALRES.def:6} @cost@\n\n@condition@",
-    "bannerAsk":  "Do you want to buy a Warlord's Banner?",
-    "purchased":  "Warlord's Banner purchased",
-
     "disabled": "8th Monsters is disabled.\n\nTo use this feature, please enable it from the 1st page of WoG Options menu."
   }
 }
