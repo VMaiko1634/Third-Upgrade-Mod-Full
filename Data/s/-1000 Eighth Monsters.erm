@@ -563,18 +563,29 @@ ZVSE2
     !!VRi^eighth_8thDwell_%(townId)^:S(FALSE);
     !!FU(eighth_SetOrGet8thMonByTownId):P(townId)/(NO_MON)/-1;
   !!en;
-; Set up 8th dwell if portal of summoining is built
-*!el&(buildingId)=22;
-  *!if&i^eighth_8thDwell_%(townId)^;
-    *!if&i^tum_upgGuild_%(townId)^;
-      *!FU(eighth_SetOrGet8thMonByTownId):P(townId)/(upgMon)/d;
-    *!el;
-      *!FU(eighth_SetOrGet8thMonByTownId):P(townId)/(nonUpgMon)/d;
-    *!en;
-  *!en;
+; Update 8th dwell, if it is entering town screen or build up Portal of Summoning
+!!el;
+  !!VR(mustUpdate:y):S(FALSE);
+  !!VR(mustUpdate)&(buildingId)=0:S(TRUE);
+  !!VR(mustUpdate)&(buildingId)=22/(townType)=(TOWN_DUNGEON):S(TRUE);
+  !!FU(eighth_Update8thDwell)&(mustUpdate):P(townId);
 !!en;
 
 !!SN:H^monname^/i^eighth_8thMon^/1/?s^eighth_8thMonName^;
+
+!?FU(eighth_Update8thDwell);
+!#VA(townId:x);
+
+!!CA0/(townId):T?(townType:y);
+!!FU(eighth_Get8thMonByTownType):P(townType)/(TRUE)/?(upgMon:y)/?(nonUpgMon:y);
+
+!!if&i^eighth_8thDwell_%(townId)^;
+  !!if&i^tum_upgGuild_%(townId)^;
+    !!FU(eighth_SetOrGet8thMonByTownId):P(townId)/(upgMon)/d;
+  !!el;
+    !!FU(eighth_SetOrGet8thMonByTownId):P(townId)/(nonUpgMon)/d;
+  !!en;
+!!en;
 
 ****************************************************************************************************
 ; Triggers once for each town

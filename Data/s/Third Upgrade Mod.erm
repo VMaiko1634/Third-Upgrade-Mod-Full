@@ -508,6 +508,7 @@ script by Archer30 and daemon_n
   !!en;
 
 *****************************************************************************
+
 !?FU(gem_OnOpenButtonDlg);          [Function from GEM Mod that is called when clicking the new buttons]
 !!CA(CURRENT_TOWN):T?(townType:y);  [Get Town type]
 
@@ -813,14 +814,16 @@ script by Archer30 and daemon_n
 
   !!CA(CURRENT_TOWN):U?y30;             [get town id - Archer]
   !!VRi^tum_upgGuild_%y30^:S(TRUE);     [set flag]
-  !!FU(tum_SetUpTownMons):P;
-  !!FU(eighth_Update8thDwell):P;        [upgrade 8th dwelling]
+  !!FU(tum_SetUpTownMons):Py30;
+  !!FU(eighth_Update8thDwell):Py30;     [upgrade 8th dwelling]
 
-  !!CA(CURRENT_TOWN):R1;                [no more building today for this town]
+  ; Set the town as built
+  !!FU(tum_SetTownBuildingStatus):Py30;
 
-  !!VRv9520:S1;                         [set the helping v9520 because I don't want to re-write the entire code :P]
+  !!VRv9520:S(TRUE);                    [set the helping v9520 because I don't want to re-write the entire code :P]
   !!CA(CURRENT_TOWN):T?t;
   !!FU(newup_ExtendTownDwellings):Py30/t;
+  !!SN:D;
 !!en;
 
 **************************** text if the structure is built **************
@@ -828,10 +831,31 @@ script by Archer30 and daemon_n
   !!IF:D3/950/0/0/952/0/0/0/953/0/0/0/0/0/0/0;
   !!IF:F3/0/0/0/0/0;              [disabled cancel button]
   !!IF:E1/3;                      [Display dialogue box]
+!!en;
 
-  !!FU(tum_SetUpTownMons):Py30;
-  !!SN:D;
-  !!UN:R2;
+!?FU(tum_SetTownBuildingStatus);
+!#VA(townId:x);
+
+; Mark the town as built today, unless TranierX - builder mode is enabled
+!!if&i^trainer_builder_on^<>(TRUE);
+  ; If Allow Building Twice per Day in Towns is enabled, check if it's been built today
+  !!UN:P228/?(buildTwice:y);
+
+  !!if&(buildTwice);
+    !!SN:Mi^wog_228_townBuildingBuilt^/(townId)/?(isBuilt:y);
+
+    ; If it's been built once, set the town as built
+    !!if&(isBuilt);
+      !!CA0/(townId):R1;
+    ; If it hasn't been built, set the counter in the array
+    !!el;
+      !!SN:Mi^wog_228_townBuildingBuilt^/(townId)/d1;
+    !!en;
+
+  ; Or just set the town as built if Allow Building Twice per Day in Towns is disabled
+  !!el;
+    !!CA0/(townId):R1;                  [no more building today for this town]
+  !!en;
 !!en;
 
 **************************** Third Upgrade Mod Town dwellings enhancement ****************************
@@ -1208,12 +1232,12 @@ script by Archer30 and daemon_n
     !!VRv9555&v9555<v9553:S0;     [set '0' for 'third resource amount'  (if NOT enough)]
     !!VRv9555&v9555>=v9553:Sv9555-v9553; [substract 'price' from 'third resource amount'  (if enough)]
 
-    !!OW:Ri^timerOwner^/6/v9541;          [set new gold value]
-    !!OW:Ri^timerOwner^/v9556/v9554;      [set new second resource]
-    !!OW:Ri^timerOwner^/v9557/v9555;      [set new third resource]
+    !!OW:Ri^timerOwner^/6/v9541;        [set new gold value]
+    !!OW:Ri^timerOwner^/v9556/v9554;    [set new second resource]
+    !!OW:Ri^timerOwner^/v9557/v9555;    [set new third resource]
 
-    !!VRi^tum_upgGuild_%y30^:S(TRUE);     [set flag - Archer]
-    !!FU(eighth_Update8thDwell):P;        [upgrade 8th dwelling]
+    !!VRi^tum_upgGuild_%y30^:S(TRUE);   [set flag - Archer]
+    !!FU(eighth_Update8thDwell):Py30;   [upgrade 8th dwelling]
   !!en;
 !!en;
 
@@ -1236,6 +1260,7 @@ script by Archer30 and daemon_n
 !!HEx1:C0/x16/?y1/?y7;                  [Type of creature: y1, Number: y7]
 
 !!FU|y1<=(NO_MON)/y7=0:E;               [Exit if creature slot is empty]
+!!FU&y1>(MON_PHOENIX):E;                [Exit for monsters not in towns (Neutral Town option is not be supported)]
 
 !!MA:Oy1/?y2;                           [Town creature belongs to: y2]
 !!MA:Uy1/?y3;                           [Creature's upgrade number: y3]
@@ -1244,8 +1269,6 @@ script by Archer30 and daemon_n
 
 !!VRy6:Sy4 +37;                         [Upgraded dwelling number in town: y6]
 !!CA998:B3/y6;                          [Check if upgraded dwelling is built: Flag 1 is true if yes]
-!!CA998&-1:B3/19;                       [Check if horde building 1 is built: Flag 1 is true if yes]
-!!CA998&-1:B3/25;                       [Check if horde building 2 is built: Flag 1 is true if yes]
 
  [Exit if NOT native town, creature has no upgrade, creature has default upgrade or upgraded dwelling isn't built]
 !!FU|y3<=(NO_MON)/y2<>x2/-1:E;
