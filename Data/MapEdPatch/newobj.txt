@@ -148,3 +148,7 @@ Altar of Water (CB)
 Crystal Cavern (CB)
 Red Dragon Castle
 Ice Dragon Castle
+Churchyard Grass
+Churchyard Snow
+Snow Ivory Tower
+Snow Experimental Shop
