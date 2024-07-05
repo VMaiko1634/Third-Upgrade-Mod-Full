@@ -750,7 +750,7 @@ At the end of the mod search for Check_Forbidden_Artifacts and remove the code t
       !!VRi^CB_035_Upgrade_Flag_%X2_%X3_%X4^&y51<>4:S2; (Set flag to false so that upgrade did not happen)
     !!en:;
   !!VRy2:Si^CB_035_Guards_Number_Slot_%Vi^;    
-  !!re j/0/300/1:;
+  !!re j/0/302/1:;
     !!VRi^CB_035_Total_Creature_Type_%Vj^&j=y1/y2>0/y1>=0:Sdy2;    
   !!en:;
 !!en:;
@@ -794,7 +794,7 @@ At the end of the mod search for Check_Forbidden_Artifacts and remove the code t
   !!VRi:S0;
   !!VRk:S0;
 
-  !!re i/0/300/1:;
+  !!re i/0/302/1:;
     !!VRk:Si+1;
     !!VRy80:Si^CB_035_Total_Creature_Type_%Vi^;
     !!if&y80>0:;    
@@ -818,7 +818,7 @@ At the end of the mod search for Check_Forbidden_Artifacts and remove the code t
 !!en:;
 
   !!VRi:S0;
-  !!re i/k/300/1:; 
+  !!re i/k/302/1:; 
     !!VRk:Si+1;   
     !!VRy80:Si^CB_035_Total_Creature_Type_%Vi^;
     !!if&y80>0:;    
@@ -842,7 +842,7 @@ At the end of the mod search for Check_Forbidden_Artifacts and remove the code t
 !!en:;
 
   !!VRi:S0;
-  !!re i/k/300/1:;
+  !!re i/k/302/1:;
    !!VRk:Si+1;    
     !!VRy80:Si^CB_035_Total_Creature_Type_%Vi^;
     !!if&y80>0:;    
@@ -866,7 +866,7 @@ At the end of the mod search for Check_Forbidden_Artifacts and remove the code t
 !!en:;
 
   !!VRi:S0;
-  !!re i/k/300/1:;
+  !!re i/k/302/1:;
    !!VRk:Si+1;    
     !!VRy80:Si^CB_035_Total_Creature_Type_%Vi^;
     !!if&y80>0:;    
@@ -889,7 +889,7 @@ At the end of the mod search for Check_Forbidden_Artifacts and remove the code t
 !!en:;
 
   !!VRi:S0;
-  !!re i/k/300/1:;
+  !!re i/k/302/1:;
    !!VRk:Si+1;    
     !!VRy80:Si^CB_035_Total_Creature_Type_%Vi^;
     !!if&y80>0:;    
@@ -912,7 +912,7 @@ At the end of the mod search for Check_Forbidden_Artifacts and remove the code t
 !!en:;
 
   !!VRi:S0;
-  !!re i/k/300/1:;
+  !!re i/k/302/1:;
    !!VRk:Si+1;    
     !!VRy80:Si^CB_035_Total_Creature_Type_%Vi^;
     !!if&y80>0:;    
@@ -935,7 +935,7 @@ At the end of the mod search for Check_Forbidden_Artifacts and remove the code t
 !!en:;
 
   !!VRi:S0;
-  !!re i/k/300/1:;
+  !!re i/k/302/1:;
    !!VRk:Si+1;    
     !!VRy80:Si^CB_035_Total_Creature_Type_%Vi^;
     !!if&y80>0:;    
@@ -958,7 +958,7 @@ At the end of the mod search for Check_Forbidden_Artifacts and remove the code t
 !!en:;
 
   !!VRi:S0;
-  !!re i/k/300/1:;
+  !!re i/k/302/1:;
    !!VRk:Si+1;    
     !!VRy80:Si^CB_035_Total_Creature_Type_%Vi^;
     !!if&y80>0:;    
@@ -1100,7 +1100,7 @@ Guarded by %Z1 {(%Y30-%Y31)} of %Z-1, %Z2 {(%Y32-%Y33)} of %Z-2, %Z3 {(%Y34-%Y35
 !!HTv1/v2&x5=1:P1/z1;
 !!HTv1/v2&x5<>0:P2/z11;
 
-!!re i/0/300/1:;
+!!re i/0/302/1:;
   !!VRi^CB_035_Total_Creature_Type_%Vi^:S0;    
 !!en:;
 
