@@ -149,7 +149,7 @@ ZVSE2
 !!SN:E(setHook)/1/4292703/(tum_OnSetActiveHero);
 !!SN:E(setHook)/1/4462998/(tum_HOOK_AfterAttackMainFunc); [Trigger after melee attack, before retaliation]
 !!SN:E(setHook)/1/4455129/(tum_HOOK_AfterAttackMainFunc); [Trigger after shooting]
-!!SN:E(setHook)/1/4288964/(tum_OnMonsterClickDiplo); [Trigger on checking neutral monsters' aggresion (RMB)]
+!!SN:E(setHook)/1/4288967/(tum_OnMonsterClickDiplo); [Trigger on checking neutral monsters' aggresion (RMB)]
 !!SN:E(setHook)/1/4879500/(tum_OnMonsterAttackDiplo); [Trigger on checking neutral monsters' aggresion (Attacking)]
 !!SN:E(setHook)/1/4638788/(tum_OnDlg_HeroPreview_SpellPowerWrite); [Trigger on setting hero's power on the battlefield]
 !!SN:E(setHook)/1/4607930/(tum_OnBeforeArtifactAutoSpells); [Trigger before the native artifact auto spell casting (must be "before" in order to be compatible with emerald 3)]

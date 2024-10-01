@@ -1108,6 +1108,8 @@ Guarded by %Z1 {(%Y30-%Y31)} of %Z-1, %Z2 {(%Y32-%Y33)} of %Z-2, %Z3 {(%Y34-%Y35
 ****************************************************************************************************
 *Replace Objects when map starts
 !?FU(OnEveryDay);
+!!UN:P302/?y30;
+!!FU&y30<>(TRUE):E;
 
 !!if&x1=1/x3=1:;                   (Run once at day 1)
   !!VRy1:Si^CB_055_Replace_Objects^; !!FU&y1=0:E;
