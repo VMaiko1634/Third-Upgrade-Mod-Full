@@ -482,7 +482,7 @@ At the end of the mod search for Check_Forbidden_Artifacts and remove the code t
   !!UN:J6/y6/?y13;                      (get a random artifact)
   !!FU(CB_019_Check_Forbidden_Artifacts):Py13/?y13/y6; 
   !!VRy14:Si^CB_019_Reward_1_Artifacts_Specific^; (0-250)
-  !!VRy13&y14>-1:Sy14;                  (If specific artifact was set override random generated artifact)
+  !!VRy13&y14>-1/i^tum_emerald_on^:Sy14;                  (If specific artifact was set override random generated artifact)
   *!VRy13:R0/146/155;                   (Generate Artifact in the Range from x1 to x2)
   !!UN:N0/2/y13;                        (Get the name of the Artifact)
   !!IF&1000:Q1/8/y13/1^Having defeated the %Z1, you discover:^;   
