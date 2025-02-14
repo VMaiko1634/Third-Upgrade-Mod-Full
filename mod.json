@@ -1,19 +1,16 @@
 {
 	"caption": {
 		"en_US": "Third Upgrade Mod",
-		"ru_RU": "",
-		"ua_UA": ""
+		"ru_RU": ""
 	},
 	"description": {
 		"full": {
 			"en_US": "readme.md",
-			"ru_RU": "",
-			"ua_UA": ""
+			"ru_RU": ""
 		},
 		"short": {
-			"en_US": "\r\n\r\n                 ************** Third Upgrade Mod **************\r\n                 ****************** version: v3.0.0 ********************\r\n                 *********** VMaiko's Typhon Edition ***********\r\n                 ******************Scripting by PerryR, Berserker****************\r\n\r\nAdds a third upgrade for every creature! Uses the Typhon Mod.\r\nEnables all creature specialists to also specialize in the third upgrade. This mod disables WoG Script \"39 wog - hero specialization boost\". ",
-			"ru_RU": "",
-			"ua_UA": ""
+			"en_US": "\r\n\r\n                 ************** Third Upgrade Mod **************\r\n                 ****************** version: v2.21.0 ********************\r\n                 *********** VMaiko's Typhon Edition ***********\r\n                 ******************Scripting by PerryR, Berserker****************\r\n\r\nAdds a third upgrade for every creature! Uses the Typhon Mod.\r\nEnables all creature specialists to also specialize in the third upgrade. This mod disables WoG Script \"39 wog - hero specialization boost\". ",
+			"ru_RU": ""
 		}
 	},
 	"author": "VMaiko, PerryR, Archer30",
@@ -22,7 +19,7 @@
 		"file": "AmeU3.ico",
 		"index": 0
 	},
-	"mod_version": "3.0.0",
+	"mod_version": "2.21.0",
 	"priority": 2,
 	"compatibility": {
 		"class": "default",
