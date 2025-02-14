@@ -1,5 +1,5 @@
 # Declare files that will always have CRLF line endings on checkout.
-* text=auto
+* text=false
 
 .gitignore export-ignore
 .gitattributes export-ignore
