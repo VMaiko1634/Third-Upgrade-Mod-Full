@@ -17,6 +17,7 @@ ZVSE2
 !#VRi^eighth_build8thDwellInterval_AI^:S3;[days between AI build 8th dwellings]
 !#VRi^eighth_recruit8thMaxGoldPct_AI^:S50;[Max percent of gold spending on recruiting 8th creatures everyday for AI]
 !#VRi^eighth_8thHotkey^:S(KEY_D);       [hotkey for left-click features in Town]
+!#VRi^eighth_castleUpgradingSupport_enabled^:S(TRUE); [Whether enable compatibility lines for Castle Upgrading (wog optoin) feature]
 ; ============ END SETTINGS ============
 
 
@@ -31,7 +32,7 @@ ZVSE2
 
 
 // Compatibility with Castle Upgrade
-!?FU(OnEveryDay)&i^timerDay^=1/i^timerOnce^/i^eighth_on^;
+!?FU(OnEveryDay)&i^timerDay^=1/i^timerOnce^/i^eighth_on^/i^eighth_castleUpgradingSupport_enabled^;
 !!UN:P45/?(castleUpgrading:y);
 !!FU&(castleUpgrading)<>(TRUE):E;
 
@@ -42,7 +43,7 @@ ZVSE2
   !!SN:Vi^wog_45_upgMonList_%i^/14/(upgMon)/(growth);
 !!en;
 
-!?FU(WOG_45_SetUp8thSlot)&i^eighth_on^;
+!?FU(WOG_45_SetUp8thSlot)&i^eighth_on^/i^eighth_castleUpgradingSupport_enabled^;
 !#VA(townId:x) (mon:x);
 
 !!VR(mon):S(NO_MON);
@@ -70,19 +71,43 @@ ZVSE2
 !!en;
 
 // Main Script
-!?FU(tum_CreateERMHook)&i^eighth_on^;
+!?FU(OnStartOrLoad);
+!!SN:L^erm_hooker.era^/?(hooker:y);
+!!FU&(hooker)=0:E;
+
+!!SN:A(hooker)/^SetHook^/?(hookingFuncAddress:y);
+!!FU(eighth_CreateERMHook):P(hookingFuncAddress);
+
+!?FU(eighth_CreateERMHook);
 !#VA(setHook:x);
 
-!!SN:E(setHook)/1/6057058/(eighth_OnTownDlgSmallPortraitsRedraw); 5C6C62
-*!SN:E(setHook)/1/6109287/(eighth_OnTownDlgMouseClick); [incompatible with HD]
-!!SN:E(setHook)/1/6151653/(eighth_OnFortDlgSummonCreatureBuild);
-!!SN:E(setHook)/1/5362350/(eighth_OnKODlgSmallPortraitsBuild);
+!!if&i^eighth_on^;
+  !!SN:E(setHook)/1/6057058/(eighth_OnTownDlgSmallPortraitsRedraw); 5C6C62
+  *!SN:E(setHook)/1/6109287/(eighth_OnTownDlgMouseClick); [incompatible with HD]
+  !!SN:E(setHook)/1/6151653/(eighth_OnFortDlgSummonCreatureBuild);
+  !!SN:E(setHook)/1/5362350/(eighth_OnKODlgSmallPortraitsBuild);
 
-!!SN:E(setHook)/1/5016413/(eighth_OnUpdatePortalMonsterOnNewWeek); 5016413
+  !!SN:E(setHook)/1/5016413/(eighth_OnUpdatePortalMonsterOnNewWeek); 5016413
+!!en;
+
+!!SN:E(setHook)/1/6058213/(eighth_HOOK_PrepareTownScreen); [manage 8th creatures/virtural dwelling/upgrade guild, must be executed in any case for creature portrait] 5C70E5
+
+!?FU(eighth_HOOK_PrepareTownScreen)&1000;
+!#VA(hook:x);
+
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_ECX)/(UNC_INT)/?(townStruct:y);
+!!UN:C(townStruct)/1/?(townId:y);
+!!FU(eighth_OnPrepareTownScreen):P(townId);
+
+// Set up town screen variable (to prevent triggering several events)
+!?FU(OnOpenTownScreen);
+!!VRi^eighth_onTownScreen^:S(TRUE);
+
+!?FU(OnCloseTownScreen);
+!!VRi^eighth_onTownScreen^:S(FALSE);
 
 !?FU(OnAfterErmInstructions);
 !!if&i^eighth_on^;
-
   ; Create 8 arrays with 9 items for dwellings on the map for every player
   ; Currently disabled as the efficiency looks ok
   *!re i/(PLAYER_FIRST)/(PLAYER_LAST);
@@ -123,7 +148,7 @@ ZVSE2
 !!en;
 
 !!SN:Vi^eighth_8thMonsList^/0/(MON_LIGHT_TEMPLAR)/(MON_LIGHT_PALADIN)/(MON_DRYAD)/(MON_OAK_DRYAD)/(MON_DRAKE_GOLEM)/(MON_DRAGON_GOLEM)/
-  (MON_SUCCUBUS)/(MON_LILIM)/(MON_WEREWOLF_TOW)/(MON_DIRE_WEREWOLF)/(MON_ILLITHID)/(MON_ALHOON);
+  (MON_SUCCUBI)/(MON_LILIM)/(MON_WEREWOLF_TOW)/(MON_DIRE_WEREWOLF)/(MON_ILLITHID)/(MON_ALHOON);
 !!SN:Vi^eighth_8thMonsList^/12/(MON_COUATL)/(MON_QUETZALCOUATL)/(MON_TROLL_HAG)/(MON_TROLL_WITCH)/(MON_TRITON)/(MON_ABYSSAL_TRITON);
 
 !?FU(OnGameEnter)&i^eighth_on^;
@@ -265,7 +290,7 @@ ZVSE2
 !!MA:L(eighthMon)/?(level:y);
 
 ; Get the bonus of legion pieces of a town (including visiting and )
-!!FU(tum_Town_GetStruct):P(townId)/?(townStruct:y);
+!!FU(eighth_Town_GetStruct):P(townId)/?(townStruct:y);
 !!SN:E6028544/(CALLCONV_THISCALL)/(townStruct)/(level);
 !!VR(legionPieceBonus):Sv1;
 
@@ -341,6 +366,9 @@ ZVSE2
 !!VR(dwell):S0;
 !!VR(x:y):S-1;
 
+; Warning: Sometimes dwelling stucture can be broken, here we use UN:P904 as a fail-safe
+!!UN:P904/(TRUE);
+
 !!re i;
   !!UN:U(OBJ_CREATURE_GENERATOR_1)/(ANY_OBJ)/-1/(x)/(y:y)/(z:y);
   !!br&(x)<0;
@@ -353,6 +381,8 @@ ZVSE2
 
   !!VR(dwell)&(townType)=(eighthTown):+1;
 !!en;
+
+!!UN:P904/(FALSE);
 
 ****************************************************************************************************
 ; Manage AI behaviours
@@ -521,12 +551,12 @@ ZVSE2
 ****************************************************************************************************
 ; Update 8th dwelling variables and displays
 ; Warning: this trigger should be enabled without i^eighth_on^ as we want the 8th monster dialogue to display corrected creature picture
-!?FU(tum_OnPrepareTownScreen);
+!?FU(eighth_OnPrepareTownScreen);
 !#VA(townId:x);
 
 !!FU(eighth_SetUpVarsAndUpdate8thDwell):P(townId);
 
-!?FU(OnAfterBuildTownBuilding)&i^tum_onTownScreen^/i^eighth_on^;
+!?FU(OnAfterBuildTownBuilding)&i^eighth_onTownScreen^/i^eighth_on^;
 !#VA(townId:x) (buildingId:x);
 
 ; If fort is demolished, the building id is 11 (instead of 7)
@@ -539,7 +569,7 @@ ZVSE2
 !#VA(buildingId:x);                     [OPT. Building Id built or demolished]
 
 !!FU:A?(numArgs:y);
-!!VR(buildingId)&(numArgs)<2:S0;
+!!VR(buildingId)&(numArgs)<(@buildingId):S0;
 
 !!CA0/(townId):T?(townType:y);
 !!FU(eighth_Get8thMonByTownType):P(townType)/(TRUE)/?(upgMon:y)/?(nonUpgMon:y);
@@ -711,7 +741,7 @@ ZVSE2
 
 !!VR(dwellName:z):Sz(ertInd);
 
-!!FU(eighth_GetReqBuildNames):P(townType);
+!!FU(eighth_GetReqBuildNames):P(townType); [Export names to s^eighth_fortReq^ and s^eighth_dwellReq^]
 
 !!SN:T^eighth.dwellDesc^/?(dwellDesc:z)/^dwellName^/(dwellName:z)/^monName^/(monName:z); [dwellDesc]
 
@@ -728,7 +758,7 @@ ZVSE2
   !!VR(buildReq):Ss^eighth_fortReq^;
 !!el&(dwell)=(FALSE)/(fort)=(TRUE);
   !!VR(buildReq):Ss^eighth_dwellReq^;
-!!el&(dwell)=(TRUE)/(dwell)=(TRUE);
+!!el&(dwell)=(TRUE)/(fort)=(TRUE);
   !!SN:T^eighth.reqMet^/?(buildReq);    [buildReq]
   !!VR(buildReqMet):S(TRUE);
 !!en;
@@ -768,10 +798,10 @@ ZVSE2
 !!FU(eighth_GetBuild8thDwellStatus):P(buildReqMet)/(resReqMet)/?(allReqMet:y);
 
 !!if&(allReqMet)/(rightClick);
-  !!VR(build8thDialog:z)S(dwellDesc) +(buildReq) +(resReq);
+  !!VR(build8thDialog:z):S(dwellDesc) +(buildReq) +(resReq);
   !!FU(Substr):P^%(build8thDialog)^/0/-3/?(build8thDialog);[remove the last 3 characters (newlines)]
 !!el;
-  !!VR(build8thDialog)S(dwellDesc) +(buildReq) +(resReq) +s^eighth_buildStatus^;
+  !!VR(build8thDialog):S(dwellDesc) +(buildReq) +(resReq) +s^eighth_buildStatus^;
 !!en;
 
 !!if&(rightClick);
@@ -1090,19 +1120,19 @@ ZVSE2
 !#VA(item:x) (x:x) (y:x);
 
 !!if|(item)=164/(item)=168;
-  !!VR(x):S(EIGHTH_BTN_DEFAULT_X_COORD) -55 -55 -55;
+  !!VR(x):S183 -55 -55 -55;             [183 - (EIGHTH_BTN_DEFAULT_X_COORD)]
 !!el|(item)=165/(item)=169;
-  !!VR(x):S(EIGHTH_BTN_DEFAULT_X_COORD) -55 -55;
+  !!VR(x):S183 -55 -55;
 !!el|(item)=166/(item)=170;
-  !!VR(x):S(EIGHTH_BTN_DEFAULT_X_COORD) -55;
+  !!VR(x):S183 -55;
 !!el|(item)=167/(item)=171;
-  !!VR(x):S(EIGHTH_BTN_DEFAULT_X_COORD);
+  !!VR(x):S183;
 !!en;
 
 !!if&(item)>=164/(item)<=167;
-  !!VR(y):S(EIGHTH_BTN_DEFAULT_Y_COORD) -48;
+  !!VR(y):S542 -48;                     [542 - (EIGHTH_BTN_DEFAULT_Y_COORD)]
 !!el&(item)>=168/(item)<=171;
-  !!VR(y):S(EIGHTH_BTN_DEFAULT_Y_COORD);
+  !!VR(y):S542;
 !!en;
 
 !?FU(eighth_SetUp8thBtn);
@@ -1123,10 +1153,10 @@ ZVSE2
 !?FU(OnDetermineMonInfoDlgUpgrade)&i^eighth_on^;
 !!FU&i^Typhon_Third_Upgrade_Mod_Active^:E;
 
-!#VA(monType:x) (upgType:x) (town:x) (hero:x);
+!#VA(monType:x) (upgType:x) (townId:x) (hero:x);
 
 ; Exit if not from town screen
-!!FU&(town)<=(NO_TOWN):E;
+!!FU&(townId)<=(NO_TOWN):E;
 
 !!MA:O(monType)/?(ownerTown:y);
 
@@ -1134,12 +1164,12 @@ ZVSE2
 !!UN:P174/?(universalUpgrade:y);
 
 !!if&(universalUpgrade)<>(TRUE);
-  !!CA0/(town):T?(townType:y);
+  !!CA0/(townId):T?(townType:y);
   !!FU&(ownerTown)<>(townType):E;
 !!en;
 
 ; If the monster is a non-upgraded eighth monster, get its upgrade if the upgraded 8th dwelling is built
-!!if&i^tum_upgGuild_%(town)^/i^eighth_8thDwell_%(town)^;
+!!if&i^tum_upgGuild_%(townId)^/i^eighth_8thDwell_%(townId)^;
   !!FU(eighth_Get8thMonByTownType):P(ownerTown)/(TRUE)/?(upgMon:y)/?(nonUpgMon:y);
   !!VR(upgType)&(monType)=(nonUpgMon):S(upgMon);
 !!en;
@@ -1408,3 +1438,155 @@ ZVSE2
 !!SN:Mi^eighth_portalOfSummoningList^/(index)/(mon);
 !!VR(index):+1;
 !!SN:Mi^eighth_portalOfSummoningList^/(index)/(num);
+
+******************************************************************
+**** Upgrade the 8th dwelling when new_towns.era is presented ****
+******************************************************************
+; This script is enabled only when new towns plugin is enabld
+!?FU(OnTownMouseClick)&999/i^mouse_action^=(MOUSE_RMB_PRESSED)/i^mouse_item^>=10/i^mouse_item^<=13/i^eighth_on^; [trigger on clicking in town screen)]
+!!CA(CURRENT_TOWN):U?(townId:y);
+!!FU|i^eighth_8thDwell_%(townId)^<>(TRUE)/i^tum_upgGuild_%(townId)^:E;
+
+!!FU(eighth_BuildNewBuilding):P; 
+
+!?FU(eighth_BuildNewBuilding);           [trigger on clicking in town screen)]
+!!VRv4:S0;
+!!VRv5:S0;
+!!VRv6:S0;
+!!CA(CURRENT_TOWN):B3/9;                [ckeck if there's a castle)]
+!!VRv4&1:S1;                            [set a helping var)]
+
+!!CA(CURRENT_TOWN):B3/8;                [check for citadel)]
+!!VRv5&1:S1;
+
+!!CA(CURRENT_TOWN):B3/7;                [check for fort)]
+!!VRv6&1:S1;
+
+!!CM&v4=0/v5=0/v6=0:R1;                 [if no fort, citadel or castle reenable standard text)]
+
+!!UN:P(WOG_OPT_DISABLE_TOWN_DEMOLISHING)/?(disableDemolish:y); [check if town demolition is enabled]
+
+!!if&(disableDemolish)=1;
+  !!CM:R0;                              [if it is not enabled - disable any standard text]
+!!el;
+  !!CA(CURRENT_TOWN):B3/0;              [Cancel standard action if Level 1 Mage Guild is built - town hall can't be demolished in this case]
+
+  !!CM&1:R0;
+!!en;
+
+; Get basic info
+!!CA(CURRENT_TOWN):T?(townType:y) U?(townId:y);
+!!OW:C?(player:y);
+
+; get dwellDesc base string
+!!VR(dwellBuilt:y):S(TRUE);
+!!VR(fortBuilt:y):S(TRUE);
+
+!!SN:Mi^eighth_dwellReqDwellsList^/(townType)/?(reqDwell:y);
+!!CA(CURRENT_TOWN):B3/(reqDwell);
+!!VR(dwellBuilt)&-1:S(FALSE);
+
+!!CA(CURRENT_TOWN):B3/7;                [fort]
+!!VR(fortBuilt:y)&-1:S(FALSE);
+
+; get building requirement string
+!!SN:T^eighth.comma^/?(comma:z);
+!!VR(newLine:z):S^
+^;
+!!VR(buildReqMet:y):S(FALSE);
+!!VR(buildReqStr:z):S^^;
+
+!!if&(dwellBuilt)=(FALSE)/(fortBuilt)=(FALSE);
+ !!VR(buildReqStr):Ss^eighth_fortReq^ +(comma) +s^eighth_dwellReq^;
+!!el&(dwellBuilt)=(TRUE)/(fortBuilt)=(FALSE);
+  !!VR(buildReqStr):Ss^eighth_fortReq^;
+!!el&(dwellBuilt)=(FALSE)/(fortBuilt)=(TRUE);
+  !!VR(buildReqStr):Ss^eighth_dwellReq^;
+!!el&(dwellBuilt)=(TRUE)/(fortBuilt)=(TRUE);
+  !!SN:T^eighth.reqMet^/?(buildReqStr);    [buildReqStr]
+  !!VR(buildReqMet):S(TRUE);
+!!en;
+
+!!VR(buildReqStr):+(newLine) +(newLine) +(newLine);
+
+; Check if the current player meets the resources requirement
+; get resources requirement string
+!!VR(resReqMet:y):S(TRUE);
+!!VR(resReqStr:z):S^^;
+!!VR(counter:y):S0;
+!#VA(costs[7]:y);
+
+!!re i/(RES_FIRST)/(RES_LAST_SOD);
+  !!OW:R(player)/i/?(currRes:y);
+  !!SN:Mi^eighth_dwellCostsList_%(townType)^/i/?(costs[i]);
+
+  !!if&(costs[i])>0;
+    !!VR(resReqStr):+^{~>RESOURCE.def:%i} %(costs[i])      ^;
+    !!VR(counter):+1;
+
+    !!if&(counter)=5;
+      !!VR(resReqStr):+(newLine) +(newLine);
+    !!en;
+  !!en;
+
+  !!VR(resReqMet)&(currRes)<(costs[i]):S(FALSE);
+!!en;
+
+!!FU(Substr):P^%(resReqStr)^/0/-6/?(resReqStr);[remove the last few characters]
+!!VR(resReqStr):+(newLine) +(newLine) +(newLine); [resReq]
+
+; Get the name of the creature
+!!VR(monInd:y):S(townType) *2 +1;
+!!SN:Mi^eighth_8thMonsList^/(monInd)/?(mon:y);
+!!SN:H^monname^/(mon)/1/?(monName:z);
+
+; Get the name of the dwelling
+!!VR(ertInd:y):S(townType) +770009;
+!!VR(dwellName:z):Sz(ertInd);
+
+!!SN:T^eighth.dwellDesc^/?(dwellDesc:z)/^dwellName^/(dwellName:z)/^monName^/(monName:z); [dwellDesc]
+
+; Set up all strings and summarise conditions
+!!FU(eighth_GetBuild8thDwellStatus):P(buildReqMet)/(resReqMet)/?(allReqMet:y);
+
+!!if&(allReqMet);
+  !!VR(upgrade8thDialog:z):S(dwellDesc) +(buildReqStr) +(resReqStr);
+  !!FU(Substr):P^%(upgrade8thDialog)^/0/-3/?(upgrade8thDialog);[remove the last 3 characters (newlines)]
+!!el;
+  !!VR(upgrade8thDialog):S(dwellDesc) +(buildReqStr) +(resReqStr) +s^eighth_buildStatus^;
+!!en;
+
+!!if&(allReqMet);
+  !!IF:Q1/(PIC_TYPE_MONSTER)/(mon)/2^%(upgrade8thDialog)^; [dialogue - ask]
+
+  !!if&1;                               [if build]
+    !!re i/(RES_FIRST)/(RES_LAST_SOD);
+      !!OW:R(CURRENT_PLAYER)/i/d-(costs[i]);
+    !!en;
+
+    !!SN:P^BUILDTWN^;                   [Play the sound of a new building]
+    !!VRi^tum_upgGuild_%(townId)^:S(TRUE);
+    !!FU(eighth_Update8thDwell):P(townId);
+    !!FU(tum_SetTownBuildingStatus):P(townId);
+    !!SN:D;
+  !!en;
+!!el;
+  !!IF:Q1/(PIC_TYPE_MONSTER)/(mon)/1^%(upgrade8thDialog)^; [dialgoue - display only]
+!!en;
+
+// Functions
+****************************
+**** Get town structure ****
+****************************
+; получение структуры города
+!?FU(eighth_Town_GetStruct);
+; x1 - town number on map (0...47)
+;?x2 - return: ptr structure town
+!#VA(townId:x) (town:x); 
+!!IF&(townId)<(MAP_TOWN_FIRST)|(townId)>(MAP_TOWN_LAST):M^{FU(Town_GetStruct)}: Wrong town id.^;
+!!UN:C(GAME_MANAGER)/(UNC_UINT32)/?(game:y); 
+!!UN:C(game)/136724/(UNC_UINT32)/?(ptr:y); 
+!!VR(town):S(townId) *360 +(ptr);
+!!IF&(town)<43200000:M^{FU(Town_GetStruct): Attention!}
+Error in getting town structure address. 
+The game may fall at any time.^; 

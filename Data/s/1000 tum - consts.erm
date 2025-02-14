@@ -98,7 +98,7 @@ ZVSE2
 !#DC(MON_LIGHT_TEMPLAR)            = 269;
 !#DC(MON_DRYAD)                    = 270;
 !#DC(MON_DRAKE_GOLEM)              = 271;
-!#DC(MON_SUCCUBUS)                 = 272;
+!#DC(MON_SUCCUBI)                  = 272;
 !#DC(MON_WEREWOLF_TOW)             = 273;
 !#DC(MON_WEREWOLF_TUM)             = 273;
 !#DC(MON_ILLITHID)                 = 274;

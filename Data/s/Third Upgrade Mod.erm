@@ -409,430 +409,9 @@ script by Archer30 and daemon_n
   !!en;
 !!en;
 
-************************************************************************************
-************** Set up the special structure in a town used for upgrading ***********
-************************************************************************************
-; Set up monsters in the town
-; Script by Archer30
-!?FU(tum_OnPrepareTownScreen);
-!#VA(townId:x);
-
-!!FU(tum_SetUpTownMons):P(townId);
-
-; If fort is demolished, the building id is 11 (instead of 7)
-; &i^tum_onTownScreen^ - assuming that AI will never do this
-!?FU(OnAfterBuildTownBuilding)&i^tum_onTownScreen^;
-!#VA(townId:x) (buildingId:x);
-
-!!FU(tum_SetUpTownMons)&(buildingId)=11:P(townId);
-!!FU(tum_SetUpTownMons)&(buildingId)>=37/(buildingId)<=43:P(townId);
-!!SN:D;
-
-!?FU(tum_SetUpTownMons);
-!#VA(townId:x);
-
-!!CA0/(townId):B3/7 T?(townType:y);
-!!VRi^tum_upgGuild_%(townId)^&-1:S(FALSE);
-
-; Set to third upgrade monsters if third upgrade building is built - depedning on whether the upgraded dwelling is built
-// Set up UN:T if third upgrade building bult
-!!if&i^tum_upgGuild_%(townId)^;
-  !!re i/(MON_MIN_LEVEL)/(MON_MAX_LEVEL);
-    !!VR(building:y):Si +37;
-    !!CA0/(townId):B3/(building);
-
-    !!FU(tum_GetMonstersInTown):P(townType)/i/?(mon:y)/?(upgMon:y)/?(thirdUpgMon:y);
-
-    !!if&1;
-      ; if both the upgraded dwelling and upgrade guild is built, get the third upgrade creature
-      !!UN:T(townType)/i/1/(thirdUpgMon);
-
-      ; if level 7, also 4th upgrade option is enabled, get the fourth upgrade creature
-      !!if&i=6;
-        !!UN:P(WOG_OPT_4TH_UPGRADES)/?(fourthUpgOn:y);
-
-        !!if&(fourthUpgOn);
-          !!FU(GetUpgradedMonster):P(thirdUpgMon)/?(fourthUpgMon:y);
-          !!UN&(fourthUpgMon)<>(NO_MON):T(townType)/i/1/(fourthUpgMon);
-        !!en;
-      !!en;
-    !!el;
-      ; if either upgraded dwelling or third upgrade building is not built, reset to original upgraded creature
-      !!UN:T(townType)/i/1/(upgMon);
-    !!en;
-  !!en;
-// Restore UN:T if third upgrade building is not built
-!!el;
-  !!FU(tum_ResetTownMons):P(townId);
-!!en;
-
-// Manage town dwellings slots
-!!if&i^tum_upgGuild_%(townId)^;
-  !!FU(newup_ExtendTownDwellings):P(townId)/(townType);
-!!el;
-  !!FU(tum_ResetTownDwellings):P(townId)/(townType);
-!!en;
-
-// Restore UN:T values on closing town screen so that they are the original values when called by other functions
-!?FU(OnCloseTownScreen);
-!#VA(townId:x);
-
-!!FU(tum_ResetTownMons):P(townId);      [Here we use a function for it to be called in other triggers]
-
-; Function for restoring UN:T
-!?FU(tum_ResetTownMons);
-!!re (townType:y)/(TOWN_FIRST)/(TOWN_LAST_WOG);
-  !!VR(counter:y):S14 *(townType) +7;   [Upgrade mon only]
-
-  !!re j/(MON_MIN_LEVEL)/(MON_MAX_LEVEL);
-    !!SN:Mi^tum_NativeTownCreaturesIds^/(counter:y)/?(monId:y);
-    !!UN:T(townType)/j/1/(monId);
-    !!VR(counter):+1;
-  !!en;
-!!en;
-
-; Function for restoring dwelling slots
-!?FU(tum_ResetTownDwellings);
-!#VA(townId:x) (townType:x);
-
-  !!VR(counter:y):S14 *(townType);
-
-  !!re i/0/1;
-    !!VR(slot:y):Si X(TRUE);            [Upgraded creature would be placed in the left most slot]
-
-    !!re j/0/6;
-      !!SN:Mi^tum_NativeTownCreaturesIds^/(counter:y)/?(monId:y);
-      !!FU(dex_SetDwellingSlotByTownId):P(townId)/j/1/(slot)/(monId)/100;
-      !!VR(counter:y):+1;
-    !!en;
-  !!en;
-
-*****************************************************************************
-
-!?FU(gem_OnOpenButtonDlg);          [Function from GEM Mod that is called when clicking the new buttons]
-!!CA(CURRENT_TOWN):T?(townType:y);  [Get Town type]
-
-!!VRz20&y1=0:Sz199863;              [The Heavenly Tower]
-!!VRz21&y1=0:Sz199861;              [The Heavenly Tower]
-
-!!VRz20&y1=1:Sz199866;              [Order of The Sun]
-!!VRz21&y1=1:Sz199864;              [Order of The Sun]
-
-!!VRz20&y1=2:Sz199869;              [Cloud Castle]
-!!VRz21&y1=2:Sz199867;              [Cloud Castle]
-
-!!VRz20&y1=3:Sz199872;              [Kreegans' Gate]
-!!VRz21&y1=3:Sz199870;              [Kreegans' Gate]
-
-!!VRz20&y1=4:Sz199875;              [Hall of The Pit]
-!!VRz21&y1=4:Sz199873;              [Hall of The Pit]
-
-!!VRz20&y1=5:Sz199881;              [Underworld Entrance]
-!!VRz21&y1=5:Sz199879;              [Underworld Entrance]
-
-!!VRz20&y1=6:Sz199884;              [Barbarian Citadel]
-!!VRz21&y1=6:Sz199882;              [Barbarian Citadel]
-
-!!VRz20&y1=7:Sz199887;              [Temple of The Snake]
-!!VRz21&y1=7:Sz199885;              [Temple of The Snake]
-
-!!VRz20&y1=8:Sz199860;              [Escaton's Crystal]
-!!VRz21&y1=8:Sz199858;              [Escaton's Crystal]
-
-!!FU(gem_AddTownButton):P^zart141.def^/64/32/^%Z20^/^%Z21^/^%Z21^/(TUM_Build_New_Building)/0/0/0;
-
-; Build special buildings
-!?FU(OnTownMouseClick)&999/i^mouse_action^=(MOUSE_RMB_PRESSED); [trigger on clicking in town screen)]
-
-!!CA(CURRENT_TOWN):U?y30;               [get town id]
-!!CA(CURRENT_TOWN):T?y2;                [get town type)]
-
-!!CA(CURRENT_TOWN):O?y-2;               [owner of the town: y-2)]
-!!FU&y-2<>i^timerOwner^:E;
-
-!!CM:I?y1;                              [Get what type of click)]
-!!FU&y1<10:E;                           [abort if not town hall type)]
-!!FU&y1>13:E;                           [abort if not town hall type)]
-!!FU(TUM_Build_New_Building):P; 
-
-!?FU(TUM_Build_New_Building);           [trigger on clicking in town screen)]
-!!VRv4:S0;
-!!VRv5:S0;
-!!VRv6:S0;
-!!CA(CURRENT_TOWN):B3/9;                [ckeck if there's a castle)]
-!!VRv4&1:S1;                            [set a helping var)]
-
-!!CA(CURRENT_TOWN):B3/8;                [check for citadel)]
-!!VRv5&1:S1;
-
-!!CA(CURRENT_TOWN):B3/7;                [check for fort)]
-!!VRv6&1:S1;
-
-!!CM&v4=0/v5=0/v6=0:R1;                 [if no fort, citadel or castle reenable standard text)]
-
-!!UN:P(WOG_OPT_DISABLE_TOWN_DEMOLISHING)/?y2; [check if town demolition is enabled]
-
-!!if&y2=1;
-  !!CM:R0;                              [if it is not enabled - disable any standard text]
-!!el;
-  !!CA(CURRENT_TOWN):B3/0;              [Cancel standard action if Level 1 Mage Guild is built - town hall can't be demolished in this case]
-
-  !!CM&1:R0;
-!!en;
-
-************ get current resources *************
-!!OW:Ri^timerOwner^/6/?v9541;                   [1 - gold]
-!!OW:Ri^timerOwner^/0/?v9542;                   [2 - wood]
-!!OW:Ri^timerOwner^/2/?v9543;                   [3 - ore]
-!!OW:Ri^timerOwner^/1/?v9544;                   [4 - mercury]
-!!OW:Ri^timerOwner^/3/?v9545;                   [5 - sulfur]
-!!OW:Ri^timerOwner^/4/?v9546;                   [6 - crystal]
-!!OW:Ri^timerOwner^/5/?v9547;                   [7 - gems]
-!!OW:Ri^timerOwner^/7/?v9548;                   [8 - mithril]
-
-************ set texts ********************
-!!VRz946:Sz199850;                      [already build]
-!!VRz947:Sz199851;                      [can build]
-!!VRz948:Sz199852;                      [not enough resources]
-!!VRz949:Sz199853;                      [need to have a castle]
-!!VRz945:S^^;
-!!VRz950:S^^;
-!!CA(CURRENT_TOWN):T?y2;                [check town type]
-
-************************ CONFLUX *****************************
-
-!!if&y2=8;
-  !!VRz945:Sz199858;                 [text before building]
-  !!VRz950:Sz199859;                 [text after building]
-  !!VRz953:Sz199860;                 [the name of the graphic]
-  !!VRz952:S^../data/p/conflux.bmp^; [path to builging graphics]
-  !!VRv9551:S20000;                  [price in gold]
-  !!VRv9552:S30;                     [price in crystals]
-  !!VRv9553:S15;                     [price in gems]
-  !!VRv9554:Sv9546;                  [second resource amount]
-  !!VRv9555:Sv9547;                  [third resource amount]
-  !!VRv9556:S4;                      [second resource is crystal]
-  !!VRv9557:S5;                      [third resource is gems]
-!!en;
-
-************************* CASTLE *****************************
-
-!!if&y2=0;
-  !!VRz945:Sz199861;                 [text before building]
-  !!VRz950:Sz199862;                 [text after building]
-  !!VRz953:Sz199863;                 [the name of the graphic]
-  !!VRz952:S^../data/p/castle.bmp^;  [path to builging graphics]
-  !!VRv9551:S22000;                  [price in gold]
-  !!VRv9552:S30;                     [price in gems]
-  !!VRv9553:S30;                     [price in ore]
-  !!VRv9554:Sv9547;                  [second resource amount]
-  !!VRv9555:Sv9543;                  [third resource amount]
-  !!VRv9556:S5;                      [second resource is gems]
-  !!VRv9557:S2;                      [third resource is ore]
-!!en;
-
-************************ RAMPART ****************************
-
-!!if&y2=1;
-  !!VRz945:Sz199864;                 [text before building]
-  !!VRz950:Sz199865;                 [text after building]
-  !!VRz953:Sz199866;                 [the name of the graphic]
-  !!VRz952:S^../data/p/rampart.bmp^; [path to builging graphics]
-  !!VRv9551:S20000;                  [price in gold]
-  !!VRv9552:S25;                     [price in crystals]
-  !!VRv9553:S40;                     [price in wood]
-  !!VRv9554:Sv9546;                  [second resource amount]
-  !!VRv9555:Sv9542;                  [third resource amount]
-  !!VRv9556:S4;                      [second resource is crystal]
-  !!VRv9557:S0;                      [third resource is wood]
-!!en;
-
-************************ TOWER *****************************
-
-!!if&y2=2;
-  !!VRz945:Sz199867;                 [text before building]
-  !!VRz950:Sz199868;                 [text after building]
-  !!VRz953:Sz199869;                 [the name of the graphic]
-  !!VRz952:S^../data/p/tower.bmp^;   [path to builging graphics]
-  !!VRv9551:S25000;                  [price in gold]
-  !!VRv9552:S30;                     [price in gems]
-  !!VRv9553:S15;                     [price in mercury]
-  !!VRv9554:Sv9547;                  [second resource amount]
-  !!VRv9555:Sv9544;                  [third resource amount]
-  !!VRv9556:S5;                      [second resource is gems]
-  !!VRv9557:S1;                      [third resource is mercury]
-!!en;
-
-************************ INFERNO *****************************
-
-!!if&y2=3;
-  !!VRz945:Sz199870;                 [text before building]
-  !!VRz950:Sz199871;                 [text after building]
-  !!VRz953:Sz199872;                 [the name of the graphic]
-  !!VRz952:S^../data/p/inferno.bmp^; [path to builging graphics]
-  !!VRv9551:S19000;                  [price in gold]
-  !!VRv9552:S30;                     [price in mercury]
-  !!VRv9553:S15;                     [price in sulfur]
-  !!VRv9554:Sv9544;                  [second resource amount]
-  !!VRv9555:Sv9545;                  [third resource amount]
-  !!VRv9556:S1;                      [second resource is mercury]
-  !!VRv9557:S3;                      [third resource is sulfur]
-!!en;
-
-************************ NECROPOLIS *****************************
-
-!!if&y2=4;
-  !!VRz945:Sz199873;                 [text before building]
-  !!VRz950:Sz199874;                 [text after building]
-  !!VRz953:Sz199875;                 [the name of the graphic]
-  !!VRz952:S^../data/p/necropol.bmp^;[path to builging graphics]
-  !!VRv9551:S21000;                  [price in gold]
-  !!VRv9552:S25;                     [price in mercury]
-  !!VRv9553:S35;                     [price in wood]
-  !!VRv9554:Sv9544;                  [second resource amount]
-  !!VRv9555:Sv9542;                  [third resource amount]
-  !!VRv9556:S1;                      [second resource is mercury]
-  !!VRv9557:S0;                      [third resource is wood]
-!!en;
-
-************************ DUNGEON *****************************
-
-!!if&y2=5;
-  !!VRz945:Sz199879;                 [text before building]
-  !!VRz950:Sz199880;                 [text after building]
-  !!VRz953:Sz199881;                 [the name of the graphic]
-  !!VRz952:S^../data/p/dungeon2.bmp^;[path to builging graphics]
-  !!VRv9551:S23000;                  [price in gold]
-  !!VRv9552:S30;                     [price in sulfur]
-  !!VRv9553:S35;                     [price in ore]
-  !!VRv9554:Sv9545;                  [second resource amount]
-  !!VRv9555:Sv9543;                  [third resource amount]
-  !!VRv9556:S3;                      [second resource is sulfur]
-  !!VRv9557:S2;                      [third resource is ore]
-!!en;
-
-************************ STRONGHOLD *****************************
-
-!!if&y2=6;
-  !!VRz945:Sz199882;                 [text before building]
-  !!VRz950:Sz199883;                 [text after building]
-  !!VRz953:Sz199884;                 [the name of the graphic]
-  !!VRz952:S^../data/p/strongho.bmp^;[path to builging graphics]
-  !!VRv9551:S19000;                  [price in gold]
-  !!VRv9552:S60;                     [price in crystals]
-  !!VRv9553:S15;                     [price in gems]
-  !!VRv9554:Sv9543;                  [second resource amount]
-  !!VRv9555:Sv9546;                  [third resource amount]
-  !!VRv9556:S2;                      [second resource is ore]
-  !!VRv9557:S4;                      [third resource is crystal]
-!!en;
-
-************************ FORTRESS *****************************
-
-!!if&y2=7;
-  !!VRz945:Sz199885;                 [text before building]
-  !!VRz950:Sz199886;                 [text after building]
-  !!VRz953:Sz199887;                 [the name of the graphic]
-  !!VRz952:S^../data/p/fortress.bmp^;[path to builging graphics]
-  !!VRv9551:S18000;                  [price in gold]
-  !!VRv9552:S50;                     [price in wood]
-  !!VRv9553:S20;                     [price in sulfur]
-  !!VRv9554:Sv9542;                  [second resource amount]
-  !!VRv9555:Sv9545;                  [third resource amount]
-  !!VRv9556:S0;                      [second resource is wood]
-  !!VRv9557:S3;                      [third resource is sulfur]
-!!en;
-
-
-********************** check if the building is built ****************
-!!VRv9520:S(FALSE);
-!!CA(CURRENT_TOWN):U?y30;
-!!VRv9520&i^tum_upgGuild_%y30^:S(TRUE); [set a check value for 'yes' on v9520 - Archer]
-
-!!if&v9520;
-  !!CA(CURRENT_TOWN):U?n T?t;
-  !!FU(newup_ExtendTownDwellings):Pn/t;
-!!en;
-
-********************** handle texts on the town screen ***************
-!!CA(CURRENT_TOWN):R?y3;
-
-!!if&v9520=0;
-  !!if&y3=1;
-    !!VRz945:Sz945+z946;
-  !!el;
-    !!if&v4=1;
-
-      !!if&v9541>=v9551;
-
-        !!if&v9554>=v9552;
-          !!VRz945&v9555>=v9553:Sz945+z947;
-          !!VRz945&v9555<v9553:Sz945+z948;
-        !!el;
-          !!VRz945:Sz945+z948;
-        !!en;
-      !!el;
-        !!VRz945:Sz945+z948;
-      !!en;
-    !!el;
-      !!VRz945:Sz945+z949;
-    !!en;
-  !!en;
-
-  !!IF:V1/0;
-
-  !!if&y3=1;
-    !!IF:M1/945;
-  !!el;
-    !!if&v4=1;
-
-      !!if&v9541<v9551;
-        !!IF:Q2/6/v9551/v9556/v9552/v9557/v9553/1/945;
-      !!el;
-        !!if&v9554<v9552;
-          !!IF:Q2/6/v9551/v9556/v9552/v9557/v9553/1/945;
-        !!el;
-          !!IF&v9555<v9553:Q2/6/v9551/v9556/v9552/v9557/v9553/1/945;
-          !!IF&v9555>=v9553:Q1/6/v9551/v9556/v9552/v9557/v9553/2/945;
-        !!en;
-      !!en;
-    !!el;
-      !!IF:M1/945;
-    !!en;
-  !!en;
-
-  !!FU&-1:E;                      [(exit if player doesn't build)]
-
-******************************* building the special structure procedure *************
-  !!VRv9541:Sv9541-v9551;         [substract 'price' from 'gold']
-  !!VRv9554:Sv9554-v9552;         [substract 'price' from 'second resource amount']
-  !!VRv9555:Sv9555-v9553;         [substract 'price' from 'third resource amount']
-  !!OW:Ri^timerOwner^/6/v9541;            [set new gold value]
-  !!OW:Ri^timerOwner^/v9556/v9554;        [set new second resource]
-  !!OW:Ri^timerOwner^/v9557/v9555;        [set new third resource]
-  !!SN:P^..\data\p\BUILDTWN.WAV^;         [Play the sound of a new building]
-
-  !!CA(CURRENT_TOWN):U?y30;             [get town id - Archer]
-  !!VRi^tum_upgGuild_%y30^:S(TRUE);     [set flag]
-  !!FU(tum_SetUpTownMons):Py30;
-  !!FU(eighth_Update8thDwell):Py30;     [upgrade 8th dwelling]
-
-  ; Set the town as built
-  !!FU(tum_SetTownBuildingStatus):Py30;
-
-  !!VRv9520:S(TRUE);                    [set the helping v9520 because I don't want to re-write the entire code :P]
-  !!CA(CURRENT_TOWN):T?t;
-  !!FU(newup_ExtendTownDwellings):Py30/t;
-  !!SN:D;
-!!en;
-
-**************************** text if the structure is built **************
-!!if&v9520;
-  !!IF:D3/950/0/0/952/0/0/0/953/0/0/0/0/0/0/0;
-  !!IF:F3/0/0/0/0/0;              [disabled cancel button]
-  !!IF:E1/3;                      [Display dialogue box]
-!!en;
-
+****************************************************************************************************
+; Function to set building status
+; by Archer30
 !?FU(tum_SetTownBuildingStatus);
 !#VA(townId:x);
 
@@ -857,435 +436,6 @@ script by Archer30 and daemon_n
     !!CA0/(townId):R1;                  [no more building today for this town]
   !!en;
 !!en;
-
-**************************** Third Upgrade Mod Town dwellings enhancement ****************************
-!?FU(newup_ExtendTownDwellings);
-; x1 - town ID
-; x2 - town type
-!!if&x2=0;                             [Castle]
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/0/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/1/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/197/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/2/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/3/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/198/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/4/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/5/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/199/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/6/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/7/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/291/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/8/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/9/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/320/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/10/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/11/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/201/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/12/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/13/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/150/100;
-!!el&x2=1;                             [Rampart]
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/14/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/15/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/293/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/16/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/17/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/203/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/18/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/19/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/256/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/20/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/21/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/204/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/22/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/23/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/205/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/24/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/25/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/206/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/26/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/27/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/151/100;
-!!el&x2=2;                             [Tower]
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/28/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/29/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/255/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/30/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/31/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/208/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/32/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/33/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/209/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/34/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/35/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/257/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/36/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/37/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/210/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/38/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/39/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/211/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/40/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/41/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/152/100;
-!!el&x2=3;                             [Inferno]
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/42/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/43/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/213/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/44/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/45/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/214/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/46/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/47/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/215/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/48/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/49/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/216/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/50/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/51/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/217/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/52/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/53/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/218/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/54/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/55/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/153/100;
-!!el&x2=4;                             [Necropolis]
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/56/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/57/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/220/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/58/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/59/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/329/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/60/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/61/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/261/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/62/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/63/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/221/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/64/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/65/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/222/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/66/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/67/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/223/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/68/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/69/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/154/100;
-!!el&x2=5;                             [Dungeon]
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/70/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/71/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/225/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/72/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/73/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/227/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/74/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/75/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/226/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/76/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/77/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/228/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/78/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/79/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/229/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/80/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/81/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/230/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/82/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/83/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/155/100;
-!!el&x2=6;                             [Stronghold]
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/84/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/85/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/232/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/86/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/87/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/233/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/88/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/89/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/234/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/90/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/91/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/235/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/92/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/93/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/236/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/94/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/95/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/237/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/96/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/97/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/156/100;
-!!el&x2=7;                             [Fortress]
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/98/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/99/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/321/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/100/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/101/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/240/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/104/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/105/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/241/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/106/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/107/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/242/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/102/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/103/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/244/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/108/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/109/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/243/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/110/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/111/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/157/100;
-!!el&x2=8;                             [Conflux]
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/2/118/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/1/119/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/0/1/0/246/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/2/112/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/1/127/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/1/1/0/247/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/2/115/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/1/123/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/2/1/0/248/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/2/114/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/1/129/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/3/1/0/249/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/2/113/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/1/125/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/4/1/0/250/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/2/120/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/1/121/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/5/1/0/251/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/2/130/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/1/131/100;
-  !!FU(dex_SetDwellingSlotByTownId):Px1/6/1/0/158/100;
-!!en;
-
-***************************************************************************
-************ AI building the special structure and upgrading **************
-***************************************************************************
-
-!?OB98&-1000;
-!!FU9504:P;               [-occur when AI is entering town]
-
-!$OB98&-1000;
-!!FU9504:P;               [-occur when AI is leaving town]
-
-!?FU9504;
-***************************** building part ******************************
-
-!!CA998:O?y-2;                          [(owner of the town: y-2)]
-!!FU&y-2<>i^timerOwner^:E;
-
-!!VRv4:S0;
-!!CA998:B3/9;                           [(ckeck if there's a castle)]
-!!VRv4&1:S1;                            [(set a helping var)]
-
-;get money
-!!OW:Ri^timerOwner^/6/?v9541;                   [1 - gold]
-!!OW:Ri^timerOwner^/0/?v9542;                   [2 - wood]
-!!OW:Ri^timerOwner^/2/?v9543;                   [3 - ore]
-!!OW:Ri^timerOwner^/1/?v9544;                   [4 - mercury]
-!!OW:Ri^timerOwner^/3/?v9545;                   [5 - sulfur]
-!!OW:Ri^timerOwner^/4/?v9546;                   [6 - crystal]
-!!OW:Ri^timerOwner^/5/?v9547;                   [7 - gems]
-!!OW:Ri^timerOwner^/7/?v9548;                   [8 - mithril]
-
-!!CA998:T?y2;                           [check town type]
-
-************************ CONFLUX *****************************
-!!if&y2=8;
-  !!VRv9551:S15000;                  [price in gold]
-  !!VRv9552:S30;                     [price in crystals]
-  !!VRv9553:S15;                     [price in gems]
-  !!VRv9554:Sv9546;                  [second resource amount]
-  !!VRv9555:Sv9547;                  [third resource amount]
-  !!VRv9556:S4;                      [second resource is crystal]
-  !!VRv9557:S5;                      [third resource is gems]
-!!en;
-
-************************* CASTLE *****************************
-!!if&y2=0;
-  !!VRv9551:S16000;                  [price in gold]
-  !!VRv9552:S30;                     [price in gems]
-  !!VRv9553:S30;                     [price in ore]
-  !!VRv9554:Sv9547;                  [second resource amount]
-  !!VRv9555:Sv9543;                  [third resource amount]
-  !!VRv9556:S5;                      [second resource is gems]
-  !!VRv9557:S2;                      [third resource is ore]
-!!en;
-
-************************ RAMPART ****************************
-!!if&y2=1;
-  !!VRv9551:S15000;                  [price in gold]
-  !!VRv9552:S25;                     [price in crystals]
-  !!VRv9553:S40;                     [price in wood]
-  !!VRv9554:Sv9546;                  [second resource amount]
-  !!VRv9555:Sv9542;                  [third resource amount]
-  !!VRv9556:S4;                      [second resource is crystal]
-  !!VRv9557:S0;                      [third resource is wood]
-!!en;
-
-************************ TOWER *****************************
-!!if&y2=2;
-  !!VRv9551:S17000;                  [price in gold]
-  !!VRv9552:S30;                     [price in gems]
-  !!VRv9553:S15;                     [price in mercury]
-  !!VRv9554:Sv9547;                  [second resource amount]
-  !!VRv9555:Sv9544;                  [third resource amount]
-  !!VRv9556:S5;                      [second resource is gems]
-  !!VRv9557:S1;                      [third resource is mercury]
-!!en;
-
-************************ INFERNO *****************************
-!!if&y2=3;
-  !!VRv9551:S14500;                  [price in gold]
-  !!VRv9552:S30;                     [price in mercury]
-  !!VRv9553:S15;                     [price in sulfur]
-  !!VRv9554:Sv9544;                  [second resource amount]
-  !!VRv9555:Sv9545;                  [third resource amount]
-  !!VRv9556:S1;                      [second resource is mercury]
-  !!VRv9557:S3;                      [third resource is sulfur]
-!!en;
-
-************************ NECROPOLIS *****************************
-!!if&y2=4;
-  !!VRv9551:S15500;                  [price in gold]
-  !!VRv9552:S25;                     [price in mercury]
-  !!VRv9553:S35;                     [price in wood]
-  !!VRv9554:Sv9544;                  [second resource amount]
-  !!VRv9555:Sv9542;                  [third resource amount]
-  !!VRv9556:S1;                      [second resource is mercury]
-  !!VRv9557:S0;                      [third resource is wood]
-!!en;
-
-************************ DUNGEON *****************************
-!!if&y2=5;
-  !!VRv9551:S17000;                  [price in gold]
-  !!VRv9552:S30;                     [price in sulfur]
-  !!VRv9553:S35;                     [price in ore]
-  !!VRv9554:Sv9545;                  [second resource amount]
-  !!VRv9555:Sv9543;                  [third resource amount]
-  !!VRv9556:S3;                      [second resource is sulfur]
-  !!VRv9557:S2;                      [third resource is ore]
-!!en;
-
-************************ STRONGHOLD *****************************
-!!if&y2=6;
-  !!VRv9551:S14500;                  [price in gold]
-  !!VRv9552:S60;                     [price in crystals]
-  !!VRv9553:S15;                     [price in gems]
-  !!VRv9554:Sv9543;                  [second resource amount]
-  !!VRv9555:Sv9546;                  [third resource amount]
-  !!VRv9556:S2;                      [second resource is ore]
-  !!VRv9557:S4;                      [third resource is crystal]
-!!en;
-
-************************ FORTRESS *****************************
-!!if&y2=7;
-  !!VRv9551:S14000;                  [price in gold]
-  !!VRv9552:S50;                     [price in wood]
-  !!VRv9553:S20;                     [price in sulfur]
-  !!VRv9554:Sv9542;                  [second resource amount]
-  !!VRv9555:Sv9545;                  [third resource amount]
-  !!VRv9556:S0;                      [second resource is wood]
-  !!VRv9557:S3;                      [third resource is sulfur]
-!!en;
-
-
-********************** check if the building is built ****************
-!!VRv9520:S(FALSE);
-!!CA998:U?y30;                          [get town ID]
-!!VRv9520&i^tum_upgGuild_%y30^:S(TRUE); [set a check value for 'yes' on the v9520 - Archer]
-
-
-********************** set a flag if the right conditions are met  ***************
-*** NOTE: to make it easier for the AI, it builds as soon as it gets the right resources,
-*** no matter if AI built in tis turn or not
-
-!!if&v9520=0;
-  !!IF&v4=0:V1/0;
-
-  !!if&v4=1;
-    !!IF&v9541>=v9551:V1/1;
-    !!IF&v9541<v9551:V1/0;
-  !!en;
-
-  !!if&-1;
-    !!FU:E;                      [(exit if player doesn't build)]
-  !!el;
-
-******************************* building the special structure procedure **************
-***** NOTE: AI has to have only the right ammount of gold - resources will be substracted
-***** (if not enough resources, then take away what AI has), but the building procedure
-***** for the AI doesn't depend on them - only on gold.
-***** (this is because AI doesn't know it 'needs' the right resources and won't use the
-***** marketplace or won't save resources to get them)
-***************************************************************************************
-***** UPDATE: AI now has to have only about 75% of the gold ammount for human players
-***************************************************************************************
-
-    !!VRv9541:Sv9541-v9551;       [substract 'price' from 'gold']
-    !!VRv9554&v9554<v9552:S0;     [set '0' for 'second resource amount' (if NOT enough)]
-    !!VRv9554&v9554>=v9552:Sv9554-v9552; [substract 'price' from 'second resource amount' (if enough)]
-    !!VRv9555&v9555<v9553:S0;     [set '0' for 'third resource amount'  (if NOT enough)]
-    !!VRv9555&v9555>=v9553:Sv9555-v9553; [substract 'price' from 'third resource amount'  (if enough)]
-
-    !!OW:Ri^timerOwner^/6/v9541;        [set new gold value]
-    !!OW:Ri^timerOwner^/v9556/v9554;    [set new second resource]
-    !!OW:Ri^timerOwner^/v9557/v9555;    [set new third resource]
-
-    !!VRi^tum_upgGuild_%y30^:S(TRUE);   [set flag - Archer]
-    !!FU(eighth_Update8thDwell):Py30;   [upgrade 8th dwelling]
-  !!en;
-!!en;
-
-
-***************************** upgrading part *****************************
-
-!!FU&i^tum_upgGuild_%y30^=(FALSE):E;    [Exit if there's no special structure in town - Archer]
-
-!!HE(CURRENT_HERO):N?v1;                [Hero number: v1]
-!!CA998:T?v2;                           [Town type: v2]
-
- [Check each creature in AI hero's army]
-!!DO9503/0/6/1:Pv1/v2;
-
-
- [Check each creature in AI hero's army]
- [x1=hero number, x2=town type]
-!?FU9503;
-
-!!HEx1:C0/x16/?y1/?y7;                  [Type of creature: y1, Number: y7]
-
-!!FU|y1<=(NO_MON)/y7=0:E;               [Exit if creature slot is empty]
-!!FU&y1>(MON_PHOENIX):E;                [Exit for monsters not in towns (Neutral Town option is not be supported)]
-
-!!MA:Oy1/?y2;                           [Town creature belongs to: y2]
-!!MA:Uy1/?y3;                           [Creature's upgrade number: y3]
-!!MA:Ly1/?y4;                           [Creature's level: y4]
-
-
-!!VRy6:Sy4 +37;                         [Upgraded dwelling number in town: y6]
-!!CA998:B3/y6;                          [Check if upgraded dwelling is built: Flag 1 is true if yes]
-
- [Exit if NOT native town, creature has no upgrade, creature has default upgrade or upgraded dwelling isn't built]
-!!FU|y3<=(NO_MON)/y2<>x2/-1:E;
-
-!!OW:Ri^timerOwner^/(RES_GOLD)/?v9541;  [get gold]
-!!HEx1:C0/x16/y1/?v9588;                [get number of creatures]
-!!MA:Cy1/(RES_GOLD)/?v9589;             [get cost of creature un-upg]
-!!MA:Cy3/(RES_GOLD)/?v9590;             [get cost of creature upg]
-!!VRv9590:Sv9590-v9589;                 [calculate difference in costs]
-!!VRv9590:Sv9590*v9588;                 [multiply by creature number to get the real price]
-!!VRv9590:Sv9590:4;                     [divide by 4 and multiply by 3 to get 75% of the real price]
-!!VRv9590:Sv9590*3;                     [divide by 4 and multiply by 3 to get 75% of the real price]
-
-!!HEx1&v9590<=v9541:C0/x16/y3/d;        [Upgrade creature]
-!!VRv9591&v9590<=v9541:Sv9541-v9590;    [substract 'price' from 'gold']
-!!OW&v9590<=v9541:Ri^timerOwner^/6/v9591; [set new gold value]
-
 
 ****************************************************************************************************
 Disable the chain-lightning damage to own troops by monster casts (for Zeus)
@@ -1523,7 +673,7 @@ script by Perry R and Archer30
   ; Check if the attacker is Succubus
   !!BM(atkStack):T?(type:y);
 
-  !!if|(type)=(MON_SUCCUBUS)/(type)=(MON_LILIM);
+  !!if|(type)=(MON_SUCCUBI)/(type)=(MON_LILIM);
     !!BM(defStack):P?(pos:y);
     !!FU(tum_PlayCustomAnimation):P^hatespike.def^/(pos); [Function to play custom animation by Hawaiing]
   !!en;
@@ -2959,3 +2109,85 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
     !!en;
   !!en;
 !!en;
+---------------------------------------------------------------------------------------------
+!?FU(OnGameEnter);
+!!UN:T0/0/2/197; (Castle)
+!!UN:T0/1/2/198;
+!!UN:T0/2/2/199;
+!!UN:T0/3/2/291;
+!!UN:T0/4/2/320;
+!!UN:T0/5/2/201;
+!!UN:T0/6/2/150;
+!!UN:T0/6/3/202;
+
+!!UN:T1/0/2/293; (Rampart)
+!!UN:T1/1/2/203;
+!!UN:T1/2/2/256;
+!!UN:T1/3/2/204;
+!!UN:T1/4/2/205;
+!!UN:T1/5/2/206;
+!!UN:T1/6/2/151;
+!!UN:T1/6/3/207;
+
+!!UN:T2/0/2/255; (Tower)
+!!UN:T2/1/2/208;
+!!UN:T2/2/2/209;
+!!UN:T2/3/2/257;
+!!UN:T2/4/2/210;
+!!UN:T2/5/2/211;
+!!UN:T2/6/2/152;
+!!UN:T2/6/3/202;
+
+!!UN:T3/0/2/213; (Inferno)
+!!UN:T3/1/2/214;
+!!UN:T3/2/2/215;
+!!UN:T3/3/2/216;
+!!UN:T3/4/2/217;
+!!UN:T3/5/2/218;
+!!UN:T3/6/2/153;
+!!UN:T3/6/3/219;
+
+!!UN:T4/0/2/220; (Necropolis)
+!!UN:T4/1/2/261;
+!!UN:T4/2/2/329;
+!!UN:T4/3/2/221;
+!!UN:T4/4/2/222;
+!!UN:T4/5/2/223;
+!!UN:T4/6/2/154;
+!!UN:T4/6/3/224;
+
+!!UN:T5/0/2/225; (Dungeon)
+!!UN:T5/1/2/227;
+!!UN:T5/2/2/226;
+!!UN:T5/3/2/228;
+!!UN:T5/4/2/229;
+!!UN:T5/5/2/230;
+!!UN:T5/6/2/155;
+!!UN:T5/6/3/231;
+
+!!UN:T6/0/2/232; (Stronghold)
+!!UN:T6/1/2/233;
+!!UN:T6/2/2/234;
+!!UN:T6/3/2/235;
+!!UN:T6/4/2/236;
+!!UN:T6/5/2/237;
+!!UN:T6/6/2/156;
+!!UN:T6/6/3/238;
+
+!!UN:T7/0/2/239; (Fortress)
+!!UN:T7/1/2/240;
+!!UN:T7/2/2/241;
+!!UN:T7/3/2/242;
+!!UN:T7/4/2/(MON_CATOBLEPAS);
+!!UN:T7/5/2/(MON_ACID_WYVERN);
+!!UN:T7/6/2/157;
+!!UN:T7/6/3/245;
+
+!!UN:T8/0/2/246; (Conflux)
+!!UN:T8/1/2/247;
+!!UN:T8/2/2/248;
+!!UN:T8/3/2/249;
+!!UN:T8/4/2/250;
+!!UN:T8/5/2/251;
+!!UN:T8/6/2/158;
+!!UN:T8/6/3/252;

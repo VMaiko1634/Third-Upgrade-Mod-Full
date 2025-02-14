@@ -2,7 +2,7 @@ ATTENTION: Third Upgrades Mod requires "Visual Studio Redistributable" download 
 
 
                     ************** Third Upgrades Mod *****************
-                    *************** Version: v2.21.0******************
+                    *************** Version: v3.0.0******************
                    **************** Amethyst Edition ******************
 
 --------------------------------------------------------------------------------------------------
@@ -47,141 +47,125 @@ What does the mod contain?
 +90 New Artifacts.
 +Various decorative objects that are generated in RMG
 +45 new Dwellings.
-+35 new Creature Banks (Script by PerryR).
++35 new Creature Banks.
 +New adventure objects.
 
 
 
 
-1. New buliding details
+1. Independent Dwellings Upgrades
 
-Now every town can have a new building that is used as a general 'upgrade guild'. Thanks to this the player will be able to upgrade creatures in the town to their new forms. 
-Each town type has a different builiding, a different description, a different animation and a different cost. 
-To try to build the new building RIGHT-click on your Town Hall (or Village Hall, City Hall, or Capitol). 
-You have always olny one prerequisite to build - you must have a Castle. And of course, you have to have the right resources:
-
-for the Heavenly Tower (Castle) you need:        22000 gold, 30 gems and 30 ore
-for the Order of The Sun (Rampart) you need:     20000 gold, 25 crystal and 40 wood
-for the Cloud Castle (Tower) you need:           25000 gold, 30 gems and 15 mercury
-for the Kreegans' Gate (Inferno) you need:       19000 gold, 30 mercury and 15 sulfur
-for the Hall of The Pit (Necropolis) you need:   21000 gold, 25 mercury and 35 wood
-for the Underworld Entrance (Dungeon) you need:  23000 gold, 30 sulfur and 35 ore
-for the Barbarian Citadel (Stronghold) you need: 19000 gold, 60 ore and 15 crystal
-for the Temple of The Snake (Fortress) you need: 18000 gold, 50 wood and 20 sulfur
-for the Escaton's Crystal (Conflux) you need:    20000 gold, 30 crystal and 15 gems
+You can now upgrade dwellings independently, level 1-6 units can be upgraded a third time and level 7 can be upgraded a fourth time, considered a "Level 8 Upgrade".
 
 Note, that the right-clicking on the town hall doesn't disable the town destroying feature. However, when it is not needed, the standard text will not be shown. 
 It will 'return' if you build a capitol or destroy the fort - then you'll see the standard text after you click on the 'OK' button. If you completely destroy a town, the new structure will be destroyed as well.
 
 2. Creature Upgrades
 
-The creature upgrades become available in the town after building the new special structure there *and* having the right upgraded dwellings built. 
-Just click on the creature and you should notice the upgrade arrows. Of course, like with any upgrades, this costs some gold (or even resources). 
-Note, that in the Hill Fort every  new upgrade is also available and all new upgrades are aligned with their towns.
-			 NEW: Now you can recruit the creatures in their respective dwellings once the new structure has been bought.
+*Each new dwelling is now represented with a specific name in the Town Hall menu.
 
 Castle:
 
-Halberdier->Royal Halberdier
-Marksman->Crossbowman
-Royal Griffin->Cesar Griffin
-Crusader->Inquisitor
-Zealot->War Zealot
-Champion->Holy Champion
-Supreme Archangel->Seraph Archangel (Hill Fort Only o in Level 8 Dwellings)
+Halberdier->Royal Halberdier **Royal Guardhouse**
+Marksman->Crossbowman **Crossbowmen's Tower**
+Royal Griffin->Cesar Griffin **Grand Griffin Tower**
+Crusader->Inquisitor **Headquarters**
+Zealot->High Priest **Convent**
+Champion->Holy Champion **Training Camps**
+Supreme Archangel->Seraph Archangel **Portal of Splendor** > **Upg. Portal of Splendor**
 
 
 Rampart:
 
-Centaur Captain->Sylvan Centaur
-Battle Dwarf->Berserker Dwarf
-Grand Elf->Sharpshooter Elf
-Silver Pegasus->Golden Pegasus
-Dendroid Soldier->Elder Dendroid
-War Unicorn->Legendary Unicorn
-Diamond Dragon->Pure Diamond Dragon (Hill Fort Only o in Level 8 Dwellings)	
+Centaur Captain->General Centaur **Centaur Quarters**
+Battle Dwarf->Berserker Dwarf **Dwarf Hovel**
+Grand Elf->Sharpshooter Elf **Elves' Lodge**
+Silver Pegasus->Golden Pegasus **Magic Spring**
+Dendroid Soldier->Elder Dendroid **Dendroid Forest**
+War Unicorn->Legendary Unicorn **Unicorn Valley**
+Diamond Dragon->Pure Diamond Dragon **Dragon Peaks** > **Upg. Dragon Peaks**
 
 
 Tower:
 
-Master Gremlin->Grandmaster Gremlin
-Obsidian Gargoyle->Marble Gargoyle
-Iron Golem->Steel Golem
-Arch Mage->Arcane Mage
-Master Genie->Arcane Genie
-Naga Queen->Naga Empress
-Lord of Thunder->Guardian of Zeus (Hill Fort Only o in Level 8 Dwellings)	
+Master Gremlin->Grandmaster Gremlin **Central Workshop**
+Obsidian Gargoyle->Marble Gargoyle **Grand Parapet**
+Iron Golem->Steel Golem **Golem Industrial Factory**
+Arch Mage->Supreme ArchMage **Wizard Tower**
+Master Genie->Arcane Genie **Altar of Dreams**
+Naga Queen->Naga Empress **Shiny Pavilion**
+Lord of Thunder->Guardian of Zeus **Storm Temple** > **Upg. Storm Temple**	
 
 
 Inferno:
 
-Familiar->Hellish Plague
-Magog->Winged Magog
-Cerberus->Astral Cerberus
-Horned Demon->Sharp-Horned Demon
-Pit Lord->Pit Master
-Efreet Sultan->Efreet Rajah
-Hell Baron->Antichrist (Hill Fort Only o in Level 8 Dwellings)	
+Familiar->Hellish Plague **Imp Foundry**
+Magog->Winged Magog **Hall of Laments**
+Cerberus->Astral Cerberus **Raging Kennels**
+Horned Demon->Sharp-Horned Demon **Demon Portal**
+Pit Lord->Pit Master **Heart of the Pit**
+Efreet Sultan->Efreet Rajah **Lava Lake**
+Hell Baron->Antichrist **Unholy Palace** > **Upg. Unholy Palace**	
 
 
 Necropolis:
 
-Skeleton Warrior->Skeleton Knight
-Zombie->Mummy
-Wraith->Ghost
-Vampire Lord->Nosferatu
-Power Lich->Lich King
-Dread Knight->Death Knight
-Blood Dragon->Red Bones Dragon (Hill Fort Only o in Level 8 Dwellings)	
+Skeleton Warrior->Skeleton Knight **Crypt**
+Zombie->Ghoul **City of the Dead**
+Wraith->Ghast **Spectral Tomb**
+Vampire Lord->Nosferatu **Vampire Mansion**
+Power Lich->Lich King **Ziggurat**
+Dread Knight->Death Knight **Hall of the Death**
+Blood Dragon->Red Bones Dragon **Bloody Vault** > **Upg. Bloody Vault**	
 
 
 Dungeon:
 
-Infernal Troglodyte->Phosforous Troglodyte
-Harpy Hag->Harpy Sanguinary
-Evil Eye->Monstrous Eye
-Medusa Queen->Medusa Empress
-Minotaur King->Black Minotaur
-Scorpicore->Chimera
-Darkness Dragon->Abyss Dragon (Hill Fort Only o in Level 8 Dwellings)	
+Infernal Troglodyte->Phosphorous Troglodyte **Moist Warren**
+Harpy Hag->Harpy Sanguinary **Harpy's Den**
+Evil Eye->Monstrous Eye **Pillar of Thousand Eyes**
+Medusa Queen->Medusa Empress **Chapel of Perpetual Silence**
+Minotaur King->Black Minotaur **Vast Maze**
+Scorpicore->Chimera **Chimera Lair**
+Darkness Dragon->Abyss Dragon **Cave of Darkness** > **Upg. Cave of Darkness**	
 
 
 Stronghold:
 
-Hobgoblin->Hobgoblin Overlord
-Wolf Raider->Killer Wolf Raider
-Orc Chieftain->Orc Leader
-Ogre Mage->Elder Ogre
-Thunderbird->Lightningbird
-Cyclops King->Cyclops Emperor
-Ghost Behemoth->Spectral Behemoth (Hill Fort Only o in Level 8 Dwellings)	
+Hobgoblin->Hobgoblin Overlord **Goblin Quarters**
+Wolf Raider->Killer Wolf Raider **Wolf Lodgment**
+Orc Chieftain->Orc Leader **Orc Fortified Tower**
+Ogre Mage->Elder Ogre **Ogre Fort Enchanted**
+Thunderbird->Lightningbird **Crag Nest**
+Cyclops King->Cyclops Emperor **Cyclops Deep Cavern**
+Ghost Behemoth->Spectral Behemoth **Behemoth Tomb** > **Upg. Behemoth Tomb**	
 
 
 Fortress:
 
-Gnoll Marauder->Centagnoll
-Lizard Warrior->Elite Lizard
-Dragon Fly->Chaotic Dragon Fly
-Greater Basilisk->Lava Basilisk
-Mighty Gorgon->Catoblepas
-Wyvern Monarch->Acid Wyvern
-Hell Hydra->Terrible Hydra (Hill Fort Only o in Level 8 Dwellings)	
+Gnoll Marauder->Gnoll Shaman **Gnoll Hovel** 
+Lizard Warrior->Elite Lizard **Lizard Hatchery**
+Dragon Fly->Chaotic Dragon Fly **Dragon Fly Hive**
+Greater Basilisk->Lava Basilisk **Basilisk Lava Pond**
+Mighty Gorgon->Catoblepas **Catoblepas Lair**
+Wyvern Monarch->Acid Wyvern **Haunt of Wyverns**
+Hell Hydra->Nightmare Hydra **Chaos Pool** > **Upg. Chaos Pool**	
 
 
 Conflux:
 
-Pixie->Fairy
-Storm Elemental->Hurracane Elemental
-Ice Elemental->Life Elemental
-Energy Elemental->Flux Elemental
-Magma Elemental->Mineral Elemental
-Magic Elemental->Void Elemental
-Sacred Phoenix->Divine Phoenix (Hill Fort Only o in Level 8 Dwellings)	
+Pixie->Fairy **Fairy Garden**
+Storm Elemental->Hurracane Elemental **Grand Altar of Air**
+Ice Elemental->Life Elemental **Grand Altar of Water**
+Energy Elemental->Plasma Elemental **Grand Altar of Fire**
+Magma Elemental->Mineral Elemental **Grand Altar of Thought**
+Magic Elemental->Void Elemental **Grand Altar of Earth**
+Sacred Phoenix->Divine Phoenix **Spirit Pyre** > **Upg. Spirit Pyre**	
 
 
 Neutrals:
 
-Gorynych->Dark Tiamat
+Gorynych-> Tiamat
 Dracolich->Necross Dragon
 Rogue->Assassin (Hill Fort Only)
 Enchanter->Spellweaver (Hill Fort Only)

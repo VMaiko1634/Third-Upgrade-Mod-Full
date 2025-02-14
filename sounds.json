@@ -72,8 +72,8 @@
 	  },		
     "Sorceress Castle" : {
         "name": "SORCERESSLOOP.wav",
-        "type": 63,
-        "subtype": 91
+        "type": 16,
+        "subtype": 47
 	  },
     "Outpost of Soul" : {
         "name": "DEMILICHLOOP.wav",
