@@ -19,7 +19,7 @@
 		"file": "AmeU3.ico",
 		"index": 0
 	},
-	"mod_version": "3.0.0",
+	"mod_version": "3.0.1",
 	"priority": 2,
 	"compatibility": {
 		"class": "default",
