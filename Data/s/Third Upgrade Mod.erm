@@ -2136,7 +2136,7 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
 !!UN:T2/4/2/210;
 !!UN:T2/5/2/211;
 !!UN:T2/6/2/152;
-!!UN:T2/6/3/202;
+!!UN:T2/6/3/212;
 
 !!UN:T3/0/2/213; (Inferno)
 !!UN:T3/1/2/214;
@@ -2148,8 +2148,8 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
 !!UN:T3/6/3/219;
 
 !!UN:T4/0/2/220; (Necropolis)
-!!UN:T4/1/2/261;
-!!UN:T4/2/2/329;
+!!UN:T4/1/2/329;
+!!UN:T4/2/2/261;
 !!UN:T4/3/2/221;
 !!UN:T4/4/2/222;
 !!UN:T4/5/2/223;
