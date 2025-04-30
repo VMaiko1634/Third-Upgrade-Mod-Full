@@ -1,4 +1,4 @@
-Fourth Upgrades in Town	0	0	1	-1	0	0	300	Fourth Upgrades in Towns	Fourth upgraded level 7 monsters may be recuited in towns if the third upgrade buildings have been built.	FOURTH UPGRADES IN TOWN
+Fourth Upgrades Dwellings (doesn't work disable)	0	0	1	-1	0	0	300	Fourth Upgrades Dwellings (can't be disabled)	Fourth upgraded level 7 monsters may be recuited in towns if the fourth upgrade buildings have been built.	FOURTH UPGRADES DWELLINGS (CAN'T BE DISABLED)
 
 Option 300 by Archer30
 
@@ -16,7 +16,7 @@ Blood Dragon --> Red Bones Dragon
 Darkness Dragon --> Chasm Dragon
 Ghost Behemoth --> Spectral Behemoth
 Hell Hydra --> Nightmare Hydra
-Sacred Phoenix --> Divine Phoenix
+Sacred Phoenix --> Divine Phoenix	
 Eighth Monsters	0	0	1	-1	1	1	301	Eighth Monsters	Every town now has a eighth dwelling, where you may recruite the eighth monsters originally from The Tides of War expansion.	EIGHTH MONSTERS
 
 Option 301 by Archer30
@@ -35,11 +35,4 @@ Necropolis: Dark Templar --> Dark Paladin
 Dungeon: Lady Spider --> Queen Spider
 Stonghold: Coatl --> Quetzalcoatl
 Fortress: Sea Serpent --> Leviathan
-Conflux: Planeswalker --> Elementalist
-Dwelling Banks	0	0	1	-1	1	1	302	Dwelling Banks	Some external dwellings become "dwelling banks".	DWELLING BANKS
-
-Option 302 by Perry R
-
-New creature banks may replace some level 1 and level 2 dwellings on the map. These creature banks look similar to the dwellings they replaced and reward you the creatures you could recruite from them.
-
-[If object replacement is selected, Dwellings Banks may replace some of their corresponding dwellings]
+Conflux: Planeswalker --> Elementalist	
