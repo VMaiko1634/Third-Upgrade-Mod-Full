@@ -32,7 +32,7 @@
 		"hota0": 							"Sea spirits approach, drawn by the horn's call. @num@ @mon@ join @hero@'s army.",
 		"hota1": 							"Sea spirits approach, drawn by the horn's call. @num@ @mon@ joins @hero@'s army.",
 
-		"orbOfInhibition": 					"The @art@ prevents all spellcasting",
+		"orbOfInhibition": 					"The @art@ prevents all spellcasting"
 
 	},
 			
@@ -102,14 +102,13 @@
 
 	"wog_options": {        
         "page0": {
-            "name": "TUM, Game Enhancements \nand Hard-Coded Options",
+            "name": "TUM, Game Enhancements \nand Hard-Coded Options"
             }
-        }
-    },
+        },
     
     "wog": {
         "52": {
-            "objName": "Town Gate",
+            "objName": "Town Gate"
         }
     }
 }

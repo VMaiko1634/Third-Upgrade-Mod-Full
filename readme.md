@@ -1,8 +1,10 @@
 ATTENTION: Third Upgrades Mod requires "Visual Studio Redistributable" download it in official Microsoft page.
 
+ATTENTION AGAIN: The mod's new artifacts are disabled by default due to critical performance issues. 
+If you want to continue playing with artifacts anyway: Right-click the mod -> "Plugins" and then check "emerald3_3.era".
 
                     ************** Third Upgrades Mod *****************
-                    *************** Version: v3.1.0******************
+                    *************** Version: v3.1.1******************
                    **************** Amethyst Edition ******************
 
 --------------------------------------------------------------------------------------------------
