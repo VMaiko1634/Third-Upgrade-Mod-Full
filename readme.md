@@ -4,7 +4,7 @@ ATTENTION AGAIN: The mod's new artifacts are disabled by default due to critical
 If you want to continue playing with artifacts anyway: Right-click the mod -> "Plugins" and then check "emerald3_3.era".
 
                     ************** Third Upgrades Mod *****************
-                    *************** Version: v3.1.2******************
+                    *************** Version: v3.1.3******************
                    **************** Amethyst Edition ******************
 
 --------------------------------------------------------------------------------------------------

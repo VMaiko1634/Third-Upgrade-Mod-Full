@@ -1,0 +1,11 @@
+{
+	"era": {
+		"resound": {
+			"notification": {
+				"name": "{~00AAFF}Third Upgrade Mod}",
+				"text": "If some objects are displayed as red circles when the game starts, create a detailed error report using the link above",
+				"url": "https://github.com/ERA-Projects/era-project-eng/issues"
+			}
+		}
+	}
+}
