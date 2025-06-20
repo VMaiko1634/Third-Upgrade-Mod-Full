@@ -158,7 +158,11 @@ ZVSE2
 !!SN:E(setHook)/1/4445639/(tum_HOOK_AfterStackInitParams); [Trigger after initialising the stats of a stack on the battlefield]
 !!SN:E(setHook)/1/4920480/(tum_OnCalcMovementPointsCost); [Trigger on calculating the cost of movement points]
 !!SN:E(setHook)/1/4627361/(tum_OnNecromancyAddCreatures); [Trigger on adding Necromancy creatures]
-!!SN:E(setHook)/1/5137595/(tum_Hero_GetSpecMonster_BeforeMonIdCheck);
+
+; Hero specialties, active only when ACM is not enabled
+!!SN:E(setHook)/1/5137595/(tum_Hero_GetSpecMonster_BeforeMonIdCheck); [Archer: This function ideally should be placed in TUM]
+!!SN:E(setHook)/1/5137685/(tum_Hero_GetSpecMonster); [Manage addtional monster if TUM is enabled]
+
 
 ; This is a replacement of FU(OnPreTownScreen)
 !!SN&i^tum_newTowns_on^<>(TRUE):E(setHook)/1/6058213/(tum_HOOK_PrepareTownScreen); [For TUM Full only - manage TUM/8th creatures/virtural dwelling/upgrade guild.] 5C70E5

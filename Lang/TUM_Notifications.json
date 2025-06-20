@@ -2,9 +2,9 @@
 	"era": {
 		"resound": {
 			"notification": {
-				"name": "{~00AAFF}Third Upgrade Mod}",
-				"text": "If some objects are displayed as red circles when the game starts, create a detailed error report using the link above",
-				"url": "https://github.com/ERA-Projects/era-project-eng/issues"
+				"name": "{~00AAFF}Third Upgrade Mod Changelog 3.1.4}",
+				"text": "[+] Added a compatibility filter to TUM thanks to the new version of Mod Manager. Now it's {~ff0000}NOT} possible to enable TUM Full and TUM Enchanted at the same time (ERA+ and Lands of New Towns included).\n[+] Re-enabled {Emerald}, without any satisfactory changes, due to the impossibility of disabling it in the new version of Mod Manager.\n[+] Added missing json file for mod translation.\n[+] Added {DisableVideo.dll} to avoid conflicts in the game code.\n[-] Removed {BldgNeut.txt} to improve in mod translation.\n[*] Updated the {New Towns plugin}. The 'build more than one Capitol per day' option should now work.\n[*] Updated {Amethyst} plugin. It should now work better in multiplayer matches.\n[*] Updated {1000 tum - stdlib.erm}. This should make the Hero specialization work as expected.\n[*] Updated {1000 tum - Archer.erm}, with countless gameplay fixes.",
+				"url": "https://discord.com/channels/665742159307341827/689568488343208047"
 			}
 		}
 	}

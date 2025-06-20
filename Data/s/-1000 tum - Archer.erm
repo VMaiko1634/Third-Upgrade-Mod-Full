@@ -6,11 +6,191 @@ ZVSE2
 ; (Tiny little bit of) Archer's hacks for TUM
 
 
+*********************************************************************************
+**** Bad Fix: Disable RK/igrk's fix of Water Walk in game bug fixes extended ****
+*********************************************************************************
+; There is a report about AI stuck after using water walk
+; It may be related to the AI behaviour alternation in Third Upgrade Mod or may not
+; I failed to reproduce the issue in a fresh game anyway
+; Thus I decide to disable to fix in TUM only for now
+!?FU(OnGameEnter);
+!!UN:C4391438/4/1357925771;
+!!UN:C4391442/2/1642;
+
+*****************************************************************************************************
+**** Bad Fix: Fix infinite loop when a revived stack tries to defend when defended the same turn ****
+*****************************************************************************************************
+; For some reason, the revived stack would try to defend even when it's defended in a turn
+; This results in an infinite loop - AI could possibly try to defend again and again
+; This issue can be in ERA in general, but we observed it with TUM+ACM only
+; This script ensure defending status is removed on stack turn
+!?FU(OnBattleStackObtainsTurn);         [The native defense restoration is at 00446BA7]
+!!BMi^battle_current_stack^:F?(flags:y);
+!!VR(isDefending:y):S(flags) &(MON_FLAG_DEFENDING);
+
+!!if&(isDefending);
+  !!VR(stack:y):Si^battle_current_stack^;
+  !!BM(stack):Z?(stackStruct:y);
+
+  !!UN:C(stackStruct)/1244/4/?(bonusDefense:y);
+  !!BM(stack):Fd~(MON_FLAG_DEFENDING);
+  !!BM(stack):D?(defense:y);
+  !!VR(defense):-(bonusDefense) F0/(INT_MAX);
+  !!BM(stack):D(defense);
+!!en;
+
+******************************************************
+**** Release binded stacks if no adjacent enemies ****
+******************************************************
+; This is likely an Aemthyst problem: There is a chance when the stack binding is killed, the binded stack is not released.
+; The reported player mention that it could be possible to happen if the killed stack is not the main target (e.g. killed by Strike All Around)
+
+; RK's info - doesn't seem to be correct
+/** @brief [0x4F4] which dendroids have binded the current target (used for animation requirement)*/
+H3Vector<H3CombatCreature*> dendroidBinder;
+/** @brief [0x504] list of H3CombatCreature binded by this dendroid*/
+H3Vector<H3CombatCreature*> dendroidBinds;
+
+; Better implementation but complicated
+; I failed
+*?FU(tum_OnBattleStackKilled);
+*#VA(stackId:x) (side:x);
+
+*!BM(stackId):T?(type:y);
+*!FU(tum_CheckIfMonHasPoisonNova):P(type)/?(result:y);
+
+*!if&(result);
+  ; Get all the adjacent stacks nearby
+  *!FU(tum_GetAdjacentStacksOfStack):P(stackId)/?(adjacentStacksList:y)/0/(FALSE);
+
+  *!SN:M(adjacentStacksList)/?(size:y);
+
+  *!if&(size)>0;
+    ; Loop through all the stacks found and check their duration of Bind
+    *!re i/0/(size)/1/-1;
+      *!SN:M(adjacentStacksList)/i/?(targetStack:y);
+
+      *!BM(targetStack):G72/?(duration:y)/?(level:y); [Bind]
+
+      ; If there is any stack found with Bind, check their list of binders
+      *!if&(duration)>0;
+        *!BM(targetStack):Z?(stackStuct:y);
+
+      *!en;
+    *!en;
+  *!en;
+*!en;
+
+; Simpler solution
+; Check out on every stack turn and see if they are binded without enemy nearby. If they do, release them
+!?FU(OnBattleStackObtainsTurn)&i^battle_round^>0;
+!!BMi^battle_current_stack^:G72/?(duration:y)/?(level:y);
+
+!!if&(duration)>0;
+  !!VR(stackId:y):Si^battle_current_stack^;
+  !!FU(tum_GetAdjacentStacksOfStack):P(stackId)/?(adjacentStacksList:y)/-1/(FALSE);
+  !!SN:M(adjacentStacksList)/?(size:y);
+
+  ; If no enemy nearby, release it
+  !!if&(size)=0;
+    !!FU(tum_RemoveSpellFromStack):P(stackId)/72;
+  !!en;
+!!en;
+
+**************************************************
+**** Fix abnormal artifact looting behaviours ****
+**************************************************
+; Fix occasionally not able to loot all the artifacts from the enemy (Human vs AI)
+; It's likely to be an Emerald issue
+!?FU(tum_CreateERMHook);
+!#VA(hook:x);
+00477286
+*!SN:E(hook)/1/4682374/(arch_OnBeforeTakeArtsFromKilledHero); [It leads to a crash if retreating if hooking at after tacking arts]
+
+00469CDF
+; For some reason, after inserting this hook without anything else, the issue has been resolved
+; All the code except for this hook have been disabled
+!!SN:E(hook)/1/4627679/(arch_OnTransferArtsBetweenHeroesAfterBattle);
+
+00469D77
+*!SN:E(hook)/1/4627831/(arch_OnTransferArtsBetweenHeroesAfterBattle);
+
+*?FU(arch_OnTransferArtsBetweenHeroesAfterBattle);
+*#VA(hook:x);
+
+*!HE(HERO_ADRIENNE):Z?(atkHeroStruct:y);
+*!UN:C(atkHeroStruct)/980/1/?(num:y);
+*!IF:M^%(num)^;
+
+*!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EAX)/1/?(ax:y);
+
+*!if&(ax)=(FALSE);
+
+*!en;
+
+!?FU(arch_OnBeforeTakeArtsFromKilledHero)&i^battle_hero_0^>(NO_HERO)/i^battle_hero_1^>(NO_HERO);
+!#VA(hook:x);
+
+; Get the side of winner and loser
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EBX)/4/?(side:y);
+!!VR(oppSide:y):S(side) X(TRUE);
+
+; Set up variables for loop
+!!FU(GetMaxArtifactId):P?(lastArt:y);
+!!VR(counter:y):S0;
+!!FU(NewIntArray):P?(artsList:y);
+!!VR(startSlot:y):S(ART_SLOT_FIRST);
+
+; Infinite loop (as we need to show dialogue whenever 8 artifacts are found from the loser)
+!!re j;
+  ; Loop through all the artifact slots of the loser
+  !!re i/(startSlot)/(ART_SLOT_LAST);
+    !!HEi^battle_hero_%(oppSide)^:A1/?(art:y)/i;
+
+    !!if&(art)>=(ART_CENTAUR_AXE)/(art)<>(ART_ARTIFACT_LOCK)/(art)<=(lastArt);
+      ; Move the artifact from the defeated hero to the winner
+      !!FU(tum_RemoveArtFromSlot):Pi^battle_hero_%(oppSide)^/i;
+      !!HEi^battle_hero_%(side)^:A4/(art);
+
+      ; Set up IF:N array and counter
+      !!FU(Array_Push):P(artsList)/(PIC_TYPE_ART)/(art);
+      !!VR(counter):+1;
+
+      ; If the counter has reached 8, break the loop and show IF:N dialogue
+      !!br&(counter)=8;
+    !!en;
+  !!en;
+
+  ; Show dialogue if there is at least one artifact in the dialogue
+  !!if&(counter)>0;
+    !!VR(random:y):R0/1/7;
+    !!SN:P^pickup0%(random)^;
+    !!FU(PrepareMultiPicDialog):P(artsList);
+    !!FU(GetTextFileString):P^genrltxt^/31/?(msg:z);
+    !!IF:N(MSG_TYPE_MES)/^%(msg)^;
+
+    ; Manage array and variable for the rest of the loop
+    !!SN:M(artsList)/0;
+    !!VR(startSlot):Si;
+    !!VR(counter):S0;
+  !!en;
+
+  ; Break the loop if all the slots of the loser have been looped
+  !!br&i>(ART_SLOT_LAST);
+!!en;
+
 *************************************
 **** WoG Scripts Compatibilities ****
 *************************************
 // The following lines must be executed later than WoG Scripts
 !?FU(OnAfterErmInstructions);
+// Week of Monsters
+!!FU(FileExists):P^data\wog scripts.pac^/?(result:y); [Checking WoG Scripts mod is required! Othesewise there would be error about array]
+!!FU&(result)<>(TRUE):E;
+
+!!UN:P20/?(weekOfMonsters:y);
+!!FU(Array_Push)&(weekOfMonsters):Pi^wog_20_deityOfFireExtraMonsters^/(MON_VERMIN);
+
 // Battle Extender
 !!UN:P41/?(battExtender:y);
 
@@ -31,6 +211,7 @@ ZVSE2
 !?FU(WOG_44_CheckIfMonDrainsLife);
 !#VA(mon:x) (result:x);
 
+!!VR(result)&(mon)=(MON_NOSFERATU):S(TRUE);
 !!VR(result)&(mon)=(MON_RED_BONES_DRAGON):S(TRUE);
 !!VR(result)&(mon)=(MON_RED_SKELETON):S(TRUE);
 !!VR(result)&(mon)=(MON_SHADOW_DRAGON):S(TRUE);
@@ -39,29 +220,43 @@ ZVSE2
 !?FU(WOG_44_CheckIfMonCanTeleport);
 !#VA(mon:x) (result:x);
 
-!!VR(result)|(mon)=(MON_FALLEN_ANGEL)/(mon)=(MON_ANGEL_OF_DEATH):S(TRUE);
+!!VR(result)&(mon)=(MON_ANTICHRIST):S(TRUE);
+
+!!if&i^tum_reborn_on^;
+  !!VR(result)&(mon)=(MON_ELITE_LIZARD):S(TRUE);
+  !!VR(result)&(mon)=273:S(TRUE);       [Mad Mummy]
+  !!VR(result)&(mon)=(MON_SPELLWEAVER):S(TRUE);
+  !!VR(result)&(mon)=324:S(TRUE);       [Shadow Lord]
+!!el;
+  !!VR(result)|(mon)=(MON_FALLEN_ANGEL)/(mon)=(MON_ANGEL_OF_DEATH):S(TRUE);
+!!en;
 
 // Berserker Chaotic Flies
-!?FU(WOG_46_CheckIfMonIsEligible);
-!#VA(mon:x) (result:x);
-
-!!VR(result)&(mon)=(MON_CHAOTIC_DRAGON_FLY):S(TRUE);
-
 !?FU(OnAfterErmInstructions);
-; The code has to be in this way as Majaczek hooked my address
 !!UN:P46/?(berserkerFlies:y);
+!!FU&(berserkerFlies)<>(TRUE):E;
 
-!!if&(berserkerFlies);
-  !!SN:L^amethyst2_4.dll^/?(amethyst:y);
+!!MA:X(MON_CHAOTIC_DRAGON_FLY)/?(flags:y);   
+!!VR(flags):|(MON_FLAG_NO_RETALIATION); 
+!!MA:X(MON_CHAOTIC_DRAGON_FLY)/(flags);
 
-  !!if&(amethyst)<>0;
-    !!SN:A(amethyst)/^ChangeCreatureTable^/?(address:y);
+!!SN:H^monname^/(MON_CHAOTIC_DRAGON_FLY)/2/?(desc:z);
+!!SN:H^monname^/(MON_CHAOTIC_DRAGON_FLY)/2/^%(desc)%T(Third_Upgrade_Mod.berserkerFlies)^;
 
-    !!if&(address)<>0;
-      !!SN:E(address)/1/(MON_DRAGON_FLY)/^StrikeAndReturn=1^ E(address)/1/(MON_CHAOTIC_DRAGON_FLY)/^StrikeAndReturn=1^;
-    !!en;
-  !!en;
-!!en;
+!?FU(tum_OnAfterMelee);
+!#VA(atkStack:x) (defStack:x);
+
+!!UN:P46/?(berserkerFlies:y);
+!!FU&(berserkerFlies)<>(TRUE):E;
+
+!!BM(atkStack):T?(type:y);
+!!FU(tum_CastPassiveMonsterSpell)&(type)=(MON_CHAOTIC_DRAGON_FLY):P(atkStack)/(defStack)/20/(SPELL_BERSERK)/(SKILL_NOT_LEARNED);
+
+// Death Chamber
+!?FU(WOG_70_GetUndeadKingMonType);
+!#VA(monType:x);
+
+!!VR(monType):S(MON_LICH_KING);
 
 // Enhanced Artifact II
 !?FU(WOG_71_GetDiploBonus);
@@ -77,20 +272,88 @@ ZVSE2
 !!HE(hero):A2/(ART_PENDANT_OF_REFLECTION)/?(has:y)/?(equipped:y);
 !!VR(artBonus)&(equipped)>0:S1;
 
-// Enable TUM dwelling revisiting only when Neutral Town and Creature Bank Growth is enabled
-!?FU(OnAfterErmInstructions);
-!!UN:P235/?(bankGrowth:y);
+// Universal Upgrades WITHOUT single TUM building for all TUM Upgrades
+; by SadnessPower
+!?FU(OnDetermineMonInfoDlgUpgrade_Quit)&i^tum_newTowns_on^;
+!#VA(monType:x) (upgType:x) (town:x) (hero:x);
 
-; Disable TUM CB revisiting if Neutral Town and Creature Bank Growth is not enabled
-; Skip Dwelling Banks as they are determined to be reset every week
-!!if&(bankGrowth)<>(TRUE);
-  !!re i/0/99;                          [99 - the max number to loop, currently TUM has 62 banks, this should be enough for a while]
-    !!if&i<10;
-      !!VRi^CB_00%i_Revisit^&i^CB_00%i_Revisit^>7:S0;
-    !!el&i>=10/i<100;
-      !!VRi^CB_0%i_Revisit^&i^CB_0%i_Revisit^>7:S0;
+!!UN:P174/?(wogOption:y);
+!!FU&(wogOption)<>(TRUE):E;
+
+; Exit if there is an existing upgrade or is not in a town
+!!FU|(upgType)>(NO_MON)/(town)=(NO_TOWN):E;
+
+!!MA:L(monType)/?(level:y) O(monType)/?(townType:y);
+
+!!UN:T(townType)/(level)/0/?(basicMon:y);
+!!UN:T(townType)/(level)/1/?(upgMon:y);
+
+!*IF:M^monType = %(monType) - upgType = %(upgType) - town = %(town) - hero = %(hero) - level = %(level)
+- basicMon = %(basicMon) - upgMon = %(upgMon)^;
+
+!!FU&(monType)<>(basicMon)/(monType)<>(upgMon):E;
+
+!!VR(buildingConstant:y)&(monType)=(basicMon):S37;           [37-43 upgraded dwellings]
+!!VR(buildingConstant)&(monType)=(upgMon):S64;               [64-70 TUM upgraded dwellings]
+
+!!VR(buildingId:y):S(level) +(buildingConstant);        
+!!CA0/(town):B3/(buildingId);           [check if built into flag 1]
+
+!!if&1;
+  !!FU(GetUpgradedMonster):P(monType)/?(upgraded:y);
+  !!VR(upgType)&(upgraded)>(NO_MON):S(upgraded);
+!!en;
+
+// Universal Upgrades FOR single TUM building for all TUM Upgrades
+!?FU(OnDetermineMonInfoDlgUpgrade_Quit)&i^tum_newTowns_on^=(FALSE);
+!#VA(monType:x) (upgType:x) (town:x) (hero:x);
+
+!!UN:P174/?(wogOption:y);
+!!FU&(wogOption)<>(TRUE):E;
+
+; Exit if there is an existing upgrade or is not in a town
+!!FU|(upgType)>(NO_MON)/(town)=(NO_TOWN):E;
+
+; If upgrade building is built, enter the main procedure
+!!if&i^tum_upgGuild_%(town)^;
+  !!FU(tum_SetUniversalUpgrade):P(monType)/(town)/?(upgType);
+; Otherwise check if it is a monster <= level 6
+!!el;
+  ; If the monster is a second upgraded monster, exit the function
+  !!MA:O(monType)/?(townType:y) L(monType)/?(level:y);
+  !!VR(counter:y):S14 *(townType) +7 +(level);
+  !!SN:Mi^tum_NativeTownCreaturesIds^/(counter:y)/?(upgMon:y);
+  !!FU&(monType)=(upgMon):E;
+
+  !!if&(level)<(MON_MAX_LEVEL);
+    !!FU(tum_SetUniversalUpgrade):P(monType)/(town)/?(upgType);
+  ; Otherwise check if its upgrade is a normal level 7 monster (weaker than Blood Dragons)
+  ; For upgrading to level 8+, we simply need the third upgrade building
+  !!el;
+    !!FU(GetUpgradedMonster):P(monType)/?(upgraded:y);
+
+    !!if&(upgraded)>(NO_MON);
+      !!MA:F(upgraded)/?(fightValue:y) F(MON_BLOOD_DRAGON)/?(bloodFightValue:y);
+
+      ; And the upgraded level 7 dwelling is built
+      !!if&(fightValue)<(bloodFightValue);
+        !!CA0/(town):B3/43;             [check if built into flag 1]
+        !!VR(upgType)&1:S(upgraded);
+      !!en;
     !!en;
   !!en;
+!!en;
+
+!?FU(tum_SetUniversalUpgrade);
+!#VA(monType:x) (town:x) (upgType:x);
+
+!!MA:L(monType)/?(level:y);
+!!VR(buildingId:y):S(level) +37;        [37-43 upgraded dwellings]
+!!CA0/(town):B3/(buildingId);           [check if built into flag 1]
+
+!!if&1;
+  !!FU(GetUpgradedMonster):P(monType)/?(upgraded:y);
+  !!VR(upgType)&(upgraded)>(NO_MON):S(upgraded);
 !!en;
 
 *************************************
@@ -108,6 +371,12 @@ ZVSE2
   !!MA:F(MON_ELITE_LIZARD)/?(fv:y);
   !!VR(fv):*105 :100;
   !!MA:F(MON_ELITE_LIZARD)/(fv);
+!!en;
+
+// Backpack Artifacts
+!!if&i^tum_emerald_on^;
+  !!UN:P727/?(backpackArtifacts:y);
+  !!FU(ES_727_SetNewArtifactDescriptions)&(backpackArtifacts):P(ART_GOLDEN_GOOSE);
 !!en;
 
 // Demonic Rage
@@ -217,6 +486,14 @@ ZVSE2
   !!MA:F(MON_GNOLL_SHAMAN)/(fv);
 !!en;
 
+// Sharpshooter Elf Grand Maneuvre
+!!UN:P997/?(elfGrandManeuvre:y);
+
+!!if&(elfGrandManeuvre);
+  !!SN:H^monname^/(MON_SHARPSHOOTER_ELF)/2/?(desc);
+  !!SN:H^monname^/(MON_SHARPSHOOTER_ELF)/2/^%(desc)%T(es.997.desc)^;
+!!en;
+
 // Elite Lizards Ranged Retaliation
 !?FU(ES_350_CheckIfMonIsEligible);
 !#VA(mon:x) (result:x);
@@ -273,11 +550,24 @@ ZVSE2
 !!HE(CURRENT_HERO):A2/(ART_DIPLOMATS_CLOAK)/?(has:y)/?(equipped:y);
 !!VR(discount)&(equipped)>0:+3;
 
+// Night Scouting (Assassins)
+!?FU(ES_795_GetAssassinMonType)&i^tum_lite_on^<>(TRUE);
+!#VA(monType:x);
+
+!!VR(monType):S(MON_ASSASSIN);
+
 // Blocking Specters
 !?FU(ES_822_CheckIfMonHasBlock);
 !#VA(mon:x) (result:x);
 
 !!VR(result)&(mon)=(MON_SPECTRE):S(TRUE);
+
+// Skeleton Artifact
+!?FU(ES_882_GetSkeletonMonType)&i^tum_lite_on^<>(TRUE);
+!#VA(artLevel:x) (monType:x);
+
+!!VR(monType)&(artLevel)=2:S(MON_SKELETON_KNIGHT);
+!!VR(monType)&(artLevel)=3:S(MON_GOLD_SKELETON);
 
 // Ranged Death Stare
 !?FU(ES_995_CheckIfMonIsEligible);
@@ -291,17 +581,164 @@ ZVSE2
 
 !!VR(result)&(mon)=(MON_GNOLL_SHAMAN):S(TRUE);
 
-// Grand Manouvre
+// Sharpshooter Elf Grand Maneuvre
 !?FU(ES_997_CheckIfMonIsEligible);
 !#VA(mon:x) (result:x);
 
 !!VR(result)&(mon)=(MON_SHARPSHOOTER_ELF):S(TRUE);
 
+// Military Duty
+!?FU(OnEveryDay)&i^timerWeekday^=7;
+!!UN:P994/?(wogOption:y);
+!!FU&(wogOption)<>(TRUE):E;                                            [exit when option is not active]
+
+!!FU(tum_ES_994_CheckForAllDwellings):P(OBJ_CREATURE_GENERATOR_1) P(OBJ_CREATURE_GENERATOR_4);
+
+!?FU(tum_ES_994_CheckForAllDwellings);
+!#VA(objType:x);
+
+!!MA:F(MON_BLOOD_DRAGON)/?(bloodDragonFv:y);
+!!OW:Wi^timerOwner^/?(townQty:y);
+!!VR(lastTown:y):S(townQty) -1;
+
+!!VR(x:y):S-1;
+
+; loop through all the dwellings
+!!re k;
+  !!UN:U(objType)/(ANY_OBJ)/-1/(x)/(y:y)/(z:y);
+  !!br&(x)<0;
+
+  !!DW(x)/(y)/(z):O?(owner:y);
+  !!co&(owner)<>i^timerOwner^;
+
+  ; Loop through all the slots
+  !!re i/0/3;
+    !!DW(x)/(y)/(z):Mi/?(mon:y)/?(num:y); [тип и кол-во доступных существ в 1м слоте жилища]
+
+    !!if&(mon)>(NO_MON)/(num)>0;      [если в слоте жилища есть существа]
+      !!MA:O(mon)/?(townType:y) L(mon)/?(level:y) F(mon)/?(fv:y); [тип города, которому принадлежит существо / уровень существа]
+
+      !!if&(townType)>(NO_TOWN)/(fv)<(bloodDragonFv);
+        !!FU(tum_GetMonstersInTown):P(townType)/(level)/?(nonUpgMon:y)/?(upgMon:y)/?(thirdUpgMon:y);
+
+        !!if|(nonUpgMon)=(mon)/(upgMon)=(mon)/(thirdUpgMon)=(mon);
+          !!if&(nonUpgMon)=(mon);
+            !!VR(dwell:y):S(level) +30;
+          !!el&(upgMon)=(mon);
+            !!VR(dwell):S(level) +37;
+          !!el&(thirdUpgMon)=(mon);
+            ; When new towns plugin is disabled, the dwelling id is the same as he second upgrade (will have extra check later)
+            !!if&i^tum_newTowns_on^<>(TRUE);
+              !!VR(dwell):S(level) +37;
+            ; When new towns plugin is enabled
+            !!el;
+              !!VR(dwell):S(level) +64;
+            !!en;
+          !!en;
+
+          !!re j/0/(lastTown);
+            !!OW:W(owner)/j/?(townId:y);
+            !!CA0/(townId):T?(loopTownType:y) B3/(dwell);
+
+            !!if&(loopTownType)=(townType)/1;
+              ; Skip if new towns plugin is disabled and the town doesn't have the third upgrade guild built, if the monster is a third upgrade
+              !!co&(thirdUpgMon)=(mon)/i^tum_newTowns_on^<>(TRUE)/i^tum_upgGuild_%(townId)^<>(TRUE);
+
+              !!br;
+            !!en;
+          !!en;
+
+          !!if&j<=(lastTown);         [если город найден]
+            !!VR(dwell)&(dwell)<37:+7;
+            !!CA0/(townId):B3/(dwell);[f1=1, если отстроено улучшенное жилище]
+
+            ; Increase the quantity of available creatures depending on upgraded or degraded building is built
+            !!if&1;                   [если отстроено улучшенное жилище]
+              !!CA0/(townId):M1/(level)/d/d(num); [увеличиваем кол-во доступных улучшенных существ]
+            !!el;                     [иначе]
+              !!CA0/(townId):M1/(level)/d(num)/d; [увеличиваем кол-во доступных неулучшенных существ]
+            !!en;
+
+            !!DW(x)/(y)/(z):Mi/d/0;   [удаляем существ из слота внешнего жилища]
+          !!en;
+        !!en;
+      !!en;
+    !!en;
+  !!en;
+!!en;
+
+*****************************
+**** ACM Compatibilities ****
+*****************************
+// Show additional spell points regeneration in ACM spell points description
+!?FU(AC_Function_8)&x3=1/x4=1;
+!#VA(hero:x) (result:x);
+
+!!HE(hero):A2/(ART_REGENERATIVE_NECKLACE_OF_MANA)/?(has:y)/?(equipped:y);
+
+!!if&(equipped)>0;
+  !!if&i^tum_reborn_on^<>(TRUE);
+    !!VR(result):+5;
+  !!el;
+    !!FU(tum_GetRegenarativeNecklaceOfManaRegen):P(hero)/?(necklaceRegen:y);
+    !!VR(result):+(necklaceRegen);
+  !!en;
+!!en;
+
+// Fire Shield
+!?FU(ACM_GetCustomFireShieldMultiplier);
+!#VA(mon:x) (result:x);
+
+!!VR(result)&(mon)=(MON_FIRE_DRAGON):S5;
+
+**********************************************************************
+**** Ensure the growth of 3rd upgrade units are the same with 2nd ****
+**********************************************************************
+; Scripts like Randomizer in Era Scripts Mod can affect
+!?FU(OnAfterErmInited);
+!!re i/(TOWN_FIRST)/(TOWN_LAST_WOG);
+  !!re j/(MON_MIN_LEVEL)/(MON_MAX_LEVEL);
+    !!FU(tum_GetMonstersInTown):Pi/j/?(basicMon:y)/?(upgMon:y)/?(thirdUpgMon:y);
+    !!MA:G(upgMon)/?(growth:y) G(thirdUpgMon)/(growth);
+  !!en;
+!!en;
+
+**********************************
+**** Adjust stack exp details ****
+**********************************
+; Define special stack exp settings for creatures. 
+; The following contents can also be set in crexpmod.txt but scripting provides universal solution
+; EA:P - R11 exp
+!?FU(OnAfterErmInstructions);
+; Level 8+
+!!MA:F(MON_BLOOD_DRAGON)/?(bloodFightValue:y);
+!!FU(GetMaxMonsterId):P?(lastMon:y);
+
+!!re i/(MON_FIRST)/(lastMon);
+  !!MA:Fi/?(fightValue:y);
+
+  !!EAi&(fightValue)>=(bloodFightValue):L147000 P14700;
+!!en;
+
+; Skeleton Knights
+!!EA(MON_SKELETON_KNIGHT):M500;
+
+; Dragonlings (same as their grown forms)
+!!EA(MON_GREEN_DRAGONLING):L122500 P12250;
+!!EA(MON_RED_DRAGONLING):L122500 P12250;
+!!EA(MON_FAERIE_DRAGONLING):L147000 P14700;
+!!EA(MON_RUST_DRAGONLING):L147000 P14700;
+!!EA(MON_AZURE_DRAGONLING):L147000 P14700;
+
+; Supreme Dragons
+!!EA(MON_FIRE_DRAGON):M500 L164500 P16450;
+!!EA(MON_ICE_DRAGON):M500 L164500 P16450;
+
 *************************************************************
 **** Fix TUM werewolf faction with Mixed Neutrals option ****
 *************************************************************
 ; The following lines must be executed later than Mixed Neutrals
-!?FU(OnAfterErmInited);
+!?FU(OnAfterErmInited)&i^tum_reborn_on^<>(TRUE);
 !!MA:O(MON_DIRE_WEREWOLF)/(TOWN_NECROPOLIS);
 
 ***************************************************
@@ -340,9 +777,340 @@ ZVSE2
 !!MA:O(MON_GORYNYCH)/?(faction);
 !!MA:O(MON_TIAMAT)/(faction);
 
+; Hell Steed -> Nightmare
+!!MA:O(MON_HELL_STEED)/?(faction);
+!!MA:O(MON_NIGHTMARE)/(faction);
+
 ; Dracolich
 !!MA:O(MON_DRACOLICH)/?(faction);
 !!MA:O(MON_NECROSS_DRAGON)/(faction);
+
+******************************************************************************************
+**** Increased Blind, Lightning, Stone Gaze, Age, Acid Attack chance for 4th Upgrades ****
+******************************************************************************************
+
+!?FU(tum_OnWoGAttackAbilityProc);
+!#VA(hook:x);
+
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EAX)/4/?(ptr:y);
+!!UN:C(ptr)/52/4/?(mon:y);
+
+!!if&(mon)=(MON_GUARDIAN_OF_ZEUS);
+  !!SN:X?y99/0;
+  !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_RET)/4/7695548;
+!!el&(mon)=(MON_NIGHTMARE_HYDRA);
+  !!SN:X?y99/0;
+  !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_RET)/4/7695631;
+!!el&(mon)=(MON_SULFIDE_DRAGON);
+  !!SN:X?y99/0;
+  !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_RET)/4/7695631;
+!!en;
+
+!?FU(tum_OnDiamondDragonBlindProc);
+!#VA(hook:x);
+
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EAX)/4/?(mon:y);
+!!UN&(mon)=(MON_PURE_DIAMOND_DRAGON):C(hook)/(STRUCT_HOOK_CONTEXT_EAX)/4/(MON_DIAMOND_DRAGON);
+
+!?FU(tum_OnHellBaronStoneGazeProc);
+!#VA(hook:x);
+
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EAX)/4/?(mon:y);
+!!UN&(mon)=(MON_ANTICHRIST):C(hook)/(STRUCT_HOOK_CONTEXT_EAX)/4/(MON_HELL_BARON);
+
+!?FU(tum_OnBloodDragonAgeProc);
+!#VA(hook:x);
+
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_ECX)/4/?(mon:y);
+
+!!if&(mon)=(MON_RED_BONES_DRAGON);
+  !!SN:X?y99/0;
+  !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_RET)/4/7724595;
+!!en;
+
+!?FU(OnStartOrLoad);
+!!SN:L^erm_hooker.era^/?(hooker:y);
+!!FU&(hooker)=0:E;
+
+; Unset hook from GEM
+!!SN:A(hooker)/^UnsetHook^/?(unsetHook:y);
+
+!!SN:E(unsetHook)/1/6240062/(gem_OnOpenCreatureCombatDlg); // for morale stat changing
+
+//stat changing
+!!SN:E(unsetHook)/1/4500782/(gem_OnAfterArmySetNegativeMorale); // for morale stat changing
+
+!!SN:E(unsetHook)/1/4501536/(gem_OnAfterArmySetNegativeLuck); for negative luck stat changing in combat only
+!!SN:E(unsetHook)/1/4447391/(gem_OnAfterArmySetPositiveLuck); for positive luck stat changing in combat only
+
+!!SN:E(unsetHook)/1/4501694/(gem_OnCreatureGetLuckLvl); for luck stat changing not in combat only
+
+// text changing
+!!SN:E(unsetHook)/1/4505906/(gem_OnCreatureLuckDescriptionHalfingPart);
+!!SN:E(unsetHook)/1/4506010/(gem_OnCreatureLuckDescriptionSpellPartStart);
+!!SN:E(unsetHook)/1/4506086/(gem_OnCreatureLuckDescriptionSpellPartEnd);
+
+!!SN:E(unsetHook)/1/4505740/(gem_OnCreatureArchiDevilDescriptionCreate);
+!!SN:E(unsetHook)/1/4504226/(gem_OnCreatureArchAngelDescriptionCreate);
+!!SN:E(unsetHook)/1/4504330/(gem_OnCreatureGhostDragonDescriptionCreate); 44BB0A
+!!SN:E(unsetHook)/1/4504347/(gem_OnCreatureGhostDragonDescriptionCreate);
+  
+!!SN:E(unsetHook)/1/4608191/(gem_OnAfterArtSpellCasting);  
+
+!?FU(OnStartOrLoad);
+!!SN:L^erm_hooker.era^/?(hooker:y);
+!!FU&(hooker)=0:E;
+
+; Set new Hooks for TUM
+!!SN:A(hooker)/^SetHook^/?(setHook:y);
+
+!!SN:E(setHook)/1/6240062/(tum_OnOpenCreatureCombatDlg); // for morale stat changing 5F373E
+
+//stat changing
+!!SN:E(setHook)/1/4500782/(tum_OnAfterArmySetNegativeMorale); // for morale stat changing 44AD2E
+
+!!SN:E(setHook)/1/4501536/(tum_OnAfterArmySetNegativeLuck); for negative luck stat changing in combat only
+!!SN:E(setHook)/1/4447391/(tum_OnAfterArmySetPositiveLuck); for positive luck stat changing in combat only
+
+!!SN:E(setHook)/1/4501694/(tum_OnCreatureGetLuckLvl); for luck stat changing not in combat only
+
+// text changing
+!!SN:E(setHook)/1/4505906/(tum_OnCreatureLuckDescriptionHalfingPart); 44C132
+!!SN:E(setHook)/1/4506010/(tum_OnCreatureLuckDescriptionSpellPartStart); 44C19A
+!!SN:E(setHook)/1/4506086/(tum_OnCreatureLuckDescriptionSpellPartEnd);
+
+!!SN:E(setHook)/1/4505740/(tum_OnCreatureArchiDevilDescriptionCreate); 44C08C
+!!SN:E(setHook)/1/4504226/(tum_OnCreatureArchAngelDescriptionCreate);
+!!SN:E(setHook)/1/4504330/(tum_OnCreatureGhostDragonDescriptionCreate); 44BB0A
+!!SN:E(setHook)/1/4504347/(tum_OnCreatureGhostDragonDescriptionCreate);
+
+
+!?FU(tum_OnCreatureArchAngelDescriptionCreate);
+  !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EAX)/4/?(namePtr:y);
+  !!if&i^tum_MonPlusMoraleChanger^;
+    !!SN:H^monname^/i^tum_MonPlusMoraleChanger^/1/?z3;
+    !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EAX)/4/9598952;                         [set new ptr at mon name]
+    !!VRi^tum_MonPlusMoraleChanger^:S0;
+    !!VR(power:y):S2;  
+  !!el;
+    !!VR(power:y):S1;
+  !!en;
+  !!FU(tum_BufferEndingEditor):P6969508/(power);
+
+
+
+!?FU(tum_OnCreatureArchiDevilDescriptionCreate);
+  !!if&i^tum_MonMinusLuckChanger^;
+    !!SN:H^monname^/i^tum_MonMinusLuckChanger^/1/?z2;
+    !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EAX)/4/9598440;                         [set new ptr at mon name]
+    !!VR(power:y):S2;
+    !!VRi^tum_MonMinusLuckChanger^:S0;
+  !!el;
+    !!VR(power:y):S1;
+  !!en;
+
+  !!FU(tum_BufferEndingEditor):P6969512/(power);
+
+!?FU(tum_BufferEndingEditor);
+!#VA(bufferPtr:x) (newEnding:x);
+
+  !!UN:C(bufferPtr:x)/4/?(facingPtr:y);
+  !!SN:B(facingPtr:y)/d/?z1;
+  !!SN:Kz1/?(length:y);
+  !!VR(length):-1;
+  !!SN:Kz1/(length:y)/^%(newEnding)^;
+  !!SN:B(facingPtr:y)/d/z1;
+
+!?FU(tum_OnCreatureLuckDescriptionHalfingPart)&i^tum_MonPlusLuckChanger^;
+!!UN:Cx1/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp)/16/4/?(monLuck:y) C(ebp)/20/4/?(heroLuck:y)
+C(ebp)/16/4/d-i^tum_MonPlusLuckPower^ C(ebp)/20/4/di^tum_MonPlusLuckPower^;
+*!VRi^weNeedReturn^:S(TRUE);
+*!IF:L^%(monLuck) %(heroLuck:y)^;
+!?FU(tum_OnCreatureLuckDescriptionSpellPartStart)&i^tum_MonPlusLuckChanger^;/i^weNeedReturn^;
+!!UN:Cx1/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y); C(ebp)/16/4/?(bonusLuck:y) C(ebp)/20/4/?(luck:y);
+*!if&i^weNeedReturn^;
+*!IF:L^%^;
+  !!SN:H^monname^/i^tum_MonPlusLuckChanger^/1/?z3;
+  !!FU(tum_BufferEndingEditor):P6969508/i^tum_MonPlusLuckPower^;
+
+  !!UN:C6969508/4/?(txtPtr:y);
+  !!SN:E6388190/(CALLCONV_CDECL)/?z2/(txtPtr:y)/z3;/0/0;
+  !!FU(tum_BufferEndingEditor):P6969508/1;
+
+  !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EDX)/4/9598440 C(ebp)/16/4/di^tum_MonPlusLuckPower^;
+  C(ebp)/20/4/d-i^tum_MonPlusLuckPower^ C(ebp)/20/4/d-i^tum_MonPlusLuckPower^ ;
+  !!VRi^tum_MonPlusLuckPower^:S(NULL);
+*!en;
+
+!?FU(tum_OnCreatureLuckDescriptionSpellPartEnd)&i^tum_MonPlusLuckChanger^;/i^weNeedReturn^;
+!!SN:X?y99/0;
+!!UN:Cx1/(STRUCT_HOOK_CONTEXT_RET)/4/4505994; return dunction described above
+!!VRi^tum_MonPlusLuckChanger^:S(NULL);
+
+
+!?FU(OnGameEnter);      [block wog luck/morale combat bonuses]
+!!re i/0/4;
+  !!UN:C7725542/i/1/144;
+!!en;
+
+!?FU(tum_OnAfterArmySetNegativeMorale);
+  !!VR(moraleChanger:y):S0;
+
+  !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EBX)/4/?(morale:y);
+  !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EDX)/4/?(oppArmy:y);
+
+  !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp)/-4/4/?(ownArmy:y);
+
+  !!VR(mon[4]:y):C(MON_SERAPH)/(MON_SUPREME_ARCHANGEL)/(NO_MON)/(NO_MON);
+  !!VR(hasPlusMoraleMon[2]:y):C(FALSE)/(FALSE);
+  !!VR(monPlusMoraleChanger:y):S(NO_MON);
+
+  !!re i/0/1;
+    !!FU(tum_ArmyCompareTypeIteraror):P(ownArmy)/(mon[i])/?(hasPlusMoraleMon[i]);
+    !!VR(monPlusMoraleChanger:y)&(monPlusMoraleChanger)=(NO_MON)/(hasPlusMoraleMon[i]):S(mon[i]);
+  !!en;
+
+  !!if|(hasPlusMoraleMon[0])/(hasPlusMoraleMon[1]);
+    !!VRi^tum_MonPlusMoraleChanger^:S(monPlusMoraleChanger);
+
+    !!VR(moraleChanger:y):+2;
+    !!VR(moraleChanger)&(hasPlusMoraleMon[1]):-1; [Supreme Archangel has 1 additional morale by default so we skip for them here]
+  !!el;
+    !!VRi^tum_MonPlusMoraleChanger^:S(NULL);
+  !!en;
+
+  !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp)/20/4/?(oppArmy:y);
+
+  !!if&(oppArmy:y);
+    !!VR(currentDecrease:y):S0;
+    !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EAX)/4/?(bone:y); using native iterator value as bone/ghost dragon already there;
+    !!VR(decrease:y):S0;
+    !!if&(bone)<>7;
+      !!VR(currentDecrease:y):S1;
+    !!en;
+    
+    !!VR(mon[4]:y):C(MON_RED_BONES_DRAGON)/(MON_BLOOD_DRAGON)/(MON_NECROSS_DRAGON)/(MON_DRACOLICH);
+
+    !!re i/0/(mon[SIZE])/1/-1;
+      !!FU(tum_ArmyCompareTypeIteraror):P(oppArmy)/(mon[i])/?(result:y);
+
+      !!br&(result);
+    !!en;
+
+    !!if&i<(mon[SIZE]);
+      !!VR(decrease):+2;
+      !!VR(decrease)&(mon[i])<>(MON_RED_BONES_DRAGON)/(mon[i])<>(MON_BLOOD_DRAGON):-1;
+      !!VR(minusMoralMonId:y):S(mon[i]);
+    !!el;
+      !!VR(minusMoralMonId):S(NULL);
+    !!en;
+
+    !!VRi^tum_MonMinusMoralePower^:S(decrease) F(currentDecrease)/(decrease);
+    !!VRi^tum_MonMinusMoraleChanger^:S(minusMoralMonId);
+    !!if&(decrease);
+      !!VR(moraleChanger):-(decrease) +(currentDecrease);
+    !!en;
+
+  !!en;
+  !!if&(moraleChanger:y);
+    !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EBX)/4/d(moraleChanger:y);
+  !!en;
+!?FU(tum_OnCreatureGhostDragonDescriptionCreate)&i^tum_MonMinusMoralePower^;
+!!UN:Cx1/(STRUCT_HOOK_CONTEXT_EDX)/4/?(dragonId:y);
+!!if&(dragonId:y)=(NO_MON);
+    !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EDX)/4/i^tum_MonMinusMoraleChanger^;
+!!el;
+  !!if&i^tum_MonMinusMoraleChanger^;
+    !!VR(dragonId):Si^tum_MonMinusMoraleChanger^;
+  !!en;
+
+  !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EDX)/4/(dragonId:y);
+  !!VRi^tum_MonMinusMoraleChanger^:S(NULL);
+  !!VR(power:y):Si^tum_MonMinusMoralePower^;
+  !!VRi^tum_MonMinusMoralePower^:S(NULL);
+  !!FU(tum_BufferEndingEditor):P6969512/(power);
+!!en;
+
+
+!?FU(tum_OnAfterArmySetNegativeLuck);
+  !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp)/20/4/?(oppArmy:y);
+
+  !!VR(mon[2]:y):C(MON_ANTICHRIST)/(MON_HELL_BARON);
+
+  !!re i/0/(mon[SIZE])/1/-1;
+    !!FU(tum_ArmyCompareTypeIteraror):P(oppArmy)/(mon[i])/?(result:y);
+
+    !!br&(result);
+  !!en;
+
+  !!if&i<(mon[SIZE]);
+    !!VR(luckChanger:y):S-2;
+    !!UN:Cx1/(STRUCT_HOOK_CONTEXT_ECX)/4/?(arch:y); using native iterator value as devil/archdevil already there;
+
+    !!if&(arch:y)<>7;
+      !!VR(luckChanger):+1;
+    !!en;
+
+    !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EAX)/4/d(luckChanger:y); change luck by hostile creatures 
+    !!VRi^tum_MonMinusLuckChanger^:S(mon[i]);
+  !!en;
+
+!?FU(tum_OnAfterArmySetPositiveLuck);
+  !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y) C(ebp)/12/4/?(ownArmy:y);
+
+  !!VR(mon[2]:y):C(MON_SPECTRAL_BEHEMOTH)/(MON_GHOST_BEHEMOTH);
+
+  !!re i/0/(mon[SIZE])/1/-1;
+    !!FU(tum_ArmyCompareTypeIteraror):P(ownArmy)/(mon[i])/?(result:y);
+
+    !!br&(result);
+  !!en;
+
+  !!if&i<(mon[SIZE]);
+    !!VR(luckChanger:y):S2;
+    !!UN:Cx1/(STRUCT_HOOK_CONTEXT_ESI)/4/d(luckChanger:y); change luck by ally creatures
+    !!VRi^tum_MonPlusLuckChanger^:S(mon[i]);
+    !!VRi^tum_MonPlusLuckPower^:S2;
+  !!el;
+    !!VRi^tum_MonPlusLuckChanger^:S(NULL);
+    !!VRi^tum_MonPlusLuckPower^:S(NULL);
+  !!en;
+
+!?FU(tum_OnCreatureGetLuckLvl);
+  !!UN:Cx1/(STRUCT_HOOK_CONTEXT_ESI)/4/?(ownArmy:y);
+  
+  !!VR(mon[2]:y):C(MON_SPECTRAL_BEHEMOTH)/(MON_GHOST_BEHEMOTH);
+
+  !!re i/0/(mon[SIZE])/1/-1;
+    !!FU(tum_ArmyCompareTypeIteraror):P(ownArmy)/(mon[i])/?(result:y);
+
+    !!br&(result);
+  !!en;
+
+  !!if&i<(mon[SIZE]);
+    !!VR(luckChanger:y):S2;
+    !!UN:Cx1/(STRUCT_HOOK_CONTEXT_EAX)/4/d(luckChanger:y); change luck by ally creatures
+    !!VRi^tum_MonPlusLuckChanger^:S(mon[i]);
+    !!VRi^tum_MonPlusLuckPower^:S2;
+  !!el;
+    !!VRi^tum_MonPlusLuckChanger^:S(NULL);
+    !!VRi^tum_MonPlusLuckPower^:S(NULL);
+  !!en;
+
+!?FU(tum_ArmyCompareTypeIteraror);
+!#VA(armyPtr:x) (monId:x) (result:x);
+
+!!VR(result):S(NULL);
+!!if&(armyPtr);
+  !!re i/0/(ARMY_SLOT_LAST);
+    !!VR(offset:y):Si *(SIZEOF_INT);
+    !!UN:C(armyPtr)/(offset)/4/?t;
+    !!if&t=(monId);
+      !!VR(result):S(TRUE);
+      !!br;
+    !!en;
+  !!en;
+!!en;
 
 ***********************************************************************
 **** Match the R10/R11 exp with Blood Dragon for level 8+ monsters ****
@@ -358,20 +1126,215 @@ ZVSE2
   !!EAi&(fightValue)>=(bloodFightValue):L(r10Exp) P(topExp);
 !!en;
 
+**********************************************************************************
+**** Disable Dragon Eyes and dragonling dwellings if Stack Exp is not enabled ****
+**********************************************************************************
+!?FU(tum_DisableDragonEyesAndDragonlings);
+!!UN:P(WOG_OPT_STACK_EXPERIENCE)/?(stackExp:y);
+!!FU&(stackExp):E;
+
+!!re i/(ART_EYE_OF_THE_GREEN_DRAGON)/(ART_PRISMATIC_EYE_OF_THE_GOD_DRAGON);
+  !!UN:Ai/(TRUE) Ai/3/(ART_LEVEL_SPECIAL);
+!!en;
+
+!!re i/169/173;
+  !!VRi^CB_%i_Replace_Objects^:S(FALSE);
+!!en;
+
+!#FU(tum_DisableDragonEyesAndDragonlings)&i^tum_emerald_on^:P;
+
+***************************************
+**** Campaign crossover definition ****
+***************************************
+; Monsters
+; By default, new creatures (ID > 144, Troll) won't be carried over campaign zones. They are not possible to be configured from map editor.
+; This script downgrades all the creatures above 144 to their lower forms in order to carry them over zones. If a monster doens't have an upgrade below 144, it would be discarded.
+; Another way to do is to detect the current creature allowed to be carried over and implement the same for their upgrades. However, this might have greater balance impact.
+
+; Artifacts
+; By default, new artifacts (ID > 140, Cornucopia) would be carried over campaign zones. They are not possible to be configured from map editor.
+; This script removes all the artifacts above 140 from backpack to prevent they carrying over.
+!?FU(OnWinGame);
+!!SN:F^IsCampaign^;
+!!FU&v1<>(TRUE):E;
+
+!!re i/(HERO_FIRST)/(HERO_LAST_WOG);
+  ; Monsters
+  ; Look for downgraded monsters for monsters after Trolls
+  ; Remove them if can't find
+  !!re (slot:y)/(ARMY_SLOT_FIRST)/(ARMY_SLOT_LAST);
+    !!HEi:C0/(slot)/?(type:y)/?(num:y);
+
+    ; Check if it is a monster out of WoG Range
+    !!if&(type)>(MON_TROLL)/(num)>0;
+      !!FU(tum_GetDegradedMonsterBeforeTroll):P(type)/?(degradedMon:y);
+
+      !!if&(degradedMon)<=(MON_TROLL);
+        !!HEi:C0/(slot)/(degradedMon)/d;
+      !!el;
+        !!HEi:C0/(slot)/(NO_MON)/0;
+      !!en;
+    !!en;
+  !!en;
+
+  ; Artifacts
+  ; Remove all the artifacts after Cornucopia
+  !!re (slot)/(ART_SLOT_BACKPACK_FIRST)/(ART_SLOT_BACKPACK_LAST);
+    !!HEi:A1/?(art:y)/(slot);
+
+    !!FU(tum_RemoveArtFromSlot)&(art)>(ART_CORNUCOPIA):Pi/(slot);
+  !!en;
+!!en;
+
+!?FU(tum_GetDegradedMonsterBeforeTroll);
+!#VA(monId:x) (result:x);
+
+!!VR(result):S(monId);
+!!FU&(monId)<=(NO_MON):E;
+
+; Check for the degraded creature and push to the array if degrade is possible. Check for 5 times at most
+!!re i/0/4;
+  ; Find possible downgrades
+  !!FU(GetDegradedMonCandidates):P(monId:x)/?(degradesList:y);
+  !!SN:M(degradesList)/?(size:y);
+
+  ; If at least one downgrade is found, compare the prices of the first result and see if it is really a downgrade
+  !!if&(size)>0;
+    !!SN:M(degradesList)/0/?(degradedMon:y);
+    !!VR(result):S(degradedMon);
+
+    !!br&(degradedMon)<=(MON_TROLL);
+  !!en;
+!!en;
+
+// Note: All the Temp Fix/Bad Fix here is for fixing Majaczek/Yuji Sakai's Amethyst/Emerald plugins.
+// They should not be needed if Yuji could implement the fixes himself.
+**************************************************************
+**** Bad Fix: Fix Typhon showing commander info correctly ****
+**************************************************************
+; Typhon
+; Fix not showing commander info correctly
+; Check here for details: http://wforum.heroes35.net/showthread.php?tid=4945&pid=137511#pid137511
+; May be removed if MoP managed to fix
+!?FU(OnGameEnter);
+!!UN:C7779038/4/197;
+
+***********************************************************
+**** Bad Fix: Fix number of attacks of walls attackers ****
+***********************************************************
+; Fix the number of attack for walls
+; Depending on fight value, a monster other than Catapult can attack 1-2 times
+!?FU(tum_OnAttackWalls);
+!#VA(hook:x);
+
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EDI)/4/?(mon:y);
+
+; If the monster is not Catapult, get the times of attack depending on fight values
+!!if&(mon)<>(MON_CATAPULT);
+  !!MA:F(MON_CYCLOPS_KING)/?(cyclopsKingfv:y);
+  !!MA:F(mon)/?(fv:y);
+
+  !!SN:X?y99/0;
+
+  ; If the monster is weaker than Cyclops King, attack once
+  !!if&(fv)<(cyclopsKingfv);
+    !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_RET)/4/4479699;
+  ; If the monster is stronger, twice
+  !!el;
+    !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_RET)/4/4479692;
+  !!en;
+!!en;
+
+************************************************************************************************
+**** Bad fix: Fix Strike And Return cannot be switched with igrik's action switching plugin ****
+************************************************************************************************
+; Note that this is only a fix for the plugin compatibility. It still relies on Amethyst for the real Strike and Return ability
+; Failed implementation: This also does not work with Switching actions
+*?FU(tum_CreateERMHook);
+*!SN:Ex1/1/7725162/(arch_OnStackStrikeAndReturn);
+
+*?FU(arch_OnStackStrikeAndReturn);
+*#VA(hook:x);
+
+*!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EAX)/4/?(monType:y);
+*!FU(tum_CheckIfMonCanStrikeAndReturn):P(monType)/?(result:y);
+*!FU&(result)=0:E;
+
+*!SN:X?t/0;
+
+*!if&(result)=1;
+  *!UN:C(hook)/(STRUCT_HOOK_CONTEXT_RET)/4/7725243;
+*!el&(result)=2;
+  *!UN:C(hook)/(STRUCT_HOOK_CONTEXT_RET)/4/7725195;
+*!en;
+
+; Real implementation
+// Initialization
+!?FU(OnAfterErmInited);
+; Check if Strike and Return value has been modified by the other sources. Skip this feature if positive
+!!UN:C7725147/(UNC_INT8)/?(patch:y);
+; The initial value of i^tum_strikeAndReturnPatch^ is 0. If the address does not return a proper value, i^tum_strikeAndReturnPatch^ will still be 0
+!!VRi^tum_strikeAndReturnPatch^&(patch)=(MON_HARPY):S(patch);
+!!UN:P46/?i^wog_46_enabled^;
+
+// Give Strike and Return with the address of Harpy's ability
+!?FU(OnBattleStackObtainsTurn)&i^tum_strikeAndReturnPatch^;
+!!BMi^battle_current_stack^:T?(mon:y);
+!!FU(tum_CheckIfMonCanStrikeAndReturn):P(mon)/?(result:y);
+
+!!if&(result);
+  !!UN:C7725147/(UNC_INT8)/(mon);
+!!el;
+  !!UN:C7725147/(UNC_INT8)/i^tum_strikeAndReturnPatch^;
+!!en;
+
+// Restore Strike and Return modification
+!?FU(OnAfterBattleUniversal)&i^tum_strikeAndReturnPatch^;
+!!UN:C7725147/(UNC_INT8)/i^tum_strikeAndReturnPatch^;
+
+!?FU(OnGameLeave)&i^tum_strikeAndReturnPatch^;
+!!UN:C7725147/(UNC_INT8)/i^tum_strikeAndReturnPatch^;
+
+!?FU(OnAfterLoadGame)&i^tum_strikeAndReturnPatch^;
+!!UN:C7725147/(UNC_INT8)/i^tum_strikeAndReturnPatch^;
+
+!?FU(tum_CheckIfMonCanStrikeAndReturn);
+!#VA(mon:x) (result:x);
+
+!!VR(result):S(FALSE);
+!!VR(result)&(mon)=(MON_DRAGON_FLY)/i^wog_46_enabled^:S(TRUE);
+!!VR(result)&(mon)=(MON_DARKNESS_DRAGON)/i^tum_enchanted_on^=(FALSE):S(TRUE);
+!!VR(result)&(mon)=(MON_CHASM_DRAGON):S(TRUE);
+!!VR(result)&(mon)=(MON_HARPY_SANGUINARY):S(TRUE);
+
+!!VR(result)&(mon)=(MON_CHAOTIC_DRAGON_FLY):S(TRUE);
+
+!!if&i^tum_enchanted_on^;
+  !!VR(result)&(mon)=(MON_HOLY_CHAMPION):S(TRUE);
+  !!VR(result)&(mon)=(MON_NOMAD):S(TRUE);
+!!en;
+
+***************************************************************************************
+**** Disable the orginal resources generation of Crystal Dragon and Diamond Dragon ****
+***************************************************************************************
+; Ideally this code must be implemetned by Yuji in Amethyst
+; Must be use with ResGen_Type=4/ResGen_Type=5/ResGen_Amount=1 in 133/151.cfg (Crystal provides 1 crystal/day instead)
+; Everything must be in the same framework in order not to produce duplicated resources
+!?FU(OnGameEnter);
+; Disable Crystal Dragons' crystal generation
+!!UN:C4950323/4/9999;
+!!UN:C4950736/4/9999;
+; Disable Diamond Dragons' gem generation
+!!UN:C7691000/4/9999;
+
 ***************************************************
 **** Bad fix: Fix Artifact levels and bannings ****
 ***************************************************
 // Fix UN:A not bannings arifacts (emerald problem) by setting banned artifacts to "special" level to ban them
 // This script must be executed later than 53 map options with ! #
 !?FU(tum_FixArtifactBanning);
-; Fix WoG artifact levels
-; Note that this function doesn't work 100% so we have another one executed OnEveryDay
-*!FU(tum_FixWoGArtifactLevels):P;
-
 ; Fix Highlight slot and lock not being disabled
-!!UN:A(ART_HIGHLIGHTED_SLOT)/(TRUE);
-!!UN:A(ART_ARTIFACT_LOCK)/(TRUE);
-
+!!UN:A(ART_HIGHLIGHTED_SLOT)/(TRUE) A(ART_ARTIFACT_LOCK)/(TRUE);
 !!FU(GetMaxArtifactId):P?(lastArt:y);
 
 !!re i/(ART_FIRST)/(lastArt);
@@ -389,7 +1352,7 @@ ZVSE2
     !!if&(level)=(ART_LEVEL_SPECIAL);
       !!UN:Ai/(TRUE);
     !!el;
-     !!UN:Ai/(FALSE);
+      !!UN:Ai/(FALSE);
     !!en;
   !!en;
 !!en;
@@ -398,22 +1361,25 @@ ZVSE2
 
 // Fix some levels and banning of WoG artifacts messing up
 // This script must be executed later than OnAfterErmInstructions (OnAfterErmInited)
-!?FU(OnEveryDay)&i^timerDay^;
+!?FU(OnEveryDay)&i^timerDay^=1/i^timerOnce^;
 !!FU(tum_FixWoGArtifactLevels):P;
 
 !?FU(tum_FixWoGArtifactLevels);
 ; Fix WoG artifact banning and levels
-; Note: Magic Want, Gold Tower Arrow and Monsters' Power can be disabled from Map Editor
-*!UN:P176/?(artBanned:y);
-*!UN&(artBanned)<>(TRUE):A(ART_MAGIC_WAND)/(FALSE);
-*!UN:P226/?(artBanned);
-*!UN&(artBanned)<>(TRUE):A(ART_GOLD_TOWER_ARROW)/(FALSE);
-*!UN:P227/?(artBanned);
-*!UN&(artBanned)<>(TRUE):A(ART_MONSTERS_POWER)/(FALSE);
+; Note: Magic Wand, Gold Tower Arrow and Monsters' Power can be disabled from Map Editor. The others are not available as WoG team did not extend map editor
+; This script disable the ability of banning these 3 arts from map editor. It's for the compatibility with altar or some other scripts
+!!UN:P176/?(artBanned:y);
+!!UN&(artBanned)<>(TRUE):A(ART_MAGIC_WAND)/(FALSE);
+!!UN:P226/?(artBanned);
+!!UN&(artBanned)<>(TRUE):A(ART_GOLD_TOWER_ARROW)/(FALSE);
+!!UN:P227/?(artBanned);
+!!UN&(artBanned)<>(TRUE):A(ART_MONSTERS_POWER)/(FALSE);
 
+; Manage the other WoG artifacts
+!!UN:P(WOG_OPT_DISABLE_COMMANDERS)/?(commanderOff:y);
 !!UN:P238/?(commArtBanned:y);
 
-!!if&(commArtBanned)<>(TRUE);
+!!if&(commanderOff)<>(TRUE)/(commArtBanned)<>(TRUE);
   !!re i/(ART_AXE_OF_SMASHING)/(ART_HARDENED_SHIELD);
     !!UN:Ai/(FALSE);
   !!en;
@@ -453,6 +1419,7 @@ ZVSE2
 ***************************************************
 **** Bad fix: Disable spells to prevent issues ****
 ***************************************************
+; Disable spells of AI commanders so that it won't be too powerful or crash
 ; Tell me Yuji, how many more years do you need to fix? :)
 !?FU(OnSetupBattlefield_Quit);
 !!re i/(BATTLE_DEFENDER_STACK_FIRST)/(BATTLE_DEFENDER_STACK_LAST);
@@ -479,28 +1446,30 @@ ZVSE2
 **** Bad fix: Fix AI crashes with Devilish Sacrifice ****
 *********************************************************
 ; Prevent Ai from casting Devilish Sacrifice until Majaczek sorted out his crap
-!?FU(ES_759_GetAiVictim);
-!!VRx3:S(NO_STACK);
+*?FU(ES_759_GetAiVictim);
+*!VRx3:S(NO_STACK);
 
-**********************************************************************************
-**** Bad fix: Fix Winged Magog getting super high Fight Value for some reason ****
-**********************************************************************************
+***********************************************************************************
+**** Bad fix: Fix Winged Magogs getting super high Fight Value for some reason ****
+***********************************************************************************
 ; Restore Winged Magog's fight value every day
 ; The reason is yet to be found...but we all know it's Majaczek's crap :)
-!?FU(OnEveryDay)&i^timerOnce^;
-!!if&i^timerDay^=1;
-  !!MA:F(MON_WINGED_MAGOG)/?i^tum_wingedMagogFightValue^;
-!!el&i^timerDay^>1;
-  !!MA:F(MON_WINGED_MAGOG)/i^tum_wingedMagogFightValue^;
-!!en;
+!?FU(OnAfterErmInited);
+!!MA:F(MON_WINGED_MAGOG)/?i^tum_wingedMagogFightValue^;
+
+!?FU(OnEveryDay)&i^timerOnce^/i^timerDay^>1;
+!!VRi^tum_wingedMagogFightValue^&i^tum_wingedMagogFightValue^=0:S343;
+!!MA:F(MON_WINGED_MAGOG)/i^tum_wingedMagogFightValue^;
 
 *****************************************************
 **** Bad fix: Fix calling invalid creature sound ****
 *****************************************************
 ; Fix sometimes Amethyst calls invalid creature sound (#122/126/128) by redirecting bad sound to slient sound
 ; Fix sometimes calling invalid war machine sound
-; Yuji, when to fix?
+; The script is disabled as it does not work at all. Yuji, when to fix?
 !?FU(OnAfterErmInstructions);
+!!FU:E;
+
 !!VR(notUsedMons[3]:y):C(MON_NOT_USED_1)/(MON_NOT_USED_3)/(MON_NOT_USED_4);
 !!UN:C4697553/4/?(monInfoTable:y);
 
@@ -511,6 +1480,8 @@ ZVSE2
 !!en;
 
 !?FU(OnGameEnter);
+!!FU:E;
+
 !!VR(silenceSound:z):S^S197SHOT.82m^;
 
 ; Redirect bad sound
@@ -527,28 +1498,75 @@ ZVSE2
 ; Managing creature stats for gameplay or mod compatibility reasons
 !?FU(OnEveryDay)&i^timerDay^=1/i^timerOnce^;
 !!UN:P(WOG_OPT_STACK_EXPERIENCE)/?(stackExp:y);
+!!FU&(stackExp)<>(TRUE):E;
 
-!!if&(stackExp);
-  ; Rebalance Centaur damage bonuses
-  ; For some reason, Centaur has stronger growth on stack exp bonus damage than Centaur Captain, this script nerfs it
-  !!EA(MON_CENTAUR_CAPTAIN):B2/1/77/43/?(r0:y)/?(r1:y)/?(r2:y)/?(r3:y)/?(r4:y)/?(r5:y)/?(r6:y)/?(r7:y)/?(r8:y)/?(r9:y)/?(r10:y);
-  !!EA(MON_CENTAUR):B2/1/77/43/(r0:y)/(r1:y)/(r2:y)/(r3:y)/(r4:y)/(r5:y)/(r6:y)/(r7:y)/(r8:y)/(r9:y)/(r10:y);
-  !!EA(MON_CENTAUR_CAPTAIN):B3/1/109/43/?(r0:y)/?(r1:y)/?(r2:y)/?(r3:y)/?(r4:y)/?(r5:y)/?(r6:y)/?(r7:y)/?(r8:y)/?(r9:y)/?(r10:y);
-  !!EA(MON_CENTAUR):B3/1/109/43/(r0:y)/(r1:y)/(r2:y)/(r3:y)/(r4:y)/(r5:y)/(r6:y)/(r7:y)/(r8:y)/(r9:y)/(r10:y);
-!!en;
+; Rebalance Centaur damage bonuses
+; For some reason, Centaur has stronger growth on stack exp bonus damage than Centaur Captain, this script nerfs it
+; This script is disabled as I realise it's quite normal non-upgraded monsters having stronger stack exp abilities in WoG
+*!EA(MON_CENTAUR_CAPTAIN):B2/1/77/43/?(r0:y)/?(r1:y)/?(r2:y)/?(r3:y)/?(r4:y)/?(r5:y)/?(r6:y)/?(r7:y)/?(r8:y)/?(r9:y)/?(r10:y);
+*!EA(MON_CENTAUR):B2/1/77/43/(r0:y)/(r1:y)/(r2:y)/(r3:y)/(r4:y)/(r5:y)/(r6:y)/(r7:y)/(r8:y)/(r9:y)/(r10:y);
+*!EA(MON_CENTAUR_CAPTAIN):B3/1/109/43/?(r0:y)/?(r1:y)/?(r2:y)/?(r3:y)/?(r4:y)/?(r5:y)/?(r6:y)/?(r7:y)/?(r8:y)/?(r9:y)/?(r10:y);
+*!EA(MON_CENTAUR):B3/1/109/43/(r0:y)/(r1:y)/(r2:y)/(r3:y)/(r4:y)/(r5:y)/(r6:y)/(r7:y)/(r8:y)/(r9:y)/(r10:y);
+
+; Replace Ice/Life Elementals' Ice Bolt with Forgetfulness
+; This is for avoiding an issue of Yuji's Amethyst 2 - the power of the creature also affects stack exp ability casts, which makes Ice Bolt really OP
+!!EA(MON_ICE_ELEMENTAL):F112/?(slot:y);
+!!EA(MON_ICE_ELEMENTAL):B(slot)/1/74/(SPELL_FORGETFULNESS)/0/2/4/6/8/10/12/14/16/18/20;
+!!EA(MON_LIFE_ELEMENTAL):F112/?(slot:y);
+!!EA(MON_LIFE_ELEMENTAL):B(slot)/1/74/(SPELL_FORGETFULNESS)/0/2/4/6/8/10/12/14/16/18/20;
 
 **********************************************************
 **** Bad Fix: Fix first stack turn on the battlefield ****
 **********************************************************
 ; For some reason the first stack of the battlefield is frequently wrong. This script fixes it.
+; Warning: Checking i^tum_firstStackFixed is always needed as there is a chance the first unit is fear, and process of looking for the first stack is executed more than once!
+; This script is currenlty disabled from the hook FU(tum_OnFindNextStackTurn)
 !?FU(OnSetupBattlefield);
 !!VRi^tum_firstStackFixed^:S(FALSE);
 
-!?FU(OnBeforeBattleStackTurn)&i^tum_firstStackFixed^<>(TRUE);
+; First implementation
+; Can't recall why it was not good. Because of the first 77007 after tactics phase ended is still at tactics phase?
+*?FU(OnBeforeBattleStackTurn)&i^tum_firstStackFixed^<>(TRUE);
+
+; Second implementation
+; It makes wights draining mana twice
+*?FU(OnBattleRound_Quit)&i^tum_firstStackFixed^<>(TRUE);
+*!FU(tum_GetCorrectFirstStack):P?(firstStack:y);
+*!FU(BattleStack_MakeActive):P(firstStack);
+
+; Third implementation
+!?FU(tum_OnFindNextStackTurn)&i^tum_firstStackFixed^<>(TRUE);
+!#VA(hook:x);
+
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y);
+!!UN:C(ebp)/8/4/?(isNotStart:y);
+!!FU&(isNotStart):E;
+
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EDI)/4/?(firstStackStruct:y);
+!!FU&(firstStackStruct)=0:E;
+
+!!UN:C(firstStackStruct)/244/4/?(side:y) C(firstStackStruct)/248/4/?(stackOfSide:y);
+; Get the current first stack
+!!VR(firstStack:y):S(side) *(BATTLE_STACKS_PER_SIDE) +(stackOfSide);
+; Get the first stack in theory
+!!FU(tum_GetCorrectFirstStack):P?(newFirstStack:y);
+; Test
+*!IF:M^%(newFirstStack)^;
+; Exit if it isn't correct for some reason
+!!FU|(newFirstStack)<(BATTLE_STACK_FIRST)/(newFirstStack)>(BATTLE_STACK_LAST):E;
+
+; Set up the new first stack
+!!if&(firstStack)<>(newFirstStack);
+  !!BM(newFirstStack):Z?(newFirstStackStruct:y);
+  !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EDI)/4/(newFirstStackStruct);
+!!en;
+
+; mutual part
+!?FU(tum_GetCorrectFirstStack);
 !#VA(activeStack:x);
 
 ; Initialise tactics levels and tactics status
-!!VR(tacticsLevel[2]:y)C(SKILL_NOT_LEARNED)/(SKILL_NOT_LEARNED);
+!!VR(tacticsLevel[2]:y):C(SKILL_NOT_LEARNED)/(SKILL_NOT_LEARNED);
 !!VR(tacticsEnabled[2]:y):C(FALSE)/(FALSE);
 
 ; Loop through two (or one) side to get the tactics levels and tactics status
@@ -567,7 +1585,7 @@ ZVSE2
 ; If there is a tactics phase, set up the first stack from the side with higher level tactics
 !!if&i<=(BATTLE_RIGHT);
   !!VR(startStack:y):S(BATTLE_STACKS_PER_SIDE) *i;
-  !!VR(endStack:y):Si +20;
+  !!VR(endStack:y):S(startStack) +20;
 
   !!FU(tum_GetMaxSpeedStack):P(startStack)/(endStack)/?(activeStack);
 
@@ -606,6 +1624,8 @@ ZVSE2
   !!en;
 !!en;
 
+; Mark the procedure as done
+; For the first and second implementation only
 !!VRi^tum_firstStackFixed^:S(TRUE);
 
 !?FU(tum_GetMaxSpeedStack);
@@ -630,3 +1650,211 @@ ZVSE2
 
 ; Correct the first stack as the stack with max speed
 !!VR(result):S(maxSpeedStack);
+
+************************************************************************
+**** Bad Fix: Fix casting taking super high priority in AI decision ****
+************************************************************************
+; Monsters with casting ability have high priority in casting, which doesn't make sense at all
+; This script blocks casting with a chance
+; This script currently works for TUM Reborn only (maybe it can be extended later)
+
+; Warning: it turns out the script doesn't work well as Amethyst spell casting happens before FU(OnBeforeBattleStackTurn), but it still has some effects for some reason.
+
+; Remove spells for monster casting Slayer or Frenzy for AI
+
+!?FU(tum_BattleStack_InitParams)&i^tum_reborn_on^;
+!#VA(stack:x) (side:x);
+
+!!if&i^battle_ai_%(side)^;
+  !!BM(stack):E?(spells:y);
+
+  !!if&(spells);
+    !!BM(stack):T?(type:y);
+    !!FU(tum_GetMonLessUsefulSpell):P(type)/?(spell:y);
+
+    !!if|(spell)=(SPELL_SLAYER)/(spell)=(SPELL_FRENZY);
+      !!BM(stack):E0;
+    !!en;
+  !!en;
+!!en;
+
+!?FU(OnBattleStackObtainsTurn)&i^tum_tacticsIsEnded^/i^tum_reborn_on^;
+!!BG:Q?(side:y);
+
+!!if&i^battle_ai_%(side)^;
+  !!BMi^battle_current_stack^:E?(spells:y);
+
+  !!if&(spells);
+    !!BMi^battle_current_stack^:T?(type:y);
+    !!FU(tum_GetMonLessUsefulSpell):P(type)/?(spell:y);
+
+    !!if&(spell);
+      ; 1/5 chance to have spells (even lower chance to cast)
+      !!VR(random:y):R0/0/4;
+
+      !!if&(random)<>0;
+        !!BMi^battle_current_stack^:E0;
+        !!VRi^tum_aiStackSpells^:S(spells);
+      !!en;
+    !!en;
+  !!en;
+!!en;
+
+!?FU(OnBeforeBattleAction)&i^tum_tacticsIsEnded^/i^tum_reborn_on^;
+!!BG:Q?(castingSide:y);
+!!FU&i^battle_ai_%(castingSide)^<>(TRUE):E;
+
+; If the spells were removed, restore the spells
+; Here we assume if spells were removed, there is no chance it is a monster casting event
+!!if&i^tum_aiStackSpells^;
+  !!BMi^battle_current_stack^:Ei^tum_aiStackSpells^;
+  !!VRi^tum_aiStackSpells^:S0;
+
+  !!FU:E;
+!!en;
+
+; If it was a monster casting event, check if the target is ideal
+; The script looks for better spell target depending on whether the spell to cast is Cure
+; For other spells: look for alt target if the spell has been buffed
+; For Cure: Look for other spell if the target is full HP and has no debuff
+!!BG:A?(action:y);
+!!FU&(action)<>(BATTLE_ACTION_MONSTER_CAST):E;
+
+!!BG:E?(targetStack:y);
+!!FU|(targetStack)<(BATTLE_STACK_FIRST)/(targetStack)>(BATTLE_STACK_LAST):E;
+
+!!BMi^battle_current_stack^:T?(type:y);
+!!FU(tum_GetMonLessUsefulSpell):P(type)/?(spell:y);
+
+!!if&(spell);
+  !!VR(mustChangeTarget:y):S(FALSE);
+
+  ; If the spell is a spell gives a buff
+  !!if&(spell)<>(SPELL_CURE);
+    !!BM(targetStack):G(spell)/?(duration:y)/?(level:y);
+    !!VR(mustChangeTarget)&(duration)>0:S(TRUE);
+  ; If the spell is Cure
+  !!el;
+    ; Check if the stack has lost some HP
+    !!BM(targetStack):L?(lostHp:y);
+
+    ; If full HP, check if the stack has got some debuff
+    !!if&(lostHp)=0;
+      !!re i/(SPELL_FIRST_BATTLE)/(SPELL_LAST_BATTLE);
+        !!BM(targetStack):Gi/?(duration)/?(level);
+
+        !!if&(duration)>0;
+          !!SSi:O?(spellType:y);
+
+          !!br&(spellType)=-1;
+        !!en;
+      !!en;
+
+      !!VR(mustChangeTarget)&i>(SPELL_LAST_BATTLE):S(TRUE);
+    !!en;
+  !!en;
+
+  ; If the current target for monster spell is not ideal, look for a new one
+  !!if&(mustChangeTarget);
+    !!BM(targetStack):I?(side:y);
+
+    !!VR(firstStack:y):S(side) *(BATTLE_STACKS_PER_SIDE);
+    !!VR(lastStack:y):S(firstStack) +20;
+
+    !!re i/(firstStack)/(lastStack);
+      !!BMi:T?(type:y) N?(num:y);
+
+      !!if&(type)>(NO_MON)/(num)>0;
+        !!VR(result:y):S(FALSE);
+
+        !!if&(spell)<>(SPELL_CURE);
+          !!BMi:G(spell)/?(duration)/?(level);
+          !!VR(result)&(duration)<=0:S(TRUE);
+        !!el;
+          !!BMi:L?(lostHp:y);
+          !!VR(result)&(lostHp)>0:S(TRUE);
+        !!en;
+
+        !!if&(result);
+          !!FU(tum_Battle_CanStackReceiveSpell):Pi/(spell)/(castingSide)/?(canReceive:y);
+
+          !!if&(canReceive);
+            !!BG:Ei;
+            !!BMi:P?(pos:y);
+            !!BG:D(pos);
+
+            !!br;
+          !!en;
+        !!en;
+      !!en;
+    !!en;
+  !!en;
+!!en;
+
+!?FU(tum_GetMonLessUsefulSpell);
+!#VA(mon:x) (result:x);
+
+!!VR(result):S(FALSE);
+
+; Castle
+!!VR(result)&(mon)=(MON_HIGH_PRIEST):S(SPELL_PRAYER);
+; Rampart
+!!VR(result)&(mon)=(MON_DRYAD):S(SPELL_CURE); ** would be changed later in TUM Reborn
+!!VR(result)&(mon)=(MON_OAK_DRYAD):S(SPELL_CURE); ** would be changed later in TUM Reborn
+; Stronghold
+!!VR(result)&(mon)=(MON_ELDER_OGRE):S(SPELL_FRENZY);
+; Fortress
+!!VR(result)&(mon)=(MON_GNOLL_SHAMAN):S(SPELL_SLAYER);
+; Conflux
+!!VR(result)&(mon)=(MON_FAIRY):S(SPELL_BLESS);
+!!VR(result)&(mon)=(MON_HURRICANE_ELEMENTAL):S(SPELL_AIR_SHIELD);
+!!VR(result)&(mon)=(MON_LIFE_ELEMENTAL):S(SPELL_BLESS);
+!!VR(result)&(mon)=(MON_PLASMA_ELEMENTAL):S(SPELL_FIRE_SHIELD);
+!!VR(result)&(mon)=(MON_MINERAL_ELEMENTAL):S(SPELL_STONE_SKIN);
+; Neutral
+!!VR(result)&(mon)=(MON_SATYR):S(SPELL_MIRTH);
+!!VR(result)&(mon)=(MON_LEPRECHAUN):S(SPELL_FORTUNE);
+!!VR(result)&(mon)=(MON_MERMAID):S(SPELL_FORTUNE);
+
+!!VR(result)&(mon)=(MON_SLITHZERIKAI):S(SPELL_CURE); [Plague Doctor]
+
+****************************************************************************************************
+
+*************************************************
+**** Bad Fix: Fix UN:J6 not working properly ****
+*************************************************
+// For emerald only
+; By default, every artifacts after 170 has only one chance to be generated by UN:J6
+; Ever since then, they will no longer be generated for some reason
+; This script completly recreats the native random artifact function
+!?FU(tum_CreateERMHook);
+!#VA(setHook:x);
+
+!!SN&i^tum_emerald_on^:E(setHook)/1/5018006/(tum_OnGetRandomArtifact);
+
+!?FU(tum_OnGetRandomArtifact);
+!#VA(hook:x);
+
+!!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EBP)/4/?(ebp:y);
+!!UN:C(ebp)/8/4/?(level:y);
+
+!!FU(NewIntArray):P?(availArtsList:y);
+!!FU(GetMaxArtifactId):P?(lastArt:y);
+
+!!re i/(ART_FIRST)/(lastArt);
+  !!UN:Ai/?(isDisabled:y) Ai/3/?(artLevel:y);
+  !!FU(Array_Push)&(isDisabled)<>(TRUE)/(level)=(artLevel):P(availArtsList)/i;
+!!en;
+
+!!SN:M(availArtsList)/?(size:y);
+
+!!if&(size)>0;
+  !!VR(random:y):R0/1/(size) -1;
+  !!SN:M(availArtsList)/(random)/?(randArt:y);
+
+  !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_EAX)/4/(randArt);
+
+  !!SN:X?t/0;
+  !!UN:C(hook)/(STRUCT_HOOK_CONTEXT_RET)/4/5018190;
+!!en;
+

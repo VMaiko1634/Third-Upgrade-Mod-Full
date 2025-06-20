@@ -1,0 +1,96 @@
+{
+    "era": {
+        "towns": {
+            "0": {
+            "BuildingName0064": "Royal Guardhouse",
+            "BuildingName0065": "Crossbowmen's Tower",
+            "BuildingName0066": "Grand Griffin Tower",
+            "BuildingName0067": "Headquarters",
+            "BuildingName0068": "Convent",
+            "BuildingName0069": "Training Camps",
+            "BuildingName0070": "Portal of Splendor",
+            "BuildingName0077": "Upg. Portal of Splendor"
+            },
+            "1": {
+            "BuildingName0064": "Centaur Quarters",
+            "BuildingName0065": "Dwarf Hovel",
+            "BuildingName0066": "Elves' Lodge",
+            "BuildingName0067": "Magic Spring",
+            "BuildingName0068": "Dendroid Forest",
+            "BuildingName0069": "Unicorn Valley",
+            "BuildingName0070": "Dragon Peaks",
+            "BuildingName0077": "Upg. Dragon Peaks"
+            },
+            "2": {
+            "BuildingName0064": "Central Workshop",
+            "BuildingName0065": "Grand Parapet",
+            "BuildingName0066": "Golem Industrial Factory",
+            "BuildingName0067": "Wizard Tower",
+            "BuildingName0068": "Shrine of Dreams",
+            "BuildingName0069": "Shiny Pavilion",
+            "BuildingName0070": "Storm Temple",
+            "BuildingName0077": "Upg. Storm Temple"
+            },
+            "3": {
+            "BuildingName0064": "Imp Foundry",
+            "BuildingName0065": "Hall of Laments",
+            "BuildingName0066": "Raging Kennels",
+            "BuildingName0067": "Demon Portal",
+            "BuildingName0068": "Heart of the Pit",
+            "BuildingName0069": "Lava Lake",
+            "BuildingName0070": "Unholy Palace",
+            "BuildingName0077": "Upg. Unholy Palace"
+            },
+            "4": {
+            "BuildingName0064": "Crypt",
+            "BuildingName0065": "City of the Dead",
+            "BuildingName0066": "Spectral Tomb",
+            "BuildingName0067": "Vampire Mansion",
+            "BuildingName0068": "Ziggurat",
+            "BuildingName0069": "Hall of the Death",
+            "BuildingName0070": "Bloody Vault",
+            "BuildingName0077": "Upg. Bloody Vault"
+            },
+            "5": {
+            "BuildingName0064": "Moist Warren",
+            "BuildingName0065": "Harpy's Den",
+            "BuildingName0066": "Pillar of Thousand Eyes",
+            "BuildingName0067": "Chapel of Perpetual Silence",
+            "BuildingName0068": "Vast Maze",
+            "BuildingName0069": "Chimera Lair",
+            "BuildingName0070": "Cave of Darkness",
+            "BuildingName0077": "Upg. Cave of Darkness"
+            },
+            "6": {
+            "BuildingName0064": "Goblin Quarters",
+            "BuildingName0065": "Wolf Lodgment",
+            "BuildingName0066": "Orc Fortified Tower",
+            "BuildingName0067": "Ogre Fort Enchanted",
+            "BuildingName0068": "Crag Nest",
+            "BuildingName0069": "Cyclops Deep Cavern",
+            "BuildingName0070": "Behemoth Tomb",
+            "BuildingName0077": "Upg. Behemoth Tomb"
+            },
+            "7": {
+            "BuildingName0064": "Gnoll Hovel",
+            "BuildingName0065": "Lizard Hatchery",
+            "BuildingName0066": "Dragon Fly Hive",
+            "BuildingName0067": "Basilisk Lava Pond",
+            "BuildingName0068": "Catoblepas Lair",
+            "BuildingName0069": "Haunt of Wyverns",
+            "BuildingName0070": "Chaos Pool",
+            "BuildingName0077": "Upg. Chaos Pool"
+            },
+            "8": {
+            "BuildingName0064": "Fairy Garden",
+            "BuildingName0065": "Grand Altar of Air",
+            "BuildingName0066": "Grand Altar of Water",
+            "BuildingName0067": "Grand Altar of Fire",
+            "BuildingName0068": "Grand Altar of Earth",
+            "BuildingName0069": "Grand Altar of Thought",
+            "BuildingName0070": "Spirit Pyre",
+            "BuildingName0077": "Upg. Spirit Pyre"
+            }
+        }
+    }
+}
