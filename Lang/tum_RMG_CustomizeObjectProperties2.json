@@ -2026,7 +2026,7 @@
 				},
 				"48": {
 					"density": 100,
-					"enabled": false,
+					"enabled": true,
 					"name": "Outpost of Souls",
 					"properties": [
 						"CB16.def 000111111111111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 111111111 011111111 16 48 1 0"
@@ -3623,11 +3623,7 @@
 							"upgrade": 0
 						},
 						{
-							"artifactIds": [
-									117,
-									116,
-									115
-								],
+							"artifactIds": [179],
 							"chance": 25,
 							"creatureRewardCount": 0,
 							"creatureRewardType": -1,
