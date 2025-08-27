@@ -1,0 +1,1124 @@
+{
+    "era": {
+        "monsters": {
+            "197": {
+                "name": {
+                    "singular": "Royal Halberdier",
+                    "plural": "Royal Halberdiers",
+                    "description": "Immune to Champion charge bonus. \nNo enemy retaliation."
+                }
+            },
+            "198": {
+                "name": {
+                    "singular": "Crossbowman",
+                    "plural": "Crossbowmen",
+                    "description": "Shoots twice."
+                }
+            },
+            "199": {
+                "name": {
+                    "singular": "Cesar Griffin",
+                    "plural": "Cesar Griffins",
+                    "description": "Unlimited retaliations. Fearless."
+                }
+            },
+            "200": {
+                "name": {
+                    "singular": "Dragon Slayer",
+                    "plural": "Dragon Slayers",
+                    "description": "Dragon Slayer. Attack Twice. \nHate Black Dragons."
+                }
+            },
+            "201": {
+                "name": {
+                    "singular": "Holy Champion",
+                    "plural": "Holy Champions",
+                    "description": "Jousting bonus. Good morale."
+                }
+            },
+            "202": {
+                "name": {
+                    "singular": "Seraph",
+                    "plural": "Seraphim",
+                    "description": "Prayer. Fearless. Resurrects fallen allies.\nHates Antichrist. No enemy Retaliation.\nNo neutral alignment penalty."
+                }
+            },
+            "203": {
+                "name": {
+                    "singular": "Berserker Dwarf",
+                    "plural": "Berserker Dwarves",
+                    "description": "60% magic resistance. Bloodlust."
+                }
+            },
+            "204": {
+                "name": {
+                    "singular": "Golden Pegasus",
+                    "plural": "Golden Pegasi",
+                    "description": "Magic damper (spell cost +1). No enemy retaliaton."
+                }
+            },
+            "205": {
+                "name": {
+                    "singular": "Elder Dendroid",
+                    "plural": "Elder Dendroids",
+                    "description": "Binds enemies in place. Regeneration."
+                }
+            },
+            "206": {
+                "name": {
+                    "singular": "Legendary Unicorn",
+                    "plural": "Legendary Unicorns",
+                    "description": "Aura of magic resistance. Blinding attack. \nUnlimited retaliations. Fearless."
+                }
+            },
+            "207": {
+                "name": {
+                    "singular": "Pure Diamond Dragon",
+                    "plural": "Pure Diamond Dragons",
+                    "description": "Spells Immunity. Fearless. Hero spells cost less (-5). \nMagic Aura. Can Blind. +3 Gems daily.\nHates Undead Dragons."
+                }
+            },
+            "208": {
+                "name": {
+                    "singular": "Marble Gargoyle",
+                    "plural": "Marble Gargoyles",
+                    "description": "No morale penalty."
+                }
+            },
+            "209": {
+                "name": {
+                    "singular": "Steel Golem",
+                    "plural": "Steel Golems",
+                    "description": "Damage from spells reduced 80%."
+                }
+            },
+            "210": {
+                "name": {
+                    "singular": "Arcane Genie",
+                    "plural": "Arcane Genies",
+                    "description": "Spellcaster: Random benefit. Hates Efreet Rajah. \nDrain mana. Mind spell immunity."
+                }
+            },
+            "211": {
+                "name": {
+                    "singular": "Naga Empress",
+                    "plural": "Naga Empresses",
+                    "description": "No enemy retaliation. Attack in 3-HEX around.\nDeath blow. Inmune to joust. bonus."
+                }
+            },
+            "212": {
+                "name": {
+                    "singular": "Guardian of Zeus",
+                    "plural": "Guardians of Zeus",
+                    "description": "Shoot twice. Fearless. Chain Lightning. Lightning Immunity. No melee nor obstacle penalty. Titan's Lightning Bolt. Mind spell immunity. Hates Chasm Dragon."
+                }
+            },
+            "213": {
+                "name": {
+                    "singular": "Vermin",
+                    "plural": "Vermins",
+                    "description": "Magic channel. Fly. Hates Grandmaster Gremlin."
+                }
+            },
+            "214": {
+                "name": {
+                    "singular": "Winged Magog",
+                    "plural": "Winged Magogs",
+                    "description": "Fly. Fireball Attack. Fire shield. No melee penalty. Inmune to fire spells. "
+                }
+            },
+            "215": {
+                "name": {
+                    "singular": "Astral Cerberi",
+                    "plural": "Astral Cerberus",
+                    "description": "3-headed attack. Enemies cannot retaliate. \nVenomous. Hates Cesar Griffin. Fearless"
+                }
+            },
+            "216": {
+                "name": {
+                    "singular": "Sharp-Horned Demon",
+                    "plural": "Sharp-Horned Demons",
+                    "description": "Attack twice. Unlimited retaliations. Death blow."
+                }
+            },
+            "217": {
+                "name": {
+                    "singular": "Pit Master",
+                    "plural": "Pit Masters",
+                    "description": "Summon horned demons from a dead ally. \nNo enemy retaliation. Attack around."
+                }
+            },
+            "218": {
+                "name": {
+                    "singular": "Efreeti Rajah",
+                    "plural": "Efreeti Rajahs",
+                    "description": "Fire shield. Immune to fire. Hates Arcane Genies. \nFire wall. Spellcaster: Fire shield. Mind spell immunity."
+                }
+            },
+            "219": {
+                "name": {
+                    "singular": "Antichrist",
+                    "plural": "Antichrists",
+                    "description": "Fearless. Petrifying attack. No enemy retaliation. \nMind spell immunity. Rage."
+                }
+            },
+            "220": {
+                "name": {
+                    "singular": "Skeleton Knight",
+                    "plural": "Skeleton Knights",
+                    "description": "Undead. Attack twice."
+                }
+            },
+            "221": {
+                "name": {
+                    "singular": "Nosferatu",
+                    "plural": "Nosferatus",
+                    "description": "Undead. Drains life. \nNo enemy retaliation."
+                }
+            },
+            "222": {
+                "name": {
+                    "singular": "Lich King",
+                    "plural": "Lich Kings",
+                    "description": "Undead. Death cloud attack. \nSummon skeletons from a dead ally. \nPrecision. Hates Mage."
+                }
+            },
+            "223": {
+                "name": {
+                    "singular": "Death Knight",
+                    "plural": "Death Knights",
+                    "description": "Undead. Curses enemies. Death blow attack. \nDeath stare. Hates Holy Champion."
+                }
+            },
+            "224": {
+                "name": {
+                    "singular": "Red Bones Dragon",
+                    "plural": "Red Bones Dragons",
+                    "description": "Undead. Age attack. Drain life. \nRegeneration. Fear. \nNo enemy retaliation."
+                }
+            },
+            "225": {
+                "name": {
+                    "singular": "Phosphorescent Troglodyte",
+                    "plural": "Phosphorescent Troglodytes",
+                    "description": "Immune to Meteor Shower. \nFearless. Hates Fairy."
+                }
+            },
+            "226": {
+                "name": {
+                    "singular": "Monstrous Eye",
+                    "plural": "Monstrous Eyes",
+                    "description": "No melee penalty. \nHypnotize. Espionage."
+                }
+            },
+            "227": {
+                "name": {
+                    "singular": "Harpy Sanguinary",
+                    "plural": "Harpy Sanguinaries",
+                    "description": "Strike and return. \nNo enemy retaliation. \nAge Attack. Fearless."
+                }
+            },
+            "228": {
+                "name": {
+                    "singular": "Medusa Empress",
+                    "plural": "Medusa Empresses",
+                    "description": "No melee penalty. Stone gaze.\nAttack Twice."
+                }
+            },
+            "229": {
+                "name": {
+                    "singular": "Black Minotaur",
+                    "plural": "Black Minotaurs",
+                    "description": "Mirth. Death blow. Fearless."
+                }
+            },
+            "230": {
+                "name": {
+                    "singular": "Chimera",
+                    "plural": "Chimeras",
+                    "description": "Acid breath. Dispel helpful spells. \nAttack with 3 heads. Inmune to joust. bonus. \nRetaliate thrice. Magic aura."
+                }
+            },
+            "231": {
+                "name": {
+                    "singular": "Chasm Dragon",
+                    "plural": "Chasm Dragons",
+                    "description": "Spell Immunity. Fear. Fearless. \nHates Guardian of Zeus."
+                }
+            },
+            "232": {
+                "name": {
+                    "singular": "Hobgoblin Overlord",
+                    "plural": "Hobgoblin Overlords",
+                    "description": "Attack twice. Stone Skin. \nHates Berserker Dwarf."
+                }
+            },
+            "233": {
+                "name": {
+                    "singular": "Wolf Rider Killer",
+                    "plural": "Wolf Rider Killer",
+                    "description": "Unlimited retaliations. \nBloodlust. Attack Twice. "
+                }
+            },
+            "234": {
+                "name": {
+                    "singular": "Orc Leader",
+                    "plural": "Orc Leaders",
+                    "description": "Attack twice. Precision. \nHates Elf. No melee penalty."
+                }
+            },
+            "235": {
+                "name": {
+                    "singular": "Elder Ogre",
+                    "plural": "Elder Ogres",
+                    "description": "Spellcaster: Frenzy."
+                }
+            },
+            "236": {
+                "name": {
+                    "singular": "Lightningbird",
+                    "plural": "Lightningbirds",
+                    "description": "Thunderclap. Lightning Immunity.\n Lightning bolt."
+                }
+            },
+            "237": {
+                "name": {
+                    "singular": "Cyclops Emperor",
+                    "plural": "Cyclops Emperors",
+                    "description": "Attacks siege walls."
+                }
+            },
+            "238": {
+                "name": {
+                    "singular": "Spectral Behemoth",
+                    "plural": "Spectral Behemoths",
+                    "description": "Ignores obstacles. Ignores defense. \nDeath blow. Immune Meteor Shower."
+                }
+            },
+            "239": {
+                "name": {
+                    "singular": "Centagnoll",
+                    "plural": "Centagnolls",
+                    "description": "Unlimited Retaliation."
+                }
+            },
+            "240": {
+                "name": {
+                    "singular": "Elite Lizard",
+                    "plural": "Elite Lizards",
+                    "description": "Attack twice. Poisonous. \nIgnore obstacles. Ignore Barrier."
+                }
+            },
+            "241": {
+                "name": {
+                    "singular": "Chaotic Dragon Fly",
+                    "plural": "Chaotic Dragon Flies",
+                    "description": "Dispels beneficial spells. Weakens enemies. \nUnlimited Retaliation. Strike and return."
+                }
+            },
+            "242": {
+                "name": {
+                    "singular": "Lava Basilisk",
+                    "plural": "Lava Basilisks",
+                    "description": "Petrifying attack. Fire shield. Fire wall. \nImmune to fire spells. Fireball attack."
+                }
+            },
+            "243": {
+                "name": {
+                    "singular": "Acid Wyvern",
+                    "plural": "Acid Wyverns",
+                    "description": "Venomous. Acid attack. "
+                }
+            },
+            "244": {
+                "name": {
+                    "singular": "Catoblepas",
+                    "plural": "Catoblepas",
+                    "description": "Death stare. Stone Gaze. \nRetaliate thrice."
+                }
+            },
+            "245": {
+                "name": {
+                    "singular": "Nightmare Hydra",
+                    "plural": "Nightmare Hydras",
+                    "description": "Acid attack. Can regenerate. Fearless. Fear. \nNo enemy retaliation."
+                }
+            },
+            "246": {
+                "name": {
+                    "singular": "Fairy",
+                    "plural": "Fairies",
+                    "description": "No enemy retaliation. Magic aura. \nSpellcaster: Bless."
+                }
+            },
+            "247": {
+                "name": {
+                    "singular": "Hurricane Elemental",
+                    "plural": "Hurricane Elementals",
+                    "description": "No melee penalty. Lightning and firestorm \nvulnerability. Air shield. Protection from Air. \nSpellcaster: Air shield."
+                }
+            },
+            "248": {
+                "name": {
+                    "singular": "Life Elemental",
+                    "plural": "Life Elementals",
+                    "description": "Mind spell immunity. Ice immunity. Attack \ntwice. Protection from Water. Ice Bolt attack. \nRegeneration. No Melee penalty."
+                }
+            },
+            "249": {
+                "name": {
+                    "singular": "Plasma Elemental",
+                    "plural": "Plasma Elementals",
+                    "description": "Mind & fire immunity. Cold vulnerability. \nProtection from Fire. Fire shield. \nSpellcaster: Fire shield."
+                }
+            },
+            "250": {
+                "name": {
+                    "singular": "Mineral Elemental",
+                    "plural": "Mineral Elementals",
+                    "description": "Mind spell immunity. Protection from Earth. \nLightning immunity. Spellcaster: Stone skin."
+                }
+            },
+            "251": {
+                "name": {
+                    "singular": "Void Elemental",
+                    "plural": "Void Elementals",
+                    "description": "Attacks all adjacent enemies w/o retaliation. \nSpell immunity. Magic aura. Magic channel. \nDrain mana. Dispel helpful spells."
+                }
+            },
+            "252": {
+                "name": {
+                    "singular": "Divine Phoenix",
+                    "plural": "Divine Phoenixes",
+                    "description": "Fire spell Immunity. Slayer. Rebirth. \nFire Shield. Regeneration."
+                }
+            },
+            "253": {
+                "name": {
+                    "singular": "Tiamat",
+                    "plural": "Tiamats",
+                    "description": "Attacks all adjacent enemies. Fear. \nFearless. No Enemy retaliation. \nSlayer. Bloodlust. Prayer."
+                }
+            },
+            "254": {
+                "name": {
+                    "singular": "Necross Dragon",
+                    "plural": "Necross Dragons",
+                    "description": "50% Magic Resist. Age. Acid breath. \nAttack twice. Fear. Fearless."
+                }
+            },
+            "255": {
+                "name": {
+                    "singular": "Grandmaster Gremlin",
+                    "plural": "Grandmaster Gremlins",
+                    "description": "Shoot twice."
+                }
+            },
+            "256": {
+                "name": {
+                    "singular": "Sharpshooter Elf",
+                    "plural": "Sharpshooter Elves",
+                    "description": "Shoots twice. No obstacle penalty."
+                }
+            },
+            "257": {
+                "name": {
+                    "singular": "Supreme Arch Mage",
+                    "plural": "Supreme Arch Magi",
+                    "description": "No melee penalty. Hero spells cost less. Ranged spell caster."
+                }
+            },
+            "258": {
+                "name": {
+                    "singular": "Primal Faerie Dragon",
+                    "plural": "Primal Faerie Dragons",
+                    "description": "Offensive spell caster. Attack Around."
+                }
+            },
+            "259": {
+                "name": {
+                    "singular": "Spelllweaver",
+                    "plural": "Spelllweavers",
+                    "description": "No melee penalty. Group spell caster. Ranged spell caster."
+                }
+            },
+            "260": {
+                "name": {
+                    "singular": "Assassin",
+                    "plural": "Assassins",
+                    "description": "Spying. Cut throat."
+                }
+            },
+            "261": {
+                "name": {
+                    "singular": "Specter",
+                    "plural": "Specters",
+                    "description": "Undead. Regenerating. Drains enemy mana."
+                }
+            },
+            "262": {
+                "name": {
+                    "singular": "Satyr",
+                    "plural": "Satyrs",
+                    "description": "Cast Mirth."
+                }
+            },
+            "263": {
+                "name": {
+                    "singular": "Fangarm",
+                    "plural": "Fangarms",
+                    "description": "Fly. Mind spell immunity. Unlimited retaliations. Hypnotize."
+                }
+            },
+            "264": {
+                "name": {
+                    "singular": "Leprechaun",
+                    "plural": "Leprechauns",
+                    "description": "Cast Fortune."
+                }
+            },
+            "265": {
+                "name": {
+                    "singular": "Topaz Crystal Dragon",
+                    "plural": "Topaz Crystal Dragons"
+                }
+            },
+            "266": {
+                "name": {
+                    "singular": "Amethyst Crystal Dragon",
+                    "plural": "Amethyst Crystal Dragons"
+                }
+            },
+            "267": {
+                "name": {
+                    "singular": "Emerald Crystal Dragon",
+                    "plural": "Emerald Crystal Dragons",
+                    "description": "+2 Crystal daily."
+                }
+            },
+            "268": {
+                "name": {
+                    "singular": "Sapphire Crystal Dragon",
+                    "plural": "Sapphire Crystal Dragons",
+                    "description": "+3 Crystal daily."
+                }
+            },
+            "269": {
+                "name": {
+                    "singular": "Light Templar",
+                    "plural": "Light Templars",
+                    "description": "Cast Destroy Undead. Always Moral."
+                }
+            },
+            "270": {
+                "name": {
+                    "singular": "Dryad",
+                    "plural": "Dryads",
+                    "description": "Can fly. Regeneration."
+                }
+            },
+            "271": {
+                "name": {
+                    "singular": "Drake Golem",
+                    "plural": "Drake Golems",
+                    "description": "No moral penalty. Damage from spells reduced 40%. Fearless."
+                }
+            },
+            "272": {
+                "name": {
+                    "singular": "Succubus",
+                    "plural": "Succubi",
+                    "description": "Fly. No melee penalty."
+                }
+            },
+            "273": {
+                "name": {
+                    "singular": "Werewolf",
+                    "plural": "Werewolves",
+                    "description": "Undead. Damage reduced by 25%"
+                }
+            },
+            "274": {
+                "name": {
+                    "singular": "Illithid",
+                    "plural": "Illithids",
+                    "description": "Cast Hypnotize."
+                }
+            },
+            "275": {
+                "name": {
+                    "singular": "Coatl",
+                    "plural": "Coatls",
+                    "description": "Fly."
+                }
+            },
+            "276": {
+                "name": {
+                    "singular": "Troll Hag",
+                    "plural": "Trolls Hag",
+                    "description": "Regenerating. Shoot."
+                }
+            },
+            "277": {
+                "name": {
+                    "singular": "Triton",
+                    "plural": "Tritons",
+                    "description": "Immune to water damage spells."
+                }
+            },
+            "278": {
+                "name": {
+                    "singular": "Light Paladin",
+                    "plural": "Light Paladins",
+                    "description": "Cast Destroy Undead. Always Moral."
+                }
+            },
+            "279": {
+                "name": {
+                    "singular": "Oak Dryad",
+                    "plural": "Oak Dryads",
+                    "description": "Can fly. Regeneration. Summon Stump Rider from a dead ally."
+                }
+            },
+            "280": {
+                "name": {
+                    "singular": "Dragon Golem",
+                    "plural": "Dragon Golems",
+                    "description": "No moral penalty. Damage from spells reduced 80%. Fearless. Preventive Counterstrike."
+                }
+            },
+            "281": {
+                "name": {
+                    "singular": "Lilim",
+                    "plural": "Lilims",
+                    "description": "Fly. No melee penalty. Fireball attack. Range Retaliation."
+                }
+            },
+            "282": {
+                "name": {
+                    "singular": "Alhoon",
+                    "plural": "Alhoons",
+                    "description": "Cast Hypnotize."
+                }
+            },
+            "283": {
+                "name": {
+                    "singular": "Quetzalcoatl",
+                    "plural": "Quetzalcoatls",
+                    "description": "Fly. Immune to creature effects."
+                }
+            },
+            "284": {
+                "name": {
+                    "singular": "Troll Witch",
+                    "plural": "Troll Witches",
+                    "description": "Regenerating. Shoot. No melee penalty. Cast Slow after attack."
+                }
+            },
+            "285": {
+                "name": {
+                    "singular": "Abyssal Triton",
+                    "plural": "Abyssal Tritons",
+                    "description": "Immune to water damage spells. Paralyze."
+                }
+            },
+            "286": {
+                "name": {
+                    "singular": "Demilich",
+                    "plural": "Demiliches",
+                    "description": "Undead. Fly."
+                }
+            },
+            "287": {
+                "name": {
+                    "singular": "Dread Skipper",
+                    "plural": "Dread Skippers",
+                    "description": "Undead. Cast Sorrow before attack."
+                }
+            },
+            "288": {
+                "name": {
+                    "singular": "Mermaid",
+                    "plural": "Mermaids",
+                    "description": "Immune to water damage spells. Cast Fortune.+500 movement in the sea. \nWhirlpool Protection."
+                }
+            },
+            "289": {
+                "name": {
+                    "singular": "Fire Paladin",
+                    "plural": "Fire Paladins",
+                    "description": "Fire Shield. Attack Twice. \nFire Immunity. Fire Wall.\nHates Thunder Warriors."
+                }
+            },
+            "290": {
+                "name": {
+                    "singular": "Ice Knight",
+                    "plural": "Ice Knights",
+                    "description": "Attack Twice. Ice Bolt attack.\nCold spells Immunity.\nHates Fire Paladins."
+                }
+            },
+            "291": {
+                "name": {
+                    "singular": "Inquisitor",
+                    "plural": "Inquisitors",
+                    "description": "Strikes twice."
+                }
+            },
+            "292": {
+                "name": {
+                    "singular": "Thunder Warrior",
+                    "plural": "Thunder Warriors",
+                    "description": "Lightning Immunity.\nAttack Twices. Lightning bolt.\nHates Ice Knights."
+                }
+            },
+            "293": {
+                "name": {
+                    "singular": "Centaur General",
+                    "plural": "Centaur Captains",
+                    "description": "Aura of Bravery. Jousting Bonus."
+                }
+            },
+            "294": {
+                "name": {
+                    "singular": "Vermilion Bird",
+                    "plural": "Vermilion Birds",
+                    "description": "Fire Immunity. Fireball attack."
+                }
+            },
+            "295": {
+                "name": {
+                    "singular": "Skeleton Archer",
+                    "plural": "Skeleton Archers",
+                    "description": "Undead. Shooter."
+                }
+            },
+            "296": {
+                "name": {
+                    "singular": "Red Skeleton",
+                    "plural": "Red Skeletons",
+                    "description": "Undead. Rebirth. Drains life."
+                }
+            },
+            "297": {
+                "name": {
+                    "singular": "Mana Skeleton",
+                    "plural": "Mana Skeleton",
+                    "description": "Undead. Drain mana. \nAbsorb damage spells."
+                }
+            },
+            "298": {
+                "name": {
+                    "singular": "Gold Skeleton",
+                    "plural": "Gold Skeletons",
+                    "description": "Undead."
+                }
+            },
+            "299": {
+                "name": {
+                    "singular": "Sharpshooter Skeleton",
+                    "plural": "Sharpshooter Skeletons",
+                    "description": "No Range or Barrier penalties.\nUndead."
+                }
+            },
+            "300": {
+                "name": {
+                    "singular": "Conscript",
+                    "plural": "Conscripts",
+                    "description": " "
+                }
+            },
+            "301": {
+                "name": {
+                    "singular": "Squire",
+                    "plural": "Squires",
+                    "description": " "
+                }
+            },
+            "302": {
+                "name": {
+                    "singular": "Man at Arms",
+                    "plural": "Men at Arms",
+                    "description": "No retaliation."
+                }
+            },
+            "303": {
+                "name": {
+                    "singular": "Peon",
+                    "plural": "Peons",
+                    "description": "+25 gold each unit daily."
+                }
+            },
+            "304": {
+                "name": {
+                    "singular": "Tortofroid",
+                    "plural": "Tortofroids",
+                    "description": "Reduce enemy defense."
+                }
+            },
+            "305": {
+                "name": {
+                    "singular": "Vile Tortofroid",
+                    "plural": "Vile Tortofroids",
+                    "description": "Reduce enemy defense.\nDisease."
+                }
+            },
+            "306": {
+                "name": {
+                    "singular": "Dark Elemental",
+                    "plural": "Dark Elementals",
+                    "description": "No retaliation. Fear. Mind Spell Immunity."
+                }
+            },
+            "307": {
+                "name": {
+                    "singular": "Gigas",
+                    "plural": "Gigas",
+                    "description": "Reduce enemy defense. Mind Spell Immunity."
+                }
+            },
+            "308": {
+                "name": {
+                    "singular": "Hill Gigas",
+                    "plural": "Hill Gigas",
+                    "description": "Reduce enemy defense. Mind Spell Immunity. Unlimited retaliations."
+                }
+            },
+            "309": {
+                "name": {
+                    "singular": "Forest Dragon",
+                    "plural": "Forest Dragons",
+                    "description": "Fly. Dragon."
+                }
+            },
+            "310": {
+                "name": {
+                    "singular": "Swamp Dragon",
+                    "plural": "Swamp Dragons",
+                    "description": "Fly. Dragon.\nStrike and Return.\nVenomous."
+                }
+            },
+            "311": {
+                "name": {
+                    "singular": "Moss Thrall",
+                    "plural": "Moss Thralls",
+                    "description": "Mind Spell Immunity.\nWater Walk."
+                }
+            },
+            "312": {
+                "name": {
+                    "singular": "Ravenous Coctatrice",
+                    "plural": "Ravenous Coctatrices",
+                    "description": "Regeneration. Stone Gaze."
+                }
+            },
+            "313": {
+                "name": {
+                    "singular": "Centamonth Hunter",
+                    "plural": "Centamonth Hunters",
+                    "description": "Good Morale."
+                }
+            },
+            "314": {
+                "name": {
+                    "singular": "Centamonth Thrower",
+                    "plural": "Centamonth Throwers",
+                    "description": "Good Morale. Shoots.\nAttacks siege walls."
+                }
+            },
+            "315": {
+                "name": {
+                    "singular": "Stump Rider",
+                    "plural": "Stump Riders",
+                    "description": " "
+                }
+            },
+            "316": {
+                "name": {
+                    "singular": "Baba Yaga",
+                    "plural": "Baba Yagas",
+                    "description": "Death cloud. Ranged spell caster. +1 Mercury daily."
+                }
+            },
+            "317": {
+                "name": {
+                    "singular": "Will-o-wisp",
+                    "plural": "Will-o-wisp",
+                    "description": "Magic Aura.\nHero spells cost less.\nMana drain."
+                }
+            },
+            "318": {
+                "name": {
+                    "singular": "Archer Rider",
+                    "plural": "Archer Riders",
+                    "description": "Range Death Blow."
+                }
+            },
+            "319": {
+                "name": {
+                    "singular": "Titanonaga",
+                    "plural": "Titanonagas",
+                    "description": "No enemy retaliation. Attack around.\nDeath blow. Inmune to joust. bonus."
+                }
+            },
+            "320": {
+                "name": {
+                    "singular": "High Priest",
+                    "plural": "High Priests",
+                    "description": "No melee penalty. Spellcaster: Prayer."
+                }
+            },
+            "321": {
+                "name": {
+                    "singular": "Gnoll Shaman",
+                    "plural": "Gnoll Shamans",
+                    "description": "Spellcaster: Curse."
+                }
+            },
+            "322": {
+                "name": {
+                    "singular": "Mirage Dragon",
+                    "plural": "Mirage Dragons",
+                    "description": "Summon clones of Dragons."
+                }
+            },
+            "323": {
+                "name": {
+                    "singular": "Mirror Dragon",
+                    "plural": "Mirror Dragons",
+                    "description": "Protected by Magic Mirror. Summon stacks of Dragons."
+                }
+            },
+            "324": {
+                "name": {
+                    "singular": "Mithril Golem",
+                    "plural": "Mithril Golems",
+                    "description": "Immune to damage spells. +1 Mithril daily."
+                }
+            },
+            "325": {
+                "name": {
+                    "singular": "Shadow Dragon",
+                    "plural": "Shadow Dragons",
+                    "description": "Undead. Attract dead souls."
+                }
+            },
+            "326": {
+                "name": {
+                    "singular": "Lizard Soldier",
+                    "plural": "Lizard Soldiers",
+                    "description": "No retaliation."
+                }
+            },
+            "327": {
+                "name": {
+                    "singular": "Slithzerikai",
+                    "plural": "Slithzerikais",
+                    "description": "No melee penalty. Reduce enemy defense."
+                }
+            },
+            "328": {
+                "name": {
+                    "singular": "Sacred Elf",
+                    "plural": "Sacred Elves",
+                    "description": " "
+                }
+            },
+            "329": {
+                "name": {
+                    "singular": "Ghoul",
+                    "plural": "Ghouls",
+                    "description": "Undead. Disease. Flesheater."
+                }
+            },
+            "330": {
+                "name": {
+                    "singular": "Crimson Dragon",
+                    "plural": "Crimson Dragons",
+                    "description": "Fireball Attack. Fire Shield. Immune to all spells. Hates Azure Dragons."
+                }
+            },
+            "331": {
+                "name": {
+                    "singular": "Dark Templar",
+                    "plural": "Dark Templars",
+                    "description": "Cast Death Ripple on the enemies. No Morale Penalty. Hates Templars."
+                }
+            },
+            "332": {
+                "name": {
+                    "singular": "Dark Paladin",
+                    "plural": "Dark Paladins",
+                    "description": "Cast Death Ripple on the enemies. No Morale Penalty. Fear Immunity. Hates Paladins."
+                }
+            },
+            "333": {
+                "name": {
+                    "singular": "Fallen Angel",
+                    "plural": "Fallen Angels",
+                    "description": "No Morale Penalty. Raise undead allies."
+                }
+            },
+            "334": {
+                "name": {
+                    "singular": "Angel of Death",
+                    "plural": "Angels of Death",
+                    "description": "No Morale Penalty. Summons Wights from fallen living allies.\nFearless. No Retaliation."
+                }
+            },
+            "335": {
+                "name": {
+                    "singular": "Winged Drake",
+                    "plural": "Winged Drakes",
+                    "description": "Fly. Venomous. Breath Attack."
+                }
+            },
+            "336": {
+                "name": {
+                    "singular": "Lesser Dragon",
+                    "plural": "Lesser Dragons",
+                    "description": "Fly. Venomous. Breath Attack. Dragon."
+                }
+            },
+            "337": {
+                "name": {
+                    "singular": "Fiend of Tartarus",
+                    "plural": "Fiends of Tartarus",
+                    "description": "Shooting Resistance by 30%."
+                }
+            },
+            "338": {
+                "name": {
+                    "singular": "Lord of Tartarus",
+                    "plural": "Lords of Tartarus",
+                    "description": "Shooting Resistance by 60%. Infernal Resurrection."
+                }
+            },
+            "339": {
+                "name": {
+                    "singular": "Sulfide Dragon",
+                    "plural": "Sulfide Dragons",
+                    "description": "Spits acid. Venomous. Paralize. +1 Sulfur daily."
+                }
+            },
+            "340": {
+                "name": {
+                    "singular": "Swordmaster",
+                    "plural": "Swordmasters",
+                    "description": "Always Morale. Strikes twice. \"Leadership\": In Rank 'Ace' grants additional turn to allies by casting it."
+                }
+            },
+            "341": {
+                "name": {
+                    "singular": "Green Dragonling",
+                    "plural": "Green Dragonlings",
+                    "description": " "
+                }
+            },
+            "342": {
+                "name": {
+                    "singular": "Red Dragonling",
+                    "plural": "Red Dragonlings",
+                    "description": " "
+                }
+            },
+            "343": {
+                "name": {
+                    "singular": "Faerie Dragonling",
+                    "plural": "Faerie Dragonlings",
+                    "description": "Offensive spell caster."
+                }
+            },
+            "344": {
+                "name": {
+                    "singular": "Rust Dragonling",
+                    "plural": "Rust Dragonlings",
+                    "description": "Spits acid."
+                }
+            },
+            "345": {
+                "name": {
+                    "singular": "Azure Dragonling",
+                    "plural": "Azure Dragonlings",
+                    "description": " "
+                }
+            },
+            "346": {
+                "name": {
+                    "singular": "Fire Dragon",
+                    "plural": "Fire Dragons",
+                    "description": "Cast Inferno. Fear.\nImmune to creature effects."
+                }
+            },
+            "347": {
+                "name": {
+                    "singular": "Ice Dragon",
+                    "plural": "Ice Dragons",
+                    "description": "Double Turn. Ice Spellcaster. \nFear. Immune to creature effects."
+                }
+            },
+            "348": {
+                "name": {
+                    "singular": "Halfling Grenadier",
+                    "plural": "Halfling Grenadiers",
+                    "description": "Shoots. Positive Luck. Ranged attack ignores 20% of enemy's defense skill."
+                }
+            },
+            "349": {
+                "name": {
+                    "singular": "Forest Spirit",
+                    "plural": "Forest Spirits",
+                    "description": "Bloodless. Fly. Attack Around."
+                }
+            },
+            "350": {
+                "name": {
+                    "singular": "Spring Spirit",
+                    "plural": "Spring Spirits",
+                    "description": "Bloodless. Fly. Extended Attack Around (+2 hex). Ally Regeneration."
+                }
+            },
+            "351": {
+                "name": {
+                    "singular": "Lady Spider",
+                    "plural": "Lady Spiders",
+                    "description": "Shoot.  No Range Penalty."
+                }
+            },
+            "352": {
+                "name": {
+                    "singular": "Priestess Spider",
+                    "plural": "Priestess Spiders",
+                    "description": "Lightning Chain Shoot."
+                }
+            },
+            "353": {
+                "name": {
+                    "singular": "Sea Serpent",
+                    "plural": "Sea Serpents",
+                    "description": "Breath Attack. Ignores No Retaliation."
+                }
+            },
+            "354": {
+                "name": {
+                    "singular": "Leviathan",
+                    "plural": "Leviathans",
+                    "description": "Breath Attack. Fearsome. Ignores No Retaliation. Counterstrike Twice. +1000 movement in the sea."
+                }
+            },
+            "355": {
+                "name": {
+                    "singular": "Planeswalker",
+                    "plural": "Planeswalkers",
+                    "description": "Cast random non-damage spells after melee attack."
+                }
+            },
+            "356": {
+                "name": {
+                    "singular": "Elementalist",
+                    "plural": "Elementalists",
+                    "description": "Ignores spell immunity on the field. Offensive spell caster. Magic Channel."
+                }
+            }
+        }
+    }
+}

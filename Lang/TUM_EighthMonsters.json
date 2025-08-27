@@ -1,0 +1,22 @@
+{
+  "eighth": {
+    "dwellDesc": "{Build} {@dwellName@}\n\nThe @dwellName@ allows you to recruite @monName@.\n\n\nRequires:\n",
+    "comma":  ", ",
+    "reqMet": "All prerequisites for this building have been met.",
+    "built":  "You've already built here this turn.",
+    "missBuild":  "You don't have all prerequisites.",
+    "missRes": "You don't have enough resources.",
+    "dwellAsk":  "Do you want to build it?",
+
+    "growthDetails":  "Weekly @monName@ growth is @totalGrowth@\n",
+    "growthBasic":  "Basic growth @basicGrowth@",
+    "growthCastle": "@castle@ +@castleBonus@",
+    "growthExtDwell": "External dwellings +@extDwellBonus@",
+    "growthGrail": "@grail@ +@grailBonus@",
+
+    "hintBuild": "{Build @buildName@}",
+    "hintRecruit":  "Recruit @monName@. {Growth: @totalGrowth@ per week.}",
+
+    "disabled": "8th Monsters is disabled.\n\nTo use this feature, please enable it from the 1st page of WoG Options menu."
+  }
+}
