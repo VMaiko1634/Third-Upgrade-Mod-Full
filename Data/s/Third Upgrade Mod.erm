@@ -8,29 +8,6 @@ Scripts by Perry, Archer30 and Berseker
 visit www.heroescommunity.com for updates and news
 ****************************************************************************************************
 
-// Scripts specifically for TUM Full
-// by Archer30
-; Special variable for TUM Full
-!#VRi^tum_full_on^:S(TRUE);
-
-; New 8th creatures
-!?FU(OnAfterErmInited);
-!!if&i^eighth_on^;
-  !!SN:Vi^eighth_dwellReqDwellsList^/0/34/34/35/34/34/34/34/34/34; [id of required buildings for each factions]
-  !!SN:Vi^eighth_dwellCostsList_%(TOWN_CASTLE)^/0/15/0/15/0/0/10/10000;
-  !!SN:Vi^eighth_dwellCostsList_%(TOWN_RAMPART)^/0/15/0/15/0/10/0/11000;
-  !!SN:Vi^eighth_dwellCostsList_%(TOWN_INFERNO)^/0/0/15/30/0/0/0/12000;
-  !!SN:Vi^eighth_dwellCostsList_%(TOWN_NECROPOLIS)^/0/15/10/15/0/0/0/10000;
-  !!SN:Vi^eighth_dwellCostsList_%(TOWN_DUNGEON)^/0/15/0/15/10/0/0/9000;
-  !!SN:Vi^eighth_dwellCostsList_%(TOWN_STRONGHOLD)^/0/0/0/30/0/15/0/11000;
-  !!SN:Vi^eighth_dwellCostsList_%(TOWN_FORTRESS)^/0/0/0/30/15/0/0/12000;
-  !!SN:Vi^eighth_dwellCostsList_%(TOWN_CONFLUX)^/0/15/5/15/5/5/5/11000;
-!!en;
-
-!!SN:Vi^eighth_8thMonsList^/2/349/350;
-!!SN:Vi^eighth_8thMonsList^/6/(MON_FIEND_OF_TARTARUS)/(MON_LORD_OF_TARTARUS)/(MON_DARK_TEMPLAR)/(MON_DARK_PALADIN)/351/352;
-!!SN:Vi^eighth_8thMonsList^/14/353/354/355/356;
-
 // Store original monster IDs at the start of the game
 // by daemon_n
 !?FU(OnAfterErmInited);
@@ -1153,7 +1130,7 @@ if no the bonus is removed.
   !!en;
 !!en;
 
-!?FU(OnBeforeBattleUniversal); 
+!?FU(OnBeforeBattleUniversal)&i^tum_DragonsID_ArrayID^; 
 ; подменяем первого монстра в массиве AnyDragon2Summon
 !!SN:Mi^tum_DragonsID_ArrayID^/?(size:y);
 

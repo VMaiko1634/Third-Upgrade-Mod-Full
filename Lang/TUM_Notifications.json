@@ -3,9 +3,9 @@
 		"resound": {
 			"notification": {
 				"0": {
-				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.1.6}",
-					"text": "[!] Possibly fixed an issue where Gnoll Marauders were upgraded to {Centagnolls} when they should only be {Shaman Gnolls}.\n\n[-] Removed the plugin that was disabling in-game video. {(Pending further reports of potential issues related to this)}.\n\n[-] Removed old code that reduced WoG replacements to 66% of the original percentage.\n\n[+] Added a notification regarding WoG options disabled in TUM.\n\n[+] {Outpost of Souls} has been re-enabled.\n\n[+] The larger {Royal Treasury} bank size rewards the {Golden Goose} combo artifact again.",
-					"url": "https://discord.com/channels/665742159307341827/689568488343208047"
+				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.2.0}",
+					"text": "[!] New buildings to construct.\n\n[!] Graphical overhaul of some creatures.\n\n[!]Portal of Summoning is functional again.\n\n[!] Countless fixes and much more! {~00AAFF}Full changelog in the mod's Discord channel.}",
+					"url": "https://discord.com/channels/665742159307341827/689568488343208047/1411361215875121224"
 				},
 				"1": {
 				    "name": "{~FFE400}Wog options disabled for TUM}",

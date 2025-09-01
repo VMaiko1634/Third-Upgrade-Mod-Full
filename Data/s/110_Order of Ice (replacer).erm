@@ -1,0 +1,114 @@
+ZVSE2
+*Blank Creature Bank Template*
+by Perry R for ERA 3
+created 2020
+
+The idea of this template is that you can create new creature banks (CB) relatively fast by choosing any object and turn it into a scripted CB. You just need to open the erm file and edit the first part of the script and make your settings.
+For each new CB, you just copy and place a new ERM file with the name of the creature bank in your mod folder.
+The object (the new CB) can be anything. From a blank object to a Pandora Box (in theory). You just need an object ID. I recommend using the blank WoG Objects because they have no functionality.
+When you want to use object IDs that already have a functionality in-game to turn them into custom CBs, like Dragon Fly Hives, Learning Stones, or Tree of Knowledge, the standard reaction will be disabled and my script takes control.
+Later when fully developed it will emulate a 100% working creature bank like in HotA. Ideally, there will be no visual difference. If this can be achieved I don't know yet.
+Depending on your ERM skill this template will of course also allow any possible modification to your creature bank. You can create custom CB texts, fights, special rewards and conditions. I only provided the most basic functions to simulate already existing CBs.
+
+If you want any improvements or find any bugs please report on Heroes Community.
+
+
+
+****************************************************************************************************
+****************************************************************************************************
+Parameter Settings:
+-1 always means DISABLED
+
+******Object Type and Name********
+!#VRi^CB_110_Type_Number^:S17;           (Write here type number of the object)
+!#VRi^CB_110_SubType_Number^:S123;        (Write here subtype number of the object)
+
+
+******Type of Object you want to replace********
+*The objects should match in size, for now. Choose Up to 5 Objects that might be replaced, each with individual chance. I recommend to replace mostly other CBs.*
+*If you replace a object that has a "shifted" yellow enter square you can correct it with the "shift" parameter.*
+
+!#VRi^CB_110_Replace_Objects^:S1;       (1=yes, 0=no. You should only chose "No" if you plan to create a custom map and place your CB yourself. With "No" the replace settings below will have no effect)
+
+!#VRi^CB_110_Replace_0_Type_Number^:S96;(Write here type number of the objects you want to search and replace. Input 0-231. Check ERM Help OB)
+!#VRi^CB_110_Replace_0_SubType_Number^:S0; (Write here subtype number of the objects you want to search and replace. Input 0-max Subtype. Check ERM Help OB)
+!#VRi^CB_110_Replace_0_Percentage^:S10; (The chance in % by which each object is replaced by the new Creature Bank. Input 0-100)
+!#VRi^CB_110_Replace_0_X_Offset^:S1; (Offset for the yellow entrance +-)
+
+!#VRi^CB_110_Replace_1_Type_Number^:S-1;
+!#VRi^CB_110_Replace_1_SubType_Number^:S-1;
+!#VRi^CB_110_Replace_1_Percentage^:S0;
+!#VRi^CB_110_Replace_1_X_Offset^:S0;
+
+!#VRi^CB_110_Replace_2_Type_Number^:S-1;
+!#VRi^CB_110_Replace_2_SubType_Number^:S-1;
+!#VRi^CB_110_Replace_2_Percentage^:S0;
+!#VRi^CB_110_Replace_2_X_Offset^:S0;
+
+!#VRi^CB_110_Replace_3_Type_Number^:S-1;
+!#VRi^CB_110_Replace_3_SubType_Number^:S-1;
+!#VRi^CB_110_Replace_3_Percentage^:S0;
+!#VRi^CB_110_Replace_3_X_Offset^:S0;
+
+!#VRi^CB_110_Replace_4_Type_Number^:S-1;
+!#VRi^CB_110_Replace_4_SubType_Number^:S-1;
+!#VRi^CB_110_Replace_4_Percentage^:S0;
+!#VRi^CB_110_Replace_4_X_Offset^:S0;
+
+!#VRi^CB_110_Replace_5_Type_Number^:S-1;
+!#VRi^CB_110_Replace_5_SubType_Number^:S-1;
+!#VRi^CB_110_Replace_5_Percentage^:S0;
+!#VRi^CB_110_Replace_5_X_Offset^:S0;
+
+!#VRi^CB_110_Replace_6_Type_Number^:S-1;
+!#VRi^CB_110_Replace_6_SubType_Number^:S-1;
+!#VRi^CB_110_Replace_6_Percentage^:S0;
+!#VRi^CB_110_Replace_6_X_Offset^:S0;
+
+
+
+****************************************************************************************************
+*Replace Objects when map starts*
+!?FU(OnEveryDay)&i^tum_isRandMap^<>(TRUE)/i^tum_replaceObj_on^;
+
+!!if&x1=1/x3=1:;                   [Run once at day 1]
+  !!VRy1:Si^CB_110_Replace_Objects^; !!FU&y1=0:E;
+  !!VRi:S0;
+  !!VRj:S0;
+
+  !!VRy1:Si^CB_110_Type_Number^;
+  !!VRy2:Si^CB_110_SubType_Number^;
+
+  !!re i/0/6/1:;
+    !!VRy3:Si^CB_110_Replace_%Vi_Type_Number^;
+    !!VRy4:Si^CB_110_Replace_%Vi_SubType_Number^;
+    !!VRy5:Si^CB_110_Replace_%Vi_Percentage^;
+    !!VRy7:Si^CB_110_Replace_%Vi_X_Offset^;
+    !!if&y3>=0/y4>=0/y5>0:;
+    !!UN:Uy3/-1/?y6;
+    !!VRv2:S-1;
+    !!DO(CB_110_Replace)/1/y6/1:Py3/y4/y1/y2/y5/y7;
+    !!en:;
+  !!en:;
+!!en:;
+
+********************************************************************************
+!?FU(CB_110_Replace);
+
+!!UN:Ux1/-1/-1/2;
+
+!!VRy2:S0T99;                           (Calc chance to replace)
+!!if&x5>y2:;
+!!OBv2/v3/v4:T?y5 U?y6;                 (Get Type and Subtype)
+
+!!VRy30:Sv2+x6;                         (Offset in x) 
+!!UN:X?y10/?y20; !!VRy10:-1;            Get Map size to prevent wrong placement of x-coordinate
+
+!!if&x1=y5/x2=y6/y30<=y10/y30>=0:;      If type and subtype match and if object is not outside of map
+  !!UN:Ov2/v3/v4/0/0;                   (delete old object)
+  !!VRv2:+x6;                           (Offset in x)
+  !!UN:Iv2/v3/v4/x3/x4/x3/x4/-1/0;
+  !!POv2/v3/v4:N3;
+  !!VRi^CB_110_Set_Flag_%V2_%V3_%V4^:S1;
+!!en:;
+!!en:;

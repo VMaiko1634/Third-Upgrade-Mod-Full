@@ -129,7 +129,6 @@ ZVSE2
 !?FU(OnAfterErmInstructions);
 !!VRi^wog_39_monsterSpecialtiesEnabled^:S(FALSE); [DISABLE monster specialties from Hero Spec Booost]
 !!VRi^wog_71_newCombiArtEnabled^:S(FALSE); [DISABLE new combination artifacts from Enhanced Artifact II]
-!!VRi^wog_195_objReplaceMult^:S66;    [Reduce the WoG replacements to 66% of the original percentage]
 !!VRi^wog_195_howlingHollow_on^:S(FALSE);   [Disable the generation of Howling Hollow - must be executed sooner than 78 wog - wogify]
 
 **************************
