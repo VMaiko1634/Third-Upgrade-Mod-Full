@@ -2087,6 +2087,65 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
   !!en;
 !!en;
 ---------------------------------------------------------------------------------------------
+// Ranged damage resistances
+!?FU(GetMonShootingResistance);
+!#VA(mon:x) (dmgReduction:x);
+
+!!VR(dmgReduction):S0;
+!!VR(dmgReduction)&(mon)=337:S30;
+!!VR(dmgReduction)&(mon)=338:S60;
+
+!#SN:W^HitEffects.Shot.320^/^Burst51.def^;                    High Priest
+!#VRs^HitEffects.Melee.320^:S^Burst01.def^; 
+!#VRs^HitEffects.Melee.202^:S^Burst04.def^;                   Seraphim
+!#VRs^HitEffects.MeleeSound.202^:S^PHOEMOVE.wav^;
+!#VRs^HitEffects.Melee.206^:S^Burst10.def^;                   Legendary Unicorn
+!#SN:W^HitEffects.Shot.257^/^Burst08.def^;                    Mage Arcane
+!#SN:W^HitEffects.ShotSound.257^/^NOSFSHOT.wav^;
+!#VRs^HitEffects.Melee.210^:S^Burst15.def^;                   Astral Genie
+!#VRs^HitEffects.Melee.212^:S^Burst10.def^;                   Guardian of Zeus
+!#VRs^HitEffects.MeleeSound.212^:S^GOGFLAME.wav^;
+!#SN:W^HitEffects.Shot.212^/^Burst11.def^;
+!#VRs^HitEffects.Melee.218^:S^Burst39.def^;                  Efreet Rajah
+!#VRs^HitEffects.Melee.219^:S^Burst14.def^;                  Antichrist
+!#VRs^HitEffects.MeleeSound.219^:S^FAERATTK.wav^;
+!#VRs^HitEffects.Melee.261^:S^Burst15.def^;                  Specter
+!#VRs^HitEffects.Melee.224^:S^Burst16.def^;                  Red Bones Dragon
+!#SN:W^HitEffects.Shot.222^/^Burst17.def^;                   Lich King
+!#SN:W^HitEffects.ShotSound.222^/^DEATHCLS.wav^;
+!#SN:W^HitEffects.Shot.226^/^Burst20.def^;                   Monstrous Eye
+!#VRs^HitEffects.Melee.226^:S^Burst18.def^;
+!#VRs^HitEffects.Melee.236^:S^Burst11.def^;                  Lightningbird
+!#VRs^HitEffects.MeleeSound.236^:S^CALFSHOT.wav^;
+!#SN:W^HitEffects.Shot.237^/^Burst22.def^;                   Cyclops Emperor
+!#SN:W^HitEffects.ShotSound.237^/^WALLMISS.wav^;
+!#VRs^HitEffects.Melee.238^:S^Burst23.def^;                  Spectral Behemoth
+!#VRs^HitEffects.Melee.241^:S^Burst24.def^;                  Dragon Fly
+!#VRs^HitEffects.Melee.242^:S^Burst49.def^;                  Lava Basilisk
+!#VRs^HitEffects.MeleeSound.243^:S^ACID.wav^;                Acid Wyvern
+!#VRs^HitEffects.Melee.244^:S^Burst26.def^;                  Catoblepas
+!#VRs^HitEffects.Melee.246^:S^Burst47.def^;                  Fairie
+!#VRs^HitEffects.Melee.247^:S^Burst34.def^;                  Hurracaine Elemental
+!#VRs^HitEffects.MeleeSound.247^:S^AELMATTK.wav^;
+!#SN:W^HitEffects.Shot.247^/^Burst31.def^;
+!#SN:W^HitEffects.Shot.248^/^Burst32.def^;                   Life Elemental
+!#SN:W^HitEffects.ShotSound.248^/^BMTHKILL.wav^;
+!#VRs^HitEffects.Melee.249^:S^Burst46.def^;                  Plasma Elemental
+!#VRs^HitEffects.Melee.252^:S^Burst50.def^; 
+!#VRs^HitEffects.Melee.%(MON_EMERALD_CRYSTAL_DRAGON) ^:S^Burst43.def^;                  Emerald Crystal Dragon
+!#VRs^HitEffects.Melee.%(MON_SAPPHIRE_CRYSTAL_DRAGON)^:S^Burst43.def^;                  Sapphire Crystal Dragon
+!#SN:W^HitEffects.Shot.254^/^Burst17.def^;                   Necross Dragon
+!#SN:W^HitEffects.ShotSound.254^/^DEATHCLS.wav^;
+!#VRs^HitEffects.Melee.254^:S^Burst25.def^; 
+!#SN:W^HitEffects.Shot.259^/^Burst10.def^;                  Spellweaver
+!#VRs^HitEffects.Melee.330^:S^Burst49.def^;
+!#VRs^HitEffects.Melee.339^:S^Burst25.def^;
+!#SN:W^HitEffects.Shot.351^/^Burst08.def^;                      Lady Spider
+!#VRs^HitEffects.Melee.333^:S^Burst04.def^;                Fallen Angel
+!#VRs^HitEffects.Melee.334^:S^Burst04.def^;                Angel of the Death
+
+
+---------------------------------------------------------------------------------------------
 !?FU(OnGameEnter);
 !!UN:T0/0/2/197; (Castle)
 !!UN:T0/1/2/198;
