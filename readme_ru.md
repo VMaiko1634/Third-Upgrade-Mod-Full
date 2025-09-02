@@ -1,27 +1,29 @@
 ВНИМАНИЕ: Third Upgrades Mod требует "Visual Studio Redistributable", скачайте его с официальной страницы Microsoft.
 
                     ************** Third Upgrades Mod *****************
-                    *************** Версия: v3.2.0 ******************
+                    *************** Версия: v3.2.1 ******************
                    **************** Amethyst Edition ******************
 
 --------------------------------------------------------------------------------------------------
 
 Авторы:
 
-VMaiko: Автор, идея и графика.
+VMaiko: Автор, идея и графика Тиамата
 PerryR: Автор ERM и скриптинг.
 Archer30: Автор ERM и скриптинг.
 Berserker: Скриптинг.
 Xericsin: Скриптинг.
-Majaczek: Плагины (Amethyst и Emerald).
-Strigo: Плагин (Resound).
-Moriarty89: Графика.
-By003: Графика Fallen/Death Angel и Dark Templar/Paladin
-Avatar: Звуки и графические ресурсы.
-FirePaladin: Графика.
+Majaczek: Плагины (Amethyst, Emerald и New Towns).
+SadnessPower: AI Heroes for New Town plugin.
+Moriarty89: Графика для Сапфирвого дракона из кристалла Сапфира.
+By003: Графика для падших/ангелов смерти и тёмных тамплиеров/паладин.
+Avatar: Звуковые и графические ресурсы.
+FirePaladin и Toriko: Немного графики.
 ElfbI: Новые ящики Пандоры.
-Hawaiing: Автор плагина 8-х жилищ.
-Kongsuni: ERM-скриптер некоторых артефактов.
+Hawaiiing: Автор плагина 8th dwellings.
+Kongsuni: Скриптер ERM для некоторых артефактов.
+Fred: Предметы приключений.
+Aphra: Портреты TUM HD.
 
 Оригинальные авторы мода Tides of War, чьи ресурсы были использованы в этом моде:
 

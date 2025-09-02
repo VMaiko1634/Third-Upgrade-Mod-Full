@@ -2095,6 +2095,30 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
 !!VR(dmgReduction)&(mon)=337:S30;
 !!VR(dmgReduction)&(mon)=338:S60;
 
+// Melee damage resistances
+!?FU(GetMonMeleeResistance);
+!#VA(mon:x) (dmgReduction:x);
+
+!!VR(dmgReduction):S0; examples (uncomment to take effect)
+;!VR(dmgReduction)&(mon)=(MON_DIAMOND_GOLEM):S-35; [35% melee damage vulnerability]
+;!VR(dmgReduction)&(mon)=(MON_GOLD_GOLEM):S70; [70% melee damage resistance]
+
+!?FU(OnStackToStackDamage);
+!#VA(atkStack:x) (defStack:x) (finalDmgConst:x) (finalDmg:x) (basicDmg:x) (dmgBonus:x) (isDistant:x) (distanceArg:x) (isTheoretical:x);
+
+!!BM(defStack):T?(mon:y);
+
+; Applying damage factors
+!!VR(dmgReduction:y):S0;
+!!FU(GetMonMeleeResistance):P(mon)/?(dmgReduction);
+!!FU(GetMonShootingResistance)&x7:P(mon)/?(dmgReduction);
+
+!!if&(dmgReduction)>0;
+  !!VR(reducedDmg:y):S(finalDmgConst) *(dmgReduction) :100;
+  !!VR(newFinalDmg:y):S(finalDmg) -(reducedDmg);
+  !!VR(finalDmg)&(finalDmg)>(newFinalDmg):S(newFinalDmg);
+  !!en;
+
 !#SN:W^HitEffects.Shot.320^/^Burst51.def^;                    High Priest
 !#VRs^HitEffects.Melee.320^:S^Burst01.def^; 
 !#VRs^HitEffects.Melee.202^:S^Burst04.def^;                   Seraphim

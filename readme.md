@@ -1,27 +1,29 @@
 ATTENTION: Third Upgrades Mod requires "Visual Studio Redistributable" download it in official Microsoft page.
 
                     ************** Third Upgrades Mod *****************
-                    *************** Version: v3.2.0******************
+                    *************** Version: v3.2.1******************
                    **************** Amethyst Edition ******************
 
 --------------------------------------------------------------------------------------------------
 
 Credits:
 
-VMaiko: Author, idea and graphics.
+VMaiko: Author, idea and graphics such as Tiamat.
 PerryR: ERM author and scripting.
 Archer30: ERM author and scripting.
 Berserker: Scripting.
 Xericsin: Scripting.
-Majaczek: Plugins (Amethyst and Emerald).
-Strigo: Plugin (Resound).
-Moriarty89: Graphics.
+Majaczek: Plugins (Amethyst,Emerald and New Town).
+SadnessPower: AI Heroes for New Town plugin.
+Moriarty89: Shapphire Crystal Dragon Graphics.
 By003: Fallen/Death Angel and Dark Templar/Paladin graphics
 Avatar: Sounds and Graphics resources.
-FirePaladin: Graphics.
+FirePaladin & Toriko: Some Graphics.
 ElfbI: New Pandora Boxes.
 Hawaiing: 8th dwellings plugin author.
 Kongsuni: ERM scripter of some artifacts.
+Fred: Adventure's Objects
+Aphra: TUM HD portraits
 
 Original authors of Tides of War mod which their assets were used to do this mod:
 
