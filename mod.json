@@ -9,7 +9,7 @@
 			"ru_RU": "readme_ru.md"
 		},
 		"short": {
-			"en_US": "\r\n\r\n                 ************** Third Upgrade Mod **************\r\n                 ****************** version: v3.2.1 ********************\r\n                 *********** VMaiko's Amethyst Edition ***********\r\n                 ******************Scripting by PerryR, Berserker****************\r\n\r\nAdds a third upgrade for every creature! Uses the Typhon Mod.\r\nEnables all creature specialists to also specialize in the third upgrade. This mod disables WoG Script \"39 wog - hero specialization boost\". ",
+			"en_US": "\r\n\r\n                 ************** Third Upgrade Mod **************\r\n                 ****************** version: v3.2.2 ********************\r\n                 *********** VMaiko's Amethyst Edition ***********\r\n                 ******************Scripting by PerryR, Berserker****************\r\n\r\nAdds a third upgrade for every creature! Uses the Typhon Mod.\r\nEnables all creature specialists to also specialize in the third upgrade. This mod disables WoG Script \"39 wog - hero specialization boost\". ",
 			"ru_RU": ""
 		}
 	},
@@ -19,7 +19,7 @@
 		"file": "AmeU3.ico",
 		"index": 0
 	},
-	"mod_version": "3.2.1",
+	"mod_version": "3.2.2",
 	"priority": 3,
 	"compatibility": {
 	"incompatible": [

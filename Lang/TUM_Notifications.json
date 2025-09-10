@@ -3,8 +3,8 @@
 		"resound": {
 			"notification": {
 				"0": {
-				    "name": "{~00AAFF}Third Upgrade Mod Changelog s3.2.0}",
-					"text": "[!] New buildings to construct.\n\n[!] Graphical overhaul of some creatures.\n\n[!]Portal of Summoning is functional again.\n\n[!] Countless fixes and much more! {~00AAFF}Full changelog in the mod's Discord channel.}",
+				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.2.2}",
+					"text": "[!] Fixed a bug that allowed the 8th dwelling to be built for the third and fourth time.\n\nA solution to the problem that allows armies to be recruited indefinitely is still being sought. If you want to help with a save or detail how to reproduce the error, please do so at Discord Channel of the Mod.",
 					"url": "https://discord.com/channels/665742159307341827/689568488343208047/1411361215875121224"
 				},
 				"1": {
