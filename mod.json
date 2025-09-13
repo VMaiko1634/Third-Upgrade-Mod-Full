@@ -1,7 +1,7 @@
 {
 	"caption": {
 		"en_US": "Third Upgrade Mod",
-		"ru_RU": ""
+		"ru_RU": "Мод Третьих Улучшений"
 	},
 	"description": {
 		"full": {
@@ -19,7 +19,7 @@
 		"file": "AmeU3.ico",
 		"index": 0
 	},
-	"mod_version": "3.2.2",
+	"mod_version": "3.2.3",
 	"priority": 3,
 	"compatibility": {
 	"incompatible": [
