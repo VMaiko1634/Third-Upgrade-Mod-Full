@@ -3,13 +3,13 @@
 		"resound": {
 			"notification": {
 				"0": {
-				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.2.2}",
-					"text": "[!] Fixed a bug that allowed the 8th dwelling to be built for the third and fourth time.\n\nA solution to the problem that allows armies to be recruited indefinitely is still being sought. If you want to help with a save or detail how to reproduce the error, please do so at Discord Channel of the Mod.",
+				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.3.0}",
+					"text": "[*] Countless fixes to new town plugin.\n[*] Now Great Capitol can be built one per player.\n[*] Now Great Capitol needs Castle Level 3 in order to be built.\n[*] Universal Upgrades option can be enabled now.\n[*] Removed the annoying message about guards when you click on Castle.\n[*] Capitol can be built in every town option is enabled by default.\n[*] Allow Building Twice per Day is enabled by default.\n\nAnd much more! More info in Third Upgrade Mod's Discord Channel.",
 					"url": "https://discord.com/channels/665742159307341827/689568488343208047/1411361215875121224"
 				},
 				"1": {
 				    "name": "{~FFE400}Wog options disabled for TUM}",
-					"text": "The following Wog Options are disabled by default in TUM due to incompatibilities:\n\n[-]Rebalanced Creatures\n[-]Enhanced Monsters\n[-]Upg level 7 become level 8\n[-]Extended Upgrades\n[-]Universal Upgrades\n[-]Rampart Farie Dragon\n[-]Buckler of Beelzebub\n[-]Enhanced Creature\n[-]Adittional Uprades\n[-]Combo artifacts from Enhanced Artifacts II\n[-]Monster Specialities from Hero Specialization Boosts.",
+					"text": "The following Wog Options are disabled by default in TUM due to incompatibilities:\n\n[-] Rebalanced Creatures.\n[-] Enhanced Monsters.\n[-] Upg level 7 become level 8.\n[-] Extended Upgrades.\n[-] Adittional Uprades.\n[-] Castle Upgrading.\n[-] Rampart Farie Dragon.\n[-] Buckler of Beelzebub.\n[-] Enhanced Creatures.\n[-] Combo artifacts from Enhanced Artifacts II.\n[-] Monster Specialities from Hero Specialization Boosts.",
 					"url": "https://discord.com/channels/665742159307341827/689568488343208047"
 				}
 			}

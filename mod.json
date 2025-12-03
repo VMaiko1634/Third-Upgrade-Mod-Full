@@ -9,7 +9,7 @@
 			"ru_RU": "readme_ru.md"
 		},
 		"short": {
-			"en_US": "\r\n\r\n                 ************** Third Upgrade Mod **************\r\n                 ****************** version: v3.2.2 ********************\r\n                 *********** VMaiko's Amethyst Edition ***********\r\n                 ******************Scripting by PerryR, Berserker****************\r\n\r\nAdds a third upgrade for every creature! Uses the Typhon Mod.\r\nEnables all creature specialists to also specialize in the third upgrade. This mod disables WoG Script \"39 wog - hero specialization boost\". ",
+			"en_US": "\r\n\r\n                 ************** Third Upgrade Mod **************\r\n                 ****************** version: v3.3.0 ********************\r\n                 *********** VMaiko's Amethyst Edition ***********\r\n                 ******************Scripting by PerryR, Berserker****************\r\n\r\nAdds a third upgrade for every creature! Uses the Typhon Mod.\r\nEnables all creature specialists to also specialize in the third upgrade. This mod disables WoG Script \"39 wog - hero specialization boost\". ",
 			"ru_RU": ""
 		}
 	},
@@ -19,16 +19,19 @@
 		"file": "AmeU3.ico",
 		"index": 0
 	},
-	"mod_version": "3.2.2",
+	"mod_version": "3.3.0",
 	"priority": 3,
 	"compatibility": {
 	"incompatible": [
 	"TUM Enchanted",
 	"Land Of New Towns",
+	"HD Editionfixai (ENG-RU)",
+	"Unified Town Recruitment",
+	"TUM Enchanted Graphic Pack",
 	"ERA+"
 	],
 	"load_after": [
-	"HD Editionfixai (ENG-RU)"
+	
 	]
 	},
 	"platform": "era",
