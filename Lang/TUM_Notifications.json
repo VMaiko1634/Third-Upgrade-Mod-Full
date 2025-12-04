@@ -3,7 +3,7 @@
 		"resound": {
 			"notification": {
 				"0": {
-				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.3.0}",
+				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.3.2}",
 					"text": "[*] Countless fixes to new town plugin.\n[*] Now Great Capitol can be built one per player.\n[*] Now Great Capitol needs Castle Level 3 in order to be built.\n[*] Universal Upgrades option can be enabled now.\n[*] Removed the annoying message about guards when you click on Castle.\n[*] Capitol can be built in every town option is enabled by default.\n[*] Allow Building Twice per Day is enabled by default.\n\nAnd much more! More info in Third Upgrade Mod's Discord Channel.",
 					"url": "https://discord.com/channels/665742159307341827/689568488343208047/1411361215875121224"
 				},

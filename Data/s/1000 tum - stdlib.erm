@@ -121,7 +121,6 @@ ZVSE2
 !#UN:P281/0;                            [DISABLE buckler of Beelzebub]
 !#UN:P740/0;                            [DISABLE Enhanced Creature Specialists]
 !#UN:P45/0;                             [DISABLE Castle Upgrading]
-!#UN:P228/0;                            [ENABLE Allow Building Twice per Day in Towns]
 !#UN:P124/1;                            [ENABLED Capitol can be built in every town]
 
 *#UN&i^tum_isRandMap^:P143/0;           [DISABLE New Artifacts in random maps (as WoG artifacts now generate on the map natually)]
@@ -745,3 +744,27 @@ ZVSE2
 !!IF&(town)<43200000:M^{FU(Town_GetStruct): Attention!}
 Error in getting town structure address. 
 The game may fall at any time.^; 
+
+****************************
+****Building twice a turn ****
+****************************
+
+!?FU(OnEveryDay)&i^timerDay^=1/i^timerOnce^=1;
+!!UN:P228/?i^buildTwice^;                       [Check if Build Twice a Day option is enabled]
+
+!!UN:P228/0;                                    [Disable wog option behaviour]
+
+!!FU(BuildPerTurnSetup):P(TRUE);
+
+!?FU(BuildPerTurnSetup);
+
+!#VA(update:x);
+
+!!SN:L^new_towns.era^/?(file:y);
+!!SN&(update)=(FALSE):A(file)/^set_buildings_daily^/?(address:y);
+!!SN&(update)=(TRUE):A(file)/^set_buildings_daily_and_update^/?(address:y);
+
+!!VR(buildingPerTurn:y)&i^buildTwice^=(FALSE):S1;
+!!VR(buildingPerTurn)&i^buildTwice^=(TRUE):S2;
+
+!!SN:E(address)/1/(buildingPerTurn);
