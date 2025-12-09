@@ -121,7 +121,7 @@ ZVSE2
 !#UN:P281/0;                            [DISABLE buckler of Beelzebub]
 !#UN:P740/0;                            [DISABLE Enhanced Creature Specialists]
 !#UN:P45/0;                             [DISABLE Castle Upgrading]
-!#UN:P124/1;                            [ENABLED Capitol can be built in every town]
+!#UN:P124/0;                            [DISABLE Capitol can be built in every town]
 
 *#UN&i^tum_isRandMap^:P143/0;           [DISABLE New Artifacts in random maps (as WoG artifacts now generate on the map natually)]
 !#UN&i^tum_emerald_on^:P792/0;          [DISABLE Not a Place for People (as it makes the game even more laggy with emerald)]

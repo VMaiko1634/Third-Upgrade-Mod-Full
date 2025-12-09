@@ -3,13 +3,18 @@
 		"resound": {
 			"notification": {
 				"0": {
-				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.3.2}",
-					"text": "[*] Countless fixes to new town plugin.\n[*] Now Great Capitol can be built one per player.\n[*] Now Great Capitol needs Castle Level 3 in order to be built.\n[*] Universal Upgrades option can be enabled now.\n[*] Removed the annoying message about guards when you click on Castle.\n[*] Capitol can be built in every town option is enabled by default.\n[*] Allow Building Twice per Day is enabled by default.\n\nAnd much more! More info in Third Upgrade Mod's Discord Channel.",
+				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.3.3}",
+					"text": "[*] Added missing translation to the language files.\n[*] Removed unnecessary text from mod.json.\n[*] Updated new town plugin.\n[*] Fixed icons from upgraded monster in growth option.\n[*] Possibly fixed the issue where external dwellings do not increase weekly growth.\n[*] Possibly fixed the issue where stables do not increase hero movement.\n[*] Possibly fixed the issue where the Town Hall/Capitol disappears when capturing an enemy town.\n[*] Capitol can be built in every town option is disabled by default. \n[*] Added a set of instructions for proper installation in case of user errors and to prevent false reports.",
 					"url": "https://discord.com/channels/665742159307341827/689568488343208047/1411361215875121224"
 				},
 				"1": {
 				    "name": "{~FFE400}Wog options disabled for TUM}",
 					"text": "The following Wog Options are disabled by default in TUM due to incompatibilities:\n\n[-] Rebalanced Creatures.\n[-] Enhanced Monsters.\n[-] Upg level 7 become level 8.\n[-] Extended Upgrades.\n[-] Adittional Uprades.\n[-] Castle Upgrading.\n[-] Rampart Farie Dragon.\n[-] Buckler of Beelzebub.\n[-] Enhanced Creatures.\n[-] Combo artifacts from Enhanced Artifacts II.\n[-] Monster Specialities from Hero Specialization Boosts.",
+					"url": "https://discord.com/channels/665742159307341827/689568488343208047"
+				},
+				"2": {
+				    "name": "{~347DEA}Before reporting, please check the following:}",
+					"text": "- If you experience constant random crashes, delete the mod and reinstall it.\n\n- Close the game for proper installation.\n\n- Try a new map if your current save file is experiencing errors.\n\n- Try running the launcher as administrator to install the mod in case of false positives.\n\n**There have been many unnecessary reports due to faulty mod installations. Please keep this in mind.",
 					"url": "https://discord.com/channels/665742159307341827/689568488343208047"
 				}
 			}
