@@ -3,8 +3,8 @@
 		"resound": {
 			"notification": {
 				"0": {
-				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.3.3}",
-					"text": "[*] Added missing translation to the language files.\n[*] Removed unnecessary text from mod.json.\n[*] Updated new town plugin.\n[*] Fixed icons from upgraded monster in growth option.\n[*] Possibly fixed the issue where external dwellings do not increase weekly growth.\n[*] Possibly fixed the issue where stables do not increase hero movement.\n[*] Possibly fixed the issue where the Town Hall/Capitol disappears when capturing an enemy town.\n[*] Capitol can be built in every town option is disabled by default. \n[*] Added a set of instructions for proper installation in case of user errors and to prevent false reports.",
+				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.3.4}",
+					"text": "[*] Updated New Town Plugin.\n[*] Updated Amethyst Plugin.\n[*] Increased mod priority.\n[*] HD Edition remaster mod is available to be enabled again.\n[*] Fixed the visual bug in the buildings menu when playing with the HD Edition remaster mod.\n[*] Added blank InstantAnim.dll to disable that plugin because it looked bad in the mod.\n\nRemember that HD Edition Remaster is a very demanding graphics mod; if the game seems too laggy, it's not TUM's fault, it's HD Edition Remaster's.",
 					"url": "https://discord.com/channels/665742159307341827/689568488343208047/1411361215875121224"
 				},
 				"1": {
