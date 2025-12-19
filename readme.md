@@ -1,7 +1,7 @@
 ATTENTION: Third Upgrades Mod requires "Visual Studio Redistributable" download it in official Microsoft page.
 
                     ************** Third Upgrades Mod *****************
-                    *************** Version: v3.3.3******************
+                    *************** Version: v3.3.4******************
                    **************** Amethyst Edition ******************
 
 --------------------------------------------------------------------------------------------------

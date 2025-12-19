@@ -15,18 +15,19 @@
 		"file": "AmeU3.ico",
 		"index": 0
 	},
-	"mod_version": "3.3.3",
-	"priority": 3,
+	"mod_version": "3.3.4",
+	"priority": 5,
 	"compatibility": {
 	"incompatible": [
 	"TUM Enchanted",
 	"Land Of New Towns",
-	"HD Editionfixai (ENG-RU)",
 	"Unified Town Recruitment",
 	"TUM Enchanted Graphic Pack",
 	"ERA+"
 	],
 	"load_after": [
+	"HD Editionfixai (ENG-RU)",
+	"JS - main module"
 	
 	]
 	},
