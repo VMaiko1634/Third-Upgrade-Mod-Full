@@ -1,0 +1,23 @@
+{
+	"era": {
+		"resound": {
+			"notification": {
+				"0": {
+				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.3.4}",
+					"text": "[*] Updated New Town Plugin.\n[*] Updated Amethyst Plugin.\n[*] Increased mod priority.\n[*] HD Edition remaster mod is available to be enabled again.\n[*] Fixed the visual bug in the buildings menu when playing with the HD Edition remaster mod.\n[*] Added blank InstantAnim.dll to disable that plugin because it looked bad in the mod.\n\nRemember that HD Edition Remaster is a very demanding graphics mod; if the game seems too laggy, it's not TUM's fault, it's HD Edition Remaster's.",
+					"url": "https://discord.com/channels/665742159307341827/689568488343208047/1411361215875121224"
+				},
+				"1": {
+				    "name": "{~FFE400}Wog options disabled for TUM}",
+					"text": "The following Wog Options are disabled by default in TUM due to incompatibilities:\n\n[-] Rebalanced Creatures.\n[-] Enhanced Monsters.\n[-] Upg level 7 become level 8.\n[-] Extended Upgrades.\n[-] Adittional Uprades.\n[-] Castle Upgrading.\n[-] Rampart Farie Dragon.\n[-] Buckler of Beelzebub.\n[-] Enhanced Creatures.\n[-] Combo artifacts from Enhanced Artifacts II.\n[-] Monster Specialities from Hero Specialization Boosts.",
+					"url": "https://discord.com/channels/665742159307341827/689568488343208047"
+				},
+				"2": {
+				    "name": "{~347DEA}Before reporting, please check the following:}",
+					"text": "- If you experience constant random crashes, delete the mod and reinstall it.\n\n- Close the game for proper installation.\n\n- Try a new map if your current save file is experiencing errors.\n\n- Try running the launcher as administrator to install the mod in case of false positives.\n\n**There have been many unnecessary reports due to faulty mod installations. Please keep this in mind.",
+					"url": "https://discord.com/channels/665742159307341827/689568488343208047"
+				}
+			}
+		}
+	}
+}

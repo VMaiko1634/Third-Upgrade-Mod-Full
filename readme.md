@@ -1,7 +1,7 @@
 ATTENTION: Third Upgrades Mod requires "Visual Studio Redistributable" download it in official Microsoft page.
 
                     ************** Third Upgrades Mod *****************
-                    *************** Version: v3.3.4******************
+                    *************** Version: v3.3.5******************
                    **************** Amethyst Edition ******************
 
 --------------------------------------------------------------------------------------------------
@@ -183,7 +183,6 @@ Health: 9%+1*HeroLvL
 
 This bonus is added to the creatures only in combat! The normal Heroes3 mechanic (+1 Speed and +Att/Def after each x-level) still works and can be seen directly on your creature in the hero screen.
 You will find this scaling much fairer then the busted WoG script, where each creature ended with +50 Att/Def after enough hero levels. 
-If you are no fan of this script you can just delete the "Creature Specialisation Third Upgrade Mod" and "81 wog - disable options" erm file in the Data/s folder. 
 
 4. Necromancy
 
@@ -200,8 +199,6 @@ Basic Necromancy: Raise Ghouls
 Advanced necromancy: Raise Ghosts
 Necromancy Expert: Raise King Liches
 
-5. Additional Units
+5. 8th Units in Factions.
 
-Now it is possible to obtain additional units in the game, to obtain it there are 2 requirements, 
-You are required to build a dwelling of the same level as the same creature (For example to build Treehouse you need to build Enchaing Spring) and build an exclusive building for each faction.
-To obtain the upgraded version of the additional unit it is required that the building to obtain a third upgrade be built.
+Now it is possible to obtain additional units in the game. You can get them at the beggining of the game with the sole requirement of building a level 6 dwelling. Same case for third upgrade buildings.

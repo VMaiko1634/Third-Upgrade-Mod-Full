@@ -1,0 +1,3894 @@
+{
+    "RMG": {
+        "objectGeneration": {
+            "16": {
+                "33": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Pantheon",
+                    "properties": [
+                        "CB1.def 000111111111111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 011000001 011000001 16 33 1 0"
+                    ],
+                    "sound": {
+                        "enter": "CEMETRY.wav",
+                        "loop": "LOOPCMTR.wav"
+                    },
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                1,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    0
+                                ],
+                                "type": [
+                                    329,
+                                    329,
+                                    329,
+                                    329,
+                                    329,
+                                    329,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                5000
+                            ],
+                            "upgrade": 0
+                        }
+                    ],
+                    "value": 1800
+                },
+                "34": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Mithril Tower",
+                    "properties": [
+                        "CB2.def 001111111111111111111111111111111111111111111111 100000000000000000000000000000000000000000000000 000000101 000000101 16 34 1 0"
+                    ],
+                    "sound": {
+                        "enter": "IVORYTOW.wav",
+                        "loop": "IVORTWLO.wav"
+                    },
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 5,
+                            "creatureRewardType": 324,
+                            "guardians": {
+                                "count": [
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    136,
+                                    136,
+                                    136,
+                                    136,
+                                    136,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                2500
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 10,
+                            "creatureRewardType": 324,
+                            "guardians": {
+                                "count": [
+                                    50,
+                                    50,
+                                    50,
+                                    50,
+                                    50,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    136,
+                                    136,
+                                    136,
+                                    136,
+                                    136,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                2500
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 15,
+                            "creatureRewardType": 324,
+                            "guardians": {
+                                "count": [
+                                    75,
+                                    75,
+                                    75,
+                                    75,
+                                    75,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    136,
+                                    136,
+                                    136,
+                                    136,
+                                    136,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                5000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 10,
+                            "creatureRewardCount": 20,
+                            "creatureRewardType": 324,
+                            "guardians": {
+                                "count": [
+                                    100,
+                                    100,
+                                    100,
+                                    100,
+                                    100,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    136,
+                                    136,
+                                    136,
+                                    136,
+                                    136,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                10000
+                            ],
+                            "upgrade": 50
+                        }
+                    ],
+                    "value": 2200
+                },
+                "35": {
+                    "density": 80,
+                    "enabled": true,
+                    "name": "Experimental Factory",
+                    "properties": [
+                        "CB3.def 000111111111111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 001000101 001000101 16 35 1 0"
+                    ],
+                    "sound": {
+                        "enter": null,
+                        "loop": "LOOPEXSH.wav"
+                    },
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 2,
+                            "creatureRewardType": 40,
+                            "guardians": {
+                                "count": [
+                                    10,
+                                    10,
+                                    10,
+                                    10,
+                                    10,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    209,
+                                    209,
+                                    209,
+                                    209,
+                                    209,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 1,
+                            "creatureRewardType": 41,
+                            "guardians": {
+                                "count": [
+                                    15,
+                                    15,
+                                    15,
+                                    15,
+                                    15,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    209,
+                                    209,
+                                    209,
+                                    209,
+                                    209,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 2,
+                            "creatureRewardType": 41,
+                            "guardians": {
+                                "count": [
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    324,
+                                    324,
+                                    324,
+                                    324,
+                                    324,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 10,
+                            "creatureRewardCount": 1,
+                            "creatureRewardType": 152,
+                            "guardians": {
+                                "count": [
+                                    50,
+                                    50,
+                                    50,
+                                    50,
+                                    50,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    324,
+                                    324,
+                                    324,
+                                    324,
+                                    324,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        }
+                    ],
+                    "value": 3500
+                },
+                "36": {
+                    "density": 70,
+                    "enabled": true,
+                    "name": "Wolf Raider Gaol",
+                    "properties": [
+                        "CB4.def 011111111111111111111111111111111111111111111111 100000000000000000000000000000000000000000000000 001100011 001100011 16 36 1 0"
+                    ],
+                    "sound": {
+                        "enter": null,
+                        "loop": "LOOPPICK.wav"
+                    },
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 4,
+                            "creatureRewardType": 237,
+                            "guardians": {
+                                "count": [
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    233,
+                                    233,
+                                    233,
+                                    233,
+                                    233,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 6,
+                            "creatureRewardType": 237,
+                            "guardians": {
+                                "count": [
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    233,
+                                    233,
+                                    233,
+                                    233,
+                                    233,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 8,
+                            "creatureRewardType": 237,
+                            "guardians": {
+                                "count": [
+                                    40,
+                                    40,
+                                    40,
+                                    40,
+                                    40,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    233,
+                                    233,
+                                    233,
+                                    233,
+                                    233,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 10,
+                            "creatureRewardCount": 12,
+                            "creatureRewardType": 237,
+                            "guardians": {
+                                "count": [
+                                    60,
+                                    60,
+                                    60,
+                                    60,
+                                    60,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    233,
+                                    233,
+                                    233,
+                                    233,
+                                    233,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        }
+                    ],
+                    "value": 9500
+                },
+                "38": {
+                    "density": 20,
+                    "enabled": true,
+                    "name": "Blue Tower",
+                    "properties": [
+                        "CB6.def 101111111011111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 011111111 011111111 16 38 1 0"
+                    ],
+                    "sound": {
+                        "enter": "REDTWRVS.wav",
+                        "loop": "REDTWRLO.wav"
+                    },
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 2,
+                            "creatureRewardType": 130,
+                            "guardians": {
+                                "count": [
+                                    14,
+                                    14,
+                                    14,
+                                    14,
+                                    14,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    249,
+                                    249,
+                                    249,
+                                    249,
+                                    249,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 1,
+                            "creatureRewardType": 131,
+                            "guardians": {
+                                "count": [
+                                    28,
+                                    28,
+                                    28,
+                                    28,
+                                    28,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    249,
+                                    249,
+                                    249,
+                                    249,
+                                    249,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 2,
+                            "creatureRewardType": 131,
+                            "guardians": {
+                                "count": [
+                                    42,
+                                    42,
+                                    42,
+                                    42,
+                                    42,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    249,
+                                    249,
+                                    249,
+                                    249,
+                                    249,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 10,
+                            "creatureRewardCount": 1,
+                            "creatureRewardType": 158,
+                            "guardians": {
+                                "count": [
+                                    60,
+                                    60,
+                                    60,
+                                    60,
+                                    60,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    218,
+                                    218,
+                                    218,
+                                    218,
+                                    218,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        }
+                    ],
+                    "value": 8000
+                },
+                "39": {
+                    "density": 20,
+                    "enabled": true,
+                    "name": "Lava Spit",
+                    "properties": [
+                        "CB7.def 000111111111111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 010010000 010010000 16 39 1 0"
+                    ],
+                    "sound": {
+                        "enter": null,
+                        "loop": "LOOPBASI.wav"
+                    },
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    0,
+                                    0,
+                                    0,
+                                    8,
+                                    8,
+                                    8,
+                                    8
+                                ],
+                                "type": [
+                                    -1,
+                                    -1,
+                                    -1,
+                                    242,
+                                    242,
+                                    242,
+                                    242
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                5000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    0,
+                                    0,
+                                    0,
+                                    16,
+                                    16,
+                                    16,
+                                    16
+                                ],
+                                "type": [
+                                    -1,
+                                    -1,
+                                    -1,
+                                    242,
+                                    242,
+                                    242,
+                                    242
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                9000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    0,
+                                    0,
+                                    0,
+                                    20,
+                                    20,
+                                    20,
+                                    20
+                                ],
+                                "type": [
+                                    -1,
+                                    -1,
+                                    -1,
+                                    242,
+                                    242,
+                                    242,
+                                    242
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                12000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 10,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    0,
+                                    0,
+                                    0,
+                                    30,
+                                    30,
+                                    30,
+                                    30
+                                ],
+                                "type": [
+                                    -1,
+                                    -1,
+                                    -1,
+                                    242,
+                                    242,
+                                    242,
+                                    242
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                15000
+                            ],
+                            "upgrade": 0
+                        }
+                    ],
+                    "value": 8000
+                },
+                "40": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Monstrous Eyes' Sanctuary",
+                    "properties": [
+                        "CB8.def 001111110011111111111111111111111111111111111111 000000000100000000000000000000000000000000000000 100000000 100000000 16 40 1 0"
+                    ],
+                    "sound": {
+                        "enter": null,
+                        "loop": "LOOPBEHD.wav"
+                    },
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                1,
+                                0
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    15,
+                                    15,
+                                    15,
+                                    15,
+                                    15,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    226,
+                                    226,
+                                    226,
+                                    226,
+                                    226,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                4000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                1,
+                                0
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    226,
+                                    226,
+                                    226,
+                                    226,
+                                    226,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                7000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                1
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    25,
+                                    25,
+                                    25,
+                                    25,
+                                    25,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    226,
+                                    226,
+                                    226,
+                                    226,
+                                    226,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                9000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                1
+                            ],
+                            "chance": 10,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    40,
+                                    40,
+                                    40,
+                                    40,
+                                    40,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    226,
+                                    226,
+                                    226,
+                                    226,
+                                    226,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                12000
+                            ],
+                            "upgrade": 0
+                        }
+                    ],
+                    "value": 3000
+                },
+                "41": {
+                    "density": 50,
+                    "enabled": true,
+                    "name": "Haunted Mansion",
+                    "properties": [
+                        "CB9.def 000111111111111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 011100001 011100001 16 41 1 0"
+                    ],
+                    "sound": {
+                        "enter": "mansionv.wav",
+                        "loop": "LOOPMANS.wav"
+                    },
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                1
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    16,
+                                    16,
+                                    16,
+                                    16,
+                                    16,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    221,
+                                    221,
+                                    221,
+                                    221,
+                                    221,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                4,
+                                0,
+                                4,
+                                4,
+                                4,
+                                5000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                1
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    24,
+                                    24,
+                                    24,
+                                    24,
+                                    24,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    221,
+                                    221,
+                                    221,
+                                    221,
+                                    221,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                6,
+                                0,
+                                6,
+                                6,
+                                6,
+                                10000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                1
+                            ],
+                            "chance": 30,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    32,
+                                    32,
+                                    32,
+                                    32,
+                                    32,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    221,
+                                    221,
+                                    221,
+                                    221,
+                                    221,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                8,
+                                0,
+                                8,
+                                8,
+                                8,
+                                12000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                1
+                            ],
+                            "chance": 10,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    40,
+                                    40,
+                                    40,
+                                    40,
+                                    40,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    221,
+                                    221,
+                                    221,
+                                    221,
+                                    221,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                10,
+                                0,
+                                10,
+                                10,
+                                10,
+                                15000
+                            ],
+                            "upgrade": 0
+                        }
+                    ],
+                    "value": 8000
+                },
+                "42": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Bone Pillar",
+                    "properties": [
+                        "CB10.def 011111111111111111111111111111111111111111111111 100000000000000000000000000000000000000000000000 011100011 011100011 16 42 1 0"
+                    ],
+                    "sound": {
+                        "enter": null,
+                        "loop": "BONEPILLARLOOP.wav"
+                    },
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 4,
+                            "creatureRewardType": 261,
+                            "guardians": {
+                                "count": [
+                                    18,
+                                    18,
+                                    18,
+                                    18,
+                                    18,
+                                    18,
+                                    18
+                                ],
+                                "type": [
+                                    159,
+                                    159,
+                                    159,
+                                    159,
+                                    159,
+                                    159,
+                                    159
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                2500
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 6,
+                            "creatureRewardType": 261,
+                            "guardians": {
+                                "count": [
+                                    24,
+                                    24,
+                                    24,
+                                    24,
+                                    24,
+                                    24,
+                                    24
+                                ],
+                                "type": [
+                                    159,
+                                    159,
+                                    159,
+                                    159,
+                                    159,
+                                    159,
+                                    159
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                3000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 8,
+                            "creatureRewardType": 261,
+                            "guardians": {
+                                "count": [
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    30
+                                ],
+                                "type": [
+                                    159,
+                                    159,
+                                    159,
+                                    159,
+                                    159,
+                                    159,
+                                    159
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                3500
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 10,
+                            "creatureRewardCount": 10,
+                            "creatureRewardType": 261,
+                            "guardians": {
+                                "count": [
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    30
+                                ],
+                                "type": [
+                                    159,
+                                    159,
+                                    159,
+                                    159,
+                                    159,
+                                    159,
+                                    159
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                4000
+                            ],
+                            "upgrade": 0
+                        }
+                    ],
+                    "value": 2500
+                },
+                "43": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "City of the Dead",
+                    "properties": [
+                        "CB11.def 000111111111111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 111111111 011111111 16 43 1 0"
+                    ],
+                    "states": [
+                        {
+                            "spells": [
+                                {
+                                    "bits": {
+                                        "levels": 4
+                                    }
+                                }
+                            ],
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    25,
+                                    15,
+                                    10,
+                                    5,
+                                    25,
+                                    15,
+                                    10
+                                ],
+                                "type": [
+                                    57,
+                                    59,
+                                    61,
+                                    63,
+                                    57,
+                                    59,
+                                    61
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                5000,
+                                2
+                            ],
+                            "upgrade": 0
+                        }
+                    ],
+                    "value": 5200
+                },
+                "44": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Sacred Temple",
+                    "properties": [
+                        "CB12.def 001111111111111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 111111111 011111111 16 44 1 0"
+                    ],
+                    "states": [
+                        {
+                            "spells": [
+                                {
+                                    "bits": {
+                                        "levels": 4
+                                    }
+                                }
+                            ],
+                            "artifactTypeCounts": [
+                                1,
+                                1,
+                                0,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    15,
+                                    15,
+                                    15,
+                                    15,
+                                    15,
+                                    -1,
+                                    -1
+                                ],
+                                "type": [
+                                    9,
+                                    9,
+                                    9,
+                                    9,
+                                    9,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                2500,
+                                2
+                            ],
+                            "upgrade": 320
+                        }
+                    ],
+                    "value": 7000
+                },
+                "45": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Seminarium",
+                    "properties": [
+                        "CB13.def 001111111111111111111111111111111111111111111111 100000000000000000000000000000000000000000000000 000000100 000000100 16 45 1 0"
+                    ],
+                    "sound": {
+                        "enter": null,
+                        "loop": "SEMINARIUMLOOP.wav"
+                    },
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 2,
+                            "creatureRewardType": 269,
+                            "guardians": {
+                                "count": [
+                                    10,
+                                    10,
+                                    10,
+                                    10,
+                                    10,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    6,
+                                    6,
+                                    6,
+                                    6,
+                                    6,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 4,
+                            "creatureRewardType": 269,
+                            "guardians": {
+                                "count": [
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    6,
+                                    6,
+                                    6,
+                                    6,
+                                    6,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 6,
+                            "creatureRewardType": 269,
+                            "guardians": {
+                                "count": [
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    6,
+                                    6,
+                                    6,
+                                    6,
+                                    6,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 10,
+                            "creatureRewardCount": 8,
+                            "creatureRewardType": 269,
+                            "guardians": {
+                                "count": [
+                                    50,
+                                    50,
+                                    50,
+                                    50,
+                                    50,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    6,
+                                    6,
+                                    6,
+                                    6,
+                                    6,
+                                    6,
+                                    0
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 7
+                        }
+                    ],
+                    "value": 5000
+                },
+                "46": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Phantom Ship",
+                    "properties": [
+                        "CB14.def 001111111111111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 100000000 100000000 16 46 1 0"
+                    ],
+                    "sound": {
+                        "enter": null,
+                        "loop": "SLOOPWHIR.wav"
+                    },
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 8,
+                            "creatureRewardType": 287,
+                            "guardians": {
+                                "count": [
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    20
+                                ],
+                                "type": [
+                                    287,
+                                    287,
+                                    287,
+                                    287,
+                                    287,
+                                    287,
+                                    287
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                4500
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 16,
+                            "creatureRewardType": 287,
+                            "guardians": {
+                                "count": [
+                                    40,
+                                    40,
+                                    40,
+                                    40,
+                                    40,
+                                    40,
+                                    40
+                                ],
+                                "type": [
+                                    287,
+                                    287,
+                                    287,
+                                    287,
+                                    287,
+                                    287,
+                                    287
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                6000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 24,
+                            "creatureRewardType": 287,
+                            "guardians": {
+                                "count": [
+                                    60,
+                                    60,
+                                    60,
+                                    60,
+                                    60,
+                                    60,
+                                    60
+                                ],
+                                "type": [
+                                    287,
+                                    287,
+                                    287,
+                                    287,
+                                    287,
+                                    287,
+                                    287
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                8000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 10,
+                            "creatureRewardCount": 32,
+                            "creatureRewardType": 287,
+                            "guardians": {
+                                "count": [
+                                    80,
+                                    80,
+                                    80,
+                                    80,
+                                    80,
+                                    80,
+                                    80
+                                ],
+                                "type": [
+                                    287,
+                                    287,
+                                    287,
+                                    287,
+                                    287,
+                                    287,
+                                    287
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                10000
+                            ],
+                            "upgrade": 0
+                        }
+                    ],
+                    "value": 8000
+                },
+                "47": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Sorceress Castle",
+                    "properties": [
+                        "CB15.def 100011111000111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 000000100 000000100 16 47 1 0"
+                    ],
+                    "sound": {
+                        "enter": "SORCENTR.wav",
+                        "loop": "SORCERESSLOOP.wav"
+                    },
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                4
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    128,
+                                    32,
+                                    16,
+                                    8,
+                                    4,
+                                    2,
+                                    0
+                                ],
+                                "type": [
+                                    118,
+                                    16,
+                                    18,
+                                    8,
+                                    24,
+                                    130,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                20,
+                                10,
+                                20,
+                                10,
+                                10,
+                                10,
+                                10000
+                            ],
+                            "upgrade": 0
+                        }
+                    ],
+                    "value": 10000
+                },
+                "48": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Outpost of Souls",
+                    "properties": [
+                        "CB16.def 000111111111111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 111111111 011111111 16 48 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactIds": [
+                                227
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 2,
+                            "creatureRewardType": 286,
+                            "guardians": {
+                                "count": [
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    20
+                                ],
+                                "type": [
+                                    65,
+                                    65,
+                                    65,
+                                    65,
+                                    65,
+                                    65,
+                                    65
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                2
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "customDef": "CB17.def",
+                            "artifactIds": [
+                                228
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 4,
+                            "creatureRewardType": 286,
+                            "guardians": {
+                                "count": [
+                                    25,
+                                    25,
+                                    25,
+                                    25,
+                                    25,
+                                    25,
+                                    25
+                                ],
+                                "type": [
+                                    65,
+                                    65,
+                                    65,
+                                    65,
+                                    65,
+                                    65,
+                                    65
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                4
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "customDef": "CB18.def",
+                            "artifactIds": [
+                                229
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 6,
+                            "creatureRewardType": 286,
+                            "guardians": {
+                                "count": [
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    30
+                                ],
+                                "type": [
+                                    65,
+                                    65,
+                                    65,
+                                    65,
+                                    65,
+                                    65,
+                                    65
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                6
+                            ],
+                            "upgrade": 222
+                        },
+                        {
+                            "customDef": "CB19.def",
+                            "artifactIds": [
+                                230
+                            ],
+                            "chance": 10,
+                            "creatureRewardCount": 8,
+                            "creatureRewardType": 286,
+                            "guardians": {
+                                "count": [
+                                    35,
+                                    35,
+                                    35,
+                                    35,
+                                    35,
+                                    35,
+                                    35
+                                ],
+                                "type": [
+                                    65,
+                                    65,
+                                    65,
+                                    65,
+                                    65,
+                                    65,
+                                    65
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                8
+                            ],
+                            "upgrade": 222
+                        }
+                    ],
+                    "value": 7500
+                },
+                "49": {
+                    "density": 20,
+                    "enabled": true,
+                    "name": "Rotten Dragons Valley",
+                    "sound": {
+                        "enter": "DRAGON.wav",
+                        "loop": "LOOPDRAG.wav"
+                    },
+                    "text": {
+                        "visit": "This was known as Dragon Utopia, however, a mighty necromancer who wanted to have a kingdom of terror, decided to seize the Dragons to turn them into an army of undead that would fulfill their objective. Are you sure that you want to purge this Utopia?"
+                    },
+                    "properties": [
+                        "avsutop1.def 100011111000001100001111111111111111111111111111 010000000000000000000000000000000000000000000000 001100001 011111111 16 49 0 0"
+                    ],
+                    "states": [
+                        {
+                            "morale": -3,
+                            "artifactTypeCounts": [
+                                0,
+                                1,
+                                2,
+                                1
+                            ],
+                            "resources": [
+                                0,
+                                20,
+                                0,
+                                0,
+                                0,
+                                0,
+                                25000,
+                                5
+                            ],
+                            "chance": 30,
+                            "guardians": {
+                                "count": [
+                                    20,
+                                    15,
+                                    10,
+                                    5,
+                                    2,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    68,
+                                    69,
+                                    154,
+                                    224,
+                                    196,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "creatureRewardType": 254,
+                            "creatureRewardCount": 1
+                        },
+                        {
+                            "customDef": "AVSutop02.def",
+                            "morale": -3,
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                3,
+                                2
+                            ],
+                            "resources": [
+                                0,
+                                30,
+                                0,
+                                0,
+                                0,
+                                0,
+                                50000,
+                                10
+                            ],
+                            "chance": 30,
+                            "guardians": {
+                                "count": [
+                                    40,
+                                    30,
+                                    20,
+                                    10,
+                                    4,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    68,
+                                    69,
+                                    154,
+                                    224,
+                                    196,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "creatureRewardType": 254,
+                            "creatureRewardCount": 2
+                        },
+                        {
+                            "customDef": "AVSutop03.def",
+                            "morale": -3,
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                2,
+                                3
+                            ],
+                            "resources": [
+                                0,
+                                50,
+                                0,
+                                0,
+                                0,
+                                0,
+                                75000,
+                                15
+                            ],
+                            "chance": 30,
+                            "guardians": {
+                                "count": [
+                                    60,
+                                    40,
+                                    30,
+                                    20,
+                                    6,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    68,
+                                    69,
+                                    154,
+                                    224,
+                                    196,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "creatureRewardType": 254,
+                            "creatureRewardCount": 3
+                        },
+                        {
+                            "customDef": "AVSutop04.def",
+                            "morale": -3,
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                1,
+                                4
+                            ],
+                            "resources": [
+                                0,
+                                70,
+                                0,
+                                0,
+                                0,
+                                0,
+                                90000,
+                                20
+                            ],
+                            "chance": 10,
+                            "guardians": {
+                                "count": [
+                                    80,
+                                    60,
+                                    50,
+                                    30,
+                                    8,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    68,
+                                    69,
+                                    154,
+                                    224,
+                                    196,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "creatureRewardType": 254,
+                            "creatureRewardCount": 4
+                        }
+                    ],
+                    "value": 12000
+                },
+                "50": {
+                    "density": 20,
+                    "enabled": true,
+                    "name": "Magical Utopia",
+                    "sound": {
+                        "enter": "DRAGON.wav",
+                        "loop": "LOOPDRAG.wav"
+                    },
+                    "text": {
+                        "visit": "You approach an unusual variant of Dragon Utopia where Faeries Dragons inhabit guarding great wealth. Do you want to attack this mystical place full of magic?"
+                    },
+                    "properties": [
+                        "avsutop2.def 100011111000001100001111111111111111111111111111 010000000000000000000000000000000000000000000000 000010100 011111111 16 50 0 0"
+                    ],
+                    "states": [
+                        {
+                            "spellPoints": 50,
+                            "artifactTypeCounts": [
+                                0,
+                                1,
+                                2,
+                                1
+                            ],
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                20,
+                                25000,
+                                5
+                            ],
+                            "chance": 30,
+                            "guardians": {
+                                "count": [
+                                    10,
+                                    10,
+                                    10,
+                                    10,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    134,
+                                    134,
+                                    134,
+                                    134,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "creatureRewardType": 258,
+                            "creatureRewardCount": 1
+                        },
+                        {
+                            "spellPoints": 100,
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                3,
+                                2
+                            ],
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                30,
+                                45000,
+                                10
+                            ],
+                            "chance": 30,
+                            "guardians": {
+                                "count": [
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    134,
+                                    134,
+                                    134,
+                                    134,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "creatureRewardType": 258,
+                            "creatureRewardCount": 2
+                        },
+                        {
+                            "spellPoints": 150,
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                2,
+                                3
+                            ],
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                50,
+                                70000,
+                                15
+                            ],
+                            "chance": 30,
+                            "guardians": {
+                                "count": [
+                                    30,
+                                    30,
+                                    30,
+                                    30,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    134,
+                                    134,
+                                    134,
+                                    134,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "creatureRewardType": 258,
+                            "creatureRewardCount": 3
+                        },
+                        {
+                            "spellPoints": 200,
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                1,
+                                3
+                            ],
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                70,
+                                90000,
+                                20
+                            ],
+                            "chance": 10,
+                            "guardians": {
+                                "count": [
+                                    50,
+                                    50,
+                                    50,
+                                    50,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    134,
+                                    134,
+                                    134,
+                                    134,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "creatureRewardType": 258,
+                            "creatureRewardCount": 4
+                        }
+                    ],
+                    "value": 12000
+                },
+                "51": {
+                    "density": 10,
+                    "enabled": true,
+                    "name": "Legendary Dragon Utopia",
+                    "sound": {
+                        "enter": "DRAGON.wav",
+                        "loop": "LOOPDRAG.wav"
+                    },
+                    "text": {
+                        "visit": "You approach an imposing Dragon Utopia, in the distance you see that Legendary Dragons live there that in your life you would have imagined living in a massive condominium. Do you want to test your powerful skills in this extreme place?"
+                    },
+                    "properties": [
+                        "avsutop3.def 100011110000001100000011111111111111111111111111 010000000000000000000000000000000000000000000000 011111111 011111111 16 51 0 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                4
+                            ],
+                            "resources": [
+                                15,
+                                15,
+                                15,
+                                15,
+                                15,
+                                20,
+                                50000,
+                                10
+                            ],
+                            "chance": 30,
+                            "guardians": {
+                                "count": [
+                                    5,
+                                    8,
+                                    2,
+                                    6,
+                                    1,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    132,
+                                    258,
+                                    268,
+                                    339,
+                                    253,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "creatureRewardType": -1,
+                            "creatureRewardCount": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                4
+                            ],
+                            "resources": [
+                                25,
+                                25,
+                                25,
+                                25,
+                                25,
+                                25,
+                                75000,
+                                10
+                            ],
+                            "chance": 30,
+                            "guardians": {
+                                "count": [
+                                    10,
+                                    16,
+                                    4,
+                                    12,
+                                    2,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    132,
+                                    258,
+                                    268,
+                                    339,
+                                    253,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "creatureRewardType": -1,
+                            "creatureRewardCount": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                5
+                            ],
+                            "resources": [
+                                35,
+                                35,
+                                35,
+                                35,
+                                35,
+                                35,
+                                90000,
+                                20
+                            ],
+                            "chance": 30,
+                            "guardians": {
+                                "count": [
+                                    20,
+                                    32,
+                                    8,
+                                    24,
+                                    4,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    132,
+                                    258,
+                                    268,
+                                    339,
+                                    253,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "creatureRewardType": -1,
+                            "creatureRewardCount": 0
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                6
+                            ],
+                            "resources": [
+                                50,
+                                50,
+                                50,
+                                50,
+                                50,
+                                50,
+                                120000,
+                                30
+                            ],
+                            "chance": 10,
+                            "guardians": {
+                                "count": [
+                                    40,
+                                    64,
+                                    16,
+                                    48,
+                                    8,
+                                    4,
+                                    0
+                                ],
+                                "type": [
+                                    132,
+                                    258,
+                                    268,
+                                    339,
+                                    253,
+                                    254,
+                                    -1
+                                ]
+                            },
+                            "creatureRewardType": -1,
+                            "creatureRewardCount": 0
+                        }
+                    ],
+                    "value": 15000
+                },
+                "52": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Dreadnought Tower",
+                    "properties": [
+                        "CB20.def 001111111111111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 001000001 001000001 16 52 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                2,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    7,
+                                    7,
+                                    7,
+                                    7,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    67,
+                                    67,
+                                    67,
+                                    67,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                10,
+                                0,
+                                0,
+                                0,
+                                0,
+                                7500
+                            ],
+                            "upgrade": 223
+                        }
+                    ],
+                    "value": 8000
+                },
+                "53": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Heaven's Door",
+                    "properties": [
+                        "CB21.def 011111111001111111111111111111111111111111111111 100000000000000000000000000000000000000000000000 111111111 011111111 16 53 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 1,
+                            "creatureRewardType": 202,
+                            "guardians": {
+                                "count": [
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    13,
+                                    13,
+                                    13,
+                                    13,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                20,
+                                15000
+                            ],
+                            "upgrade": 150
+                        }
+                    ],
+                    "value": 10000
+                },
+                "54": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Forbidden Cliffs",
+                    "properties": [
+                        "CB22.def 001111111111111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 111111111 011111111 16 54 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 1,
+                            "creatureRewardType": 207,
+                            "guardians": {
+                                "count": [
+                                    21,
+                                    21,
+                                    21,
+                                    21,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    27,
+                                    27,
+                                    27,
+                                    27,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                22,
+                                0,
+                                10000
+                            ],
+                            "upgrade": 151
+                        }
+                    ],
+                    "value": 10000
+                },
+                "55": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Olympus Forbidden",
+                    "properties": [
+                        "CB23.def 000111111001111111111111111111111111111111111111 100000000000000000000000000000000000000000000000 111111111 011111111 16 55 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 1,
+                            "creatureRewardType": 212,
+                            "guardians": {
+                                "count": [
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    41,
+                                    41,
+                                    41,
+                                    41,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                20,
+                                12000
+                            ],
+                            "upgrade": 152
+                        }
+                    ],
+                    "value": 10000
+                },
+                "56": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Sins Generator",
+                    "properties": [
+                        "CB24.def 001111111111111111111111111111111111111111111111 100000000000000000000000000000000000000000000000 111111111 011111111 16 56 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 1,
+                            "creatureRewardType": 219,
+                            "guardians": {
+                                "count": [
+                                    21,
+                                    21,
+                                    21,
+                                    21,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    55,
+                                    55,
+                                    55,
+                                    55,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                20,
+                                0,
+                                0,
+                                0,
+                                0,
+                                10000
+                            ],
+                            "upgrade": 153
+                        }
+                    ],
+                    "value": 10000
+                },
+                "57": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Dragon Mausoleum",
+                    "properties": [
+                        "CB25.def 001111111111111111111111111111111111111111111111 100000000000000000000000000000000000000000000000 111111111 011111111 16 57 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 1,
+                            "creatureRewardType": 224,
+                            "guardians": {
+                                "count": [
+                                    25,
+                                    25,
+                                    25,
+                                    25,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    69,
+                                    69,
+                                    69,
+                                    69,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                20,
+                                0,
+                                0,
+                                0,
+                                0,
+                                12000
+                            ],
+                            "upgrade": 154
+                        }
+                    ],
+                    "value": 10000
+                },
+                "58": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Dragon City",
+                    "properties": [
+                        "CB26.def 000111111111111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 111111111 011111111 16 58 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 1,
+                            "creatureRewardType": 231,
+                            "guardians": {
+                                "count": [
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    83,
+                                    83,
+                                    83,
+                                    83,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                25,
+                                0,
+                                0,
+                                10000
+                            ],
+                            "upgrade": 155
+                        }
+                    ],
+                    "value": 10000
+                },
+                "59": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Behemoth Ancient Crag",
+                    "properties": [
+                        "CB27.def 000111111111111111111111111111111111111111111111 100000000000000000000000000000000000000000000000 111111111 011111111 16 59 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 1,
+                            "creatureRewardType": 238,
+                            "guardians": {
+                                "count": [
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    97,
+                                    97,
+                                    97,
+                                    97,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                25,
+                                0,
+                                0,
+                                10000
+                            ],
+                            "upgrade": 156
+                        }
+                    ],
+                    "value": 10000
+                },
+                "60": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Volcanic Well",
+                    "properties": [
+                        "CB28.def 100111111111111111111111111111111111111111111111 001000000000000000000000000000000000000000000000 111111111 011111111 16 60 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 1,
+                            "creatureRewardType": 245,
+                            "guardians": {
+                                "count": [
+                                    22,
+                                    22,
+                                    22,
+                                    22,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    111,
+                                    111,
+                                    111,
+                                    111,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                30,
+                                0,
+                                0,
+                                10000
+                            ],
+                            "upgrade": 157
+                        }
+                    ],
+                    "value": 10000
+                },
+                "61": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Supreme Pyre",
+                    "properties": [
+                        "CB29.def 101111111001111111111111111111111111111111111111 010000000000000000000000000000000000000000000000 111111111 011111111 16 61 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 1,
+                            "creatureRewardType": 252,
+                            "guardians": {
+                                "count": [
+                                    18,
+                                    18,
+                                    18,
+                                    18,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    131,
+                                    131,
+                                    131,
+                                    131,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                20,
+                                0,
+                                12000
+                            ],
+                            "upgrade": 158
+                        }
+                    ],
+                    "value": 10000
+                },
+                "62": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Elemental Stockpile",
+                    "properties": [
+                        "CB30.def 001111111111111111111111111111111111111111111111 100000000000000000000000000000000000000000000000 111111111 011111111 16 62 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    10,
+                                    10,
+                                    10,
+                                    10,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    112,
+                                    115,
+                                    114,
+                                    113,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                0
+                            ],
+                            "upgrade": 0
+                        }
+                    ],
+                    "value": 6000
+                },
+                "63": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Gargoyle Stonevault",
+                    "properties": [
+                        "CB31.def 001111111111111111111111111111111111111111111111 100000000000000000000000000000000000000000000000 111111111 011111111 16 63 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 100,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    30,
+                                    30,
+                                    30,
+                                    10,
+                                    10,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    30,
+                                    30,
+                                    30,
+                                    32,
+                                    32,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                30,
+                                0,
+                                0,
+                                0,
+                                2500
+                            ],
+                            "upgrade": 31
+                        }
+                    ],
+                    "value": 6000
+                },
+                "64": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Halls of Temptation",
+                    "properties": [
+                        "CB32.def 100111111111111111111111111111111111111111111111 001000000000000000000000000000000000000000000000 010000000 010000000 16 64 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 1,
+                            "creatureRewardType": 54,
+                            "guardians": {
+                                "count": [
+                                    5,
+                                    5,
+                                    5,
+                                    5,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    272,
+                                    272,
+                                    272,
+                                    272,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 281
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 2,
+                            "creatureRewardType": 54,
+                            "guardians": {
+                                "count": [
+                                    10,
+                                    10,
+                                    10,
+                                    10,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    272,
+                                    272,
+                                    272,
+                                    272,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 281
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 3,
+                            "creatureRewardType": 54,
+                            "guardians": {
+                                "count": [
+                                    15,
+                                    15,
+                                    15,
+                                    15,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    272,
+                                    272,
+                                    272,
+                                    272,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 281
+                        },
+                        {
+                            "artifactTypeCounts": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "chance": 10,
+                            "creatureRewardCount": 4,
+                            "creatureRewardType": 54,
+                            "guardians": {
+                                "count": [
+                                    20,
+                                    20,
+                                    20,
+                                    20,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    272,
+                                    272,
+                                    272,
+                                    272,
+                                    -1,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "upgrade": 281
+                        }
+                    ],
+                    "value": 5000
+                },
+                "65": {
+                    "density": 100,
+                    "enabled": true,
+                    "name": "Royal Treasury",
+                    "properties": [
+                        "CB33.def 001111111111111111111111111111111111111111111111 100000000000000000000000000000000000000000000000 111111111 011111111 16 65 1 0"
+                    ],
+                    "states": [
+                        {
+                            "artifactIds": [
+                                117
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    25,
+                                    25,
+                                    25,
+                                    25,
+                                    25,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    301,
+                                    302,
+                                    301,
+                                    302,
+                                    301,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                4000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactIds": [
+                                116
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    50,
+                                    50,
+                                    50,
+                                    50,
+                                    50,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    301,
+                                    302,
+                                    301,
+                                    302,
+                                    301,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                8000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactIds": [
+                                179
+                            ],
+                            "chance": 25,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    50,
+                                    50,
+                                    50,
+                                    50,
+                                    50,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    7,
+                                    291,
+                                    7,
+                                    291,
+                                    7,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                12000
+                            ],
+                            "upgrade": 0
+                        },
+                        {
+                            "artifactIds": [
+                                179
+                            ],
+                            "chance": 1,
+                            "creatureRewardCount": 0,
+                            "creatureRewardType": -1,
+                            "guardians": {
+                                "count": [
+                                    120,
+                                    120,
+                                    120,
+                                    120,
+                                    120,
+                                    0,
+                                    0
+                                ],
+                                "type": [
+                                    340,
+                                    340,
+                                    340,
+                                    340,
+                                    340,
+                                    -1,
+                                    -1
+                                ]
+                            },
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                20000
+                            ],
+                            "upgrade": 0
+                        }
+                    ],
+                    "value": 8000
+                },
+                "66": {
+                    "properties": [
+                        "CB100.def 111111111000111110001111110111111111111111111111 000000000000000000100000000000000000000000000000 111111111 011111111 16 66 1 0"
+                    ],
+                    "enabled": true,
+                    "value": 15000,
+                    "density": 100,
+                    "name": "Fire Dragon Castle",
+                    "sound": {
+                        "enter": "PLAYTURN.wav",
+                        "loop": "LOOPDRGNCSTL.wav"
+                    },
+                    "text": {
+                        "visit": "You have arrived in a forbidden floating land where the Fire Dragon sect is located, entering the castle is certain death if you don't have a powerful army behind you. Do you wish to raid the castle?"
+                    },
+                    "states": [
+                        {
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                200000,
+                                20
+                            ],
+                            "chance": 100,
+                            "guardians": {
+                                "count": [
+                                    50,
+                                    50,
+                                    5,
+                                    250,
+                                    250,
+                                    200,
+                                    200
+                                ],
+                                "type": [
+                                    330,
+                                    330,
+                                    346,
+                                    171,
+                                    171,
+                                    289,
+                                    289
+                                ]
+                            },
+                            "creatureRewardType": 346,
+                            "creatureRewardCount": 1
+                        }
+                    ],
+                    "troopPlacement": {
+                        "isBank": true,
+                        "attackers": [
+                            "86",
+                            "89",
+                            "92",
+                            "53",
+                            "56",
+                            "121",
+                            "124"
+                        ],
+                        "defenders": [
+                            "15",
+                            "185",
+                            "100",
+                            "11",
+                            "181",
+                            "07",
+                            "177"
+                        ]
+                    }
+                },
+                "67": {
+                    "properties": [
+                        "CB101.def 111111111000111110001111110111111111111111111111 000000000000000000100000000000000000000000000000 111111111 011111111 16 67 1 0"
+                    ],
+                    "enabled": true,
+                    "value": 15000,
+                    "density": 100,
+                    "name": "Ice Dragon Castle",
+                    "sound": {
+                        "enter": "PLAYTURN.wav",
+                        "loop": "LOOPDRGNCSTL.wav"
+                    },
+                    "text": {
+                        "visit": "You have arrived in a forbidden floating land where the Fire Dragon sect is located, entering the castle is certain death if you don't have a powerful army behind you. Do you wish to raid the castle?"
+                    },
+                    "states": [
+                        {
+                            "resources": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                300000,
+                                30
+                            ],
+                            "chance": 100,
+                            "guardians": {
+                                "count": [
+                                    45,
+                                    45,
+                                    3,
+                                    280,
+                                    280,
+                                    225,
+                                    225
+                                ],
+                                "type": [
+                                    132,
+                                    132,
+                                    346,
+                                    170,
+                                    170,
+                                    290,
+                                    290
+                                ]
+                            },
+                            "creatureRewardType": 347,
+                            "creatureRewardCount": 1
+                        }
+                    ],
+                    "troopPlacement": {
+                        "isBank": true,
+                        "attackers": [
+                            "86",
+                            "89",
+                            "92",
+                            "53",
+                            "56",
+                            "121",
+                            "124"
+                        ],
+                        "defenders": [
+                            "15",
+                            "185",
+                            "100",
+                            "11",
+                            "181",
+                            "07",
+                            "177"
+                        ]
+                    }
+                }
+            },
+            "17": {
+                "155": {
+                    "map": 256,
+                    "zone": 1,
+                    "density": 20
+                },
+                "156": {
+                    "map": 256,
+                    "zone": 1,
+                    "density": 20
+                },
+                "157": {
+                    "map": 256,
+                    "zone": 1,
+                    "density": 10
+                },
+                "158": {
+                    "map": 256,
+                    "zone": 1,
+                    "density": 10
+                },
+                "159": {
+                    "map": 256,
+                    "zone": 1,
+                    "density": 5
+                }
+            }
+        }
+    }
+}

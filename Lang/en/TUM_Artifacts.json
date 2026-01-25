@@ -1,0 +1,696 @@
+{
+    "era": {
+        "artifacts": {
+            "171": {
+                "name": "Hammer of Doom",
+                "description": "{Hammer of Doom}\n\nWhen worn, this massive relic increases your Attack skill by +16, but reduces your Defense skill by -6 and Morale -1.",
+                "event": "You find the Hammer of Doom, dust it off, and stick it in your pack.\"\t"
+            },
+            "172": {
+                "name": "Eclipse Shield",
+                "description": "{Eclipse Shield}\n\nThis left handed item increases your Defense skill by +16,  but reduces your Attack skill by -5 and Morale -1.",
+                "event": "You find the Eclipse Shield, dust it off, and stick it in your pack.\"\t"
+            },
+            "173": {
+                "name": "Helmet of Fallen Paladin",
+                "description": "{Helmet of Fallen Paladin}\n\nWorn on the head, this item increases your Knowledge skill by +14 but reduces your Spellpower skill by -4 and Morale -1.",
+                "event": "You find the Helmet of Fallen Paladin, dust it off, and stick it in your pack.\"\t"
+            },
+            "174": {
+                "name": "Dragonrider's Armor",
+                "description": "{Dragonrider's Armor}\n\nWorn on the torso, this item increases your Spellpower skill by +14 but reduces your Knowledge skill by -4 and Morale -1.",
+                "event": "You find the Dragonrider's Armor, dust it off, and stick it in your pack.\"\t"
+            },
+            "175": {
+                "name": "Trident of Dominion",
+                "description": "{Trident of Dominion}\n\nThis right-handed weapon increases your Attack skill by +7.",
+                "event": "You finally found a well after a long search. Your soldiers could not get the bucket of water out, however. Something was preventing it from coming out. Your banner carrier had to descend in the well himself. It appeared that a trident was blocking the way."
+            },
+            "176": {
+                "name": "Shield of Naval Glory",
+                "description": "{Shield of Naval Glory}\n\nThis left-handed shield increases your Defense skill by +7.",
+                "event": "You meet an old admiral at the tavern. After a couple of hours full of tales about glorious battles and days long passed he gifts you his parade shield."
+            },
+            "177": {
+                "name": "Crown of the Five Seas",
+                "description": "{Crown of the Five Seas}\n\nWorn on the head, this item increases your Knowledge skill by +6.",
+                "event": "You see a fight on a hill nearby. As you get closer, you see two nix. One is winning, and as he is about to land a finishing blow, you intervene. The defeated nix thanks you for your help, and gifts you with his armor. He believes you deserve it more than he does."
+            },
+            "178": {
+                "name": "Royal Armor of Nix",
+                "description": "{Royal Armor of Nix}\n\nWorn on the torso, this item increases your Power skill by +6.",
+                "event": "You hardly set a camp, leaving the saddle for the first time for the day, as some critter sneaked up on you and pulled one of your boots in his hole. Swearing silently, you search the hole with your hand. Instead of a boot, you touch something sharp. Amazed, you pull out a crown.\"\t"
+            },
+            "179": {
+                "name": "Golden Goose",
+                "description": "{Golden Goose}\n\nIn addition to component effect when equipped, the Golden Goose increases your income by 4750 gold per day.",
+                "event": "You wander on an abandoned house of a collector in search for a camp place. Most of the goods were long stolen by the marauders, but you were able to find a couple of dusty pet statues. You vaguely recognize one of them. You rub the dust off one of them, and discover a golden goose."
+            },
+            "180": {
+                "name": "Diplomat's Cloak",
+                "description": "{Diplomat's Cloak}\n\nIn addition to component effect the Diplomat's Cloak multiplies your hero army strength by 3 (for neutral armies and Thieves guild).",
+                "event": "You met an unusual scarecrow today. Instead of scaring the, well, crows, it was intelligently persuading them to leave the field. You agreed to help the scarecrow to find the closest seer in exchange for the secret. The scarecrow gives you its cloak."
+            },
+            "181": {
+                "name": "Pendant of Reflection",
+                "description": "{Pendant of Reflection}\n\nIn addition to component effect this item increases your chance to resist a hostile spell by 20%.",
+                "event": "Soldiers approach you with talks about a miracle. You are intrigued and follow them. You see a strange sight indeed; a wanderer sitting on top of the fire trap, without any harm. You offer him money in exchange for the secret, but he laughs and vanishes in the air. You see a strange pendant left in the middle of the trap.\"\t"
+            },
+            "182": {
+                "name": "Ironfist of the Dark Paladin",
+                "description": "{Ironfist of the Dark Paladin}\n\nIn addition to components effects, at the beginning of combat the Fist will cast Haste, Bloodlust, Fire Shield and Counterstrike (all Expert) lasting for 50 turns on all allied troops.",
+                "event": "On passing by a small cave you hear deep thumping. You enter the cave and see a juvenile Cyclops cracking nuts with an enormous hammer. Every strike ends in shells and nut pieces being scattered all over the cave. You teach the Cyclops to crack nuts more sparingly by crushing them against each other. Overjoyed with this discovery, the youth gifts you the hammer."
+            },
+            "183": {
+                "name": "Pendant of Downfall",
+                "description": "{Pendant of Downfall}\n\nWorn about the neck,this item decreases enemy's Morale by 2.",
+                "event": "You visit the jeweler's shop. You land your eyes on a bracelet, but the shopkeeper immediately warns you that it is cursed. You fear no curses, and put the bracelet on immediately. The bracelet vanishes in a flash. Enraged, you are about to kill the shopkeeper, but he offers you Pendant of Downfall in return. You agree.\"\t"
+            },
+            "184": {
+                "name": "Shaman's Puppet",
+                "description": "{Shaman's Puppet}\n\nDecreases enemy's Luck by 2.",
+                "event": "The day looked not so great from the beginning. You walked under the ladder, met a woman with an empty bucket and stepped on a black cat. Apparently, it is not your misfortune, but the guy in rugs who has been following you. You order to seize the loser, but he runs away. As he vanishes, you notice a strange doll that he dropped."
+            },
+            "185": {
+                "name": "Demon's Horseshoe",
+                "description": "{Demon's Horseshoe}\n\nDecreases enemy's Luck by 1.",
+                "event": "During your overnight stay you hear hooves clatter nearby. You look around in darkness and notice a demon's figure, ready to stab you with its horns. You barely survive the attack and keep his horseshoe as a trophy."
+            },
+            "186": {
+                "name": "Hideous Mask",
+                "description": "{Hideous Mask}\n\nDecreases enemy's Morale by 1.",
+                "event": "You meet a traveling circus on your way. One of the artists had such a deft disguise that you have drawn a sword, ready to defend yourself. It appeared that a pretty actress was hiding behind the mask. Laughing, she gifts you the mask."
+            },
+            "187": {
+                "name": "Runes of Imminency",
+                "description": "{Runes of Imminency}\n\nDecreases enemy's Luck by 1.",
+                "event": "Close by, on a mountain edge you see a mage trying to cast a spell. Fiery symbols are already flashing in the sky, when he, while blinded by the light, trips and falls down. The mage perishes, and you gather the chain of mysterious stones in your backpack."
+            },
+            "188": {
+                "name": "Ring of Suppression",
+                "description": "{Ring of Suppression}\n\nWorn on the finger, this ring decreases enemy's Morale by 1.",
+                "event": "You ordered fried eggs for breakfast. The cook managed to find the eggs for you. He also found a ring in the bird's nest that he passed to you."
+            },
+            "189": {
+                "name": "Mana Crystal",
+                "description": "{Mana Crystal}\n\nIncrease number of spells of your creatures by 1 at the beginning of each combat."
+            },
+            "190": {
+                "name": "Flask of Mana",
+                "description": "{Flask of Mana}\n\nIncrease number of spells of your creatures by 2 at the beginning of each combat."
+            },
+            "191": {
+                "name": "Vial of Mana",
+                "description": "{Vial of Mana}\n\nIncrease number of spells of your creatures by 3 at the beginning of each combat."
+            },
+            "192": {
+                "name": "Soothsayer's Boots",
+                "description": "{Soothsayer's Boots}\n\nWhen worn, this item allows you to cast all 1st level spells."
+            },
+            "193": {
+                "name": "Wizard's Ring",
+                "description": "{Wizard's Ring}\n\nWhen worn, the ring allows you to cast all 2nd level spells."
+            },
+            "194": {
+                "name": "Robe of the Magi",
+                "description": "{Robe of the Magi}\n\nThe Robe of Magi allows you to cast all 3rd level spells."
+            },
+            "195": {
+                "name": "Magus Staff",
+                "description": "{Magus Staff}\n\nThe Magus Staff allows you to cast all 4th level spells."
+            },
+            "196": {
+                "name": "Fencer's Fist Shield",
+                "description": "{Fencer's Fist Shield}\n\nThis shield increases your Defense skill by 3 and the health of all your units by 1."
+            },
+            "197": {
+                "name": "Ring of Elements",
+                "description": "{Ring of Elements}\n\nWhen equipped, the Ring of Elements allows you to summon Elementals of all types. It also allows you to summon Elementals of different types during combat."
+            },
+            "198": {
+                "name": "Observer's Eye",
+                "description": "{Observer's Eye}\n\nWhen equipped, this item allows to cast the View Earth, View Air, and Visions spells."
+            },
+            "199": {
+                "name": "Astral Shield",
+                "description": "{Astral Shield}\n\nWhen equipped, this shield increases your Defense skill by 3 and casts Forgetfulness on enemy shooters."
+            },
+            "200": {
+                "name": "Ice Shield",
+                "description": "{Ice Shield}\n\nWhen equipped, the Ice Shield increases your Defense skill by 3 and makes your units immune to Cold spells."
+            },
+            "201": {
+                "name": "Ring of Negativity",
+                "description": "{Ring of Negativity}\n\nWearing this item renders your units immune to the Lightning Bolt spell."
+            },
+            "202": {
+                "name": "Crossbow",
+                "description": "{Crossbow}\n\nWhen equipped, the Crossbow upgrades your Archers, Marksmen to Crossbowmen and Cavaliers to Arche Rider, and provides you with 10 additional shots."
+            },
+            "203": {
+                "name": "Strong Armor",
+                "description": "{Strong Armor}\n\nWhen equipped, the Strong Armor increases your Power skill by 4 and makes your units immune to the Explosion and Disruption Ray spells."
+            },
+            "204": {
+                "name": "Ionized Armor",
+                "description": "{Ionized Armor}\n\nWearing this item renders your units immune to all offensive Air spells."
+            },
+            "205": {
+                "name": "Green Armor",
+                "description": "{Green Armor}\n\nWearing this item renders your units immune to all offensive Earth spells."
+            },
+            "206": {
+                "name": "Chilled Armor",
+                "description": "{Chilled Armor}\n\nWearing this item renders your units immune to all offensive Fire spells."
+            },
+            "207": {
+                "name": "Streamline Armor",
+                "description": "{Streamline Armor}\n\nWearing this item renders your units immune to all offensive Water spells."
+            },
+            "208": {
+                "name": "Ring of Precision",
+                "description": "{Ring of Precision}\n\nWhen equipped, this ring casts Precision on all friendly shooters at the beginning of each combat."
+            },
+            "209": {
+                "name": "Ring of the Thousand Storms",
+                "description": "{Ring} {of} {the} {Thousand} {Storms}\n\nWhen equipped, this item casts Haste at the beginning of combat on all your units."
+            },
+            "210": {
+                "name": "Shield of the Dark Paladin",
+                "description": "{Shield} {of} {the} {Dark} {Paladin}\n\nIncreases your Defense skill by +6 and casts Death Ripple at the beginning of combat."
+            },
+            "211": {
+                "name": "Arrow Quiver",
+                "description": "{Arrow} {Quiver}\n\nGrants a 20 additional shots to all your shooters at the beginning of combat."
+            },
+            "212": {
+                "name": "Pendant of Hastiness",
+                "description": "{Pendant} {of} {Hastiness}\n\nWearing this item renders your units immune to the Slow spell."
+            },
+            "213": {
+                "name": "Foggy Shield",
+                "description": "{Foggy} {Shield}\n\nIncreases your Defense skill by 2 and casts Air Shield at the beginning of combat on all your units."
+            },
+            "214": {
+                "name": "Enchanted Gloves",
+                "description": "{Enchanted} {Gloves}\n\nCasts Shield at the beginning of combat on all your units."
+            },
+            "215": {
+                "name": "Gloves of Arcane Fire",
+                "description": "{Gloves} {of} {Arcane} {Fire}\n\nCasts Fire Shield at the beginning of combat on all your units."
+            },
+            "216": {
+                "name": "Stone Shield",
+                "description": "{Stone} {Shield}\n\nIncreases your Defense skill by 3 and casts Stone Skin at the beginning of combat on all your units."
+            },
+            "217": {
+                "name": "Sacrificial Dagger",
+                "description": "{Sacrificial} {Dagger}\n\nThis left handed item increases your Attack skill by +2 and casts Bloodlust at the beginning of combat on all your units."
+            },
+            "218": {
+                "name": "Gelu's Bow",
+                "description": "{Gelu's Bow}\n\nWhen equipped, Gelu's Bow upgrades your Wood Elves and Grand Elves to Sharpshooter Elves, and provides you with 10 additional shots."
+            },
+            "219": {
+                "name": "Compendium of Magic",
+                "description": "{Compendium of Magic}\n\nIn addition to component effect, at the begining of each battle the Compendium of Magic summon all four third upgrades elementals."
+            },
+            "220": {
+                "name": "Lightning Rod",
+                "description": "{Lightning Rod}\n\nThis rod increases your Attack, Defense, Knowledge skills by 3 and your Power skill by 6. It gives the hero Lightning Bolt and Chain Lighnigs spells and makes all units vulnerable to these spells (only artifact immunity works). Chain lighting can be cast on all enemy units without damaging ally creatures. Each stack hit by the Chain Lightning spell gets an additional hit by Lightning Bolt."
+            },
+            "221": {
+                "name": "Dwarven Helmet",
+                "description": "{Dwarven Helmet}\n\nIncreases hero defense skill by 3 and renders units immune to defence-reducing spells."
+            },
+            "222": {
+                "name": "Dwarven Mine",
+                "description": "{Dwarven Mine}\n\nAt the beginning of battle casts expert Landmine."
+            },
+            "223": {
+                "name": "Ritual dagger",
+                "description": "{Ritual dagger}\n\nAllows to upgrade all Mages, Archmages, Monks and Zealots in your army to Liches."
+            },
+            "224": {
+                "name": "Sacred War Hammer",
+                "description": "{Sacred War Hammer}\n\nHeld with the right hand, Sacred War Hammer casts expert Bless at the beginning of battle."
+            },
+            "225": {
+                "name": "Tiara of Knowledge",
+                "description": "{Tiara of Knowledge}\n\nIncreases your knowledge skill by 5 and renders units immune to Hypnotize and Forgetfulness."
+            },
+            "226": {
+                "name": "Shield of the Ancients",
+                "description": "{Shield of the Ancients}\n\nIncreases hero's spellpower skill by +12."
+            },
+            "227": {
+                "name": "Minor Phylactery",
+                "description": "{Minor Phylactery}\n\nSummons scary Demiliches to help you in the battlefield."
+            },
+            "228": {
+                "name": "Major Phylactery",
+                "description": "{Major Phylactery}\n\nSummons scary Demiliches to help you in the battlefield."
+            },
+            "229": {
+                "name": "Supreme Phylactery",
+                "description": "{Supreme Phylactery}\n\nSummons scary Demiliches to help you in the battlefield."
+            },
+            "230": {
+                "name": "Relic Phylactery",
+                "description": "{Relic Phylactery}\n\nSummons scary Demiliches to help you in the battlefield."
+            },
+            "231": {
+                "name": "Black Luster Sword",
+                "description": "{Black Luster Sword}\n\nHeld with the right hand, the Black Luster Sword increases all four primary skills by +5. Summon Archangels on the battlefield. Cast Mirth on your units"
+            },
+            "232": {
+                "name": "Apocalypse's Blade",
+                "description": "{Apocalypse's Blade}\n\nIn addition to components effects, at the beginning of combat Apocalypse's Blade cast Bloodlust, Protection from Fire, Fire Shield, Frenzy and Slayer to the allies. (This does not prevent you from being immune to the enemy's Fire Shield.)"
+            },
+            "233": {
+                "name": "Scepter of Magic",
+                "description": "{Scepter of Magic}\n\nHeld with the right hand, Scepter of Magic increase your Power and Knowledge by +10."
+            },
+            "234": {
+                "name": "Axe of Might",
+                "description": "{Axe of Might}\n\nHeld with the right hand, Axe of Might increase your Attack and Defense by +10."
+            },
+            "235": {
+                "name": "Sun Emperor Chainmail",
+                "description": "{Sun Emperor Plate Armor}\n\nIncreases all four primary skills by +5. Renders your units immune to all damage fire spells."
+            },
+            "236": {
+                "name": "Shield of the Vermillion Bird",
+                "description": "{Shield of the Vermillion Bird}\n\nIncrease your Attack, Defense and Power skill by +7 and Knowledge by +4. Summon Vermilion Birds on the battlefield."
+            },
+            "237": {
+                "name": "Crown of the Fire King",
+                "description": "{Crown of the Fire King}\n\nIncreases all four primary skills by +3. Renders your units immune to debuff fire spells."
+            },
+            "238": {
+                "name": "Orb of Chaos",
+                "description": "{Orb of Chaos}\n\nThis orb doubles damage done by combat spells and casts all four magic protection spells on your units."
+            },
+            "239": {
+                "name": "Pendant of Magic",
+                "description": "{Pendant of Magic}\n\nWearing this item renders your units immune to the Magic Arrow spell."
+            },
+            "240": {
+                "name": "Regenerative Necklace of Mana",
+                "description": "{Regenerative Necklace of Mana}\n\nThis necklace helps you recover 5 extra spell point per day."
+            },
+            "241": {
+                "name": "Bucket Helmet",
+                "description": "{Bucket Helmet}\n\nThis weird helmet reduces your Defense skill by 2 making your units immune to all Mind Spells.\""
+            },
+            "242": {
+                "name": "Field Martial's Ring",
+                "description": "{Field Martial's Ring}\n\nWhen worn, the Field Martial's Ring increases your Morale by 3."
+            },
+            "243": {
+                "name": "Horseshoe",
+                "description": "{Horseshoe}\n\nWhen equipped, the Horseshoe increases your Luck by 2."
+            },
+            "244": {
+                "name": "Crystal Glyph",
+                "description": "{Crystal Glyph}\n\nWhen equipped, this item casts Magic Mirror at the beginning of combat on all your units."
+            },
+            "245": {
+                "name": "General's Order",
+                "description": "{General's Order}\n\nWhen worn, the General's Order increases your Morale by 2."
+            },
+            "246": {
+                "name": "Ring of Fortune",
+                "description": "{Ring of Fortune}\n\nWhen worn, the Ring of Fortune increases your Luck by 3."
+            },
+            "247": {
+                "name": "Mithril Cuirass",
+                "description": "{Mithril Cuirass}\n\nWhen worn, this armor increases your Power and Defense skill by 6."
+            },
+            "248": {
+                "name": "Mithril Helmet",
+                "description": "{Mithril Helmet}\n\nWhen worn, this helmet increases your Knowledge and Defense skill by 6."
+            },
+            "249": {
+                "name": "Misfortune Ring",
+                "description": "{Misfortune Ring}\n\nWorn on the finger, the Misfortune Ring reduces enemy's Luck by 3."
+            },
+            "250": {
+                "name": "Dragon's Head",
+                "description": "{Dragon's Head}\n\nWhen equipped, this item reduces enemy's Morale by 2."
+            },
+            "251": {
+                "name": "Panic Ring",
+                "description": "{Panic Ring}\n\nWorn on the finger, the Panic Ring cast Sorrow in all enemies."
+            },
+            "252": {
+                "name": "Pendant of Despair",
+                "description": "{Pendant of Despair}\n\nWorn about the neck, the Pendant of Despair reduces enemy's Morale and Luck by 3."
+            },
+            "253": {
+                "name": "Ring of the Snake Eyesight",
+                "description": "{Ring of the Snake Eyesight}\n\nPuts a most susceptible enemy stacks under your control at the beginning of the battle."
+            },
+            "254": {
+                "name": "Shield of the Light Paladin",
+                "description": "{Shield of the Light Paladin}\n\nIncreases your Defense skill by +6 and casts Exorcism at the beginning of combat on all enemy undead."
+            },
+            "255": {
+                "name": "Axe of the Piedmont King",
+                "description": "{Axe of the Piedmont King}\n\nIncreases your Attack skill by 5 and casts Counterstrike at the beginning of combat on all your units."
+            },
+            "256": {
+                "name": "Ring of Anti-magic",
+                "description": "{Ring of Anti-magic}\n\nWhen equipped, this item casts Anti-magic at the beginning of combat on all your units."
+            },
+            "257": {
+                "name": "Earrings of Just Man",
+                "description": "{Earrings of Just Man}\n\nWhen equipped, this item casts Bless at the beginning of combat on all your units."
+            },
+            "258": {
+                "name": "Hell Baron's Gloves",
+                "description": "{Hell Baron's Gloves}\n\nAt the beginning of each battle the Hell Baron's Gloves will cast Slayer and Frenzy spells on all your creatures.\nEach unit of yours gains a Fire Shield effect."
+            },
+            "259": {
+                "name": "Helm of the Hydra Queen",
+                "description": "{Helm of the Hydra Queen}\n\nAll creatures in the hero's army, excluding the attackers on 2 cells, are endowed with the hydra skill."
+            },
+            "260": {
+                "name": "Wayfarer's Boots",
+                "description": "{Wayfarer's Boots}\n\nWorn on the feet, allows your hero to move over rough terrain without penalty."
+            },
+            "261": {
+                "name": "Exchange Cloak",
+                "description": "{Exchange Cloak}\n\nWhen worn, the Attack and Defense of the allied hero and enemy hero are reversed."
+            },
+            "262": {
+                "name": "Amulet of the return of Samsara",
+                "description": "{Amulet of the return of Samsara}\n\nWhen casting Resurrection and Animate Undaed, the spells will also be cast on all the ally creatures with 30% of the hero's power. Transform different skeletons into their living forms."
+            },
+            "263": {
+                "name": "Implosion Amplifying Bracelet",
+                "description": "{Implosion Amplifying Bracelet}\n\nWhen casting implosion, the spell will also be cast on all the other enemy creatures with 30% of the hero's power."
+            },
+            "264": {
+                "name": "Atma Sword",
+                "description": "{Atma Sword}\n\nWhen worn, this mysterious sword sets the lowest value of Attack and Defense to the highest value."
+            },
+            "265": {
+                "name": "Atma Robe",
+                "description": "{Atma Robe}\n\nWhen worn, this mysterious robe sets the lowest value of Power and Knowledge to the highest value."
+            },
+            "266": {
+                "name": "Horn of the Abyss",
+                "description": "{Horn of the Abyss}\n\nAfter a stack of living creatures is slain, a stack of Fangarms will rise in their stead and will stay loyal to the hero after the battle concluides. Total Hit Points of this stack will be equal to half of the slain stack's total Hit Points, but quantity of the Fangarms summoned thus should not exceed half of quantity of creatures in the slain stack. Slaying Fangarms will not trigger the Horn effect."
+            },
+            "267": {
+                "name": "Cape of Silence",
+                "description": "{Cape of Silence}\n\nWhile wearing this cape, neither you nor your opponent will be able to cast level 1-2 spells during combat."
+            },
+            "268": {
+                "name": "Ring of Oblivion",
+                "description": "{Ring of Oblivion}\n\nWhen worn, makes all losses in the battle irrevocable (except with drain life)."
+            },
+            "269": {
+                "name": "Charm of Eclipse",
+                "description": "{Charm of Eclipse}\n\nThis artifact reduces the Power skill of enemy hero by 10% during combat."
+            },
+            "270": {
+                "name": "Seal of Sunset",
+                "description": "{Seal of Sunset}\n\nThis artifact reduces the Power skill of enemy hero by 10% during combat."
+            },
+            "271": {
+                "name": "Plate of Dying Light",
+                "description": "{Plate of Dying Light}\n\nWorn on a torso, this item reduces the Power skill of enemy hero by 25% during combat."
+            },
+            "272": {
+                "name": "Endless mug of happiness beer",
+                "description": "{Endless mug of happiness beer}\n\nThis artifact casts Mirth to the expert level at the beginning of battle."
+            },
+            "273": {
+                "name": "Eye of the Green Dragon",
+                "description": "{Eye of the Green Dragon}\n\nThis powerful dragon eye increases the minimum damage by +1 and allows Green Dragonling to be upgraded to Green Dragon and become Bone Dragon and Ghost Dragon into Green Dragon the next day."
+            },
+            "274": {
+                "name": "Eye of the Red Dragon",
+                "description": "{Eye of the Red Dragon}\n\nThis powerful dragon eye increases the maximum damage by +1 and allows Red Dragonling to be upgraded to Red Dragon and become Bone Dragon and Ghost Dragon into Red Dragon the next day."
+            },
+            "275": {
+                "name": "Eye of the Faerie Dragon",
+                "description": "{Eye of the Faerie Dragon}\n\nThis powerful dragon eye increases the minimum damage by +2 and allows Faerie Dragonling to be upgraded to Faerie Dragon and become Dracolich into Faerie Dragon the next day."
+            },
+            "276": {
+                "name": "Eye of the Rust Dragon",
+                "description": "{Eye of the Rust Dragon}\n\nThis powerful dragon eye increases the maximum damage by +2 and allows Rust Dragonling to be upgraded to Rust Dragon and become Dracolich into Rust Dragon the next day."
+            },
+            "277": {
+                "name": "Eye of the Azure Dragon",
+                "description": "{Eye of the Azure Dragon}\n\nThis powerful dragon eye increases the minimum and maximum damage by +2 and allows Azure Dragonling to be upgraded to Azure Dragon and become Dracolich into Azure Dragon the next day."
+            },
+            "278": {
+                "name": "Prismatic Eye of the God Dragon",
+                "description": "{Prismatic Eye of the God Dragon}\n\nThis omnipotent artifact increases the minimum and maximum damage by +5 and allows Red and Green Dragonlings to be upgraded to Fire Dragon, Azure Dragonling to Ice Dragon, Faerie Dragonling and Rust Dragonling in their third upgrade form the next day."
+            },
+            "340": {
+                "name": "340 Red A-Grade",
+                "description": "340 Red A-Grade"
+            },
+            "341": {
+                "name": "341 Red A-Grade",
+                "description": "341 Red A-Grade"
+            },
+            "342": {
+                "name": "342 Red A-Grade",
+                "description": "342 Red A-Grade"
+            },
+            "343": {
+                "name": "343 Red A-Grade",
+                "description": "343 Red A-Grade"
+            },
+            "344": {
+                "name": "344 Red A-Grade",
+                "description": "344 Red A-Grade"
+            },
+            "345": {
+                "name": "345 Red B-Grade",
+                "description": "345 Red B-Grade"
+            },
+            "346": {
+                "name": "346 Red B-Grade",
+                "description": "346 Red B-Grade"
+            },
+            "347": {
+                "name": "347 Red B-Grade",
+                "description": "347 Red B-Grade"
+            },
+            "348": {
+                "name": "348 Red B-Grade",
+                "description": "348 Red B-Grade"
+            },
+            "349": {
+                "name": "349 Red B-Grade",
+                "description": "349 Red B-Grade"
+            },
+            "350": {
+                "name": "350 Red C-Grade",
+                "description": "350 Red C-Grade"
+            },
+            "351": {
+                "name": "351 Red C-Grade",
+                "description": "351 Red C-Grade"
+            },
+            "352": {
+                "name": "352 Red C-Grade",
+                "description": "352 Red C-Grade"
+            },
+            "353": {
+                "name": "353 Red C-Grade",
+                "description": "353 Red C-Grade"
+            },
+            "354": {
+                "name": "354 Red C-Grade",
+                "description": "354 Red C-Grade"
+            },
+            "355": {
+                "name": "355 Red D-Grade",
+                "description": "355 Red D-Grade"
+            },
+            "356": {
+                "name": "356 Red D-Grade",
+                "description": "356 Red D-Grade"
+            },
+            "357": {
+                "name": "357 Red D-Grade",
+                "description": "357 Red D-Grade"
+            },
+            "358": {
+                "name": "358 Red D-Grade",
+                "description": "358 Red D-Grade"
+            },
+            "359": {
+                "name": "359 Red D-Grade",
+                "description": "359 Red D-Grade"
+            },
+            "360": {
+                "name": "360 Blue A-Grade",
+                "description": "360 Blue A-Grade"
+            },
+            "361": {
+                "name": "361 Blue A-Grade",
+                "description": "361 Blue A-Grade"
+            },
+            "362": {
+                "name": "362 Blue A-Grade",
+                "description": "362 Blue A-Grade"
+            },
+            "363": {
+                "name": "363 Blue A-Grade",
+                "description": "363 Blue A-Grade"
+            },
+            "364": {
+                "name": "364 Blue A-Grade",
+                "description": "364 Blue A-Grade"
+            },
+            "365": {
+                "name": "365 Blue B-Grade",
+                "description": "365 Blue B-Grade"
+            },
+            "366": {
+                "name": "366 Blue B-Grade",
+                "description": "366 Blue B-Grade"
+            },
+            "367": {
+                "name": "367 Blue B-Grade",
+                "description": "367 Blue B-Grade"
+            },
+            "368": {
+                "name": "368 Blue B-Grade",
+                "description": "368 Blue B-Grade"
+            },
+            "369": {
+                "name": "369 Blue B-Grade",
+                "description": "369 Blue B-Grade"
+            },
+            "370": {
+                "name": "370 Blue C-Grade",
+                "description": "370 Blue C-Grade"
+            },
+            "371": {
+                "name": "371 Blue C-Grade",
+                "description": "371 Blue C-Grade"
+            },
+            "372": {
+                "name": "372 Blue C-Grade",
+                "description": "372 Blue C-Grade"
+            },
+            "373": {
+                "name": "373 Blue C-Grade",
+                "description": "373 Blue C-Grade"
+            },
+            "374": {
+                "name": "374 Blue C-Grade",
+                "description": "374 Blue C-Grade"
+            },
+            "375": {
+                "name": "375 Blue D-Grade",
+                "description": "375 Blue D-Grade"
+            },
+            "376": {
+                "name": "376 Blue D-Grade",
+                "description": "376 Blue D-Grade"
+            },
+            "377": {
+                "name": "377 Blue D-Grade",
+                "description": "377 Blue D-Grade"
+            },
+            "378": {
+                "name": "378 Blue D-Grade",
+                "description": "378 Blue D-Grade"
+            },
+            "379": {
+                "name": "379 Blue D-Grade",
+                "description": "379 Blue D-Grade"
+            },
+            "380": {
+                "name": "380 Yellow A-Grade",
+                "description": "380 Yellow A-Grade"
+            },
+            "381": {
+                "name": "381 Yellow A-Grade",
+                "description": "381 Yellow A-Grade"
+            },
+            "382": {
+                "name": "382 Yellow A-Grade",
+                "description": "382 Yellow A-Grade"
+            },
+            "383": {
+                "name": "383 Yellow A-Grade",
+                "description": "383 Yellow A-Grade"
+            },
+            "384": {
+                "name": "384 Yellow A-Grade",
+                "description": "384 Yellow A-Grade"
+            },
+            "385": {
+                "name": "385 Yellow B-Grade",
+                "description": "385 Yellow B-Grade"
+            },
+            "386": {
+                "name": "386 Yellow B-Grade",
+                "description": "386 Yellow B-Grade"
+            },
+            "387": {
+                "name": "387 Yellow B-Grade",
+                "description": "387 Yellow B-Grade"
+            },
+            "388": {
+                "name": "388 Yellow B-Grade",
+                "description": "388 Yellow B-Grade"
+            },
+            "389": {
+                "name": "389 Yellow B-Grade",
+                "description": "389 Yellow B-Grade"
+            },
+            "390": {
+                "name": "390 Yellow C-Grade",
+                "description": "390 Yellow C-Grade"
+            },
+            "391": {
+                "name": "391 Yellow C-Grade",
+                "description": "391 Yellow C-Grade"
+            },
+            "392": {
+                "name": "392 Yellow C-Grade",
+                "description": "392 Yellow C-Grade"
+            },
+            "393": {
+                "name": "393 Yellow C-Grade",
+                "description": "393 Yellow C-Grade"
+            },
+            "394": {
+                "name": "394 Yellow C-Grade",
+                "description": "394 Yellow C-Grade"
+            },
+            "395": {
+                "name": "395 Yellow D-Grade",
+                "description": "395 Yellow D-Grade"
+            },
+            "396": {
+                "name": "396 Yellow D-Grade",
+                "description": "396 Yellow D-Grade"
+            },
+            "397": {
+                "name": "397 Yellow D-Grade",
+                "description": "397 Yellow D-Grade"
+            },
+            "398": {
+                "name": "398 Yellow D-Grade",
+                "description": "398 Yellow D-Grade"
+            },
+            "399": {
+                "name": "399 Yellow D-Grade",
+                "description": "399 Yellow D-Grade"
+            }
+        }
+    }
+}
