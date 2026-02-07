@@ -1,0 +1,20 @@
+{
+    "era": {
+        "monsters": {
+            "155": {
+                "name": {
+                    "singular": "Darkness Dragon",
+                    "plural": "Darkness Dragons",
+                    "description": "Flies. Breath Attack. Immune to all spells. Hates Lord of Thunders. Fear. Fearless. Hides the hero on the map."
+                }
+            },
+            "194": {
+                "name": {
+                    "singular": "Dire Werewolf",
+                    "plural": "Dire Werewolves",
+                    "description": "Lycanthropy (x2 if full moon). Berserk if full moon: days 14-16."
+                }
+            }
+        }
+    }
+}
