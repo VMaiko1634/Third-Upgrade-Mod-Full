@@ -1,22 +1,19 @@
 {
-  "eighth": {
-    "dwellDesc": "{Построить} {@dwellName@}\n\n@dwellName@ позволяет нанимать @monName@.\n\n\nТребования:\n",
-    "comma":  ", ",
-    "reqMet": "Все требования для постройки этого здания выполнены.",
-    "built":  "Вы уже строили здесь на этом ходу.",
-    "missBuild":  "Не выполнены все требования.",
-    "missRes": "У вас недостаточно ресурсов.",
-    "dwellAsk":  "Вы хотите построить это здание?",
-
-    "growthDetails":  "Еженедельный прирост @monName@: @totalGrowth@\n",
-    "growthBasic":  "Базовый прирост: @basicGrowth@",
-    "growthCastle": "@castle@: +@castleBonus@",
-    "growthExtDwell": "Внешние жилища: +@extDwellBonus@",
-    "growthGrail": "@grail@: +@grailBonus@",
-
-    "hintBuild": "{Построить @buildName@}",
-    "hintRecruit":  "Нанять @monName@. {Прирост: @totalGrowth@ в неделю.}",
-
-    "disabled": "8-е существа отключены.\n\nЧтобы использовать эту возможность, пожалуйста, включите её на 1-й странице меню настроек WoG."
-  }
+    "eighth": {
+        "dwellDesc": "{Построить} {@dwellName@}\n\n@dwellName@ позволяет нанимать @monName@.\n\n\nТребования:\n",
+        "comma": ", ",
+        "reqMet": "Все требования для постройки этого здания выполнены.",
+        "built": "Вы уже строили здесь на этом ходу.",
+        "missBuild": "Не выполнены все требования.",
+        "missRes": "У вас недостаточно ресурсов.",
+        "dwellAsk": "Вы хотите построить это здание?",
+        "growthDetails": "Еженедельный прирост @monName@: @totalGrowth@\n",
+        "growthBasic": "Базовый прирост: @basicGrowth@",
+        "growthCastle": "@castle@: +@castleBonus@",
+        "growthExtDwell": "Внешние жилища: +@extDwellBonus@",
+        "growthGrail": "@grail@: +@grailBonus@",
+        "hintBuild": "{Построить @buildName@}",
+        "hintRecruit": "Нанять @monName@. {Прирост: @totalGrowth@ в неделю.}",
+        "disabled": "8-е существа отключены.\n\nЧтобы использовать эту возможность, пожалуйста, включите её на 1-й странице меню настроек WoG."
+    }
 }
