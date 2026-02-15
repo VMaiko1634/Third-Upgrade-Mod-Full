@@ -3,8 +3,8 @@
 		"resound": {
 			"notification": {
 				"0": {
-				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.3.4}",
-					"text": "[*] Updated New Town Plugin.\n[*] Updated Amethyst Plugin.\n[*] Increased mod priority.\n[*] HD Edition remaster mod is available to be enabled again.\n[*] Fixed the visual bug in the buildings menu when playing with the HD Edition remaster mod.\n[*] Added blank InstantAnim.dll to disable that plugin because it looked bad in the mod.\n\nRemember that HD Edition Remaster is a very demanding graphics mod; if the game seems too laggy, it's not TUM's fault, it's HD Edition Remaster's.",
+				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.3.7}",
+					"text": "[*] Patched the 'Jebus Cross' template: It no longer crashes.\n[*] 'Build Capitol in all cities' is no longer enabled by default.\n[*] Updated Amethyst plugin: solved not being able to see info in combat with RMC.\n[*] Updated New Towns plugin: Fixed a crash when you generate a random map, then build all the structures with 'wogminastirith' cheat.",
 					"url": "https://discord.com/channels/665742159307341827/689568488343208047/1411361215875121224"
 				},
 				"1": {
