@@ -451,6 +451,10 @@
                 "name": "Prismatic Eye of the God Dragon",
                 "description": "{Prismatic Eye of the God Dragon}\n\nThis omnipotent artifact increases the minimum and maximum damage by +5 and allows Red and Green Dragonlings to be upgraded to Fire Dragon, Azure Dragonling to Ice Dragon, Faerie Dragonling and Rust Dragonling in their third upgrade form the next day."
             },
+            "279": {
+                "name": "Necronomicon",
+                "description": "{Necronomicon}\n\nThis artifact allows you to summon Skeleton Angels at the start of each battle, and adds Death Ripple and Animate Dead to your spellbook."
+            },
             "340": {
                 "name": "340 Red A-Grade",
                 "description": "340 Red A-Grade"

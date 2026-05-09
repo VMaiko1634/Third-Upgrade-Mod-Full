@@ -3,9 +3,9 @@
 		"resound": {
 			"notification": {
 				"0": {
-				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.3.7}",
-					"text": "[*] Patched the 'Jebus Cross' template: It no longer crashes.\n[*] 'Build Capitol in all cities' is no longer enabled by default.\n[*] Updated Amethyst plugin: solved not being able to see info in combat with RMC.\n[*] Updated New Towns plugin: Fixed a crash when you generate a random map, then build all the structures with 'wogminastirith' cheat.",
-					"url": "https://discord.com/channels/665742159307341827/689568488343208047/1411361215875121224"
+				    "name": "{~00AAFF}Third Upgrade Mod Changelog 3.4.0}",
+					"text": "[*] New creature with dwelling.\n[*] New Relic artifact.\n[*] Updated plugins; Fixed countless mod errors and crashes.\n[*] Fixed crash when generating a map with the 'Jebus Cross' template.\n[*] Upgradable Silos mod was added to the list of incompatible mods due to multiple anomalies. \n\n And much more!",
+					"url": "https://discord.com/channels/665742159307341827/689568488343208047"
 				},
 				"1": {
 				    "name": "{~FFE400}Wog options disabled for TUM}",

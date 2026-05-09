@@ -1132,6 +1132,13 @@
                     "plural": "Elementalists",
                     "description": "Ignores spell immunity on the field. Offensive spell caster. Magic Channel."
                 }
+            },
+            "357": {
+                "name": {
+                    "singular": "Skeleton Angel",
+                    "plural": "Skeleton Angels",
+                    "description": "Undead. Raises living units in their skeletal form."
+                }
             }
         }
     }
