@@ -1798,7 +1798,7 @@
                     ],
                     "sound": {
                         "enter": null,
-                        "loop": "SLOOPWHIR.wav"
+                        "loop": "LOOPWHIR.wav"
                     },
                     "states": [
                         {
