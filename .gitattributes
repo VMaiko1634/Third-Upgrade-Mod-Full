@@ -1,5 +1,8 @@
 # Declare files that will always have CRLF line endings on checkout.
-* text=false
+*.txt text eol=crlf
+*.ers text eol=crlf
+*.ert text eol=crlf
+*.erm text eol=crlf
 
 .gitignore export-ignore
 .gitattributes export-ignore
