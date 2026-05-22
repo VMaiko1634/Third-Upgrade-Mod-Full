@@ -3,7 +3,6 @@
 *.ers text eol=crlf
 *.ert text eol=crlf
 *.erm text eol=crlf
-*.cfg text eol=crlf
 
 .gitignore export-ignore
 .gitattributes export-ignore
