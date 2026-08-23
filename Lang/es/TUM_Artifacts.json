@@ -1,0 +1,700 @@
+{
+    "era": {
+        "artifacts": {
+            "171": {
+                "name": "Martillo de la Perdición",
+                "description": "{Martillo de la Perdición}\n\nAl equiparlo, esta enorme reliquia aumenta tu habilidad de Ataque en +16, pero reduce tu habilidad de Defensa en -6 y la Moral en -1.",
+                "event": "Encuentras el Martillo de la Perdición, le sacudes el polvo y lo guardas en tu mochila.\"\t"
+            },
+            "172": {
+                "name": "Escudo del Eclipse",
+                "description": "{Escudo del Eclipse}\n\nEste objeto para la mano izquierda aumenta tu habilidad de Defensa en +16, pero reduce tu habilidad de Ataque en -5 y la Moral en -1.",
+                "event": "Encuentras el Escudo del Eclipse, le sacudes el polvo y lo guardas en tu mochila.\"\t"
+            },
+            "173": {
+                "name": "Casco del Paladín Caído",
+                "description": "{Casco del Paladín Caído}\n\nSe lleva en la cabeza, este objeto aumenta tu habilidad de Conocimiento en +14 pero reduce tu habilidad de Poder de Hechizo en -4 y la Moral en -1.",
+                "event": "Encuentras el Casco del Paladín Caído, le sacudes el polvo y lo guardas en tu mochila.\"\t"
+            },
+            "174": {
+                "name": "Armadura del Jinete de Dragón",
+                "description": "{Armadura del Jinete de Dragón}\n\nSe lleva en el torso, este objeto aumenta tu habilidad de Poder de Hechizo en +14 pero reduce tu habilidad de Conocimiento en -4 y la Moral en -1.",
+                "event": "Encuentras la Armadura del Jinete de Dragón, le sacudes el polvo y la guardas en tu mochila.\"\t"
+            },
+            "175": {
+                "name": "Tridente del Dominio",
+                "description": "{Tridente del Dominio}\n\nEsta arma para la mano derecha aumenta tu habilidad de Ataque en +7.",
+                "event": "Finalmente encuentras un pozo tras una larga búsqueda. Sin embargo, tus soldados no pueden sacar el cubo de agua. Algo impedía que saliera. Tu portaestandarte tuvo que descender él mismo al pozo. Resultó que un tridente estaba bloqueando el paso."
+            },
+            "176": {
+                "name": "Escudo de Gloria Naval",
+                "description": "{Escudo de Gloria Naval}\n\nEste escudo para la mano izquierda aumenta tu habilidad de Defensa en +7.",
+                "event": "Te encuentras con un viejo almirante en la taberna. Tras un par de horas llenas de historias sobre gloriosas batallas y días pasados, te regala su escudo de gala."
+            },
+            "177": {
+                "name": "Corona de los Cinco Mares",
+                "description": "{Corona de los Cinco Mares}\n\nSe lleva en la cabeza, este objeto aumenta tu habilidad de Conocimiento en +6.",
+                "event": "Ves una pelea en una colina cercana. Al acercarte, ves a dos nix. Uno está ganando y, cuando está a punto de asestar el golpe final, intervienes. El nix derrotado te agradece tu ayuda y te regala su armadura. Cree que te la mereces más que él."
+            },
+            "178": {
+                "name": "Armadura Real de Nix",
+                "description": "{Armadura Real de Nix}\n\nSe lleva en el torso, este objeto aumenta tu habilidad de Poder en +6.",
+                "event": "Apenas habías acampado, quitando la silla de montar por primera vez en el día, cuando una criatura se te acercó sigilosamente y arrastró una de tus botas hacia su madriguera. Jurando en silencio, buscas en el agujero con la mano. En lugar de una bota, tocas algo afilado. Asombrado, sacas una corona.\"\t"
+            },
+            "179": {
+                "name": "Ganso de Oro",
+                "description": "{Ganso de Oro}\n\nAdemás del efecto de sus componentes cuando se equipa, el Ganso de Oro aumenta tus ingresos en 4750 piezas de oro por día.",
+                "event": "Paseas por la casa abandonada de un coleccionista en busca de un lugar para acampar. La mayoría de los bienes habían sido robados por merodeadores hace tiempo, pero pudiste encontrar un par de estatuas de mascotas empolvadas. Reconoces vagamente una de ellas. Le limpias el polvo a una de ellas y descubres un ganso de oro."
+            },
+            "180": {
+                "name": "Manto del Diplomático",
+                "description": "{Manto del Diplomático}\n\nAdemás del efecto de sus componentes, el Manto del Diplomático multiplica la fuerza del ejército de tu héroe por 3 (para ejércitos neutrales y el gremio de ladrones).",
+                "event": "Hoy te encontraste con un espantapájaros inusual. En lugar de asustar a los cuervos, los persuadía inteligentemente para que abandonaran el campo. Aceptaste ayudar al espantapájaros a encontrar al adivino más cercano a cambio del secreto. El espantapájaros te da su manto."
+            },
+            "181": {
+                "name": "Colgante de la Reflexión",
+                "description": "{Colgante de la Reflexión}\n\nAdemás del efecto de sus componentes, este objeto aumenta tu probabilidad de resistir un hechizo hostil en un 20%.",
+                "event": "Los soldados se te acercan hablando de un milagro. Intrigado, los sigues. Ves un espectáculo de verdad extraño: un caminante sentado encima de una trampa de fuego, sin sufrir daño alguno. Le ofreces dinero a cambio del secreto, pero él se ríe y se desvanece en el aire. Ves un extraño colgante que quedó en medio de la trampa.\"\t"
+            },
+            "182": {
+                "name": "Guantelete del Paladín Oscuro",
+                "description": "{Guantelete del Paladín Oscuro}\n\nAdemás del efecto de sus componentes, al comienzo del combate el Guantelete lanzará Aceleración, Sanguinario, Escudo de Fuego y Contraataque (todos en nivel Experto) con una duración de 50 turnos sobre todas las tropas aliadas.",
+                "event": "Al pasar junto a una pequeña cueva escuchas golpetazos profundos. Entras a la cueva y ves a un Cíclope joven rompiendo nueces con un enorme martillo. Cada golpe termina con cáscaras y trozos de nuez esparcidos por toda la cueva. Le enseñas al Cíclope a romper nueces de forma más eficiente golpeándolas entre sí. Lleno de alegría por este descubrimiento, el joven te regala el martillo."
+            },
+            "183": {
+                "name": "Colgante de la Decadencia",
+                "description": "{Colgante de la Decadencia}\n\nSe lleva en el cuello, este objeto reduce la Moral del enemigo en 2.",
+                "event": "Visitas la joyería. Pones tus ojos en un brazalete, pero el joyero inmediatamente te advierte que está maldito. No le temes a las maldiciones y te pones el brazalete de inmediato. El brazalete desaparece en un destello. Enfurecido, estás a punto de matar al joyero, pero él te ofrece el Colgante de la Decadencia a cambio. Aceptas.\"\t"
+            },
+            "184": {
+                "name": "Muñeco del Chamán",
+                "description": "{Muñeco del Chamán}\n\nReduce la Suerte del enemigo en 2.",
+                "event": "El día no parecía muy prometedor desde el principio. Pasaste debajo de una escalera, te cruzaste con una mujer con un cubo vacío y pisaste a un gato negro. Aparentemente, no es tu mala suerte, sino la del tipo en harapos que te ha estado siguiendo. Ordenas atrapar al perdedor, pero él huye. Mientras desaparece, notas una extraña muñeca que dejó caer."
+            },
+            "185": {
+                "name": "Herradura del Demonio",
+                "description": "{Herradura del Demonio}\n\nReduce la Suerte del enemigo en 1.",
+                "event": "Durante tu estadía nocturna escuchas el estruendo de cascos cerca. Miras a tu alrededor en la oscuridad y notas la figura de un demonio, listo para apuñalarte con sus cuernos. Apenas sobrevives al ataque y te quedas con su herradura como trofeo."
+            },
+            "186": {
+                "name": "Máscara Espantosa",
+                "description": "{Máscara Espantosa}\n\nReduce la Moral del enemigo en 1.",
+                "event": "Te encuentras con un circo itinerante en tu camino. Uno de los artistas tenía un disfraz tan hábil que desenfundaste tu espada, listo para defenderte. Resultó que una bella actriz se escondía detrás de la máscara. Riendo, te regala la máscara."
+            },
+            "187": {
+                "name": "Runas de la Inminencia",
+                "description": "{Runas de la Inminencia}\n\nReduce la Suerte del enemigo en 1.",
+                "event": "Cerca de allí, en el borde de una montaña, ves a un mago intentando lanzar un hechizo. Símbolos de fuego ya parpadean en el cielo cuando él, cegado por la luz, tropieza y cae. El mago perece y tu recoges la cadena de piedras misteriosas en tu mochila."
+            },
+            "188": {
+                "name": "Anillo de Supresión",
+                "description": "{Anillo de Supresión}\n\nLlevando en el dedo, este anillo reduce la Moral del enemigo en 1.",
+                "event": "Pediste huevos fritos para el desayuno. El cocinero logró encontrar los huevos para ti. También encontró un anillo en el nido de pájaro que te entregó."
+            },
+            "189": {
+                "name": "Cristal de Maná",
+                "description": "{Cristal de Maná}\n\nAumenta el número de lanzamientos de hechizos de tus criaturas en 1 al comienzo de cada combate."
+            },
+            "190": {
+                "name": "Frasco de Maná",
+                "description": "{Frasco de Maná}\n\nAumenta el número de lanzamientos de hechizos de tus criaturas en 2 al comienzo de cada combate."
+            },
+            "191": {
+                "name": "Redoma de Maná",
+                "description": "{Redoma de Maná}\n\nAumenta el número de lanzamientos de hechizos de tus criaturas en 3 al comienzo de cada combate."
+            },
+            "192": {
+                "name": "Botas del Adivino",
+                "description": "{Botas del Adivino}\n\nAl llevarlas, este objeto te permite lanzar todos los hechizos de nivel 1."
+            },
+            "193": {
+                "name": "Anillo del Mago",
+                "description": "{Anillo del Mago}\n\nAl llevarlo, este anillo te permite lanzar todos los hechizos de nivel 2."
+            },
+            "194": {
+                "name": "Túnica de los Magos",
+                "description": "{Túnica de los Magos}\n\nLa Túnica de los Magos te permite lanzar todos los hechizos de nivel 3."
+            },
+            "195": {
+                "name": "Báculo del Magus",
+                "description": "{Báculo del Magus}\n\nEl Báculo del Magus te permite lanzar todos los hechizos de nivel 4."
+            },
+            "196": {
+                "name": "Escudo de Puño de Esgrimista",
+                "description": "{Escudo de Puño de Esgrimista}\n\nEste escudo aumenta tu habilidad de Defensa en 3 y la salud de todas tus unidades en 1."
+            },
+            "197": {
+                "name": "Anillo de los Elementos",
+                "description": "{Anillo de los Elementos}\n\nAl estar equipado, el Anillo de los Elementos te permite invocar Elementales de todos los tipos. También te permite invocar Elementales de diferentes tipos durante el combate."
+            },
+            "198": {
+                "name": "Ojo del Observador",
+                "description": "{Ojo del Observador}\n\nAl estar equipado, este objeto permite lanzar los hechizos Ver Tierra, Ver Aire y Visiones."
+            },
+            "199": {
+                "name": "Escudo Astral",
+                "description": "{Escudo Astral}\n\nAl estar equipado, este escudo aumenta tu habilidad de Defensa en 3 y lanza Olvido sobre los tiradores enemigos."
+            },
+            "200": {
+                "name": "Escudo de Hielo",
+                "description": "{Escudo de Hielo}\n\nAl estar equipado, el Escudo de Hielo aumenta tu habilidad de Defensa en 3 y hace que tus unidades sean inmunes a los hechizos de Frío."
+            },
+            "201": {
+                "name": "Anillo de Negatividad",
+                "description": "{Anillo de Negatividad}\n\nLlevar este objeto hace que tus unidades sean inmunes al hechizo Rayo."
+            },
+            "202": {
+                "name": "Ballesta",
+                "description": "{Ballesta}\n\nAl estar equipada, la Ballesta mejora a tus Arqueros y Ballesteros a Ballesteros Élite y a tus Caballeros a Jinetes Arquetípicos, y te proporciona 10 disparos adicionales."
+            },
+            "203": {
+                "name": "Armadura Fuerte",
+                "description": "{Armadura Fuerte}\n\nAl estar equipada, la Armadura Fuerte aumenta tu habilidad de Poder en 4 y hace que tus unidades sean inmunes a los hechizos Explosión y Rayo Desintegrador."
+            },
+            "204": {
+                "name": "Armadura Ionizada",
+                "description": "{Armadura Ionizada}\n\nLlevar este objeto hace que tus unidades sean inmunes a todos los hechizos ofensivos de Aire."
+            },
+            "205": {
+                "name": "Armadura Verde",
+                "description": "{Armadura Verde}\n\nLlevar este objeto hace que tus unidades sean inmunes a todos los hechizos ofensivos de Tierra."
+            },
+            "206": {
+                "name": "Armadura Helada",
+                "description": "{Armadura Helada}\n\nLlevar este objeto hace que tus unidades sean inmunes a todos los hechizos ofensivos de Fuego."
+            },
+            "207": {
+                "name": "Armadura Hidrodinámica",
+                "description": "{Armadura Hidrodinámica}\n\nLlevar este objeto hace que tus unidades sean inmunes a todos los hechizos ofensivos de Agua."
+            },
+            "208": {
+                "name": "Anillo de la Precisión",
+                "description": "{Anillo de la Precisión}\n\nAl estar equipado, este anillo lanza Precisión sobre todos los tiradores aliados al comienzo de cada combate."
+            },
+            "209": {
+                "name": "Anillo de las Mil Tormentas",
+                "description": "{Anillo} {de} {las} {Mil} {Tormentas}\n\nAl estar equipado, este objeto lanza Aceleración al comienzo del combate sobre todas tus unidades."
+            },
+            "210": {
+                "name": "Escudo del Paladín Oscuro",
+                "description": "{Escudo} {del} {Paladín} {Oscuro}\n\nAumenta tu habilidad de Defensa en +6 y lanza Ola de Muerte al comienzo del combate."
+            },
+            "211": {
+                "name": "Carcaj de Flechas",
+                "description": "{Carcaj} {de} {Flechas}\n\nOtorga 20 disparos adicionales a todos tus tiradores al comienzo del combate."
+            },
+            "212": {
+                "name": "Colgante de la Apresuración",
+                "description": "{Colgante} {de} {la} {Apresuración}\n\nLlevar este objeto hace que tus unidades sean inmunes al hechizo Lentitud."
+            },
+            "213": {
+                "name": "Escudo de la Niebla",
+                "description": "{Escudo} {de} {la} {Niebla}\n\nAumenta tu habilidad de Defensa en 2 y lanza Escudo de Aire al comienzo del combate sobre todas tus unidades."
+            },
+            "214": {
+                "name": "Guantes Encantados",
+                "description": "{Guantes} {Encantados}\n\nLanza Escudo al comienzo del combate sobre todas tus unidades."
+            },
+            "215": {
+                "name": "Guantes de Fuego Arcano",
+                "description": "{Guantes} {de} {Fuego} {Arcano}\n\nLanza Escudo de Fuego al comienzo del combate sobre todas tus unidades."
+            },
+            "216": {
+                "name": "Escudo de Piedra",
+                "description": "{Escudo} {de} {Piedra}\n\nAumenta tu habilidad de Defensa en 3 y lanza Piel de Piedra al comienzo del combate sobre todas tus unidades."
+            },
+            "217": {
+                "name": "Daga de Sacrificio",
+                "description": "{Daga} {de} {Sacrificio}\n\nEste objeto para la mano izquierda aumenta tu habilidad de Ataque en +2 y lanza Sed de Sangre al comienzo del combate sobre todas tus unidades."
+            },
+            "218": {
+                "name": "Arco de Gelu",
+                "description": "{Arco de Gelu}\n\nAl estar equipado, el Arco de Gelu mejora a tus Elfos del Bosque y Grandes Elfos a Elfos Francotiradores, y te proporciona 10 disparos adicionales."
+            },
+            "219": {
+                "name": "Compendio de Magia",
+                "description": "{Compendio de Magia}\n\nAdemás del efecto de sus componentes, al comienzo de cada batalla el Compendio de Magia invoca a los cuatro elementales de tercera mejora."
+            },
+            "220": {
+                "name": "Báculo de Rayo",
+                "description": "{Báculo de Rayo}\n\nEste báculo aumenta tus habilidades de Ataque, Defensa y Conocimiento en 3 y tu habilidad de Poder en 6. Otorga al héroe los hechizos Rayo y Cadena de Rayos y hace que todas las unidades sean vulnerables a estos hechizos (solo funciona la inmunidad por artefactos). La Cadena de Rayos se puede lanzar sobre todas las unidades enemigas sin dañar a las criaturas aliadas. Cada tropa alcanzada por la Cadena de Rayos recibe un impacto adicional de Rayo."
+            },
+            "221": {
+                "name": "Casco Enano",
+                "description": "{Casco Enano}\n\nAumenta la habilidad de defensa del héroe en 3 y hace que las unidades sean inmunes a hechizos que reducen la defensa."
+            },
+            "222": {
+                "name": "Mina Enana",
+                "description": "{Mina Enana}\n\nAl comienzo de la batalla lanza Mina Terrestre en nivel experto."
+            },
+            "223": {
+                "name": "Daga Ritual",
+                "description": "{Daga Ritual}\n\nPermite mejorar a todos los Magos, Archimagos, Monjes y Fanáticos de tu ejército a Liches."
+            },
+            "224": {
+                "name": "Martillo de Guerra Sagrado",
+                "description": "{Martillo de Guerra Sagrado}\n\nSostenido con la mano derecha, el Martillo de Guerra Sagrado lanza Bendición en nivel experto al comienzo de la batalla."
+            },
+            "225": {
+                "name": "Tiara del Conocimiento",
+                "description": "{Tiara del Conocimiento}\n\nAumenta tu habilidad de conocimiento en 5 y hace que las unidades sean inmunes a Hipnosis y Olvido."
+            },
+            "226": {
+                "name": "Escudo de los Ancestros",
+                "description": "{Escudo de los Ancestros}\n\nAumenta la habilidad de poder de hechizo del héroe en +12."
+            },
+            "227": {
+                "name": "Filacteria Menor",
+                "description": "{Filacteria Menor}\n\nInvoca aterradores Demiliches para ayudarte en el campo de batalla."
+            },
+            "228": {
+                "name": "Filacteria Mayor",
+                "description": "{Filacteria Mayor}\n\nInvoca aterradores Demiliches para ayudarte en el campo de batalla."
+            },
+            "229": {
+                "name": "Filacteria Superior",
+                "description": "{Filacteria Superior}\n\nInvoca aterradores Demiliches para ayudarte en el campo de batalla."
+            },
+            "230": {
+                "name": "Filacteria de Reliquia",
+                "description": "{Filacteria de Reliquia}\n\nInvoca aterradores Demiliches para ayudarte en el campo de batalla."
+            },
+            "231": {
+                "name": "Espada del Brillo Negro",
+                "description": "{Espada del Brillo Negro}\n\nSostenida con la mano derecha, la Espada del Brillo Negro aumenta las cuatro habilidades primarias en +5. Invoca Arcángeles en el campo de batalla. Lanza Regocijo sobre tus unidades."
+            },
+            "232": {
+                "name": "Espada del Apocalipsis",
+                "description": "{Espada del Apocalipsis}\n\nAdemás del efecto de sus componentes, al comienzo del combate la Espada del Apocalipsis lanza Sed de Sangre, Protección contra el Fuego, Escudo de Fuego, Frenesí y Furia Asesina sobre los aliados. (Esto no evita que seas inmune al Escudo de Fuego del enemigo)."
+            },
+            "233": {
+                "name": "Cetro de la Magia",
+                "description": "{Cetro de la Magia}\n\nSostenido con la mano derecha, el Cetro de la Magia aumenta tu Poder y Conocimiento en +10."
+            },
+            "234": {
+                "name": "Hacha del Poderío",
+                "description": "{Hacha del Poderío}\n\nSostenida con la mano derecha, el Hacha del Poderío aumenta tu Ataque y Defensa en +10."
+            },
+            "235": {
+                "name": "Cota de Malla del Emperador Sol",
+                "description": "{Armadura de Placas del Emperador Sol}\n\nAumenta las cuatro habilidades primarias en +5. Hace que tus unidades sean inmunes a todos los hechizos de fuego de daño."
+            },
+            "236": {
+                "name": "Escudo del Ave Bermellón",
+                "description": "{Escudo del Ave Bermellón}\n\nAumenta tu habilidad de Ataque, Defensa y Poder en +7 y Conocimiento en +4. Invoca Aves Bermellón en el campo de batalla."
+            },
+            "237": {
+                "name": "Corona del Rey del Fuego",
+                "description": "{Corona del Rey del Fuego}\n\nAumenta las cuatro habilidades primarias en +3. Hace que tus unidades sean inmunes a los hechizos debilitadores de fuego."
+            },
+            "238": {
+                "name": "Orbe del Caos",
+                "description": "{Orbe del Caos}\n\nEste orbe duplica el daño infligido por los hechizos de combate y lanza los cuatro hechizos de protección mágica sobre tus unidades."
+            },
+            "239": {
+                "name": "Colgante de la Magia",
+                "description": "{Colgante de la Magia}\n\nLlevar este objeto hace que tus unidades sean inmunes al hechizo Flecha Mágica."
+            },
+            "240": {
+                "name": "Collar Regenerativo de Maná",
+                "description": "{Collar Regenerativo de Maná}\n\nEste collar te ayuda a recuperar 5 puntos de hechizo adicionales por día."
+            },
+            "241": {
+                "name": "Casco de Cubo",
+                "description": "{Casco de Cubo}\n\nEste extraño casco reduce tu habilidad de Defensa en 2 haciendo que tus unidades sean inmunes a todos los hechizos mentales.\""
+            },
+            "242": {
+                "name": "Anillo del Mariscal de Campo",
+                "description": "{Anillo del Mariscal de Campo}\n\nAl llevarlo, el Anillo del Mariscal de Campo aumenta tu Moral en 3."
+            },
+            "243": {
+                "name": "Herradura",
+                "description": "{Herradura}\n\nAl estar equipada, la Herradura aumenta tu Suerte en 2."
+            },
+            "244": {
+                "name": "Glifo de Cristal",
+                "description": "{Glifo de Cristal}\n\nAl estar equipado, este objeto lanza Espejo Mágico al comienzo del combate sobre todas tus unidades."
+            },
+            "245": {
+                "name": "Emblema del General",
+                "description": "{Emblema del General}\n\nAl llevarla, el Emblema del General aumenta tu Moral en 2."
+            },
+            "246": {
+                "name": "Anillo de la Fortuna",
+                "description": "{Anillo de la Fortuna}\n\nAl llevarlo, el Anillo de la Fortuna aumenta tu Suerte en 3."
+            },
+            "247": {
+                "name": "Coraza de Mithril",
+                "description": "{Coraza de Mithril}\n\nAl llevarla, esta armadura aumenta tu habilidad de Poder y Defensa en 6."
+            },
+            "248": {
+                "name": "Casco de Mithril",
+                "description": "{Casco de Mithril}\n\nAl llevarlo, este casco aumenta tu habilidad de Conocimiento y Defensa en 6."
+            },
+            "249": {
+                "name": "Anillo del Infortunio",
+                "description": "{Anillo del Infortunio}\n\nSi se lleva en el dedo, el Anillo del Infortunio reduce la Suerte del enemigo en 3."
+            },
+            "250": {
+                "name": "Cabeza de Dragón",
+                "description": "{Cabeza de Dragón}\n\nAl estar equipado, este objeto reduce la Moral del enemigo en 2."
+            },
+            "251": {
+                "name": "Anillo de Pánico",
+                "description": "{Anillo de Pánico}\n\nSe lleva en el dedo, el Anillo de Pánico lanza Pesar a todos los enemigos."
+            },
+            "252": {
+                "name": "Colgante de la Desesperación",
+                "description": "{Colgante de la Desesperación}\n\nSe lleva en el cuello, el Colgante de la Desesperación reduce la Moral y la Suerte del enemigo en 3."
+            },
+            "253": {
+                "name": "Anillo de la Mirada de Serpiente",
+                "description": "{Anillo de la Mirada de Serpiente}\n\nPone bajo tu control a la tropa enemiga más susceptible al comienzo de la batalla."
+            },
+            "254": {
+                "name": "Escudo del Paladín de la Luz",
+                "description": "{Escudo del Paladín de la Luz}\n\nAumenta tu habilidad de Defensa en +6 y lanza Exorcismo al comienzo del combate sobre todos los no-muertos enemigos."
+            },
+            "255": {
+                "name": "Hacha del Rey de Piamonte",
+                "description": "{Hacha del Rey de Piamonte}\n\nAumenta tu habilidad de Ataque en 5 y lanza Contraataque al comienzo del combate sobre todas tus unidades."
+            },
+            "256": {
+                "name": "Anillo Antimagia",
+                "description": "{Anillo Antimagia}\n\nAl estar equipado, este objeto lanza Antimagia al comienzo del combate sobre todas tus unidades."
+            },
+            "257": {
+                "name": "Pendientes del Hombre Justo",
+                "description": "{Pendientes del Hombre Justo}\n\nAl estar equipado, este objeto lanza Bendición al comienzo del combate sobre todas tus unidades."
+            },
+            "258": {
+                "name": "Guantes del Barón del Infierno",
+                "description": "{Guantes del Barón del Infierno}\n\nAl comienzo de cada batalla, los Guantes del Barón del Infierno lanzarán los hechizos Furia Asesina y Frenesí sobre todas tus criaturas.\nCada una de tus unidades obtiene el efecto de Escudo de Fuego."
+            },
+            "259": {
+                "name": "Yelmo de la Reina Hidra",
+                "description": "{Yelmo de la Reina Hidra}\n\nTodas las criaturas del ejército del héroe, excluyendo a los atacantes de 2 casillas, son dotadas de la habilidad de hidra."
+            },
+            "260": {
+                "name": "Botas del Caminante",
+                "description": "{Botas del Caminante}\n\nSe llevan en los pies, permiten a tu héroe moverse por terreno accidentado sin penalización."
+            },
+            "261": {
+                "name": "Manto del Intercambio",
+                "description": "{Manto del Intercambio}\n\nAl llevarlo, el Ataque y la Defensa del héroe aliado y del héroe enemigo se invierten."
+            },
+            "262": {
+                "name": "Amuelto del Retorno del Samsara",
+                "description": "{Amuelto del Retorno del Samsara}\n\nAl lanzar Resurrección y Animar Muertos, los hechizos también se lanzarán sobre todas las criaturas aliadas con el 30% del poder del héroe. Transforma diferentes esqueletos en sus formas vivas."
+            },
+            "263": {
+                "name": "Brazalete Amplificador de Implosión",
+                "description": "{Brazalete Amplificador de Implosión}\n\nAl lanzar Implosión, el hechizo también se lanzará sobre todas las demás criaturas enemigas con el 30% del poder del héroe."
+            },
+            "264": {
+                "name": "Espada Atma",
+                "description": "{Espada Atma}\n\nAl llevarla, esta misteriosa espada iguala el valor más bajo de Ataque y Defensa al valor más alto."
+            },
+            "265": {
+                "name": "Túnica Atma",
+                "description": "{Túnica Atma}\n\nAl llevarla, esta misteriosa túnica iguala el valor más bajo de Poder y Conocimiento al valor más alto."
+            },
+            "266": {
+                "name": "Cuerno del Abismo",
+                "description": "{Cuerno del Abismo}\n\nDespués de que una tropa de criaturas vivas sea eliminada, una tropa de Fangarms surgirá en su lugar y se mantendrá leal al héroe tras finalizar la batalla. Los Puntos de Vida totales de esta tropa serán iguales a la mitad de los Puntos de Vida totales de la tropa eliminada, pero la cantidad de Fangarms invocados de esta forma no debe exceder la mitad de la cantidad de criaturas en la tropa eliminada. Eliminar Fangarms no activará el efecto del Cuerno."
+            },
+            "267": {
+                "name": "Capa del Silencio",
+                "description": "{Capa del Silencio}\n\nMientras lleves esta capa, ni tú ni tu oponente podrán lanzar hechizos de nivel 1-2 durante el combate."
+            },
+            "268": {
+                "name": "Anillo del Olvido",
+                "description": "{Anillo del Olvido}\n\nAl llevarlo, hace que todas las pérdidas en la batalla sean irrevocables (excepto con drenaje de vida)."
+            },
+            "269": {
+                "name": "Amuleto del Eclipse",
+                "description": "{Amuleto del Eclipse}\n\nEste artefacto reduce la habilidad de Poder del héroe enemigo en un 10% durante el combate."
+            },
+            "270": {
+                "name": "Sello del Atardecer",
+                "description": "{Sello del Atardecer}\n\nEste artefacto reduce la habilidad de Poder del héroe enemigo en un 10% durante el combate."
+            },
+            "271": {
+                "name": "Peto de la Luz Moribunda",
+                "description": "{Peto de la Luz Moribunda}\n\nSe lleva en el torso, este objeto reduce la habilidad de Poder del héroe enemigo en un 25% durante el combate."
+            },
+            "272": {
+                "name": "Jarra Infinita de Cerveza de la Felicidad",
+                "description": "{Jarra Infinita de Cerveza de la Felicidad}\n\nEste artefacto lanza Regocijo a nivel experto al comienzo de la batalla."
+            },
+            "273": {
+                "name": "Ojo del Dragón Verde",
+                "description": "{Ojo del Dragón Verde}\n\nEste poderoso ojo de dragón aumenta el daño mínimo en +1 y permite que el Dragón Verde Joven se mejore a Dragón Verde, y convierte al Dragón de Hueso y Dragón Fantasma en Dragón Verde al día siguiente."
+            },
+            "274": {
+                "name": "Ojo del Dragón Rojo",
+                "description": "{Ojo del Dragón Rojo}\n\nEste poderoso ojo de dragón aumenta el daño máximo en +1 y permite que el Dragón Rojo Joven se mejore a Dragón Rojo, y convierte al Dragón de Hueso y Dragón Fantasma en Dragón Rojo al día siguiente."
+            },
+            "275": {
+                "name": "Ojo del Dragón Hada",
+                "description": "{Ojo del Dragón Hada}\n\nEste poderoso ojo de dragón aumenta el daño mínimo en +2 y permite que el Dragón Hada Joven se mejore a Dragón Hada, y convierte al Dracoliche en Dragón Hada al día siguiente."
+            },
+            "276": {
+                "name": "Ojo del Dragón de Óxido",
+                "description": "{Ojo del Dragón de Óxido}\n\nEste poderoso ojo de dragón aumenta el daño máximo en +2 y permite que el Dragón de Óxido Joven se mejore a Dragón de Óxido, y convierte al Dracoliche en Dragón de Óxido al día siguiente."
+            },
+            "277": {
+                "name": "Ojo del Dragón Azur",
+                "description": "{Ojo del Dragón Azur}\n\nEste poderoso ojo de dragón aumenta el daño mínimo y máximo en +2 y permite que el Dragón Azur Joven se mejore a Dragón Azur, y convierte al Dracoliche en Dragón Azur al día siguiente."
+            },
+            "278": {
+                "name": "Ojo Prismático del Dios Dragón",
+                "description": "{Ojo Prismático del Dios Dragón}\n\nEste omnipotente artefacto aumenta el daño mínimo y máximo en +5 y permite mejorar a los Dragones Jóvenes Rojo y Verde a Dragón de Fuego, al Dragón Azur Joven a Dragón de Hielo, y al Dragón Hada Joven y Dragón de Óxido Joven a su tercera forma mejorada al día siguiente."
+            },
+            "279": {
+                "name": "Necronomicon",
+                "description": "{Necronomicon}\n\nEste artefacto te permite invocar Ángeles Esqueleto al comienzo de cada batalla, y añade Ola de Muerte y Animar Muertos a tu libro de hechizos."
+            },
+            "340": {
+                "name": "340 Rojo Grado A",
+                "description": "340 Rojo Grado A"
+            },
+            "341": {
+                "name": "341 Rojo Grado A",
+                "description": "341 Rojo Grado A"
+            },
+            "342": {
+                "name": "342 Rojo Grado A",
+                "description": "342 Rojo Grado A"
+            },
+            "343": {
+                "name": "343 Rojo Grado A",
+                "description": "343 Rojo Grado A"
+            },
+            "344": {
+                "name": "344 Rojo Grado A",
+                "description": "344 Rojo Grado A"
+            },
+            "345": {
+                "name": "345 Rojo Grado B",
+                "description": "345 Rojo Grado B"
+            },
+            "346": {
+                "name": "346 Rojo Grado B",
+                "description": "346 Rojo Grado B"
+            },
+            "347": {
+                "name": "347 Rojo Grado B",
+                "description": "347 Rojo Grado B"
+            },
+            "348": {
+                "name": "348 Rojo Grado B",
+                "description": "348 Rojo Grado B"
+            },
+            "349": {
+                "name": "349 Rojo Grado B",
+                "description": "349 Rojo Grado B"
+            },
+            "350": {
+                "name": "350 Rojo Grado C",
+                "description": "350 Rojo Grado C"
+            },
+            "351": {
+                "name": "351 Rojo Grado C",
+                "description": "351 Rojo Grado C"
+            },
+            "352": {
+                "name": "352 Rojo Grado C",
+                "description": "352 Rojo Grado C"
+            },
+            "353": {
+                "name": "353 Rojo Grado C",
+                "description": "353 Rojo Grado C"
+            },
+            "354": {
+                "name": "354 Rojo Grado C",
+                "description": "354 Rojo Grado C"
+            },
+            "355": {
+                "name": "355 Rojo Grado D",
+                "description": "355 Rojo Grado D"
+            },
+            "356": {
+                "name": "356 Rojo Grado D",
+                "description": "356 Rojo Grado D"
+            },
+            "357": {
+                "name": "357 Rojo Grado D",
+                "description": "357 Rojo Grado D"
+            },
+            "358": {
+                "name": "358 Rojo Grado D",
+                "description": "358 Rojo Grado D"
+            },
+            "359": {
+                "name": "359 Rojo Grado D",
+                "description": "359 Rojo Grado D"
+            },
+            "360": {
+                "name": "360 Azul Grado A",
+                "description": "360 Azul Grado A"
+            },
+            "361": {
+                "name": "361 Azul Grado A",
+                "description": "361 Azul Grado A"
+            },
+            "362": {
+                "name": "362 Azul Grado A",
+                "description": "362 Azul Grado A"
+            },
+            "363": {
+                "name": "363 Azul Grado A",
+                "description": "363 Azul Grado A"
+            },
+            "364": {
+                "name": "364 Azul Grado A",
+                "description": "364 Azul Grado A"
+            },
+            "365": {
+                "name": "365 Azul Grado B",
+                "description": "365 Azul Grado B"
+            },
+            "366": {
+                "name": "366 Azul Grado B",
+                "description": "366 Azul Grado B"
+            },
+            "367": {
+                "name": "367 Azul Grado B",
+                "description": "367 Azul Grado B"
+            },
+            "368": {
+                "name": "368 Azul Grado B",
+                "description": "368 Azul Grado B"
+            },
+            "369": {
+                "name": "369 Azul Grado B",
+                "description": "369 Azul Grado B"
+            },
+            "370": {
+                "name": "370 Azul Grado C",
+                "description": "370 Azul Grado C"
+            },
+            "371": {
+                "name": "371 Azul Grado C",
+                "description": "371 Azul Grado C"
+            },
+            "372": {
+                "name": "372 Azul Grado C",
+                "description": "372 Azul Grado C"
+            },
+            "373": {
+                "name": "373 Azul Grado C",
+                "description": "373 Azul Grado C"
+            },
+            "374": {
+                "name": "374 Azul Grado C",
+                "description": "374 Azul Grado C"
+            },
+            "375": {
+                "name": "375 Azul Grado D",
+                "description": "375 Azul Grado D"
+            },
+            "376": {
+                "name": "376 Azul Grado D",
+                "description": "376 Azul Grado D"
+            },
+            "377": {
+                "name": "377 Azul Grado D",
+                "description": "377 Azul Grado D"
+            },
+            "378": {
+                "name": "378 Azul Grado D",
+                "description": "378 Azul Grado D"
+            },
+            "379": {
+                "name": "379 Azul Grado D",
+                "description": "379 Azul Grado D"
+            },
+            "380": {
+                "name": "380 Amarillo Grado A",
+                "description": "380 Amarillo Grado A"
+            },
+            "381": {
+                "name": "381 Amarillo Grado A",
+                "description": "381 Amarillo Grado A"
+            },
+            "382": {
+                "name": "382 Amarillo Grado A",
+                "description": "382 Amarillo Grado A"
+            },
+            "383": {
+                "name": "383 Amarillo Grado A",
+                "description": "383 Amarillo Grado A"
+            },
+            "384": {
+                "name": "384 Amarillo Grado A",
+                "description": "384 Amarillo Grado A"
+            },
+            "385": {
+                "name": "385 Amarillo Grado B",
+                "description": "385 Amarillo Grado B"
+            },
+            "386": {
+                "name": "386 Amarillo Grado B",
+                "description": "386 Amarillo Grado B"
+            },
+            "387": {
+                "name": "387 Amarillo Grado B",
+                "description": "387 Amarillo Grado B"
+            },
+            "388": {
+                "name": "388 Amarillo Grado B",
+                "description": "388 Amarillo Grado B"
+            },
+            "389": {
+                "name": "389 Amarillo Grado B",
+                "description": "389 Amarillo Grado B"
+            },
+            "390": {
+                "name": "390 Amarillo Grado C",
+                "description": "390 Amarillo Grado C"
+            },
+            "391": {
+                "name": "391 Amarillo Grado C",
+                "description": "391 Amarillo Grado C"
+            },
+            "392": {
+                "name": "392 Amarillo Grado C",
+                "description": "392 Amarillo Grado C"
+            },
+            "393": {
+                "name": "393 Amarillo Grado C",
+                "description": "393 Amarillo Grado C"
+            },
+            "394": {
+                "name": "394 Amarillo Grado C",
+                "description": "394 Amarillo Grado C"
+            },
+            "395": {
+                "name": "395 Amarillo Grado D",
+                "description": "395 Amarillo Grado D"
+            },
+            "396": {
+                "name": "396 Amarillo Grado D",
+                "description": "396 Amarillo Grado D"
+            },
+            "397": {
+                "name": "397 Amarillo Grado D",
+                "description": "397 Amarillo Grado D"
+            },
+            "398": {
+                "name": "398 Amarillo Grado D",
+                "description": "398 Amarillo Grado D"
+            },
+            "399": {
+                "name": "399 Amarillo Grado D",
+                "description": "399 Amarillo Grado D"
+            }
+        }
+    }
+}

@@ -1,0 +1,1145 @@
+{
+    "era": {
+        "monsters": {
+            "155": {
+                "name": {
+                    "singular": "Dragón de la Oscuridad",
+                    "plural": "Dragones de la Oscuridad",
+                    "description": "Vuela. Ataque de aliento. Inmune a todos los hechizos. Odia al Señor de los Truenos. Miedo. Sin miedo. Oculta al héroe en el mapa."
+                }
+            },
+            "194": {
+                "name": {
+                    "singular": "Hombre Lobo Feroz",
+                    "plural": "Hombres Lobo Feroces",
+                    "description": "Licantropía (x2 si hay luna llena). Frenesí si hay luna llena: días 14-16."
+                }
+            },
+            "197": {
+                "name": {
+                    "singular": "Alabardero Real",
+                    "plural": "Alabarderos Reales",
+                    "description": "Inmune a la bonificación de carga del Campeón. \nSin contraataque enemigo."
+                }
+            },
+            "198": {
+                "name": {
+                    "singular": "Ballestero",
+                    "plural": "Ballesteros",
+                    "description": "Dispara dos veces."
+                }
+            },
+            "199": {
+                "name": {
+                    "singular": "Grifo César",
+                    "plural": "Grifos César",
+                    "description": "Contraataques ilimitados. Sin miedo."
+                }
+            },
+            "200": {
+                "name": {
+                    "singular": "Cazador de Dragones",
+                    "plural": "Cazadores de Dragones",
+                    "description": "Cazador de dragones. Ataca dos veces. \nOdia a los Dragones Negros."
+                }
+            },
+            "201": {
+                "name": {
+                    "singular": "Campeón Santo",
+                    "plural": "Campeones Santo",
+                    "description": "Bonificación de justa. Buena moral. Sin miedo"
+                }
+            },
+            "202": {
+                "name": {
+                    "singular": "Serafín",
+                    "plural": "Serafines",
+                    "description": "Plegaria. Sin miedo. Resucita aliados caídos.\nOdia al Anticristo. Sin contraataque enemigo.\nSin penalización por alineación neutral."
+                }
+            },
+            "203": {
+                "name": {
+                    "singular": "Enano Berserker",
+                    "plural": "Enanos Berserker",
+                    "description": "60% de resistencia a la magia. Seducción por la sangre."
+                }
+            },
+            "204": {
+                "name": {
+                    "singular": "Pégaso Dorado",
+                    "plural": "Pégasos Dorados",
+                    "description": "Amortiguador de magia (coste de hechizo +1). Sin contraataque enemigo."
+                }
+            },
+            "205": {
+                "name": {
+                    "singular": "Dendroide Anciano",
+                    "plural": "Dendroides Ancianos",
+                    "description": "Inmoviliza a los enemigos. Regeneración."
+                }
+            },
+            "206": {
+                "name": {
+                    "singular": "Unicornio Legendario",
+                    "plural": "Unicornios Legendarios",
+                    "description": "Aura de resistencia a la magia. Ataque cegador. \nContraataques ilimitados. Sin miedo."
+                }
+            },
+            "207": {
+                "name": {
+                    "singular": "Dragón de Diamante Puro",
+                    "plural": "Dragones de Diamante Puro",
+                    "description": "Inmunidad a hechizos. Sin miedo. Los hechizos del héroe cuestan menos (-5). \nAura mágica. Puede cegar. +3 Gemas diarias.\nOdia a los Dragones No-muertos."
+                }
+            },
+            "208": {
+                "name": {
+                    "singular": "Gárgola de Mármol",
+                    "plural": "Gárgolas de Mármol",
+                    "description": "Sin penalización de moral."
+                }
+            },
+            "209": {
+                "name": {
+                    "singular": "Gólem de Acero",
+                    "plural": "Gólems de Acero",
+                    "description": "Daño de hechizos reducido en un 80%."
+                }
+            },
+            "210": {
+                "name": {
+                    "singular": "Genio Arcano",
+                    "plural": "Genios Arcanos",
+                    "description": "Lanzador de hechizos: Beneficio aleatorio. Odia al Rajá Efrit. \nDrena maná. Inmunidad a hechizos mentales."
+                }
+            },
+            "211": {
+                "name": {
+                    "singular": "Naga Rakshasa",
+                    "plural": "Nagas Rakshasi",
+                    "description": "Sin contraataque enemigo. Ataca en 3 casillas alrededor.\nGolpe mortal. Inmune a la bonificación de justa."
+                }
+            },
+            "212": {
+                "name": {
+                    "singular": "Guardián de Zeus",
+                    "plural": "Guardia de Zeus",
+                    "description": "Dispara dos veces. Sin miedo. Rayo en cadena. Inmunidad al rayo. Sin penalización por cuerpo a cuerpo ni obstáculos. Rayo de Titán. Inmunidad a hechizos mentales. Odia al Dragón del Abismo."
+                }
+            },
+            "213": {
+                "name": {
+                    "singular": "Engendro",
+                    "plural": "Engendros",
+                    "description": "Canal de magia. Vuela. Odia al Gran Maestro Gremlin."
+                }
+            },
+            "214": {
+                "name": {
+                    "singular": "Magog Alado",
+                    "plural": "Magogs Alados",
+                    "description": "Vuela. Ataque de bola de fuego. Sin penalización en cuerpo a cuerpo."
+                }
+            },
+            "215": {
+                "name": {
+                    "singular": "Cérbero Astral",
+                    "plural": "Cérberos Astrales",
+                    "description": "Ataque de 3 cabezas. Los enemigos no pueden contraatacar. \nVenenoso. Odia al Grifo César. Sin miedo."
+                }
+            },
+            "216": {
+                "name": {
+                    "singular": "Demonio de Cornamenta Afilada",
+                    "plural": "Demonios de Cornamenta Afilada",
+                    "description": "Ataca dos veces. Contraataques ilimitados. Golpe mortal."
+                }
+            },
+            "217": {
+                "name": {
+                    "singular": "Amo del Foso",
+                    "plural": "Amos del Foso",
+                    "description": "Invoca demonios cornudos de un aliado muerto. \nSin contraataque enemigo. Ataca a su alrededor."
+                }
+            },
+            "218": {
+                "name": {
+                    "singular": "Rajá Efrit",
+                    "plural": "Rajás Efrit",
+                    "description": "Escudo de fuego. Inmune al fuego. Odia a los Genios Arcanos. \nMuro de fuego. Lanzador de hechizos: Escudo de fuego. Inmunidad a hechizos mentales."
+                }
+            },
+            "219": {
+                "name": {
+                    "singular": "Anticristo",
+                    "plural": "Anticristos",
+                    "description": "Sin miedo. Ataque petrificante. Sin contraataque enemigo. \nInmunidad a hechizos mentales. Furia."
+                }
+            },
+            "220": {
+                "name": {
+                    "singular": "Caballero Esqueleto",
+                    "plural": "Caballeros Esqueleto",
+                    "description": "No-muerto. Ataca dos veces."
+                }
+            },
+            "221": {
+                "name": {
+                    "singular": "Nosferatu",
+                    "plural": "Nosferatus",
+                    "description": "No-muerto. Drena vida. \nSin contraataque enemigo."
+                }
+            },
+            "222": {
+                "name": {
+                    "singular": "Rey Liche",
+                    "plural": "Reyes Liche",
+                    "description": "No-muerto. Ataque de nube de muerte. \nInvoca esqueletos de un aliado muerto. \nPrecisión. Odia al Mago."
+                }
+            },
+            "223": {
+                "name": {
+                    "singular": "Caballero de la Muerte",
+                    "plural": "Caballeros de la Muerte",
+                    "description": "No-muerto. Maldice a los enemigos. Ataque de golpe mortal. \nMirada de la muerte. Odia al Santo Campeón."
+                }
+            },
+            "224": {
+                "name": {
+                    "singular": "Dragón de Huesos Rojos",
+                    "plural": "Dragones de Huesos Rojos",
+                    "description": "No-muerto. Ataque de envejecimiento. Drena vida. \nRegeneración. Miedo. \nSin contraataque enemigo."
+                }
+            },
+            "225": {
+                "name": {
+                    "singular": "Troglodita Fosforescente",
+                    "plural": "Trogloditas Fosforescentes",
+                    "description": "Inmune a Lluvia de meteoros. \nSin miedo. Odia al Hada."
+                }
+            },
+            "226": {
+                "name": {
+                    "singular": "Ojo Monstruoso",
+                    "plural": "Ojos Monstruosos",
+                    "description": "Sin penalización en cuerpo a cuerpo. \nHipnotizar. Espionaje."
+                }
+            },
+            "227": {
+                "name": {
+                    "singular": "Arpía Sanguinaria",
+                    "plural": "Arpías Sanguinarias",
+                    "description": "Ataca y regresa. \nSin contraataque enemigo. \nAtaque de envejecimiento. Sin miedo."
+                }
+            },
+            "228": {
+                "name": {
+                    "singular": "Emperatriz Medusa",
+                    "plural": "Emperatrices Medusa",
+                    "description": "Sin penalización en cuerpo a cuerpo. Mirada de piedra.\nAtaca dos veces."
+                }
+            },
+            "229": {
+                "name": {
+                    "singular": "Minotauro Negro",
+                    "plural": "Minotauros Negros",
+                    "description": "Regocijo. Golpe mortal. Sin miedo."
+                }
+            },
+            "230": {
+                "name": {
+                    "singular": "Quimera",
+                    "plural": "Quimeras",
+                    "description": "Aliento ácido. Disipa hechizos beneficiosos. \nAtaca con 3 cabezas. Inmune a la bonificación de justa. \nContraataca tres veces. Aura mágica."
+                }
+            },
+            "231": {
+                "name": {
+                    "singular": "Dragón del Abismo",
+                    "plural": "Dragones del Abismo",
+                    "description": "Vuela. Ataque de aliento. Inmune a todos los hechizos. Odia a los Guardias de Zeus. Miedo. Sin miedo. Sin contraataque. Ataca y regresa."
+                }
+            },
+            "232": {
+                "name": {
+                    "singular": "Soberano Goblin",
+                    "plural": "Soberanos Goblins",
+                    "description": "Ataca dos veces. Piel de piedra. \nOdia al Enano Berserker."
+                }
+            },
+            "233": {
+                "name": {
+                    "singular": "Jinete de Lobo Asesino",
+                    "plural": "Jinetes de Lobo Asesinos",
+                    "description": "Contraataques ilimitados. \nSeducción por la sangre. Ataca dos veces."
+                }
+            },
+            "234": {
+                "name": {
+                    "singular": "Líder Orco",
+                    "plural": "Líderes Orcos",
+                    "description": "Ataca dos veces. Precisión. \nOdia al Elfo. Sin penalización en cuerpo a cuerpo."
+                }
+            },
+            "235": {
+                "name": {
+                    "singular": "Ogro Anciano",
+                    "plural": "Ogros Ancianos",
+                    "description": "Lanzador de hechizos: Frenesí."
+                }
+            },
+            "236": {
+                "name": {
+                    "singular": "Ave Relámpago",
+                    "plural": "Aves Relámpago",
+                    "description": "Trueno. Inmunidad al rayo.\nRayo."
+                }
+            },
+            "237": {
+                "name": {
+                    "singular": "Emperador Cíclope",
+                    "plural": "Emperadores Cíclope",
+                    "description": "Ataca murallas de asedio."
+                }
+            },
+            "238": {
+                "name": {
+                    "singular": "Bégimo Espectral",
+                    "plural": "Bégimos Espectrales",
+                    "description": "Ignora obstáculos. Ignora defensa. \nGolpe mortal. Inmune a Lluvia de meteoros."
+                }
+            },
+            "239": {
+                "name": {
+                    "singular": "Centagnoll",
+                    "plural": "Centagnolls",
+                    "description": "Contraataque ilimitado."
+                }
+            },
+            "240": {
+                "name": {
+                    "singular": "Lagarto de Élite",
+                    "plural": "Lagartos de Élite",
+                    "description": "Ataca dos veces. Venenoso. \nIgnora obstáculos. Ignora barrera."
+                }
+            },
+            "241": {
+                "name": {
+                    "singular": "Libélula del Caos",
+                    "plural": "Libélulas del Caos",
+                    "description": "Disipa hechizos beneficiosos. Debilita enemigos. \nContraataque ilimitado. Ataca y regresa."
+                }
+            },
+            "242": {
+                "name": {
+                    "singular": "Basilisco de Lava",
+                    "plural": "Basiliscos de Lava",
+                    "description": "Ataque petrificante. Escudo de fuego. Muro de fuego. \nAtaque de bola de fuego."
+                }
+            },
+            "243": {
+                "name": {
+                    "singular": "Guiverno Ácido",
+                    "plural": "Guivernos Ácidos",
+                    "description": "Venenoso. Ataque ácido."
+                }
+            },
+            "244": {
+                "name": {
+                    "singular": "Catoblepas",
+                    "plural": "Catoblepas",
+                    "description": "Mirada de la muerte. Mirada de piedra. \nContraataca tres veces."
+                }
+            },
+            "245": {
+                "name": {
+                    "singular": "Hidra Pesadilla",
+                    "plural": "Hidras Pesadilla",
+                    "description": "Ataque ácido. Puede regenerarse. Sin miedo. Miedo. \nSin contraataque enemigo."
+                }
+            },
+            "246": {
+                "name": {
+                    "singular": "Hada",
+                    "plural": "Hadas",
+                    "description": "Sin contraataque enemigo. Aura mágica. \nLanzador de hechizos: Bendición."
+                }
+            },
+            "247": {
+                "name": {
+                    "singular": "Elemental de Huracán",
+                    "plural": "Elementales de Huracán",
+                    "description": "Sin penalización en cuerpo a cuerpo. Vulnerabilidad a rayos y tormentas de fuego. \nEscudo de aire. Protección contra el aire. \nLanzador de hechizos: Escudo de aire."
+                }
+            },
+            "248": {
+                "name": {
+                    "singular": "Elemental de Vida",
+                    "plural": "Elementales de Vida",
+                    "description": "Inmunidad a hechizos mentales. Inmunidad al hielo. Ataca \ndos veces. Protección contra el agua. Ataque de rayo de hielo. \nRegeneración. Sin penalización en cuerpo a cuerpo."
+                }
+            },
+            "249": {
+                "name": {
+                    "singular": "Elemental de Plasma",
+                    "plural": "Elementales de Plasma",
+                    "description": "Inmunidad a la mente y al fuego. Vulnerabilidad al frío. \nProtección contra el fuego. Escudo de fuego. \nLanzador de hechizos: Escudo de fuego."
+                }
+            },
+            "250": {
+                "name": {
+                    "singular": "Elemental de Lava",
+                    "plural": "Elementales de Lava",
+                    "description": "Inmunidad a hechizos mentales. Protección contra la tierra. \nInmunidad al rayo. Lanzador de hechizos: Piel de piedra."
+                }
+            },
+            "251": {
+                "name": {
+                    "singular": "Elemental del Vacío",
+                    "plural": "Elementales del Vacío",
+                    "description": "Ataca a todos los enemigos adyacentes sin contraataque. \nInmunidad a hechizos. Aura mágica. Canal de magia. \nDrena maná. Disipa hechizos beneficiosos."
+                }
+            },
+            "252": {
+                "name": {
+                    "singular": "Fénix Divino",
+                    "plural": "Fénix Divinos",
+                    "description": "Inmunidad a hechizos de fuego. Cazador. Renacimiento. \nEscudo de fuego. Regeneración."
+                }
+            },
+            "253": {
+                "name": {
+                    "singular": "Tiamat",
+                    "plural": "Tiamats",
+                    "description": "Ataca a todos los enemigos adyacentes. Miedo. \nSin miedo. Sin contraataque enemigo. \nCazador. Seducción por la sangre. Plegaria."
+                }
+            },
+            "254": {
+                "name": {
+                    "singular": "Dragón Necross",
+                    "plural": "Dragones Necross",
+                    "description": "50% de resistencia mágica. Envejecimiento. Aliento ácido. \nAtaca dos veces. Miedo. Sin miedo."
+                }
+            },
+            "255": {
+                "name": {
+                    "singular": "Gran Maestro Gremlin",
+                    "plural": "Gran Maestros Gremlin",
+                    "description": "Dispara dos veces."
+                }
+            },
+            "256": {
+                "name": {
+                    "singular": "Elfo Francotirador",
+                    "plural": "Elfos Francotiradores",
+                    "description": "Dispara dos veces. Sin penalización por obstáculos."
+                }
+            },
+            "257": {
+                "name": {
+                    "singular": "Supremo Archimago",
+                    "plural": "Supremos Archimagos",
+                    "description": "Sin penalización en cuerpo a cuerpo. Los hechizos del héroe cuestan menos. Lanzador de hechizos a distancia."
+                }
+            },
+            "258": {
+                "name": {
+                    "singular": "Dragón Hada Primigenio",
+                    "plural": "Dragones Hada Primigenios",
+                    "description": "Lanzador de hechizos ofensivos. Ataca a su alrededor."
+                }
+            },
+            "259": {
+                "name": {
+                    "singular": "Tejedor de Hechizos",
+                    "plural": "Tejedores de Hechizos",
+                    "description": "Sin penalización en cuerpo a cuerpo. Lanzador de hechizos en grupo. Lanzador de hechizos a distancia."
+                }
+            },
+            "260": {
+                "name": {
+                    "singular": "Asesino",
+                    "plural": "Asesinos",
+                    "description": "Espionaje. Degollador."
+                }
+            },
+            "261": {
+                "name": {
+                    "singular": "Estantigua",
+                    "plural": "Estantiguas",
+                    "description": "No-muerto. Regenerativo. Drena el maná enemigo."
+                }
+            },
+            "262": {
+                "name": {
+                    "singular": "Sátiro",
+                    "plural": "Sátiros",
+                    "description": "Lanza Regocijo."
+                }
+            },
+            "263": {
+                "name": {
+                    "singular": "Fangarm",
+                    "plural": "Fangarm",
+                    "description": "Vuela. Inmunidad a hechizos mentales. Contraataques ilimitados. Hipnotizar."
+                }
+            },
+            "264": {
+                "name": {
+                    "singular": "Leprechaun",
+                    "plural": "Leprechauns",
+                    "description": "Lanza Fortuna."
+                }
+            },
+            "265": {
+                "name": {
+                    "singular": "Dragón de Topacio",
+                    "plural": "Dragones de Topacio"
+                }
+            },
+            "266": {
+                "name": {
+                    "singular": "Dragón de Amatista",
+                    "plural": "Dragones de Amatista"
+                }
+            },
+            "267": {
+                "name": {
+                    "singular": "Dragón de Esmeralda",
+                    "plural": "Dragones de Esmeralda",
+                    "description": "+2 Cristal diario."
+                }
+            },
+            "268": {
+                "name": {
+                    "singular": "Dragón de Zafiro",
+                    "plural": "Dragones de Zafiro",
+                    "description": "+3 Cristal diario."
+                }
+            },
+            "269": {
+                "name": {
+                    "singular": "Templario de la Luz",
+                    "plural": "Templarios de la Luz",
+                    "description": "Lanza Destruir no-muertos. Siempre moral."
+                }
+            },
+            "270": {
+                "name": {
+                    "singular": "Dríade",
+                    "plural": "Dríades",
+                    "description": "Puede volar. Regeneración."
+                }
+            },
+            "271": {
+                "name": {
+                    "singular": "Gólem Draco",
+                    "plural": "Gólems Draco",
+                    "description": "Sin penalización de moral. Daño de hechizos reducido en un 40%. Sin miedo."
+                }
+            },
+            "272": {
+                "name": {
+                    "singular": "Súcubo",
+                    "plural": "Súcubos",
+                    "description": "Vuela. Sin penalización en cuerpo a cuerpo."
+                }
+            },
+            "273": {
+                "name": {
+                    "singular": "Hombre Lobo",
+                    "plural": "Hombres Lobo",
+                    "description": "No-muerto. Daño reducido en un 25%"
+                }
+            },
+            "274": {
+                "name": {
+                    "singular": "Azotamentes",
+                    "plural": "Azotamentes",
+                    "description": "Lanza Hipnotizar."
+                }
+            },
+            "275": {
+                "name": {
+                    "singular": "Coatl",
+                    "plural": "Coatls",
+                    "description": "Vuela."
+                }
+            },
+            "276": {
+                "name": {
+                    "singular": "Bruja Trol",
+                    "plural": "Brujas Trol",
+                    "description": "Regenerativo. Dispara."
+                }
+            },
+            "277": {
+                "name": {
+                    "singular": "Tritón",
+                    "plural": "Tritones",
+                    "description": "Inmune a hechizos de daño de agua."
+                }
+            },
+            "278": {
+                "name": {
+                    "singular": "Paladín de la Luz",
+                    "plural": "Paladines de la Luz",
+                    "description": "Lanza Destruir no-muertos. Siempre moral."
+                }
+            },
+            "279": {
+                "name": {
+                    "singular": "Dríade del Roble",
+                    "plural": "Dríades del Roble",
+                    "description": "Puede volar. Regeneración. Invoca un Jinete del Muñón de un aliado muerto."
+                }
+            },
+            "280": {
+                "name": {
+                    "singular": "Gólem Dragón",
+                    "plural": "Gólems Dragón",
+                    "description": "Sin penalización de moral. Daño de hechizos reducido en un 80%. Sin miedo. Contraataque preventivo."
+                }
+            },
+            "281": {
+                "name": {
+                    "singular": "Lilim",
+                    "plural": "Lilims",
+                    "description": "Vuela. Sin penalización en cuerpo a cuerpo. Ataque de bola de fuego. Contraataque a distancia."
+                }
+            },
+            "282": {
+                "name": {
+                    "singular": "Alhoon",
+                    "plural": "Alhoons",
+                    "description": "Lanza Hipnotizar."
+                }
+            },
+            "283": {
+                "name": {
+                    "singular": "Quetzalcóatl",
+                    "plural": "Quetzalcóatls",
+                    "description": "Vuela. Inmune a los efectos de criaturas."
+                }
+            },
+            "284": {
+                "name": {
+                    "singular": "Bruja Trol Anciana",
+                    "plural": "Brujas Trol Ancianas",
+                    "description": "Regenerativo. Dispara. Sin penalización en cuerpo a cuerpo. Lanza Lentitud tras atacar."
+                }
+            },
+            "285": {
+                "name": {
+                    "singular": "Tritón Abisal",
+                    "plural": "Tritones Abisales",
+                    "description": "Inmune a hechizos de daño de agua. Paraliza."
+                }
+            },
+            "286": {
+                "name": {
+                    "singular": "Demiliche",
+                    "plural": "Demiliches",
+                    "description": "No-muerto. Vuela."
+                }
+            },
+            "287": {
+                "name": {
+                    "singular": "Capitán Temible",
+                    "plural": "Capitanes Temibles",
+                    "description": "No-muerto. Lanza Pesadumbre antes de atacar."
+                }
+            },
+            "288": {
+                "name": {
+                    "singular": "Sirena",
+                    "plural": "Sirenas",
+                    "description": "Inmune a hechizos de daño de agua. Lanza Fortuna. +500 de movimiento en el mar. \nProtección contra torbellinos."
+                }
+            },
+            "289": {
+                "name": {
+                    "singular": "Caballero de Fuego",
+                    "plural": "Caballeros de Fuego",
+                    "description": "Escudo de fuego. Ataca dos veces. \nInmunidad al fuego. Muro de fuego.\nOdia a los Guerreros del Trueno."
+                }
+            },
+            "290": {
+                "name": {
+                    "singular": "Caballero de Hielo",
+                    "plural": "Caballeros de Hielo",
+                    "description": "Ataca dos veces. Ataque de rayo de hielo.\nInmunidad a hechizos de frío.\nOdia a los Paladines de Fuego."
+                }
+            },
+            "291": {
+                "name": {
+                    "singular": "Inquisidor",
+                    "plural": "Inquisidores",
+                    "description": "Ataca dos veces."
+                }
+            },
+            "292": {
+                "name": {
+                    "singular": "Guerrero del Trueno",
+                    "plural": "Guerreros del Trueno",
+                    "description": "Inmunidad al rayo.\nAtaca dos veces. Rayo.\nOdia a los Caballeros de Hielo."
+                }
+            },
+            "293": {
+                "name": {
+                    "singular": "General Centauro",
+                    "plural": "Generales Centauro",
+                    "description": "Aura de Valentía. Bonificación de justa."
+                }
+            },
+            "294": {
+                "name": {
+                    "singular": "Ave Bermellón",
+                    "plural": "Aves Bermellón",
+                    "description": "Inmunidad al fuego. Ataque de bola de fuego."
+                }
+            },
+            "295": {
+                "name": {
+                    "singular": "Esqueleto Arquero",
+                    "plural": "Esqueletos Arqueros",
+                    "description": "No-muerto. Tirador."
+                }
+            },
+            "296": {
+                "name": {
+                    "singular": "Esqueleto Rojo",
+                    "plural": "Esqueletos Rojos",
+                    "description": "No-muerto. Renacimiento. Drena vida."
+                }
+            },
+            "297": {
+                "name": {
+                    "singular": "Esqueleto de Maná",
+                    "plural": "Esqueletos de Maná",
+                    "description": "No-muerto. Drena maná. \nAbsorbe hechizos de daño."
+                }
+            },
+            "298": {
+                "name": {
+                    "singular": "Esqueleto de Oro",
+                    "plural": "Esqueletos de Oro",
+                    "description": "No-muerto."
+                }
+            },
+            "299": {
+                "name": {
+                    "singular": "Esqueleto Francotirador",
+                    "plural": "Esqueletos Francotiradores",
+                    "description": "Sin penalizaciones de alcance o barrera.\nNo-muerto."
+                }
+            },
+            "300": {
+                "name": {
+                    "singular": "Recluta",
+                    "plural": "Reclutas",
+                    "description": " "
+                }
+            },
+            "301": {
+                "name": {
+                    "singular": "Escudero",
+                    "plural": "Escuderos",
+                    "description": " "
+                }
+            },
+            "302": {
+                "name": {
+                    "singular": "Hombre de Armas",
+                    "plural": "Hombres de Armas",
+                    "description": "Sin contraataque."
+                }
+            },
+            "303": {
+                "name": {
+                    "singular": "Peón",
+                    "plural": "Peones",
+                    "description": "+25 de oro por cada unidad diariamente."
+                }
+            },
+            "304": {
+                "name": {
+                    "singular": "Tortufrío",
+                    "plural": "Tortufríos",
+                    "description": "Reduce la defensa enemiga."
+                }
+            },
+            "305": {
+                "name": {
+                    "singular": "Tortufrío Vil",
+                    "plural": "Tortufríos Viles",
+                    "description": "Reduce la defensa enemiga.\nEnfermedad."
+                }
+            },
+            "306": {
+                "name": {
+                    "singular": "Elemental Oscuro",
+                    "plural": "Elementales Oscuros",
+                    "description": "Sin contraataque. Miedo. Inmunidad a hechizos mentales."
+                }
+            },
+            "307": {
+                "name": {
+                    "singular": "Gigas",
+                    "plural": "Gigas",
+                    "description": "Reduce la defensa enemiga. Inmunidad a hechizos mentales."
+                }
+            },
+            "308": {
+                "name": {
+                    "singular": "Gigas de la Colina",
+                    "plural": "Gigas de la Colina",
+                    "description": "Reduce la defensa enemiga. Inmunidad a hechizos mentales. Contraataques ilimitados."
+                }
+            },
+            "309": {
+                "name": {
+                    "singular": "Dragón del Bosque",
+                    "plural": "Dragones del Bosque",
+                    "description": "Vuela. Dragón."
+                }
+            },
+            "310": {
+                "name": {
+                    "singular": "Dragón del Pantano",
+                    "plural": "Dragones del Pantano",
+                    "description": "Vuela. Dragón.\nAtaca y regresa.\nVenenoso."
+                }
+            },
+            "311": {
+                "name": {
+                    "singular": "Siervo del Musgo",
+                    "plural": "Siervos del Musgo",
+                    "description": "Inmunidad a hechizos mentales.\nCaminar sobre el agua."
+                }
+            },
+            "312": {
+                "name": {
+                    "singular": "Cocatriz Voraz",
+                    "plural": "Cocatrices Voraces",
+                    "description": "Regeneración. Mirada de piedra."
+                }
+            },
+            "313": {
+                "name": {
+                    "singular": "Cazador Centamut",
+                    "plural": "Cazadores Centamonth",
+                    "description": "Buena moral."
+                }
+            },
+            "314": {
+                "name": {
+                    "singular": "Lanzador Centamut",
+                    "plural": "Lanzadores Centamonth",
+                    "description": "Buena moral. Dispara.\nAtaca murallas de asedio."
+                }
+            },
+            "315": {
+                "name": {
+                    "singular": "Jinete del Tocón",
+                    "plural": "Jinetes del Tocón",
+                    "description": " "
+                }
+            },
+            "316": {
+                "name": {
+                    "singular": "Baba Yaga",
+                    "plural": "Baba Yagas",
+                    "description": "Nube de muerte. Lanzador de hechizos a distancia. +1 Mercurio diario."
+                }
+            },
+            "317": {
+                "name": {
+                    "singular": "Will-o-wisp",
+                    "plural": "Will-o-wisp",
+                    "description": "Aura mágica.\nLos hechizos del héroe cuestan menos.\nDrenaje de maná."
+                }
+            },
+            "318": {
+                "name": {
+                    "singular": "Jinete Arquero",
+                    "plural": "Jinetes Arqueros",
+                    "description": "Golpe mortal a distancia."
+                }
+            },
+            "319": {
+                "name": {
+                    "singular": "Asura",
+                    "plural": "Asuras",
+                    "description": "Sin contraataque enemigo. Ataca a su alrededor.\nGolpe mortal. Inmune a la bonificación de justa."
+                }
+            },
+            "320": {
+                "name": {
+                    "singular": "Gran Sacerdote",
+                    "plural": "Grandes Sacerdotes",
+                    "description": "Sin penalización en cuerpo a cuerpo. Lanzador de hechizos: Plegaria."
+                }
+            },
+            "321": {
+                "name": {
+                    "singular": "Chamán Gnoll",
+                    "plural": "Chamanes Gnoll",
+                    "description": "Lanzador de hechizos: Maldición."
+                }
+            },
+            "322": {
+                "name": {
+                    "singular": "Dragón Espejismo",
+                    "plural": "Dragones Espejismo",
+                    "description": "Invoca clones de dragones."
+                }
+            },
+            "323": {
+                "name": {
+                    "singular": "Dragón Espejo",
+                    "plural": "Dragones Espejo",
+                    "description": "Protegido por Espejo Mágico. Invoca grupos de dragones."
+                }
+            },
+            "324": {
+                "name": {
+                    "singular": "Gólem de Mithril",
+                    "plural": "Gólems de Mithril",
+                    "description": "Inmune a hechizos de daño. +1 Mithril diario."
+                }
+            },
+            "325": {
+                "name": {
+                    "singular": "Dragón Sombra",
+                    "plural": "Dragones Sombra",
+                    "description": "No-muerto. Atrae almas muertas."
+                }
+            },
+            "326": {
+                "name": {
+                    "singular": "Soldado Lagarto",
+                    "plural": "Soldados Lagarto",
+                    "description": "Sin contraataque."
+                }
+            },
+            "327": {
+                "name": {
+                    "singular": "Slithzerikai",
+                    "plural": "Slithzerikais",
+                    "description": "Sin penalización en cuerpo a cuerpo. Reduce la defensa enemiga."
+                }
+            },
+            "328": {
+                "name": {
+                    "singular": "Elfo Sagrado",
+                    "plural": "Elfos Sagrados",
+                    "description": " "
+                }
+            },
+            "329": {
+                "name": {
+                    "singular": "Necrófago",
+                    "plural": "Necrófagos",
+                    "description": "No-muerto. Enfermedad. Devorador de carne."
+                }
+            },
+            "330": {
+                "name": {
+                    "singular": "Dragón Carmesí",
+                    "plural": "Dragones Carmesíes",
+                    "description": "Ataque de bola de fuego. Escudo de fuego. Inmune a todos los hechizos. Odia a los Dragones Celestes."
+                }
+            },
+            "331": {
+                "name": {
+                    "singular": "Templario Oscuro",
+                    "plural": "Templarios Oscuros",
+                    "description": "Lanza Ola de Muerte sobre los enemigos. Sin penalización de moral. Odia a los Templarios."
+                }
+            },
+            "332": {
+                "name": {
+                    "singular": "Paladín Oscuro",
+                    "plural": "Paladines Oscuros",
+                    "description": "Lanza Ola de Muerte sobre los enemigos. Sin penalización de moral. Inmunidad al miedo. Odia a los Paladines."
+                }
+            },
+            "333": {
+                "name": {
+                    "singular": "Ángel Caído",
+                    "plural": "Ángeles Caídos",
+                    "description": "Sin penalización de moral. Resucita aliados no-muertos."
+                }
+            },
+            "334": {
+                "name": {
+                    "singular": "Ángel de la Muerte",
+                    "plural": "Ángeles de la Muerte",
+                    "description": "Sin penalización de moral. Invoca Espectros a partir de aliados vivos caídos.\nSin miedo. Sin contraataque."
+                }
+            },
+            "335": {
+                "name": {
+                    "singular": "Draco Alado",
+                    "plural": "Dracos Alados",
+                    "description": "Vuela. Venenoso. Ataque de aliento."
+                }
+            },
+            "336": {
+                "name": {
+                    "singular": "Dragón Menor",
+                    "plural": "Dragones Menores",
+                    "description": "Vuela. Venenoso. Ataque de aliento. Dragón."
+                }
+            },
+            "337": {
+                "name": {
+                    "singular": "Ahriman",
+                    "plural": "Ahrimanes",
+                    "description": "Resistencia a ataques a distancia del 30%."
+                }
+            },
+            "338": {
+                "name": {
+                    "singular": "Archidemonios",
+                    "plural": "Archidemonios",
+                    "description": "Resistencia a ataques a distancia del 60%. Resurrección infernal."
+                }
+            },
+            "339": {
+                "name": {
+                    "singular": "Dragón de Sulfuro",
+                    "plural": "Dragones de Sulfuro",
+                    "description": "Escupe ácido. Venenoso. Paraliza. +1 Azufre diario."
+                }
+            },
+            "340": {
+                "name": {
+                    "singular": "Maestro de la Espada",
+                    "plural": "Maestros de la Espada",
+                    "description": "Siempre moral. Ataca dos veces. \"Liderazgo\": En rango 'As' otorga un turno adicional a los aliados al lanzarlo."
+                }
+            },
+            "341": {
+                "name": {
+                    "singular": "Dragonzuelo Verde",
+                    "plural": "Dragonzuelos Verdes",
+                    "description": " "
+                }
+            },
+            "342": {
+                "name": {
+                    "singular": "Dragonzuelo Rojo",
+                    "plural": "Dragonzuelos Rojos",
+                    "description": " "
+                }
+            },
+            "343": {
+                "name": {
+                    "singular": "Dragonzuelo Hada",
+                    "plural": "Dragonzuelos Hada",
+                    "description": "Lanzador de hechizos ofensivos."
+                }
+            },
+            "344": {
+                "name": {
+                    "singular": "Dragonzuelo de Herrumbre",
+                    "plural": "Dragonzuelos de Herrumbre",
+                    "description": "Escupe ácido."
+                }
+            },
+            "345": {
+                "name": {
+                    "singular": "Dragonzuelo Celeste",
+                    "plural": "Dragonzuelos Celestes",
+                    "description": " "
+                }
+            },
+            "346": {
+                "name": {
+                    "singular": "Dragón de Fuego",
+                    "plural": "Dragones de Fuego",
+                    "description": "Lanza Infierno. Miedo.\nInmune a los efectos de criaturas."
+                }
+            },
+            "347": {
+                "name": {
+                    "singular": "Dragón de Hielo",
+                    "plural": "Dragones de Hielo",
+                    "description": "Doble turno. Lanzador de hechizos de hielo. \nMiedo. Inmune a los efectos de criaturas."
+                }
+            },
+            "348": {
+                "name": {
+                    "singular": "Granadero Mediano",
+                    "plural": "Granaderos Medianos",
+                    "description": "Dispara. Suerte positiva. El ataque a distancia ignora el 20% de la habilidad de defensa del enemigo."
+                }
+            },
+            "349": {
+                "name": {
+                    "singular": "Espíritu del Bosque",
+                    "plural": "Espíritus del Bosque",
+                    "description": "Sin sangre. Vuela. Ataca a su alrededor."
+                }
+            },
+            "350": {
+                "name": {
+                    "singular": "Espíritu de la Primavera",
+                    "plural": "Espíritus de la Primavera",
+                    "description": "Sin sangre. Vuela. Ataque ampliado a su alrededor (+2 casillas). Regeneración de aliados."
+                }
+            },
+            "351": {
+                "name": {
+                    "singular": "Dama Araña",
+                    "plural": "Damas Araña",
+                    "description": "Dispara. Sin penalización por alcance."
+                }
+            },
+            "352": {
+                "name": {
+                    "singular": "Sacerdotisa Araña",
+                    "plural": "Sacerdotisas Araña",
+                    "description": "Disparo de rayo en cadena."
+                }
+            },
+            "353": {
+                "name": {
+                    "singular": "Serpiente Marina",
+                    "plural": "Serpientes Marinas",
+                    "description": "Ataque de aliento. Ignora \"Sin contraataque\"."
+                }
+            },
+            "354": {
+                "name": {
+                    "singular": "Leviatán",
+                    "plural": "Leviatanes",
+                    "description": "Ataque de aliento. Temible. Ignora \"Sin contraataque\". Contraataca dos veces. +1000 de movimiento en el mar."
+                }
+            },
+            "355": {
+                "name": {
+                    "singular": "Caminante de Planos",
+                    "plural": "Caminantes de Planos",
+                    "description": "Lanza hechizos aleatorios que no sean de daño tras un ataque cuerpo a cuerpo."
+                }
+            },
+            "356": {
+                "name": {
+                    "singular": "Elementalista",
+                    "plural": "Elementalistas",
+                    "description": "Ignora la inmunidad a hechizos en el campo. Lanzador de hechizos ofensivos. Canal de magia."
+                }
+            },
+            "357": {
+                "name": {
+                    "singular": "Ángel Esqueleto",
+                    "plural": "Ángeles Esqueleto",
+                    "description": "No-muerto. Resucita unidades vivas en su forma esquelética."
+                }
+            }
+        }
+    }
+}

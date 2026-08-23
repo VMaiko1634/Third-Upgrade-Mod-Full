@@ -1,0 +1,19 @@
+{
+    "eighth": {
+        "dwellDesc": "{Construir} {@dwellName@}\n\n@dwellName@ permite reclutar @monName@.\n\n\nRequisitos:\n",
+        "comma": ", ",
+        "reqMet": "Se han cumplido todos los requisitos para construir este edificio.",
+        "built": "Ya has construido aquí en este turno.",
+        "missBuild": "No se cumplen todos los requisitos.",
+        "missRes": "No tienes suficientes recursos.",
+        "dwellAsk": "¿Quieres construir este edificio?",
+        "growthDetails": "Crecimiento semanal de @monName@: @totalGrowth@\n",
+        "growthBasic": "Crecimiento básico: @basicGrowth@",
+        "growthCastle": "@castle@: +@castleBonus@",
+        "growthExtDwell": "Viviendas exteriores: +@extDwellBonus@",
+        "growthGrail": "@grail@: +@grailBonus@",
+        "hintBuild": "{Construir @buildName@}",
+        "hintRecruit": "Reclutar @monName@. {Crecimiento: @totalGrowth@ a la semana.}",
+        "disabled": "Las criaturas de 8.º nivel están deshabilitadas.\n\nPara usar esta opción, por favor actívala en la página 1 del menú de opciones de WoG."
+    }
+}

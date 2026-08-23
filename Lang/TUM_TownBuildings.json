@@ -2,12 +2,13 @@
     "era": {
         "towns": {
             "0": {
+                "BuildingName0015": "Specialized silos",
                 "BuildingName0064": "Royal Guardhouse",
                 "BuildingName0065": "Crossbowmen's Tower",
                 "BuildingName0066": "Grand Griffin Tower",
                 "BuildingName0067": "Headquarters",
                 "BuildingName0068": "Convent",
-                "BuildingName0069": "Training Camps",
+                "BuildingName0069": "Equestrian fields",
                 "BuildingName0070": "Portal of Splendor",
                 "BuildingName0077": "Upg. Portal of Splendor",
                 "BuildingName0078": "Upg. Castle Level 1",
@@ -20,11 +21,13 @@
                 "BuildingName0088": "Cathedral",
                 "BuildingName0089": "Upg. Cathedral",
                 "BuildingName0092": "Great Capitol",
+                "BuildingDesc0015": "The Specialized Silos provides you with additional +1 wood, +1 ore and a special resource each day. The production of the special resource can be upgraded for a modest escalating cost.",
                 "BuildingDesc0088": "The Cathedral allows you to recruit Light Templars.",
                 "BuildingDesc0089": "The Cathedral allows you to recruit Light Paladins.",
-                "BuildingDesc0092": "The Great Capitol doubles your kingdom income."
+                "BuildingDesc0092": "The Grand Capitol doubles revenue in this town."
             },
             "1": {
+                "BuildingName0015": "Specialized silos",
                 "BuildingName0064": "Centaur Quarters",
                 "BuildingName0065": "Dwarf Hovel",
                 "BuildingName0066": "Elves' Lodge",
@@ -43,11 +46,13 @@
                 "BuildingName0088": "Spiritual Fountain",
                 "BuildingName0089": "Upg. Spiritual Fountain",
                 "BuildingName0092": "Great Capitol",
+                "BuildingDesc0015": "The Specialized Silos provides you with additional +1 wood, +1 ore and a special resource each day. The production of the special resource can be upgraded for a modest escalating cost.",
                 "BuildingDesc0088": "The Spiritual Fountain allows you to recruit Forest Spirits.",
                 "BuildingDesc0089": "The Spiritual Fountain allows you to recruit Spring Spirits.",
-                "BuildingDesc0092": "The Great Capitol doubles your kingdom income."
+                "BuildingDesc0092": "The Grand Capitol doubles revenue in this town."
             },
             "2": {
+                "BuildingName0015": "Specialized silos",
                 "BuildingName0064": "Central Workshop",
                 "BuildingName0065": "Grand Parapet",
                 "BuildingName0066": "Golem Industrial Factory",
@@ -66,11 +71,13 @@
                 "BuildingName0088": "Dragon Factory",
                 "BuildingName0089": "Upg. Dragon Factory",
                 "BuildingName0092": "Great Capitol",
+                "BuildingDesc0015": "The Specialized Silos provides you with additional +1 wood, +1 ore and a special resource each day. The production of the special resource can be upgraded for a modest escalating cost.",
                 "BuildingDesc0088": "The Dragon Factory allows you to recruit Drake Golems.",
                 "BuildingDesc0089": "The Dragon Factory allows you to recruit Dragon Golems.",
-                "BuildingDesc0092": "The Great Capitol doubles your kingdom income."
+                "BuildingDesc0092": "The Grand Capitol doubles revenue in this town."
             },
             "3": {
+                "BuildingName0015": "Specialized silos",
                 "BuildingName0064": "Imp Foundry",
                 "BuildingName0065": "Hall of Laments",
                 "BuildingName0066": "Raging Kennels",
@@ -89,11 +96,13 @@
                 "BuildingName0088": "Infernal Vortex",
                 "BuildingName0089": "Upg. Infernal Vortex",
                 "BuildingName0092": "Great Capitol",
+                "BuildingDesc0015": "The Specialized Silos provides you with additional +1 wood, +1 ore and a special resource each day. The production of the special resource can be upgraded for a modest escalating cost.",
                 "BuildingDesc0088": "The Infernal Vortex allows you to recruit Ahrimans.",
                 "BuildingDesc0089": "The Infernal Vortex allows you to recruit Archfiends.",
-                "BuildingDesc0092": "The Great Capitol doubles your kingdom income."
+                "BuildingDesc0092": "The Grand Capitol doubles revenue in this town."
             },
             "4": {
+                "BuildingName0015": "Specialized silos",
                 "BuildingName0064": "Crypt",
                 "BuildingName0065": "City of the Dead",
                 "BuildingName0066": "Spectral Tomb",
@@ -112,11 +121,13 @@
                 "BuildingName0088": "Dark Cathedral",
                 "BuildingName0089": "Upg. Dark Cathedral",
                 "BuildingName0092": "Great Capitol",
+                "BuildingDesc0015": "The Specialized Silos provides you with additional +1 wood, +1 ore and a special resource each day. The production of the special resource can be upgraded for a modest escalating cost.",
                 "BuildingDesc0088": "The Dark Cathedral allows you to Dark Templars.",
                 "BuildingDesc0089": "The Dark Cathedral allows you to Dark Paladins.",
-                "BuildingDesc0092": "The Great Capitol doubles your kingdom income."
+                "BuildingDesc0092": "The Grand Capitol doubles revenue in this town."
             },
             "5": {
+                "BuildingName0015": "Specialized silos",
                 "BuildingName0064": "Moist Warren",
                 "BuildingName0065": "Harpy's Den",
                 "BuildingName0066": "Pillar of Thousand Eyes",
@@ -135,16 +146,18 @@
                 "BuildingName0088": "Spider Nest",
                 "BuildingName0089": "Upg. Spider Nest",
                 "BuildingName0092": "Great Capitol",
+                "BuildingDesc0015": "The Specialized Silos provides you with additional +1 wood, +1 ore and a special resource each day. The production of the special resource can be upgraded for a modest escalating cost.",
                 "BuildingDesc0088": "The Spider Nest allows you to Lady Spiders.",
                 "BuildingDesc0089": "The Spider Nest allows you to Priestess Spiders.",
-                "BuildingDesc0092": "The Great Capitol doubles your kingdom income."
+                "BuildingDesc0092": "The Grand Capitol doubles revenue in this town."
             },
             "6": {
+                "BuildingName0015": "Specialized silos",
                 "BuildingName0064": "Goblin Quarters",
                 "BuildingName0065": "Wolf Lodgment",
                 "BuildingName0066": "Orc Fortified Tower",
                 "BuildingName0067": "Ogre Fort Enchanted",
-                "BuildingName0068": "Crag Nest",
+                "BuildingName0068": "Canyon Nest",
                 "BuildingName0069": "Cyclops Deep Cavern",
                 "BuildingName0070": "Behemoth Tomb",
                 "BuildingName0077": "Upg. Behemoth Tomb",
@@ -158,11 +171,13 @@
                 "BuildingName0088": "Ziggurat",
                 "BuildingName0089": "Upg. Ziggurat",
                 "BuildingName0092": "Great Capitol",
+                "BuildingDesc0015": "The Specialized Silos provides you with additional +1 wood, +1 ore and a special resource each day. The production of the special resource can be upgraded for a modest escalating cost.",
                 "BuildingDesc0088": "The Ziggurat allows you to Couatls.",
                 "BuildingDesc0089": "The Ziggurat allows you to Quetzalcoualts.",
-                "BuildingDesc0092": "The Great Capitol doubles your kingdom income."
+                "BuildingDesc0092": "The Grand Capitol doubles revenue in this town."
             },
             "7": {
+                "BuildingName0015": "Specialized silos",
                 "BuildingName0064": "Gnoll Hovel",
                 "BuildingName0065": "Lizard Hatchery",
                 "BuildingName0066": "Dragon Fly Hive",
@@ -181,11 +196,13 @@
                 "BuildingName0088": "Maelstrom",
                 "BuildingName0089": "Upg. Maelstrom",
                 "BuildingName0092": "Great Capitol",
+                "BuildingDesc0015": "The Specialized Silos provides you with additional +1 wood, +1 ore and a special resource each day. The production of the special resource can be upgraded for a modest escalating cost.",
                 "BuildingDesc0088": "The Maelstrom allows you to Sea Serpents.",
                 "BuildingDesc0089": "The Maelstrom allows you to Leviathans.",
-                "BuildingDesc0092": "The Great Capitol doubles your kingdom income."
+                "BuildingDesc0092": "The Grand Capitol doubles revenue in this town."
             },
             "8": {
+                "BuildingName0015": "Specialized silos",
                 "BuildingName0064": "Fairy Garden",
                 "BuildingName0065": "Grand Altar of Air",
                 "BuildingName0066": "Grand Altar of Water",
@@ -204,9 +221,10 @@
                 "BuildingName0088": "Astral Plane",
                 "BuildingName0089": "Upg. Astral Plane",
                 "BuildingName0092": "Great Capitol",
+                "BuildingDesc0015": "The Specialized Silos provides you with additional +1 wood, +1 ore and a special resource each day. The production of the special resource can be upgraded for a modest escalating cost.",
                 "BuildingDesc0088": "The Astral Plane allows you to Planeswalkers.",
                 "BuildingDesc0089": "The Astraal Plane allows you to Elementalists.",
-                "BuildingDesc0092": "The Great Capitol doubles your kingdom income."
+                "BuildingDesc0092": "The Grand Capitol doubles revenue in this town."
             }
         }
     }

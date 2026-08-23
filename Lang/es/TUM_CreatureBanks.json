@@ -1,0 +1,125 @@
+{
+    "RMG": {
+        "objectGeneration": {
+            "16": {
+                "33": {
+                    "name": "Panteón"
+                },
+                "34": {
+                    "name": "Torre de Mitril"
+                },
+                "35": {
+                    "name": "Fábrica Experimental"
+                },
+                "36": {
+                    "name": "Prisión de los Saqueadores Asesinos"
+                },
+                "38": {
+                    "name": "Torre Azul"
+                },
+                "39": {
+                    "name": "Guarida de Lava"
+                },
+                "40": {
+                    "name": "Santuario de los Ojos Monstruosos"
+                },
+                "41": {
+                    "name": "Mansión Embrujada"
+                },
+                "42": {
+                    "name": "Pilar de Huesos"
+                },
+                "43": {
+                    "name": "Ciudad de los Muertos"
+                },
+                "44": {
+                    "name": "Templo Sagrado"
+                },
+                "45": {
+                    "name": "Seminario"
+                },
+                "46": {
+                    "name": "Barco Fantasma"
+                },
+                "47": {
+                    "name": "Castillo de la Bruja"
+                },
+                "48": {
+                    "name": "Avanzada de las Almas"
+                },
+                "49": {
+                    "name": "Valle de los Dragones Podridos",
+                    "text": {
+                        "visit": "En otro tiempo esto fue una Utopía de Dragones, pero un poderoso nigromante, deseando crear un reino de terror, capturó a estos Dragones y los convirtió en un ejército de no-muertos. ¿Realmente quieres purificar esta Utopía de la corrupción?"
+                    }
+                },
+                "50": {
+                    "name": "Utopía Mágica",
+                    "text": {
+                        "visit": "Te aproximas a una variante poco común de la Utopía de Dragones, donde habitan Dragones Hada protegiendo incalculables riquezas. ¿Deseas atacar este místico lugar lleno de magia?"
+                    }
+                },
+                "51": {
+                    "name": "Utopía Legendaria de Dragones",
+                    "text": {
+                        "visit": "Te aproximas a una majestuosa Utopía de Dragones. A lo lejos se ve que aquí habitan Dragones Legendarios; no esperabas verlos en condiciones tan lujosas. ¿Quieres poner a prueba tus habilidades en este mortífero lugar?"
+                    }
+                },
+                "52": {
+                    "name": "Torre del Acorazado"
+                },
+                "53": {
+                    "name": "Puertas del Paraíso"
+                },
+                "54": {
+                    "name": "Acantilados Prohibidos"
+                },
+                "55": {
+                    "name": "Olimpo Prohibido"
+                },
+                "56": {
+                    "name": "Generador de Pecados"
+                },
+                "57": {
+                    "name": "Mausoleo del Dragón"
+                },
+                "58": {
+                    "name": "Ciudad de los Dragones"
+                },
+                "59": {
+                    "name": "Antiguo Peñon de los Bégimos"
+                },
+                "60": {
+                    "name": "Pozo Volcánico"
+                },
+                "61": {
+                    "name": "Pira Suprema"
+                },
+                "62": {
+                    "name": "Almacén Elemental"
+                },
+                "63": {
+                    "name": "Cripta de las Gárgolas"
+                },
+                "64": {
+                    "name": "Salones de la Tentación"
+                },
+                "65": {
+                    "name": "Tesorería Real"
+                },
+                "66": {
+                    "name": "Castillo de los Dragones de Fuego",
+                    "text": {
+                        "visit": "Has llegado a una tierra flotante prohibida donde se ubica la secta de los Dragones de Fuego. Entrar al castillo es una muerte segura a menos que tengas un poderoso ejército detrás de ti. ¿Deseas asaltar el castillo?"
+                    }
+                },
+                "67": {
+                    "name": "Castillo de los Dragones de Hielo",
+                    "text": {
+                        "visit": "Has llegado a una tierra flotante prohibida donde se ubica la secta de los Dragones de Hielo. Entrar al castillo es una muerte segura a menos que tengas un poderoso ejército detrás de ti. ¿Deseas asaltar el castillo?"
+                    }
+                }
+            }
+        }
+    }
+}

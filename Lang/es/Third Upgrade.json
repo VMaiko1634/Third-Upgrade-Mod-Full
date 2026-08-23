@@ -1,0 +1,65 @@
+{
+    "Third_Upgrade_Mod": {
+        "outOfDate": "¡{Tu ERA está desactualizado!}\n\nThird Upgrade Mod requiere ERA @version@ para funcionar. Por favor, consíguelo en la siguiente dirección:\n\nhttp://heroescommunity.com/viewthread.php3?TID=46111",
+        "brokenMpSupport": "{Soporte multijugador defectuoso}\n\nThird Upgrade Mod no funciona completamente en partidas multijugador. Es muy probable que falle cuando dos jugadores humanos participen en la misma batalla. Por favor, asegúrate de que todos los jugadores humanos estén en el mismo equipo antes de jugar.",
+        "restartRequired": "{Reinicio requerido}\n\nPara ejecutar el juego correctamente, es necesario reiniciar tu ERA tras desactivar la opción Eighth Monsters de Third Upgrade Mod.",
+        "Creature_Specialist_Title": "{~r}Especialista en criaturas{~}\n\n",
+        "Creature_Specialist_Body": "Aumenta los atributos de cualquier @Crea1@, @Crea2@ o @Crea3@ por cada nivel alcanzado:\nAta: {+@attack@}\nDef: {+@defense@}\nDaño: {+@damage@}\nSalud: {+@health@%}\nVelocidad: +1",
+        "his": "su",
+        "her": "su",
+        "spec146": "Puede mejorar Cruzados o Inquisidores a Maestros de la Espada.",
+        "antichrist0": "¡{El @antichrist@ está furioso!}",
+        "antichrist1": "¡{Los @antichrist@ están furiosos!}",
+        "assassin": "La Sed de sangre estimula al @cutthroat@",
+        "ghoul0": "¡@flesheater@ devora los restos de sus enemigos y restaura @hp@ de vida!",
+        "ghoul1": "¡Los @flesheater@ devoran los restos de sus enemigos y restauran @hp@ de vida!",
+        "dragonEvolve": "{~r}@hero@{~}\n\nLos @mon@ han acumulado suficiente experiencia en combate como para evolucionar a dragones completamente desarrollados.",
+        "dragonCastle": "Contemplas este masivo y magnífico castillo en el cielo. Tu curiosidad se apodera por completo de ti. Sabes que si quieres explorar más a fondo, la única forma es {volar} hasta allí.",
+        "berserkerFlies": "Sin contraataque enemigo. Ataque Berserker.",
+        "hota0": "Espíritus del mar se acercan, atraídos por el llamado del cuerno. @num@ @mon@ se unen al ejército de @hero@.",
+        "hota1": "Un espíritu del mar se acerca, atraído por el llamado del cuerno. @num@ @mon@ se une al ejército de @hero@.",
+        "orbOfInhibition": "El @art@ impide todo lanzamiento de hechizos"
+    },
+    "AC_Artifacts": {
+        "ACM_Set_Table_Name": "Tabla de conjuntos de artefactos ACM",
+        "Set_Name_0": "La Fidelidad del Aventurero",
+        "Set_Name_1": "Velo de Luz",
+        "Set_Name_2": "Fuego de Dragón",
+        "Set_Name_3": "Unidad Elemental",
+        "Set_Name_4": "Visión del Águila",
+        "Set_Name_5": "Alianza Angelical",
+        "Set_Name_6": "El Honor del Campeón",
+        "Set_Name_7": "Vestimentas de Autoridad",
+        "Set_Name_8": "Sacerdote de la Luz",
+        "Set_Name_9": "El Conocimiento del Mago",
+        "Set_Name_10": "Arnés de Pegaso",
+        "Set_Name_11": "Armadura de Darzog",
+        "Set_Name_12": "Dientes de Veneno de Basilisco",
+        "Set_Name_13": "Clase Mago",
+        "Set_Name_14": "Clase Aventurero",
+        "Set_Name_15": "Clase Guerrero",
+        "Set_Name_16": "Atuendo de Guerra del Mago de Batalla",
+        "Set_Name_17": "Conjunto de Archidiablos",
+        "Set_Name_18": "Catalejo Antiguo",
+        "TUM_Set_Table_Name": "Tabla de conjuntos de artefactos TUM",
+        "TUM_Set_Name_0": "Orbe del Caos",
+        "TUM_Set_Name_1": "Espada del Apocalipsis",
+        "TUM_Set_Name_2": "Compendio de Magia",
+        "TUM_Set_Name_3": "Yelmo de la Reina Hidra",
+        "TUM_Set_Name_4": "Puño de Hierro del Paladín Oscuro",
+        "TUM_Set_Name_5": "Guantes del Barón del Infierno",
+        "TUM_Set_Name_6": "Capa del Diplomático",
+        "TUM_Set_Name_7": "Ganso de Oro",
+        "TUM_Set_Name_8": "Colgante de la Reflexión"
+    },
+    "wog_options": {
+        "page0": {
+            "name": "TUM, Mejoras del juego \ny Opciones del sistema"
+        }
+    },
+    "wog": {
+        "52": {
+            "objName": "Puerta de la Ciudad"
+        }
+    }
+}

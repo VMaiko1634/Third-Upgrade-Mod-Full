@@ -1,0 +1,23 @@
+{
+	"era": {
+		"resound": {
+			"notification": {
+				"0": {
+				    "name": "{~00AAFF}Third Upgrade Mod 3.4.2 Lista de Cambios}",
+					"text": "[*] ¡Felicidades! Ahora TUM está en español. Cualquier error o traducción que me haya pasado por alto me lo reportan en el canal del servidor de Discord.\n[*] Actualizado los plugins Emerald y New Town: Arreglado numerosos errores.\n[*] Arreglado un crash con Eighth Dwellings.\n[*] Optimizado la caracteristica de Upgradable Silos dentro del mod.\n[*] Arreglado un error de sintaxis en la especialidad de Heroe (¡Gracias Archer!)\n\n[!] Atención, si encuentran algunas partes que no están traducidas al español ya sea de TUM o del mod Castellano de ERA, me lo reportan personalmente.",
+					"url": "https://discord.com/channels/665742159307341827/689568488343208047"
+				},
+				"1": {
+				    "name": "{~FFE400}Opciones Wog deshabilitadas para TUM}",
+					"text": "Las siguientes opciones de Wog están deshabilitadas por defecto en TUM debido a incompatibilidades:\n\n[-] Criaturas reequilibradas.\n[-] Monstruos mejorados.\n[-] El nivel de mejora 7 se convierte en nivel 8.\n[-] Mejoras extendidas.\n[-] Mejoras adicionales.\n[-] Mejora del castillo.\n[-] Dragón hada de la muralla.\n[-] Escudo de Belcebú.\n[-] Criaturas mejoradas.\n[-] Artefactos combinados de Artefactos mejorados II.\n[-] Impulso en especialidades de monstruos de Especialización de Héroe.",
+					"url": "https://discord.com/channels/665742159307341827/689568488343208047"
+				},
+				"2": {
+				    "name": "{~347DEA}Antes de presentar su informe, verifique lo siguiente:}",
+					"text": "- Si experimentas bloqueos aleatorios constantes, elimina el mod y vuelve a instalarlo.\n\n- Cierra el juego para una instalación correcta.\n\n- Prueba con un mapa nuevo si tu archivo de guardado actual presenta errores.\n\n- Intenta ejecutar el lanzador como administrador para instalar el mod en caso de falsos positivos.\n\n**Se han producido muchos informes innecesarios debido a instalaciones de mods defectuosas. Ten esto en cuenta.",
+					"url": "https://discord.com/channels/665742159307341827/689568488343208047"
+				}
+			}
+		}
+	}
+}
