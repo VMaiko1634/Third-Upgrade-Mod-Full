@@ -1,6 +1,6 @@
-Fourth Upgrades Dwellings (doesn't work disable)	0	0	1	-1	0	0	300	Fourth Upgrades Dwellings (can't be disabled)	Fourth upgraded level 7 monsters may be recuited in towns if the fourth upgrade buildings have been built.	FOURTH UPGRADES DWELLINGS (CAN'T BE DISABLED)
+Fourth Upgrades Dwellings	0	0	1	-1	0	0	300	Fourth Upgrades Dwellings	Fourth upgraded level 7 monsters may be recuited in towns if the fourth upgrade buildings have been built.	FOURTH UPGRADES DWELLINGS
 
-Option 300 by Archer30
+Option 300
 
 Fourth upgraded level 7 monsters may be recuited in towns if the third upgrade buildings have been built.
 
@@ -8,29 +8,29 @@ If this option isn't selected, fourth upgrades may only be obtained via Hill For
 
 List of Fourth Upgrades
 --------------------------------
-Supreme Archangel --> Seraph
-Diamond Dragon --> Pure Diamond Dragon
-Lord of Thunder --> Guardian of Zeus
+Supreme Archangel --> Cherub
+Diamond Dragon --> Brilliant Diamond Dragon
+Lord of Thunder --> Guardian of Thunder
 Hell Baron --> Antichrist
 Blood Dragon --> Red Bones Dragon
 Darkness Dragon --> Chasm Dragon
-Ghost Behemoth --> Spectral Behemoth
+Ghost Behemoth --> Ancestral Behemoth
 Hell Hydra --> Nightmare Hydra
 Sacred Phoenix --> Divine Phoenix	
-Eighth Monsters (doesn't work disable)	0	0	1	-1	1	1	301	Eighth Monsters (doesn't work disable)	Every town now has a eighth dwelling, where you may recruite the eighth monsters originally from The Tides of War expansion.	EIGHTH MONSTERS (CAN'T BE DISABLED)
+Eighth Monsters Dwellings	0	0	1	-1	1	1	301	Eighth Monsters Dwellings	Every town now has a eighth dwelling, where you may recruite extra tier monsters .	EIGHTH MONSTERS DWELLINGS
 
-Option 301 by Archer30
+Option 301
 
-Every town now has a eighth dwelling, where you may recruite the eighth monsters originally from The Tides of War expansion.
+Every town now has a eighth dwelling, where you may recruit extra tier monsters.
 
-The eighth monsters may be upgraded in towns if the third upgrade buildings have been built.
+If this option is disabled, neither the player nor the computer will be able to recruit these monsters in towns.
 
 List of Eighth Monsters
 --------------------------------
 Castle: Templar --> Paladin
 Rampart: Forest Spirit --> Spring Spirit
 Tower: Drake Golem --> Dragon Golem
-Inferno: Tartarus Fiend --> Lord of Tartarus
+Inferno: Tartarus Fiend --> Ahriman
 Necropolis: Dark Templar --> Dark Paladin
 Dungeon: Lady Spider --> Queen Spider
 Stonghold: Coatl --> Quetzalcoatl

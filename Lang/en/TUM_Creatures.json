@@ -1,6 +1,13 @@
 {
     "era": {
         "monsters": {
+            "133": {
+                "name": {
+                    "singular": "Ruby Dragon",
+                    "plural": "Ruby Dragons",
+                    "description": "+1 Crystal daily."
+                }
+            },
             "155": {
                 "name": {
                     "singular": "Darkness Dragon",

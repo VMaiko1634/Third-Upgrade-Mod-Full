@@ -340,7 +340,10 @@ visit www.heroescommunity.com for updates and news
 !!MA:U(MON_DRACOLICH)/(MON_NECROSS_DRAGON);
 
 ; New neutrals
+!!MA:U295/359;
+!!MA:U141/360;
 !!MA:U301/302;
+!!MA:U302/358;
 !!MA:U304/305;
 !!MA:U307/308;
 !!MA:U309/310;
@@ -535,7 +538,7 @@ script by Perry R and Archer30
 
   !!if&(fourthUpgOn);
     !!MA:U(thirdUpgMon)/?(fourthUpgMon:y);
-    !!UN&(mon)=(fourthUpgMon)C(ebp)/8/4/(basicMon);
+    !!UN&(mon)=(fourthUpgMon):C(ebp)/8/4/(basicMon);
   !!en;
 !!en;
 
@@ -986,6 +989,10 @@ if no the bonus is removed.
 **** Swordmaster Acts Twice on R10 ****
 ***************************************
 // Script by Berseker and Archer30
+; Reset before battle setup so an unset value cannot select stack 0.
+!?FU(OnBeforeBattleUniversal);
+!!VRi^tum_twice_actingStack^:S(NO_STACK);
+
 !?FU(OnBattleRound);
 !!VRi^tum_twice_actingStack^:S(NO_STACK);
 
@@ -1011,10 +1018,10 @@ if no the bonus is removed.
 
 !!BG:N?i^tum_twice_actingStack^;
 
-!?FU(OnBattleActionEnd)&i^tum_twice_actingStack^<>(NO_STACK)/i^tum_abilityCounter_%i(tum_twice_actingStack)^=0;
+!?FU(OnBattleActionEnd)&i^battle_round^>=0/i^tum_twice_actingStack^<>(NO_STACK)/i^tum_abilityCounter_%i(tum_twice_actingStack)^=0;
 !!BMi^tum_twice_actingStack^:Fd~(MON_FLAG_ACTED);
 
-!?FU(OnBeforeBattleStackTurn)&i^tum_twice_actingStack^<>(NO_STACK);
+!?FU(OnBeforeBattleStackTurn)&i^battle_round^>=0/i^tum_twice_actingStack^<>(NO_STACK);
 !#VA(stack:x);
 
 !!FU&i^tum_abilityCounter_%i(tum_twice_actingStack)^>0:E;
@@ -1427,6 +1434,14 @@ Script by Daemon_n and JackSlater (26.01.23)
 // Allow summoning different elementals in the same battle.
 !?FU(OnSetupBattlefield)&i^tum_emerald_on^;
 !!UN:C5896327/1/?i^tum_origElemLimit^;
+!!VRi^tum_elemRingStateSaved^:S(TRUE);
+!!VRi^tum_elemRingDiff^:S(FALSE);
+
+; Restore the original summoning restriction after battle.
+!?FU(OnAfterBattleUniversal)&i^tum_elemRingStateSaved^;
+!!UN:C5896327/1/i^tum_origElemLimit^;
+!!VRi^tum_elemRingStateSaved^:S(FALSE);
+!!VRi^tum_elemRingDiff^:S(FALSE);
 
 !?FU(OnBattleRound)&i^battle_round^=0/i^tum_emerald_on^;
 !!VRi^tum_elemRingDiff^:S(FALSE);
@@ -1505,12 +1520,12 @@ Script by Daemon_n and JackSlater (26.01.23)
   !!if&(equipped);
     ; Check if the defending stack was killed
     !!BM(defStack):B?(startNum:y) N?(currNum:y) T?(type:y) F?(flags:y);
-    !!VR(isAlive:y)S(flags) &(MON_FLAG_ALIVE);
+    !!VR(isAlive:y):S(flags) &(MON_FLAG_ALIVE);
     !!FU(tum_hota_CheckIfPossibleToSummon):P(atkSide)/?(isEligible:y);
 
     !!if&(startNum)>0/(currNum)<=0/(type)<>(MON_FANGARM)/(isAlive)/(isEligible);
       ; Calculate the number of fangarm summoning
-      !!BM(defStack):P?(defHp:y);
+      !!BM(defStack):H?(defHp:y);
       !!VR(defTotalHp:y):S(startNum) *(defHp);
       !!MA:P(MON_FANGARM)/?(fangarmHp:y);
       !!VR(maxNum:y):S(startNum) :2;
@@ -1962,7 +1977,7 @@ Script by Daemon_n and JackSlater (26.01.23)
 !!re i/(BATTLE_STACK_FIRST)/(BATTLE_STACK_LAST);
   !!BMi:N?(currNum:y) T?(type:y);
 
-  !!FU(tum_RemoveDeadBody)&(type)>(NO_MON)/(type)<>(MON_ARROW_TOWERS)/(currNum)<0:Pi/(FALSE);
+  !!FU(tum_RemoveDeadBody)&(type)>(NO_MON)/(type)<>(MON_ARROW_TOWERS)/(currNum)<=0:Pi/(FALSE);
 !!en;
 
 // Disable Necromancy after battle
@@ -2087,37 +2102,8 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
   !!en;
 !!en;
 ---------------------------------------------------------------------------------------------
-// Ranged damage resistances
-!?FU(GetMonShootingResistance);
-!#VA(mon:x) (dmgReduction:x);
 
-!!VR(dmgReduction):S0;
-!!VR(dmgReduction)&(mon)=337:S30;
-!!VR(dmgReduction)&(mon)=338:S60;
-
-// Melee damage resistances
-!?FU(GetMonMeleeResistance);
-!#VA(mon:x) (dmgReduction:x);
-
-!!VR(dmgReduction):S0; examples (uncomment to take effect)
-;!VR(dmgReduction)&(mon)=(MON_DIAMOND_GOLEM):S-35; [35% melee damage vulnerability]
-;!VR(dmgReduction)&(mon)=(MON_GOLD_GOLEM):S70; [70% melee damage resistance]
-
-!?FU(OnStackToStackDamage);
-!#VA(atkStack:x) (defStack:x) (finalDmgConst:x) (finalDmg:x) (basicDmg:x) (dmgBonus:x) (isDistant:x) (distanceArg:x) (isTheoretical:x);
-
-!!BM(defStack):T?(mon:y);
-
-; Applying damage factors
-!!VR(dmgReduction:y):S0;
-!!FU(GetMonMeleeResistance):P(mon)/?(dmgReduction);
-!!FU(GetMonShootingResistance)&x7:P(mon)/?(dmgReduction);
-
-!!if&(dmgReduction)>0;
-  !!VR(reducedDmg:y):S(finalDmgConst) *(dmgReduction) :100;
-  !!VR(newFinalDmg:y):S(finalDmg) -(reducedDmg);
-  !!VR(finalDmg)&(finalDmg)>(newFinalDmg):S(newFinalDmg);
-  !!en;
+**************************************Landing Effects****************************************
 
 !#SN:W^HitEffects.Shot.320^/^Burst51.def^;                    High Priest
 !#VRs^HitEffects.Melee.320^:S^Burst01.def^; 
@@ -2169,8 +2155,10 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
 !#VRs^HitEffects.Melee.334^:S^Burst04.def^;                Angel of the Death
 
 
+
 ---------------------------------------------------------------------------------------------
 !?FU(OnGameEnter);
+
 !!UN:T0/0/2/197; (Castle)
 !!UN:T0/1/2/198;
 !!UN:T0/2/2/199;
@@ -2178,7 +2166,7 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
 !!UN:T0/4/2/320;
 !!UN:T0/5/2/201;
 !!UN:T0/6/2/150;
-!!UN:T0/6/3/202;
+!!UN:T0/6/3/-1;
 
 !!UN:T1/0/2/293; (Rampart)
 !!UN:T1/1/2/203;
@@ -2187,7 +2175,7 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
 !!UN:T1/4/2/205;
 !!UN:T1/5/2/206;
 !!UN:T1/6/2/151;
-!!UN:T1/6/3/207;
+!!UN:T1/6/3/-1;
 
 !!UN:T2/0/2/255; (Tower)
 !!UN:T2/1/2/208;
@@ -2196,7 +2184,7 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
 !!UN:T2/4/2/210;
 !!UN:T2/5/2/211;
 !!UN:T2/6/2/152;
-!!UN:T2/6/3/212;
+!!UN:T2/6/3/-1;
 
 !!UN:T3/0/2/213; (Inferno)
 !!UN:T3/1/2/214;
@@ -2205,7 +2193,7 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
 !!UN:T3/4/2/217;
 !!UN:T3/5/2/218;
 !!UN:T3/6/2/153;
-!!UN:T3/6/3/219;
+!!UN:T3/6/3/-1;
 
 !!UN:T4/0/2/220; (Necropolis)
 !!UN:T4/1/2/329;
@@ -2214,7 +2202,7 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
 !!UN:T4/4/2/222;
 !!UN:T4/5/2/223;
 !!UN:T4/6/2/154;
-!!UN:T4/6/3/224;
+!!UN:T4/6/3/-1;
 
 !!UN:T5/0/2/225; (Dungeon)
 !!UN:T5/1/2/227;
@@ -2223,7 +2211,7 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
 !!UN:T5/4/2/229;
 !!UN:T5/5/2/230;
 !!UN:T5/6/2/155;
-!!UN:T5/6/3/231;
+!!UN:T5/6/3/-1;
 
 !!UN:T6/0/2/232; (Stronghold)
 !!UN:T6/1/2/233;
@@ -2232,7 +2220,7 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
 !!UN:T6/4/2/236;
 !!UN:T6/5/2/237;
 !!UN:T6/6/2/156;
-!!UN:T6/6/3/238;
+!!UN:T6/6/3/-1;
 
 !!UN:T7/0/2/321; (Fortress)
 !!UN:T7/1/2/240;
@@ -2241,7 +2229,7 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
 !!UN:T7/4/2/(MON_CATOBLEPAS);
 !!UN:T7/5/2/(MON_ACID_WYVERN);
 !!UN:T7/6/2/157;
-!!UN:T7/6/3/245;
+!!UN:T7/6/3/-1;
 
 !!UN:T8/0/2/246; (Conflux)
 !!UN:T8/1/2/247;
@@ -2250,5 +2238,62 @@ Play sound and animation and target stack when Halfling Grenadiers shoot
 !!UN:T8/4/2/250;
 !!UN:T8/5/2/251;
 !!UN:T8/6/2/158;
+!!UN:T8/6/3/-1;
+
+!?FU(OnGameEnter);
+!!UN:P(WOG_OPT_4TH_UPGRADES)/?y99;
+!!FU&y99=0:E;
+
+!!UN:T0/6/3/202;
+!!UN:T1/6/3/207;
+!!UN:T2/6/3/212;
+!!UN:T3/6/3/219;
+!!UN:T4/6/3/224;
+!!UN:T5/6/3/231;
+!!UN:T6/6/3/238;
+!!UN:T7/6/3/245;
 !!UN:T8/6/3/252;
---------------------------
+
+
+!?FU(OnGameEnter);
+!!UN:P(WOG_OPT_4TH_UPGRADES)/?y99;
+!!FU&y99=1:E;
+
+!!UN:T0/6/3/-1;
+!!UN:T1/6/3/-1;
+!!UN:T2/6/3/-1;
+!!UN:T3/6/3/-1;
+!!UN:T4/6/3/-1;
+!!UN:T5/6/3/-1;
+!!UN:T6/6/3/-1;
+!!UN:T7/6/3/-1;
+!!UN:T8/6/3/-1;
+
+!?FU(OnGameEnter);
+!!UN:P(WOG_OPT_8TH_MONSTERS)/?y99;
+!!FU&y99=0:E;
+
+!!UN:T0/7/0/269;
+!!UN:T1/7/0/349;
+!!UN:T2/7/0/271;
+!!UN:T3/7/0/337;
+!!UN:T4/7/0/331;
+!!UN:T5/7/0/351;
+!!UN:T6/7/0/275;
+!!UN:T7/7/0/353;
+!!UN:T8/7/0/355;
+
+
+!?FU(OnGameEnter);
+!!UN:P(WOG_OPT_8TH_MONSTERS)/?y99;
+!!FU&y99=1:E;
+
+!!UN:T0/7/0/-1;
+!!UN:T1/7/0/-1;
+!!UN:T2/7/0/-1;
+!!UN:T3/7/0/-1;
+!!UN:T4/7/0/-1;
+!!UN:T5/7/0/-1;
+!!UN:T6/7/0/-1;
+!!UN:T7/7/0/-1;
+!!UN:T8/7/0/-1;

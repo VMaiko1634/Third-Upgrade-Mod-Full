@@ -3,8 +3,8 @@
 		"resound": {
 			"notification": {
 				"0": {
-				    "name": "{~00AAFF}Third Upgrade Mod 3.4.2 Lista de Cambios}",
-					"text": "[*] ¡Felicidades! Ahora TUM está en español. Cualquier error o traducción que me haya pasado por alto me lo reportan en el canal del servidor de Discord.\n[*] Actualizado los plugins Emerald y New Town: Arreglado numerosos errores.\n[*] Arreglado un crash con Eighth Dwellings.\n[*] Optimizado la caracteristica de Upgradable Silos dentro del mod.\n[*] Arreglado un error de sintaxis en la especialidad de Heroe (¡Gracias Archer!)\n\n[!] Atención, si encuentran algunas partes que no están traducidas al español ya sea de TUM o del mod Castellano de ERA, me lo reportan personalmente.",
+				    "name": "{~00AAFF}Third Upgrade Mod 3.5.0 Lista de Cambios}",
+					"text": "[*] Plugins Emerald y New Town actualizados: Se corrigieron numerosos errores.\n[*] El mod ahora incluye un archivo readme en español.\n[*] La caracteristica especial de los Silos ha sido mejorada.\n[*] ¡Las opciones de WoG para habilitar {~FFE400}Fourth Upgrades y 8th Dwellings} vuelven a funcionar!\n[*] Revisión de criaturas: Innumerables ajustes de equilibrio y mejoras gráficas en las criaturas.\n[*] Se corrigió el error por el cual el Señor del Tártaro/Archidemonios recibían daño excesivo al ser disparados.\n[*] Se eliminó la función de Cajas de Pandora.\n\n¡Y muchas más correcciones y cambios solicitados se han implementado! Si deseas otra corrección, puedes encontrarme en el canal de Discord haciendo clic encima del título.",
 					"url": "https://discord.com/channels/665742159307341827/689568488343208047"
 				},
 				"1": {

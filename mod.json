@@ -6,16 +6,18 @@
 	"description": {
 		"full": {
 			"en_US": "readme.md",
+			"es_ES": "readme_es.md",
 			"ru_RU": "readme_ru.md"
 		}
 	},
 	"author": "VMaiko, PerryR, Archer30",
-	"homepage": "",
+	"homepage": "https://discord.com/channels/665742159307341827/689568488343208047",
+	"support": "https://www.paypal.com/paypalme/majaczek",
 	"icon": {
 		"file": "AmeU3.ico",
 		"index": 0
 	},
-	"mod_version": "3.4.2",
+	"mod_version": "3.5.0",
 	"priority": 5,
 	"compatibility": {
 	"incompatible": [
@@ -24,6 +26,7 @@
 	"Land Of New Towns",
 	"Upgradable Silos",
 	"Unified Town Recruitment",
+	"JS - new artifacts",
 	"ERA+"
 	],
 	"load_after": [

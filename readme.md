@@ -1,7 +1,7 @@
 ATTENTION: Third Upgrades Mod requires "Visual Studio Redistributable" download it in official Microsoft page.
 
                     ************** Third Upgrades Mod *****************
-                    *************** Version: v3.4.2******************
+                    *************** Version: v3.5.0******************
                    **************** Amethyst Edition ******************
 
 --------------------------------------------------------------------------------------------------
@@ -13,7 +13,7 @@ PerryR: ERM author and scripting.
 Archer30: ERM author and scripting.
 Berserker: Scripting.
 Xericsin: Scripting.
-Majaczek: Plugins (Amethyst,Emerald and New Town).
+Majaczek (Yuji Sakai): Plugins (Amethyst,Emerald and New Town).
 SadnessPower: AI Heroes for New Town plugin.
 Moriarty89: Shapphire Crystal Dragon Graphics.
 By003: Fallen/Death Angel and Dark Templar/Paladin graphics
@@ -23,7 +23,11 @@ ElfbI: New Pandora Boxes.
 Hawaiing: 8th dwellings plugin author.
 Kongsuni: ERM scripter of some artifacts.
 Fred: Adventure's Objects
-Aphra: TUM HD portraits
+Aphra: TUM HD portraits.
+Yogdush: Graphics of the third upgrades from Crusader, Dendroid, Dwarf, Arch Mage, Wraith, Gnoll, Melee Lizard, Dragon Fly, Catoblepas, Veteran, Skeleton Ranger and General Skeleton.
+Toriko: Graphics from Third upgrade Enchanter.
+Kurek: Faerie Dragon Upgrade.
+
 
 Original authors of Tides of War mod which their assets were used to do this mod:
 
